@@ -18,7 +18,10 @@
 #import "ISO8601DateFormatter.h"
 #import "GrowlOperatingSystemVersion.h"
 #import <CommonCrypto/CommonHMAC.h>
+
+#if GROWLNOTIFY
 #import "GrowlVersion.h"
+#endif
 
 #if GROWLHELPERAPP
 #import "GNTPSubscriptionController.h"
@@ -480,7 +483,11 @@
             growlName = [bundleID copy];
          } else {
             //This bundle is either GrowlNotify, or something else weird happened
+#if GROWLNOTIFY
             growlName = [@"GrowlNotify" copy];
+#else
+            growlName = [@"Unkown Growl Derived GNTP Implementation" copy];
+#endif
          }
 			
 			growlVersion = [[[thisBundle infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] retain];
