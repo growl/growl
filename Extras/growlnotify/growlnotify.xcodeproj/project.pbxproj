@@ -237,7 +237,7 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 95E4A2860855C0B7006B3F45 /* Build configuration list for PBXProject "growlnotify" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -389,7 +389,7 @@
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "../../build/$(CONFIGURATION)/include";
 			};
 			name = Debug;
@@ -410,7 +410,7 @@
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
 				INFOPLIST_PREPROCESS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 				SEPARATE_STRIP = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 				USER_HEADER_SEARCH_PATHS = "../../build/$(CONFIGURATION)/include";

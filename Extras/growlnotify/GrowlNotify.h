@@ -3,7 +3,7 @@
 //  growlnotify
 //
 //  Created by Daniel Siemer on 9/13/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 The Growl Project, LLC. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
