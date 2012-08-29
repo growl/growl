@@ -8,6 +8,10 @@
 
 #import "HWGrowlPluginController.h"
 
+//DO NOT TOUCH, FOR KEEPING LOCALIZATION SCRIPT SIMPLER
+#define GrowlOffSwitchFake NSLocalizedString(@"OFF", @"If the string is too long, use O");
+#define GrowlOnSwitchFake NSLocalizedString(@"ON", @"If the string is too long, use I");
+
 @interface HWGrowlPluginController ()
 
 @property (nonatomic, retain) NSMutableArray *notifiers;
