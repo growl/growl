@@ -1,3 +1,31 @@
+Zmiany w Growl 2
+
+Ogólne
+- Dodano wsparcie dla Centrum powiadomień w OS X 10.8.
+- Dodano wsparcie dla serwisów Prowl i Boxcar jako akcji.
+- Roleta lepiej wykrywa bezczynność.
+- Growl uruchamia się w "piaskownicy".
+
+Preferencje
+- Przyciski ON/OFF powinny być teraz bardziej czytelne.
+
+Wyświetlanie
+- Większa kontrola modułu Speech.
+- Oddzielenie akcji od powiadomień wizualnych.
+- W module Music Video tekst może być wyrównany do lewej lub prawej strony.
+- Poprawki dotyczące wysokości modułu Music Video w przypadku wieloliniowych powiadomień.
+- Moduł Nano może wyświetlać się po lewej i prawej stronie oraz na środku.
+- Dodano moduł SoundAction.
+- Możliwość wyłączenia jakichkolwiek powiadomień wizualnych.
+
+Poprawki
+- Rozwiązano problem wysokiego użycia procesora.
+- Rozwiązano różne problemy prowadzące do zawieszenia aplikacji.
+- Skróty klawiaturowe można teraz usunąć.
+
+
+Zmiany w Growl 1.4
+
 Ogólne
 - Nowy wygląd zakładki Aplikacje! Teraz powinna być znacznie prostsza w użyciu.
 - Ustawienia Rolety zostały przeniesione do osobnej zakładki.

@@ -1,3 +1,31 @@
+Zmeny v Growl 2
+
+Hlavné
+- pridaná podpora Notifikačného centra OS X vo verzii 10.8
+- pridaná podpora pre služby Prowl a Boxcar
+- Rollup má vylepšenú detekciu nečinnosti
+- Growl plne podporuje Mac OS X sandboxing
+
+Nastavenia
+- ON/OFF prepínač v Growl by mal byť viac zrozumiteľný
+
+Zobrazenia
+- Speech umožňuje vačšiu kontrolu nastavenia
+- oddelené Akcie a Zobrazenia
+- Music Video teraz umožňuje zarovnanie textu do ľava a do prava
+- opravené problémy s výškou viac riadkových hlásení u Music Videa
+- Nano môže byť zobrazený na viacerých miestach - vľavo, v strede a vpravo
+- pridané zobrazenie SoundAction
+- pridaná možnosť len nevizuálnych hlásení
+
+Opravy chýb
+- vyriešený problém s vysokou záťažou CPU
+- vyriešené viacnásobné pády aplikácie
+- klávesové skratky môžu byť zrušené
+
+
+Zmeny v Growl 1.4
+
 Všeobecné
 - Redizajn záložky Aplikácie! Jedná sa o zásadné prepracovanie a malo by umožniť oveľa jednoduchšie používanie.
 - Presunutie ovládania Rollup funkcií do vlastnej záložky.

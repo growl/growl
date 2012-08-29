@@ -134,6 +134,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8358A9BB15EDAE8C00590748 /* lv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8358A9CC15EDAE9B00590748 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC19A13615198CE300A0CA64 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../../../Growl.xcodeproj; sourceTree = "<group>"; };
 		BC1FE6D415C0F00200E27306 /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../../xcconfig/Common.xcconfig; sourceTree = "<group>"; };
 		BC1FE6D515C0F00200E27306 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../../xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
@@ -317,6 +319,8 @@
 				"pt-BR",
 				"zh-Hans",
 				"zh-Hant",
+				lv,
+				sk,
 			);
 			mainGroup = BCEA7ED31517CD4400E98B1F;
 			productRefGroup = BCEA7EDF1517CD4400E98B1F /* Products */;
@@ -512,6 +516,8 @@
 				BC61356D15E661BC00686C89 /* pt-BR */,
 				BC61356F15E661C300686C89 /* zh-Hans */,
 				BC61357115E661CA00686C89 /* zh-Hant */,
+				8358A9BB15EDAE8C00590748 /* lv */,
+				8358A9CC15EDAE9B00590748 /* sk */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

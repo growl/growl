@@ -1,2 +1,16 @@
+HardwareGrowler 2
+
+- HardwareGrowler wurde von Grund auf neu geschrieben.
+- Sie können nun spezielle Eigenschaften von HardwareGrowler AN- und AUSschalten.
+- Festplatten können nun anhand des Namens ignoriert werden.
+- Das Netzwerk-Monitoring wurde dramatisch verbessert.
+- Unterstützung für IPv6 hinzugefügt.
+- Unterstützung für USB-Internetadapter hinzugefügt.
+- Unterstützung für OS X 10.8 Mitteilungszentrale, wenn Growl nicht läuft.
+- Integration der Funktionen von Capster in HardwareGrowler. Sie können nun Benachrichtigungen sehen, wenn die Feststelltaste, die Numlock, die Funktions- und Umschalttasten betätigt werden.
+- (The Power monitor has additional control for when it will fire a notification.)
+
+HardwareGrowler 1.3.2
+
 - Französische und spanische Übersetzungen hinzugefügt
 - Ein Problem mit der Anzeige der schwedischen Übersetzung in Rumänisch behoben

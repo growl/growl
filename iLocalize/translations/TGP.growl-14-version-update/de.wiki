@@ -1,4 +1,32 @@
-Generell
+Änderungen in Growl 2
+
+Allgemein
+- Unterstützung für OS X 10.8 Benachrichtigungen.
+- Unterstützung für Prowl- und Boxcar-Dienste als Anzeigeaktionen.
+- Rollup mit besser Leerlauferkennung.
+- Growl läuft jetzt in einer Sandbox.
+
+Einstellungen
+- Der AN/AUS-Schalter innerhalb Growls sollte nun einfacher verständlich sein.
+
+Anzeigen
+- Erweiterte Spracheinstellungen.
+- Trennung von Aktionen und Anzeigen.
+- Text in Musikvideos kann nun links- oder rechtsbündig angezeigt werden.
+- In Musikvideos werden nun mehrzeilige Anzeigen richtig angezeigt.
+- Nano kann nun an verschiedenen Positionen angezeigt werden: links, zentriert und rechts.
+- Neue SoundAction-Einstellungen.
+- Hinzufügen einer Möglichkeit, vollständig ohne visuelle Benachrichtigungen zu arbeiten.
+
+Bug Fixes
+- Hohe CPU-Auslastung beseitigt.
+- Mehrfache Abstürze beseitigt.
+- Verknüpfungen können zurückgesetzt werden.
+
+
+Änderungen in Growl 1.4
+
+Allgemein
 - Redesign der Anwendungs-Tabs! Dies ist eine bedeutende Überarbeitung, welche die Nutzung wesentlich vereinfacht
 - Rollup-Einstellungen in separates Tab verschoben
 - Wichtige Netzwerk-Verbesserungen

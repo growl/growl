@@ -170,6 +170,8 @@
 		11978EF4152D3DA10021C916 /* PRWebViewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PRWebViewWindowController.xib; sourceTree = "<group>"; };
 		11978EF7152D3E0A0021C916 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		11F141C515366AF30040FB21 /* PRPreferencePane.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PRPreferencePane.xib; sourceTree = "<group>"; };
+		83D79FDE15EDAF3600C66341 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		83D79FEF15EDAF4400C66341 /* lv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC1FE6B915C0EFC400E27306 /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../../xcconfig/Common.xcconfig; sourceTree = "<group>"; };
 		BC1FE6BA15C0EFC400E27306 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../../xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		BC1FE6BB15C0EFC400E27306 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../../xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
@@ -390,6 +392,8 @@
 				"pt-BR",
 				"zh-Hans",
 				"zh-Hant",
+				sk,
+				lv,
 			);
 			mainGroup = 118F2D9D152BEC4300F3C167;
 			productRefGroup = 118F2DA9152BEC4300F3C167 /* Products */;
@@ -588,6 +592,8 @@
 				BC4785EF15E6729A00B6451A /* pt-BR */,
 				BC4785F115E672A300B6451A /* zh-Hans */,
 				BC4785F315E672A900B6451A /* zh-Hant */,
+				83D79FDE15EDAF3600C66341 /* sk */,
+				83D79FEF15EDAF4400C66341 /* lv */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
