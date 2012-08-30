@@ -414,7 +414,7 @@ static void powerSourceChanged(void *context) {
 }
 -(NSDictionary*)localizedNames {
 	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Power Changed", @""), @"PowerChange",
-			  NSLocalizedString(@"Power Warning", @""), @"Power Warning", nil];
+			  NSLocalizedString(@"Power Warning", @""), @"PowerWarning", nil];
 }
 -(NSDictionary*)noteDescriptions {
 	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Sent when the type or status of power changed", @""), @"PowerChange",
