@@ -197,13 +197,15 @@ namespace "package" do
   desc "package hardware growler"
   task :hardwaregrowler => ["build:hardwaregrowler"] do
     curdir = FileUtils.pwd()
+    absolute = File.expand_path("#{$product_root}")
+    FileUtils.mkdir_p(absolute)
     FileUtils.cd("#{$build_root}/hardwaregrowler/#{$configuration}")
     if !$beta
       system "productbuild --component HardwareGrowler.app /Applications --sign \"#{$csi}\" HardwareGrowler.pkg && cp -Rp HardwareGrowler.pkg #{$product_root}"
     else
       system "zip -r -y #{$product_root}/HardwareGrowler-#{$growl_version}.zip HardwareGrowler.app/"
     end
-    system "zip -r #{$product_root}/HardwareGrowler-#{$growl_version}-dSYM.zip HardwareGrowler.dSYM"
+    system "zip -r #{absolute}/HardwareGrowler-#{$growl_version}-dSYM.zip *.dSYM"
     FileUtils.cd(curdir)
   end
   
