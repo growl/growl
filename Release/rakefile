@@ -109,6 +109,7 @@ namespace "build" do
   desc "build growlnotify"
   task :growlnotify do
     system "#{$xcodebuild} -project #{$src_root}/Extras/growlnotify/growlnotify.xcodeproj -configuration #{$configuration} SYMROOT=#{$build_root}/growlnotify"
+    system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v #{$build_root}/growlnotify/#{$configuration}/growlnotify"
   end
 
   desc "build growl"
@@ -169,7 +170,10 @@ namespace "package" do
     curdir = FileUtils.pwd()
     FileUtils.cd("#{$build_root}/growlnotify/#{$configuration}")
     # package up growlnotify
-    system "#{$package_maker} --no-relocate --doc #{$src_root}/Release/growlnotify/growlnotify.pmdoc --out #{$build_root}/growlnotify/#{$configuration}/GrowlNotify.pkg --version #{$growl_version} --id info.growl.growlnotify.growlnotify.pkg -v"
+    system "echo WHEEE1"
+    system "packagemaker --no-relocate --doc #{$src_root}/Release/growlnotify/growlnotify.pmdoc --out #{$build_root}/growlnotify/#{$configuration}/GrowlNotify.pkg --version #{$growl_version} --id info.growl.growlnotify.growlnotify.pkg -v"
+    system "echo WHEEEE2"
+    system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v #{$build_root}/growlnotify/#{$configuration}/GrowlNotify.pkg"
     system "zip -r GrowlNotify-#{$growl_version}.zip GrowlNotify.pkg"
     system "cp -Rp GrowlNotify-#{$growl_version}.zip #{$product_root}"
     system "zip -r #{$product_root}/growlnotify-#{$growl_version}-dSYM.zip growlnotify.dSYM"
