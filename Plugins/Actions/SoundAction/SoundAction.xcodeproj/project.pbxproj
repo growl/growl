@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BC4785CE15E671D100B6451A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80590115BB74A000E852B9 /* Localizable.strings */; };
+		BC8F616A15F00B4400DEC0A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80590115BB74A000E852B9 /* Localizable.strings */; };
 		BCAD7961151265C70052EB51 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCAD7960151265C70052EB51 /* Cocoa.framework */; };
 		BCAD796B151265C70052EB51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAD7969151265C70052EB51 /* InfoPlist.strings */; };
 		BCAD79D01512661B0052EB51 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCAD798D151265DB0052EB51 /* GrowlPlugins.framework */; };
@@ -149,6 +149,7 @@
 		BC4785CA15E6716C00B6451A /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC4785CC15E6717400B6451A /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC80590215BB74A000E852B9 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F614E15F00A2200DEC0A8 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCAD795D151265C70052EB51 /* SoundAction.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoundAction.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCAD7960151265C70052EB51 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BCAD7963151265C70052EB51 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -325,6 +326,7 @@
 				"pt-BR",
 				"zh-Hans",
 				"zh-Hant",
+				sk,
 			);
 			mainGroup = BCAD7952151265C60052EB51;
 			productRefGroup = BCAD795E151265C70052EB51 /* Products */;
@@ -457,7 +459,7 @@
 			files = (
 				BCAD796B151265C70052EB51 /* InfoPlist.strings in Resources */,
 				BCAD7A1115126F7E0052EB51 /* GrowlSoundActionPrefPane.xib in Resources */,
-				BC4785CE15E671D100B6451A /* Localizable.strings in Resources */,
+				BC8F616A15F00B4400DEC0A8 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,6 +521,7 @@
 				BC4785C815E6716500B6451A /* pt-BR */,
 				BC4785CA15E6716C00B6451A /* zh-Hans */,
 				BC4785CC15E6717400B6451A /* zh-Hant */,
+				BC8F614E15F00A2200DEC0A8 /* sk */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

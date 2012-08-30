@@ -253,7 +253,6 @@
 		BC1FA602142238C700F1C147 /* NSObject+XPCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */; };
 		BC1FA60A1422438D00F1C147 /* GrowlNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6041422401D00F1C147 /* GrowlNotifier.m */; };
 		BC1FA63214224D8000F1C147 /* NSObject+XPCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */; };
-		BC2250F414D745A00026D5D7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A33014D704C000B055FE /* Localizable.strings */; };
 		BC256C09146D8146000088C8 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC256C08146D8146000088C8 /* GrowlNetworkUtilities.m */; };
 		BC256C18146D88BB000088C8 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC256C08146D8146000088C8 /* GrowlNetworkUtilities.m */; };
 		BC256C19146D88BD000088C8 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC256C08146D8146000088C8 /* GrowlNetworkUtilities.m */; };
@@ -337,8 +336,6 @@
 		BC80591015BB78C300E852B9 /* GrowlSMSDisplay.m in Sources */ = {isa = PBXBuildFile; fileRef = BC80590D15BB78C300E852B9 /* GrowlSMSDisplay.m */; };
 		BC80591115BB78C300E852B9 /* GrowlSMSPrefs.m in Sources */ = {isa = PBXBuildFile; fileRef = BC80590F15BB78C300E852B9 /* GrowlSMSPrefs.m */; };
 		BC80591415BB78CA00E852B9 /* GrowlSMSPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80591215BB78CA00E852B9 /* GrowlSMSPrefs.xib */; };
-		BC80A32C14D6F9D300B055FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A32A14D6F9D300B055FE /* Localizable.strings */; };
-		BC80A32F14D7049A00B055FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A32D14D7049A00B055FE /* Localizable.strings */; };
 		BC80A34914D7261400B055FE /* BrushedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34814D7261400B055FE /* BrushedPrefs.xib */; };
 		BC80A34B14D7267B00B055FE /* BubblesPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34A14D7267B00B055FE /* BubblesPrefs.xib */; };
 		BC80A34D14D726C500B055FE /* iCalPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC80A34C14D726C500B055FE /* iCalPrefs.xib */; };
@@ -356,6 +353,10 @@
 		BC86961B15114B050034963A /* GrowlKeychainUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCFBF101475768500348DA9 /* GrowlKeychainUtilities.m */; };
 		BC86961C15114B090034963A /* GrowlKeychainUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = BCCFBF0F1475768500348DA9 /* GrowlKeychainUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC86961F15114B560034963A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
+		BC8F616815F00AFE00DEC0A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A33014D704C000B055FE /* Localizable.strings */; };
+		BC8F617315F00C2E00DEC0A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A32A14D6F9D300B055FE /* Localizable.strings */; };
+		BC8F617C15F00CCA00DEC0A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A32D14D7049A00B055FE /* Localizable.strings */; };
+		BC8F618115F00E3400DEC0A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAC76F715BB798100B0C6D5 /* Localizable.strings */; };
 		BC8FD39115B0CC200007CC12 /* GrowlXPCCommunicationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = FF93C9191421958F007EAC43 /* GrowlXPCCommunicationAttempt.m */; };
 		BC8FD39215B0CC200007CC12 /* GrowlXPCNotificationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = FF93C91B1421958F007EAC43 /* GrowlXPCNotificationAttempt.m */; };
 		BC8FD39315B0CC200007CC12 /* GrowlXPCRegistrationAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = FF93C91D1421958F007EAC43 /* GrowlXPCRegistrationAttempt.m */; };
@@ -376,7 +377,6 @@
 		BC9EFE0115105F8E00534A7C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7E26D815065CF100828D29 /* Carbon.framework */; };
 		BC9EFE0215105FA000534A7C /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC9EFDFA15105EDE00534A7C /* ShortcutRecorder.framework */; };
 		BCA08220153EF89000340F16 /* Growl.icns in Resources */ = {isa = PBXBuildFile; fileRef = 93A60E3F13C4159B00514EF8 /* Growl.icns */; };
-		BCA4468215E674B900BF4FDA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAC76F715BB798100B0C6D5 /* Localizable.strings */; };
 		BCA446A215E6764D00BF4FDA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAD872B15BB8AEE00A80055 /* Localizable.strings */; };
 		BCA446BB15E676D800BF4FDA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAD872E15BB8CD000A80055 /* Localizable.strings */; };
 		BCA446BC15E678D600BF4FDA /* GrowlPluginPreferenceStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = BC80A32614D6F10100B055FE /* GrowlPluginPreferenceStrings.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1595,6 +1595,20 @@
 		BC86333D140FFB3600A26483 /* GrowlMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMenu.m; path = Core/Source/GrowlMenu.m; sourceTree = "<group>"; };
 		BC8696001510E9150034963A /* GrowlIdleStatusObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlIdleStatusObserver.h; path = Plugins/PluginFramework/GrowlIdleStatusObserver.h; sourceTree = "<group>"; };
 		BC8696011510E9150034963A /* GrowlIdleStatusObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlIdleStatusObserver.m; path = Plugins/PluginFramework/GrowlIdleStatusObserver.m; sourceTree = "<group>"; };
+		BC8F616015F00A5200DEC0A8 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F616215F00A7F00DEC0A8 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC8F616415F00A9C00DEC0A8 /* th */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F616615F00AC200DEC0A8 /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC8F616B15F00BAC00DEC0A8 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC8F616D15F00BD900DEC0A8 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F616F15F00BED00DEC0A8 /* th */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F617115F00C0600DEC0A8 /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC8F617415F00C6800DEC0A8 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC8F617615F00C8200DEC0A8 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F617815F00C9800DEC0A8 /* th */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F617A15F00CAE00DEC0A8 /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC8F617D15F00DA600DEC0A8 /* nb */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nb; path = Plugins/Actions/Speech/nb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F617F15F00DEA00DEC0A8 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Plugins/Actions/Speech/sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8FD3CD15B12C0B0007CC12 /* GNTPSubscribePacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPSubscribePacket.h; path = "Developer Tools/GNTPTestServer/GNTPTestServer/GNTPSubscribePacket.h"; sourceTree = "<group>"; };
 		BC8FD3CE15B12C0B0007CC12 /* GNTPSubscribePacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPSubscribePacket.m; path = "Developer Tools/GNTPTestServer/GNTPTestServer/GNTPSubscribePacket.m"; sourceTree = "<group>"; };
 		BC8FD3F115B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlGNTPSubscriptionAttempt.h; path = Framework/Source/GrowlGNTPSubscriptionAttempt.h; sourceTree = SOURCE_ROOT; };
@@ -3878,7 +3892,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCAC76F515BB797400B0C6D5 /* GrowlSpeechPrefs.xib in Resources */,
-				BCA4468215E674B900BF4FDA /* Localizable.strings in Resources */,
+				BC8F618115F00E3400DEC0A8 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3894,8 +3908,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC80A32F14D7049A00B055FE /* Localizable.strings in Resources */,
 				BC80A34F14D7271900B055FE /* GrowlBezelPrefs.xib in Resources */,
+				BC8F617C15F00CCA00DEC0A8 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3936,8 +3950,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC80A32C14D6F9D300B055FE /* Localizable.strings in Resources */,
 				BC80A34914D7261400B055FE /* BrushedPrefs.xib in Resources */,
+				BC8F617315F00C2E00DEC0A8 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4036,7 +4050,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC80A34D14D726C500B055FE /* iCalPrefs.xib in Resources */,
-				BC2250F414D745A00026D5D7 /* Localizable.strings in Resources */,
+				BC8F616815F00AFE00DEC0A8 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5094,6 +5108,10 @@
 				83716CD5151811B300DDD6CF /* zh-Hans */,
 				83716CD7151811C600DDD6CF /* zh-Hant */,
 				83716D0D151818A900DDD6CF /* pt-BR */,
+				BC8F616B15F00BAC00DEC0A8 /* es-MX */,
+				BC8F616D15F00BD900DEC0A8 /* ru */,
+				BC8F616F15F00BED00DEC0A8 /* th */,
+				BC8F617115F00C0600DEC0A8 /* pt-PT */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -5121,6 +5139,10 @@
 				83716D0A151817F700DDD6CF /* zh-Hans */,
 				83716D0B1518180500DDD6CF /* zh-Hant */,
 				83716D0C1518184B00DDD6CF /* pl */,
+				BC8F617415F00C6800DEC0A8 /* es-MX */,
+				BC8F617615F00C8200DEC0A8 /* ru */,
+				BC8F617815F00C9800DEC0A8 /* th */,
+				BC8F617A15F00CAE00DEC0A8 /* pt-PT */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -5148,6 +5170,10 @@
 				83716CFC151813C600DDD6CF /* pl */,
 				83716D04151816C400DDD6CF /* pt-BR */,
 				83716D05151816D700DDD6CF /* sv */,
+				BC8F616015F00A5200DEC0A8 /* ru */,
+				BC8F616215F00A7F00DEC0A8 /* es-MX */,
+				BC8F616415F00A9C00DEC0A8 /* th */,
+				BC8F616615F00AC200DEC0A8 /* pt-PT */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -5216,6 +5242,8 @@
 				83D7A00115EDB48400C66341 /* ro */,
 				83D7A00215EDB48E00C66341 /* ru */,
 				83D7A00315EDB4A300C66341 /* ja */,
+				BC8F617D15F00DA600DEC0A8 /* nb */,
+				BC8F617F15F00DEA00DEC0A8 /* sv */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
