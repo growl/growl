@@ -195,7 +195,10 @@
 		}else{
 			[convertedDict setObject:convertedContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 		}
-		[convertedDict setObject:self.callbackType forKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
+      if(self.callbackType)
+         [convertedDict setObject:self.callbackType forKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
+      else
+         [convertedDict setObject:@"String" forKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
 	}
    	
 	return [convertedDict autorelease];
