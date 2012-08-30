@@ -307,6 +307,17 @@ end
 desc "developer id codesign HWG"
 task :codesign_hwg do
  system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Library/LoginItems/HardwareGrowlerLauncher.app/"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Library/LoginItems/HardwareGrowlerLauncher.app/Conents/MacOS/HardwareGrowlerLauncher"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/BluetoothMonitor.hwgrowlmonitor/Contents/MacOS/BluetoothMonitor"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/FirewireMonitor.hwgrowlmonitor/Contents/MacOS/FirewireMonitor"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/KeyboardMonitor.hwgrowlmonitor/Contents/MacOS/KeyboardMonitor"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/NetworkMonitor.hwgrowlmonitor/Contents/MacOS/NetworkMonitor"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/PowerMonitor.hwgrowlmonitor/Contents/MacOS/PowerMonitor"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/USBMonitor.hwgrowlmonitor/Contents/MacOS/USBMonitor"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/VolumeMonitor.hwgrowlmonitor/Contents/MacOS/VolumeMonitor"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/XPCServices/com.growl.HardwareGrowler.GNTPClientService.xpc/"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/XPCServices/com.growl.HardwareGrowler.GNTPClientService.xpc/Contents/MacOS/com.growl.HardwareGrowler.GNTPClientService"
  system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Frameworks/Growl.framework/"
 end
 
