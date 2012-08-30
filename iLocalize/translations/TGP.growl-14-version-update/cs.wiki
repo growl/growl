@@ -1,7 +1,7 @@
 Změny v Growl 2
 
 Hlavní změny
-- Přidána podpora pro upozornění OS X v 10.8.
+- Přidána podpora pro systémová upozornění OS X v 10.8.
 - Přidána podpora pro služby Prowl a Boxcar jako zobrazovací akce.
 - Přehlked nyní lépe rozpozná čas nečinnosti.
 - Growl nyní běží v sandboxu.

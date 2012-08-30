@@ -1,6 +1,6 @@
 Growl 2 izmaiņas
 
-Vispārigi⏎ - Pievienots OS X 10.8 versijas Notification Center atbalsts.⏎ - Pievienots Prowl nu Boxcar servisu paziņojumu atbalsts⏎ - Uzlabots dīkstāves noteikšanas mehānisms kopsavilkumam.⏎ - Growl tagad darbojas Sandbox drošības režīmā.
+Vispārīgi⏎ - Pievienots OS X 10.8 versijas Notification Center atbalsts.⏎ - Pievienots Prowl un Boxcar servisu paziņojumu atbalsts⏎ - Uzlabots dīkstāves noteikšanas mehānisms kopsavilkumam.⏎ - Growl tagad darbojas Sandbox drošības režīmā.
 
 Iestatījumi⏎ - Padarīta saprotamāka JĀ/NĒ slēdža funkcionalitāte.
 
@@ -11,30 +11,12 @@ Izlabotās kļūdas⏎ - Problēma ar augstu CPU noslodzi.⏎ - Dažādas progra
 
 Growl 1.4 izmaiņas
 
-Vispārīgi
-- Pārveidota programmu cilne! Pēc pamatīgas pārbūves tagad tai vajadzētu kļūt daudz vieglāk lietojamai.
-- Kopsavilkuma pārvaldība pārnesta atsevišķā cilnē.
-- Pamatīgi tīklošanas uzlabojumi.
+Vispārīgi⏎ - Pārveidota programmu cilne! Pēc pamatīgas pārbūves tagad tai vajadzētu kļūt daudz vieglāk lietojamai.⏎ - Kopsavilkuma pārvaldība pārnesta atsevišķā cilnē.⏎ - Pamatīgi tīklošanas uzlabojumi.
 
-Pārveidota iestatījumu cilne
-- Jauna poga on/off tipa slēdžiem.
-- Pozīcijas izvēlei pievienots klaviatūras atbalsts.
-- Pārveidota vispārīgo iestatījumu cilne.
-- Tīklošanas cilne - pievienota abonēšanas iespēja.
-- Vēstures cilne, paziņojumu vēstures tabulai pievienota konteksta izvēlne, lai varētu tieši nokļūt pie programmas/paziņojuma iestatījumiem.
-- Kopsavilkuma cilne tagad ir visu kopsavilkuma iestatījumu mājvieta.
-- Jauna displeja pievienošanai vairs nav nepieciešams pārstartēt Growl.
+Pārveidota iestatījumu cilne⏎ - Jauna poga on/off tipa slēdžiem.⏎ - Pozīcijas izvēlei pievienots klaviatūras atbalsts.⏎ - Pārveidota vispārīgo iestatījumu cilne.⏎ - Tīklošanas cilne - pievienota abonēšanas iespēja.⏎ - Vēstures cilne, paziņojumu vēstures tabulai pievienota konteksta izvēlne, lai varētu tieši nokļūt pie programmas/paziņojuma iestatījumiem.⏎ - Kopsavilkuma cilne tagad ir visu kopsavilkuma iestatījumu mājvieta.⏎ - Jauna displeja pievienošanai vairs nav nepieciešams pārstartēt Growl.
 
-Tīklošana
-- pievienots Notification-Callback-Target atbalsts, jeb URL lauks GNTP. Noklikšķinot uz tā, Growl ļauj OSX izlemt, kā atvērt URL (piemēram, saiti, kas sākas ar http:// atvērt ar noklusēto pārlūku).
-- Abonēšanas atbalsts, iespēja abonēt visu programmu paziņojumus no attālinātas sistēmas.
-- Uzlabota tīklošanas autentifikācija, aizvākts paroles pieprasījums, ja parole netiek lietota.
-- Izlabota avārija, saistīta ar tīkla adreses atpazīšanu.
-- Ja Growl nav konfigurēts saņemt ienākošos paziņojumus, saistīties tikai ar lokālo tīkla ligzdu.
-- Ieviesta adresu kešošana un adrešu izmaiņu novērošana lai iztirītu kešatmiņu.
+Tīklošana⏎ - pievienots Notification-Callback-Target atbalsts, jeb URL lauks GNTP. Noklikšķinot uz tā, Growl ļauj OSX izlemt, kā atvērt URL (piemēram, saiti, kas sākas ar http:// atvērt ar noklusēto pārlūku).⏎ - Abonēšanas atbalsts, iespēja abonēt visu programmu paziņojumus no attālinātas sistēmas.⏎ - Uzlabota tīklošanas autentifikācija, aizvākts paroles pieprasījums, ja parole netiek lietota.⏎ - Izlabota avārija, saistīta ar tīkla adreses atpazīšanu.⏎ - Ja Growl nav konfigurēts saņemt ienākošos paziņojumus, saistīties tikai ar lokālo tīkla ligzdu.⏎ - Ieviesta adresu kešošana un adrešu izmaiņu novērošana lai iztīrītu kešatmiņu.
 
-Applescript
-- atbalsta atsauksmes, klikšķinot uz URL, tāpat kā Notification-Callback-Target priekš GNTP
+Applescript⏎ - atbalsta atsauksmes, klikšķinot uz URL, tāpat kā Notification-Callback-Target priekš GNTP
 
-Izlabotās kļūdas
-- 
+Izlabotās kļūdas⏎ -  Atrisināta avārijas apstāšanās, izveidojot WebKit spraudņa savienojumu.⏎ - Atrisināta avārijas apstāšanās pie pārsūtīšanas.⏎ - Atrisināta problēma, kas Speech paziņojums gaida uz iepriekšējo paziņojumu, izraisot nevajadzīgu CPU noslodzi.⏎ - Atrisināta avārijas apstāšanās ar CFErrorGetDomain WebKit ekrāna stiliem.⏎ - Atrisināta problēma ar ekrāna stilu saraksta dublēšanos, pārinstalējot Growl.⏎ - Notification-Callback-Target tagad tiek ņemts vērā un izmantots, pat bez metodes galvenes.⏎ - Uzlabota sabojātu notikumu vēstures datubāžu diagnostika.⏎ - Atrisināta kārtošanas problēma, dzēšot vienu ierakstu no notikumu vēstures saraksta.

@@ -9,14 +9,14 @@ Geral
 Preferências
 - O botão de ON/OFF no Growl deve ser mais fácil de entender agora.
 
-Displays
-- Speech now introduces greater control.
-- Separates Action displays from Visual displays.
-- Music Video can now left and right justify text.
-- Fixes height problems for multi line notifications in Music Video.
-- Nano can now display in multiple locations, left, center and right.
-- Added an SoundAction display.
-- Added a way to not have any visual notifications.
+Visuais
+- Speech agora introduz melhores controles.
+- Separadas os Visuais de Ação de Visuais de Aparência.
+- Vídeo de Música agora pode ter texto em justificado à esquerda ou direita.
+- Correção de problemas de altura para notificações com múltiplas linhas no Vídeo de Música.
+- Nano agora pode ser exibido em múltiplas localizações, esquerda, centro e direita.
+- Adicionado um visual de SoundAction.
+- Adicionada uma forma para não haver notificações sobre visuais.
 
 Correção de Bugs
 - Resolvido o problema de alto uso de CPU.

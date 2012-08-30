@@ -1,2 +1,16 @@
+HardwareGrowler 2
+
+- HardwareGrowler is volledig herschreven
+- U kunt nu specifieke functies van HardwareGrowler aan- of uitzetten
+- Schijven kunnen worden genegeerd op basis van naam
+- Netwerkmonitoring drastisch verbeterd
+- Ondersteuning voor IPv6
+- Ondersteuning voor USB-ethernetadapters
+- Ondersteuning voor Berichtencentrum onder OSX 10.8 wanneer Growl niet aanwezig is
+- Capster-functionaliteit zit nu binnen HardwareGrowler. U krijgt meldingen als een van de toetsen Capslock, Fn of Shift wordt ingedrukt
+- De Stroommonitor heeft extra instelmogelijkheden voor wanneer er een melding moet komen
+
+HardwareGrowler 1.3.2
+
 - Franse en Spaanse vertaling toegevoegd.
 - Probleem opgelost met de Zweedse vertaling die in het Roemeens werd weergegeven.

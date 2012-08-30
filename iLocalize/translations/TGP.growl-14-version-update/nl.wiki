@@ -1,3 +1,31 @@
+Growl 2 wijzigingen
+
+Algemeen
+- Ondersteuning voor OS X berichtencentrum onder 10.8
+- Ondersteuning voor Prowl en Boxcar-voorzieningen als actieweergaven
+- Samenvatting heeft verbeterde idle-detectie
+- Growl is nu sandboxed
+
+Voorkeuren
+- De AAN/UIT schakelaar binnen Growl moet nu eenvoudiger te begrijpen zijn
+
+Weergaven
+- Spraak heeft nu instelmogelijkheden
+- Scheiding tussen Actieweergaven en Visuele weergaven
+- Muziekvideo kan tekst nu links en rechts uitlijnen
+- Problemen in de hoogte verholpen bij meervoudige meldingen in Muziekvideo
+- Nano kan nu op meerdere plaatsen worden weergegeven, links, rechts, midden
+- SoundAction-weergave toegevoegd
+- Mogelijkheid om visuele meldingen te deactiveren
+
+Problemen opgelost
+- Hoog CPU-verbruik opgelost
+- Meerdere oorzaken voor crashes opgelost
+- Toetscombinaties kunnen nu weer worden verwijderd
+
+
+Growl 1.4 wijzigingen
+
 Algemeen
 - Programma's-tab opnieuw ontworpen! Dit is een grote wijziging waardoor deze veel makkelijker in gebruik is.
 - Samenvattingsinstellingen verplaatst naar een eigen tabblad.

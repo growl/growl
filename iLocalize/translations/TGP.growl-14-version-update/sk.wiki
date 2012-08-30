@@ -1,13 +1,13 @@
 Zmeny v Growl 2
 
-Hlavné
+Všeobecné
 - pridaná podpora Notifikačného centra OS X vo verzii 10.8
 - pridaná podpora pre služby Prowl a Boxcar
 - Rollup má vylepšenú detekciu nečinnosti
 - Growl plne podporuje Mac OS X sandboxing
 
 Nastavenia
-- ON/OFF prepínač v Growl by mal byť viac zrozumiteľný
+- Zap./Vyp. prepínač v Growl by mal byť odteraz viac zrozumiteľný
 
 Zobrazenia
 - Speech umožňuje vačšiu kontrolu nastavenia
