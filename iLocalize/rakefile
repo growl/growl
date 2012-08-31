@@ -117,7 +117,8 @@ shortcodes = {
     :ar => 'ar',
     :lv_LV => 'lv',
     :it => 'it',
-    :th_TH => 'th'
+    :th_TH => 'th',
+    :ca => 'ca'
 }
 
 growl_translations = {
