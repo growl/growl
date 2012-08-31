@@ -1,0 +1,3 @@
+Czy zdarza ci się przypadkowo ciągle naciskać klawisz Caps Lock? Jeśli tak, to Capster jest dokładnie tym, co potrzebujesz. Ta łatwa w użyciu aplikacja poinformuje cię, kiedy zostal wciśnięty klawisz Caps Lock, albo samodzielnie albo poprzez Growl.
+
+Gdy wciśniesz klawisz Caps Lock, ikonka w pasku menu zmieni się również. Dla maszynistek dotykowych jest to świetny sposób, aby zachować skupienie się na ekranie.

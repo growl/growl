@@ -1,22 +1,14 @@
 Growl jest najlepszym systemem powiadomień dla Mac'a. Dzięki niemu, możesz na bieżąco śledzić co się robią aplikacje pracujące w tle lub szybko sprawdzić co się działo podczas twojej chwilowej nieobecności.
 
-One day we were working with pictures in iPhoto while having a conversation in Adium. While waiting on something important to come through in the conversation, we had to keep clicking back and forth every time an instant message came through. Even though we knew were getting a message we'd have to click back to the Adium window to see what was being said. The idea for Growl was born out of the frustration of being forced to click back and forth to see what was going on. The real time notifications keep you up to speed with everything you need to know. With smooth notifications and Growl's one of a kind rollup window, you'll always know what's going on even when you have to step away from your Mac. 
+Pewnego dnia byliśmy pracy ze zdjęciami w iPhoto mając rozmowę w Adium. Podczas oczekiwania na coś ważnego przejść przez w rozmowie, musieliśmy klikając iz powrotem za każdym razem wiadomości błyskawicznej dostarczonej przez. Nawet jeśli wiemy, były coraz wiadomość musielibyśmy kliknij z powrotem do okna, aby zobaczyć co Adium mówiono.Pomysł Growl narodził się z frustracji zmuszani do kliknij w tę iz powrotem, aby zobaczyć co się dzieje. Prawdziwe powiadomienia czas utrzymać się na bieżąco z wszystkim, czego potrzebujesz wiedzieć. Z gładkimi zawiadomień i jeden ryk z dnia okna zbiorczego rodzaju, zawsze wiesz, co się dzieje, nawet jeśli musisz odejść od komputera Mac. 
 
-Never before has there been anything that personalizes notifications in such an effective way. You can receive notifications in several ways, such as on screen, via email, or even have them spoken to you. Plus if you know a bit about web technologies (CSS/XHTML/Javascript) then you can make a Growl style look how you want it to.
+Nigdy wcześniej nie było niczego, co personalizuje powiadomienia w sposób tak efektywny. Możesz otrzymywać powiadomienia na kilka sposobów, na przyklad na ekranie, poprzez e-mail, lub nawet glosowo. Plus, jeśli znasz się trochę na technologiach internetowych (CSS / XHTML / JavaScript), to możesz zrobić zestaw stylów Growl jaki chcesz.
+
 
 Więcej wspaniałych funkcji znajdziesz tutaj.
 
 
-• Personalize your notifications. Choose Growl's presentation, look and feels.
-• Keeps working even when you are not. Come back to your mac and review what happened while you were gone with Rollup.
-• Easy to use Applications tab for controlling what you receive and what gets blocked.
-• Speech display for hearing your notifications, great for those who are visually impaired.
-• Awesome notification history, so you can see what has been going on.
-• A large variety of styles come with Growl. Anything from nano which is tiny, to music video which is huge.
-• Make your own Growl styles very easily with web technology to give Growl your own look and feel.
-• Send Growl notifications from Cocoa, AppleScript, or over the network.
-• Networking so that two or more macs can forward notifications to each other.
-• Can work with the iPhone and iPad via Prowl.
+Spersonalizuj swoje powiadomienia. Wybierz w prezentacji Growl, wygląd i czuje. ⏎ • Utrzymuje działa nawet wtedy, gdy nie jesteś. Wracaj do komputera Mac i przegląd tego, co wydarzyło się w czasie, kiedy odszedł z pakietu zbiorczego. ⏎ • Łatwy w użyciu kartę Aplikacje do sterowania, co otrzymujesz i co zostaje zablokowane. ⏎ • wyświetlacz mowy dla słuchu powiadomień, idealne dla tych, którzy są niedowidzących. ⏎ • Niesamowite Historia powiadomienie, dzięki czemu można zobaczyć, co się działo. ⏎ • duża różnorodność stylów pochodzą z Growl. Coś z nano, który jest mały, do teledysku, który jest ogromny. ⏎ • Tworzenie własnych stylów Growl bardzo łatwo z technologii internetowej dać Growl własny wygląd. ⏎ • Wyślij powiadomienia Growl z kakao, AppleScript lub przez sieć. ⏎ • Sieci tak, że dwie lub więcej macs może przekazywać powiadomienia do siebie. ⏎ • Możliwość pracy z iPhone i iPad poprzez Prowl.
 
 
 

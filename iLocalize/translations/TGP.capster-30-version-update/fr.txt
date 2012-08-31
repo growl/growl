@@ -1,4 +1,4 @@
 - Capster inclut maintenant un graphisme mis à jour.
 - Capster peut maintenant produire un son lors des notifications.
-- Les touches de fonctions (FN) peuvent maintenant déclencher aussi des notifications.
+- La touche de fonction (FN) peut maintenant déclencher aussi des notifications.
 - La touche Verrouillage Numérique peut maintenant déclencher aussi des notifications.
