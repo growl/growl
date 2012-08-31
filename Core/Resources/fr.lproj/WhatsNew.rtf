@@ -1,14 +1,69 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf360
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Verdana;}
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
+\vieww14240\viewh19020\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
 
-\f0\b\fs24 \cf0 Nouveau dans Growl 1.4 :
+\f0\b\fs24 \cf0 Nouveaut\'e9s dans Growl 2
 \b0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural
+\
+G\'e9n\'e9ral\
+- Ajout du support pour le centre de notification OS X 10.8.\
+- Ajout du support pour les services Prowl et Boxcar comme affichages d\'92action.\
+- L\'92enroulement dispose d\'92une meilleure d\'e9tection de veille.\
+- Growl est d\'e9sormais sandbox\'e9.\
+\
+Pr\'e9f\'e9rences\
+- L\'92interrupteur ON/OFF dans Growl devrait \'eatre plus facile \'e0 comprendre d\'e9sormais.\
+\
+Affichages\
+- Voix dispose d\'e9sormais d\'92un plus grand contr\'f4le.\
+- S\'e9paration des affichages Action et Visuel.\
+- Music Video peut d\'e9sormais justifier le texte \'e0 gauche et \'e0 droite.\
+- Correction des probl\'e8mes de hauteur pour les notifications en plusieurs lignes dans Music Video.\
+- Nano peut maintenant afficher en divers endroits, gauche, centre et droit.\
+- Ajout d\'92un affichage de SoundAction.\
+- Ajout d\'92un moyen de ne plus avoir de notifications visuelles.\
+\
+Correction de p\'e9pins\
+- R\'e9solution le probl\'e8me d\'92utilisation intensive du CPU.\
+- R\'e9solution de plantages multiples.\
+- Les raccourcis sont d\'e9sormais supprimantes.\
+\
+\
 
-\f1 \cf0  \'95 {\field{\*\fldinst{HYPERLINK "growl://preferences/applications"}}{\fldrslt Nouvelle architecture des onglets d\'92applications !}} Revue en profondeur, elle est maintenant bien plus agr\'e9able\
- \'95 Am\'e9liorations de pr\'e9sentation dans l\'92interface des pr\'e9f\'e9rences\
- \'95 {\field{\*\fldinst{HYPERLINK "growl://preferences/network/subscriptions"}}{\fldrslt Abonnement GNTP}}, disponible dans l\'92onglet R\'e9seau des Pr\'e9f\'e9rences\
- \'95 Diverses corrections de p\'e9pins, en particulier pour les aspects r\'e9seau\
- \'95 Support des les URL cibles dans GNTP, Applescript et {\field{\*\fldinst{HYPERLINK "http://growl.info/downloads#generaldownloads"}}{\fldrslt GrowlNotify}}}
+\b Modifications de Growl 1.4 changes
+\b0 \
+\
+G\'e9n\'e9ral\
+- R\'e9-\'e9criture de l\'92interface des onglets\'a0! Une refonte en profondeur qui devrait \'eatre bien plus facile \'e0 utiliser.\
+- D\'e9placement des contr\'f4les de l\'92enroulement dans un onglet distinct.\
+- Am\'e9liorations majeures du support r\'e9seau.\
+\
+Refonte du panneau de pr\'e9f\'e9rences\
+- Nouvel interrupteur d\'92activation/d\'e9sactivation.\
+- Ajout du support de l\'92utilisation du clavier pour choisir les positions.\
+- R\'e9organisation de l\'92onglet G\'e9n\'e9ral.\
+- Onglet R\'e9seau \'97 Ajout du support des abonnements.\
+- Onglet Historique \'97\'a0Le menu contextuel pour la table de l\'92historique permettant d\'92aller aux r\'e9glages de l\'92app/des notifications.\
+- L\'92onglet Enrouler est maintenant utilis\'e9 pour tout ce qui concerne la fen\'eatre des enroulements.\
+- L\'92ajout d\'92un nouvel \'e9cran ne devrait plus n\'e9cessiter de relancer Growl.\
+\
+R\'e9seau\
+- Support de Notification-Callback-Target, un champ d\'92URL dans GNTP. En cliquant le lien, Growl indiue \'e0 OSX comment ouvrir le lien (par ex. dans le navigateur par d\'e9faut pour une URL http://)\
+- Support des abonnements\'a0: abonnez-vous \'e0 toutes les applications sur une machine distante.\
+- Am\'e9liorations g\'e9n\'e9rales de l\'92authentification en r\'e9seau et supression de la n\'e9cessit\'e9 d\'92utiliser des en-t\'eates de mots de passe si le champt de mot de passe est vide.\
+- Correction d\'92un plantage du support r\'e9seau li\'e9 \'e0 la r\'e9solution des adresses.\
+- Mise en cache des adresses et observation des modifications r\'e9seau pour purger la cache.\
+\
+AppleScript\
+- Support du retour sur clic, comme pour Notification-Callback-Target dans GNTP\
+\
+Correction de p\'e9pins\
+- R\'e9solution d\'92un plantage \'e0 la cr\'e9ation d\'92une passerelle de module externe WebKit.\
+- R\'e9solution d\'92un plantage \'e0 la redirection.\
+- R\'e9solution d\'92un souci o\'f9 l\'92affichage de la Parole attend que le message pr\'e9c\'e9dant se termine, provoquant une utilisation excessive de CPU.\
+- R\'e9solution d\'92un plantage avec CFErrorGetDomain pour l\'92afficher des styles de WebKit.\
+- Correction d\'92une duplication dans les listes de modules externes d\'92affichage \'e0 la r\'e9installation.\
+- Notification-Callback-Target est maintenant respect\'e9 \'97 et utilis\'e9 \'97 m\'eame sans en-t\'eate de m\'e9thode.\
+- Correction d\'92un probl\'e8me de tri \'e0 la suppression d\'92une seule entr\'e9e dans la liste de l\'92historique.}

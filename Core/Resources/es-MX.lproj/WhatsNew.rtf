@@ -1,15 +1,69 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf470
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Verdana;}
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \margl1440\margr1440\vieww9000\viewh8400\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f0\b\fs24 \cf0 Nuevo en Growl 1.4:
+\f0\b\fs24 \cf0 Nuevo en Growl 2
 \b0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
+\
+General\
+- Agrega soporte para Notification Center en OS X 10.8.\
+- Soporte para los servicios Prowl y Boxcar como acciones.\
+- Detecci\'f3n de inactividad mejorada para el Resumen.\
+- Growl ahora corre en un sandbox.\
+\
+Preferencias\
+- El switch de "prendido / apagado" debe ser m\'e1s f\'e1cil de entender.\
+\
+Estilos\
+- Mayor control para el estilo de habla.\
+- Separaci\'f3n entre los estilos de acci\'f3n y los estilos visuales.\
+- Music Video puede justificar el texto a la derecha o izquierda.\
+- Arregla problemas de altura para notificaciones de varias l\'edneas en Music Video.\
+- Nano puede desplegarse en varias posiciones: izquierda, derecha y centro.\
+- Se agreg\'f3 un nuevo display de Sonido.\
+- Se agreg\'f3 una manera para no tener notificaciones visuales.\
+\
+Correcci\'f3n de errores\
+- Resuelve el error de alto consumo de CPU.\
+- Resuelve varios errores fatales.\
+- Ahora se pueden quitar los atajos de teclado.\
+\
 
-\f1 \cf0  \'95 {\field{\*\fldinst{HYPERLINK "growl://preferences/applications"}}{\fldrslt \'a1Nuevo dise\'f1o de la pesta\'f1a de aplicaciones!}} Redise\'f1ado desde cero, ahora es m\'e1s amigable con el usuario.\
- \'95 Detalles de estructura en la interface de preferencias.\
- \'95 {\field{\*\fldinst{HYPERLINK "growl://preferences/network/subscriptions"}}{\fldrslt Suscripci\'f3n GNTP}}, disponible en la pesta\'f1a de Red en las preferencias.\
- \'95 Correcci\'f3n de errores en toda la aplicaci\'f3n, con \'e9nfasis en los errores de Red.\
- \'95 Soporte para usar URLs como destino de GNTP, Applescript, y {\field{\*\fldinst{HYPERLINK "http://growl.info/downloads#generaldownloads"}}{\fldrslt GrowlNotify}}}
+\b Cambios en Growl 1.4
+\b0 \
+\
+General\
+- \'a1Redise\'f1o del tab de aplicaciones! Este es un cambio casi total y debe ser mucho m\'e1s f\'e1cil de usar.\
+- Se movieron los controles del Resumen a una tab separada.\
+- Mejoras mayores en red.\
+\
+Revisi\'f3n al panel de preferencias.\
+- Nuevo slider para prender o apagar opciones.\
+- Soporte para posicionar el "picker" con el teclado.\
+- Cambi\'f3 la estructura de la tab General.\
+- Tab de Red \'96 se agreg\'f3 soporte a suscripciones.\
+- Tab de historial, men\'fa contextual de la tabla del historial para saltar a las preferencias de notificaci\'f3n/aplicaci\'f3n.\
+- La tab de Resumen es el nuevo hogar de todos los controles relacionados con el Resumen.\
+- Agregar un nuevo estilo no debe requerir que Growl reinicie.\
+\
+Red\
+ - Soporte para Notification-Callback-Target, un campo URL en GNTP. Al hacer click, Growl deja que OSX intente abrir el URL (por ejemplo, usando el browser predeterminado para una url http).\
+- Soporte de suscripciones, suscribirse a todas las aplicaciones de una m\'e1quina remota.\
+- Mejoras generales de autenticaci\'f3n de red, se elimin\'f3 el requisito, y uso,  de headers de contrase\'f1a si el campo de contrase\'f1a est\'e1 en blanco.\
+- Se corrigi\'f3 un error relativo a la resoluci\'f3n de direcci\'f3n de datos\
+- Enlazar s\'f3lo al socket local si no se esperan notificaciones entrantes.\
+- Cache de direcci\'f3n de datos y se observarn cambios en la red para borrar los caches.\
+\
+Applescript\
+- Soporte a click de URL, igual que Notification-Callback-Target en GNTP\
+\
+Soluci\'f3n de errores\
+- Se resolvi\'f3 un error fatal al crear el puente de webkit plugin.\
+- Se resolvi\'f3 un error fatal al reenviar notificaciones.\
+- Se resolvi\'f3 un problema en el que el estilo de habla espera a que termine el mensaje anterior, drenando CPU.\
+- Se resolci\'f3 un error fatal con CFErrorGetDomain en los estilos visuales WebKit.\
+- Notification-Callback-Target es respetada, y usada, aunque carezca del header de m\'e9todo.\
+- Se resolvieron problemas de bases de datos corruptas de historiales.\
+- Se resolvi\'f3 un problema de orden cuando se borraba un s\'f3lo item de la lista de historial.}
