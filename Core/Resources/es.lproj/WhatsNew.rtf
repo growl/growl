@@ -1,15 +1,72 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf320
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Verdana;}
+{\rtf1\ansi\ansicpg1252\cocoartf1187
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \margl1440\margr1440\vieww9000\viewh8400\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f0\b\fs24 \cf0 Nuevo en 1.4:
+\f0\b\fs24 \cf0 Nuevo en Growl 2
 \b0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
+\
+General\
+- A\'f1ade soporte para el Centro de Notificaciones en OS X 10.8\
+- A\'f1ade soporte para Prowl y servicios de Boxcar\
+- Mejorada la detecci\'f3n de inactividad en Resumen\
+- Soporte para sandbox\
+\
+Preferences\
+- El interruptor S\'cd/NO a trav\'e9s de Growl es ahora m\'e1s sencillo\
+\
+Estilos visuales\
+- M\'e1s control sobre las preferencias de voz\
+- Separa los estilos de acci\'f3n de los estilos visuales\
+- El estilo visual "V\'eddeo Musical" ahora puede alinear el texto a la izquierda, a la derecha y justificadamente\
+- El estilo visual "Nano" ahora puede mostrarse en diferentes ubicaciones: izquierda, centro y derecha\
+- A\'f1adidos los sonidos para acciones\
+- A\'f1adido un modo sin notificaciones visuales\
+\
+Fallos arreglados\
+- Resuelve un problema con la CPU\
+- Resuelve varios bloqueos inesperados\
+- Atajos de teclado desactivables\
+\
+\
 
-\f1 \cf0  \'95 {\field{\*\fldinst{HYPERLINK "growl://preferences/applications"}}{\fldrslt \'a1Nuevo dise\'f1o de la pesta\'f1a Aplicaciones!}} Redise\'f1ada desde cero, ahora es mucho m\'e1s amigable\
- \'95 Cambios cosm\'e9ticos a todo el interfaz de las preferencias\
- \'95 {\field{\*\fldinst{HYPERLINK "growl://preferences/network/subscriptions"}}{\fldrslt Subscripciones GNTP}}, disponibles en la pesta\'f1a Red de las preferencias\
- \'95 Arreglo de fallos variados, especialmente en la funcionalidad de red\
- \'95 Compatibilidad de URL en GNTP, AppleScript y {\field{\*\fldinst{HYPERLINK "http://growl.info/downloads#generaldownloads"}}{\fldrslt GrowlNotify}}}
+\b Cambios en Growl 1.4
+\b0 \
+\
+General\
+- \'a1Redise\'f1o de la pesta\'f1a "Aplicaciones"! Por completo, ahora mucho m\'e1s f\'e1cil de usar\
+- Los controles de Resumen se han movido a una pesta\'f1a independiente\
+- Mejoras notables para redes\
+\
+Redise\'f1o completo del panel de preferencias\
+- Nuevo interruptor S\'cd/NO para Growl\
+- A\'f1adido soporte para el teclado al escoger posici\'f3n para las notificaciones\
+- Pesta\'f1a "General" redise\'f1ada\
+- Nueva pesta\'f1a "Redes"\
+- A\'f1ade soporte para suscripciones\
+- Pesta\'f1a "Historial", con men\'fa contextual para ver el historial en una tabla y moverse entre los ajustes de las Aplicaciones y Notificaciones\
+- Todos los controles relativos a Resumen ahora est\'e1n agrupados en la pesta\'f1a Resumen\
+- A\'f1adir un nuevo estilo visual ya no requiere que Growl se reinicie\
+\
+\
+Redes\
+- Soporte para objetos de notificaciones, un campo de URL en GNTP. Tras pinchar, Growl permite a OS X saber c\'f3mo abrir la URL (ya sea con el navegador por defecto con http://)\
+- Soporte para suscripciones, suscr\'edbete a todas las aplicaciones en un ordenador remoto.\
+- Mejoras generales para autenticaci\'f3n de red, eliminando el campo de contrase\'f1a cuando es innecesario\
+- Arreglado un problema que podr\'eda causar el cierre inesperado en la resoluci\'f3n de direcciones para algunos usuarios\
+- Posibilidad de enlazar al socket local si se est\'e1n ignorando las notificaciones entrantes\
+- Cacheo de datos en direcciones, adem\'e1s de obsrevaci\'f3n en cambios en la red para limpiar cach\'e9s\
+\
+Applescript\
+- Soporte para retroalimentaci\'f3n al pinchar una URL, al igual que los objetos de notificaciones en GNTP\
+\
+Fallos arreglados\
+- Se ha arreglado un fallo que podr\'eda producir el cierre inesperado de la aplicaci\'f3n al crear complementos webkit\
+- Otro relacionado con el reenv\'edo de notificaciones\
+- Resuelto un fallo en el que las notificaciones por voz esperaban mensajes previos causando una sobrecarga en el uso de CPU\
+- Resuelto un fallo grave con CFErrorGetDomain para estilos visuales webkit\
+- Arreglada la muestra de complementos duplicados al reinstalar\
+- Objeto de Notificaciones es ahora respetado y utilizado\
+- Arreglados los problemas con bases de datos corruptas\
+- Arreglado un fallo en el ordenamiento de datos al borrar una entrada en el historial}
