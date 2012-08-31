@@ -94,6 +94,7 @@ sr_source                            = File.join(translation_dir, "TGP.shortcutr
 shortcodes = {
     :sk => 'sk',
     :pt_BR => 'pt-BR',
+    :pt_BR => 'pt',
     :nb_NO => 'nb',
     :ja => 'ja',
     :ko => 'ko',
