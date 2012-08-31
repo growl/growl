@@ -1,0 +1,4 @@
+- Capster ahora incluye carátulas actualizadas.
+- Capster ahora hace un sonido cuando presionas la tecla Bloq. Mayús.
+- Ahora puedes obtener notificaciones para la tecla Función (FN).
+- Ahora puedes obtener notificaciones para la tecla Bloq. Num.

@@ -1,0 +1,3 @@
+¿Presionas por accidente la tecla de bloqueo de mayúsculas cada dos por tres? Si es así, Capster es exactamente lo que necesitas. Esta aplicación (fácil de usar) te dirá cuando presionas la tecla de bloqueo de mayúsculas, por sí sola o a través de Growl.
+
+Cuando presionas la tecla Bloq. Mayús., el icono de Capster en la barra de menús cambiará también. Para los despistados, es perfecto para mantenerse enfocado en la pantalla y no en el teclado.

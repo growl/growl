@@ -1,34 +1,62 @@
+Cambios en Growl 2
+
 General
-- Applications Tab Redesign! This is a major overhaul, and should be much easier to use.
-- Moved Rollup controls to separate tab.
-- Major improvements to networking.
+- Añade soporte para el Centro de Notificaciones de OS X 10.8
+- Añade soporte para Prowl y servicios de Boxcar como pantallas activas
+- Mejor detección de ausencia para Resumen
+- Soporte para sandbox
 
-Preference Pane overhaul
-- New slider switch for on/off switches
-- Added keyboard support to position picker.
-- General Tab Relayout.
-- Networking tab - Add support for subscription
-- History Tab, contextual menu for history table to jump to the app/notification settings
-- Rollup tab is the new home of controls related to the Rollup window.
-- Adding a new display should not require a restart of Growl now.
+Preferencias
+- El interruptor SÍ/NO a través de Growl es ahora más sencillo
 
-Networking
-- Support for Notification-Callback-Target, a URL field in GNTP. Upon click, Growl lets OSX figure out how to open the URL (such as the default browser for an http:// url)
-- Subscription support, subscribe to all applications on a remote machine.
-- General improvements to networking authentication, removed requirement for, and use of password headers if the password field is blank
-- Fix networking crash related to address data resolution.
-- Bind to local socket only if not listening for incoming notifications.
-- Address data caching, and observation of network changes to clear caches
+Pantallas
+- Más control sobre las preferencias de voz
+- Separa las pantallas en acción de las pantallas visuales
+- El estilo visual "Vídeo Musical" ahora puede alinear el texto a la izquierda, a la derecha y justificadamente
+- El estilo visual "Nano" ahora puede mostrarse en diferentes ubicaciones: izquierda, centro y derecha
+- Añadidos los sonidos para acciones
+- Añadido un modo sin notificaciones visuales
+
+Fallos arreglados
+- Resuelve un problema con la CPU
+- Resuelve varios bloqueos inesperados
+- Atajos de teclado desactivables
+
+
+Cambios en Growl 1.4
+
+General
+- ¡Rediseño de la pestaña "Aplicaciones"! Por completo, ahora mucho más fácil de usar
+- Los controles de Resumen se han movido a una pestaña independiente
+- Mejoras notables para redes
+
+Rediseño completo del panel de preferencias
+- Nuevo interruptor SÍ/NO para Growl
+- Añadido soporte para el teclado al escoger posición para las notificaciones
+- Pestaña "General" rediseñada
+- Nueva pestaña "Redes"
+- Añade soporte para suscripciones
+- Pestaña "Historial", con menú contextual para ver el historial en una tabla y moverse entre los ajustes de las Aplicaciones y Notificaciones
+- Todos los controles relativos a Resumen ahora están agrupados en la pestaña Resumen
+- Añadir una nueva pantalla ya no requiere que Growl se reinicie
+
+Redes
+- Soporte para objetos de notificaciones, un campo de URL en GNTP. Tras pinchar, Growl permite a OS X saber cómo abrir la URL (ya sea con el navegador por defecto con http://)
+- Soporte para suscripciones, suscríbete a todas las aplicaciones en un ordenador remoto.
+- Mejoras generales para autenticación de red, eliminando el campo de contraseña cuando es innecesario
+- Arreglado un problema que podría causar el cierre inesperado en la resolución de direcciones para algunos usuarios
+- Posibilidad de enlazar al socket local si se están ignorando las notificaciones entrantes
+- Cacheo de datos en direcciones, además de obsrevación en cambios en la red para limpiar cachés
 
 Applescript
-- URL click feedback support, same as Notification-Callback-Target in GNTP
+- Soporte para retroalimentación al pinchar una URL, al igual que los objetos de notificaciones en GNTP
 
-Bug fixes
-- Resolved a crash with webkit plugin bridge on creation.
-- Resolved a crash with forwarding.
-- Resolved an issue where the Speech display waits for previous message to complete causing a CPU drain
-- Resolved a crash with CFErrorGetDomain for WebKit Display Styles.
-- Fixed duplicate listings of display plugins on reinstall.
-- Notification-Callback-Target is now respected, and used, even without the method header.
-- Worked around problems with corrupt history databases.
-- Fixed a sorting problem when deleting a single entry in the history list.
+Fallos arreglados
+- Se ha arreglado un fallo que podría producir el cierre inesperado de la aplicación al crear complementos webkit
+- Otro relacionado con el reenvío de notificaciones
+- Resuelto un fallo en el que las notificaciones por voz esperaban mensajes previos causando una sobrecarga en el uso de CPU
+- Resuelto un fallo grave con CFErrorGetDomain para estilos visuales webkit
+- Arreglada la muestra de complementos duplicados al reinstalar
+- Objeto de Notificaciones es ahora respetado y utilizado
+- Arreglados los problemas con bases de datos corruptas
+- Arreglado un fallo en el ordenamiento de datos al borrar una entrada en el historial
