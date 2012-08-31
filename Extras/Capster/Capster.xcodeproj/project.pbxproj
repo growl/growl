@@ -268,6 +268,7 @@
 		BC8F620C15F0611800DEC0A8 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC8F620E15F0615200DEC0A8 /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F621015F0622900DEC0A8 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BCC042E315F0F10C000E1768 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -434,7 +435,7 @@
 		1DCC5609131F013B006F18CF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = Tzikis;
 			};
 			buildConfigurationList = 1DCC560C131F013B006F18CF /* Build configuration list for PBXProject "Capster" */;
@@ -463,6 +464,7 @@
 				"es-MX",
 				fr,
 				"zh-Hant",
+				pt,
 			);
 			mainGroup = 1DCC5607131F013B006F18CF;
 			productRefGroup = 1DCC5613131F013D006F18CF /* Products */;
@@ -664,6 +666,7 @@
 				BC8F620C15F0611800DEC0A8 /* es-MX */,
 				BC8F620E15F0615200DEC0A8 /* fr */,
 				BC8F621015F0622900DEC0A8 /* zh-Hant */,
+				BCC042E315F0F10C000E1768 /* pt */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -760,6 +763,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -786,6 +790,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
