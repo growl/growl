@@ -170,6 +170,7 @@
 		BCAD7A1015126F7E0052EB51 /* GrowlSoundActionPrefPane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GrowlSoundActionPrefPane.xib; sourceTree = "<group>"; };
 		BCAD7A12151272730052EB51 /* GrowlSoundActionDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlSoundActionDefines.h; sourceTree = "<group>"; };
 		BCAD7A13151281230052EB51 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		BCC0429615F0EE53000E1768 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -335,6 +336,7 @@
 				"es-MX",
 				ru,
 				sv,
+				pt,
 			);
 			mainGroup = BCAD7952151265C60052EB51;
 			productRefGroup = BCAD795E151265C70052EB51 /* Products */;
@@ -534,6 +536,7 @@
 				BC8F61B315F054B400DEC0A8 /* es-MX */,
 				BC8F61B415F054BF00DEC0A8 /* ru */,
 				BC8F61B515F054C900DEC0A8 /* sv */,
+				BCC0429615F0EE53000E1768 /* pt */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
