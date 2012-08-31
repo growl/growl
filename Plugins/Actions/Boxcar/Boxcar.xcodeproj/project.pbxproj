@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BC19A16C15198D1900A0CA64 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC19A15115198CE300A0CA64 /* GrowlPlugins.framework */; };
-		BC47859815E66CC200B6451A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC8058FB15BB742900E852B9 /* Localizable.strings */; };
+		BC8F61B815F0555000DEC0A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC8058FB15BB742900E852B9 /* Localizable.strings */; };
 		BCA446F115E67EE300BF4FDA /* BoxcarPrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCA446F015E67EE300BF4FDA /* BoxcarPrefPane.xib */; };
 		BCEA7EE21517CD4400E98B1F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEA7EE11517CD4400E98B1F /* Cocoa.framework */; };
 		BCEA7EE41517CD4400E98B1F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCEA7EE31517CD4400E98B1F /* AppKit.framework */; };
@@ -154,6 +154,9 @@
 		BC61356F15E661C300686C89 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC61357115E661CA00686C89 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC8058FC15BB742900E852B9 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F619915F052C600DEC0A8 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F61AD15F053EB00DEC0A8 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC8F61AE15F053FF00DEC0A8 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCA446F015E67EE300BF4FDA /* BoxcarPrefPane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoxcarPrefPane.xib; sourceTree = "<group>"; };
 		BCEA7EDE1517CD4400E98B1F /* Boxcar.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Boxcar.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCEA7EE11517CD4400E98B1F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -321,6 +324,9 @@
 				"zh-Hant",
 				lv,
 				sk,
+				ca,
+				"es-MX",
+				ru,
 			);
 			mainGroup = BCEA7ED31517CD4400E98B1F;
 			productRefGroup = BCEA7EDF1517CD4400E98B1F /* Products */;
@@ -452,8 +458,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCEA7EEC1517CD4400E98B1F /* InfoPlist.strings in Resources */,
-				BC47859815E66CC200B6451A /* Localizable.strings in Resources */,
 				BCA446F115E67EE300BF4FDA /* BoxcarPrefPane.xib in Resources */,
+				BC8F61B815F0555000DEC0A8 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +524,9 @@
 				BC61357115E661CA00686C89 /* zh-Hant */,
 				8358A9BB15EDAE8C00590748 /* lv */,
 				8358A9CC15EDAE9B00590748 /* sk */,
+				BC8F619915F052C600DEC0A8 /* ca */,
+				BC8F61AD15F053EB00DEC0A8 /* es-MX */,
+				BC8F61AE15F053FF00DEC0A8 /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

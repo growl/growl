@@ -150,6 +150,10 @@
 		BC4785CC15E6717400B6451A /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC80590215BB74A000E852B9 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F614E15F00A2200DEC0A8 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F619815F0525D00DEC0A8 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F61B315F054B400DEC0A8 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC8F61B415F054BF00DEC0A8 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F61B515F054C900DEC0A8 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCAD795D151265C70052EB51 /* SoundAction.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoundAction.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCAD7960151265C70052EB51 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BCAD7963151265C70052EB51 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -327,6 +331,10 @@
 				"zh-Hans",
 				"zh-Hant",
 				sk,
+				ca,
+				"es-MX",
+				ru,
+				sv,
 			);
 			mainGroup = BCAD7952151265C60052EB51;
 			productRefGroup = BCAD795E151265C70052EB51 /* Products */;
@@ -522,6 +530,10 @@
 				BC4785CA15E6716C00B6451A /* zh-Hans */,
 				BC4785CC15E6717400B6451A /* zh-Hant */,
 				BC8F614E15F00A2200DEC0A8 /* sk */,
+				BC8F619815F0525D00DEC0A8 /* ca */,
+				BC8F61B315F054B400DEC0A8 /* es-MX */,
+				BC8F61B415F054BF00DEC0A8 /* ru */,
+				BC8F61B515F054C900DEC0A8 /* sv */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

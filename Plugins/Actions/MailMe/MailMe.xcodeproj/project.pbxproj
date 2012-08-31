@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BC8F616915F00B2100DEC0A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC8058FE15BB746C00E852B9 /* Localizable.strings */; };
+		BC8F618615F051CC00DEC0A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC8058FE15BB746C00E852B9 /* Localizable.strings */; };
 		BCCB237715372ACB0064FD1D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCB237615372ACB0064FD1D /* Cocoa.framework */; };
 		BCCB237915372ACB0064FD1D /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCB237815372ACB0064FD1D /* AppKit.framework */; };
 		BCCB237B15372ACB0064FD1D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCCB237A15372ACB0064FD1D /* Foundation.framework */; };
@@ -152,6 +152,10 @@
 		BC8F613815F009D600DEC0A8 /* lv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F614A15F009E100DEC0A8 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F614C15F009E900DEC0A8 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC8F618215F04F7700DEC0A8 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F618315F04F8400DEC0A8 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC8F618415F04F8D00DEC0A8 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC8F618515F051C800DEC0A8 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCCB237315372ACB0064FD1D /* MailMe.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MailMe.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCCB237615372ACB0064FD1D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BCCB237815372ACB0064FD1D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -324,6 +328,10 @@
 				lv,
 				sk,
 				"zh-Hans",
+				sv,
+				ru,
+				"es-MX",
+				ca,
 			);
 			mainGroup = BCCB236815372ACB0064FD1D;
 			productRefGroup = BCCB237415372ACB0064FD1D /* Products */;
@@ -456,7 +464,7 @@
 			files = (
 				BCCB238115372ACB0064FD1D /* InfoPlist.strings in Resources */,
 				BCCB23F71537374A0064FD1D /* MailMePrefPane.xib in Resources */,
-				BC8F616915F00B2100DEC0A8 /* Localizable.strings in Resources */,
+				BC8F618615F051CC00DEC0A8 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,6 +530,10 @@
 				BC8F613815F009D600DEC0A8 /* lv */,
 				BC8F614A15F009E100DEC0A8 /* sk */,
 				BC8F614C15F009E900DEC0A8 /* zh-Hans */,
+				BC8F618215F04F7700DEC0A8 /* sv */,
+				BC8F618315F04F8400DEC0A8 /* ru */,
+				BC8F618415F04F8D00DEC0A8 /* es-MX */,
+				BC8F618515F051C800DEC0A8 /* ca */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
