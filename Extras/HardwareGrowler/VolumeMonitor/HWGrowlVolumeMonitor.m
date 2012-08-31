@@ -195,7 +195,7 @@
 	NSString *title = [NSString stringWithFormat:@"%@ %@", [volume name], mounted ? NSLocalizedString(@"Mounted", @"") : NSLocalizedString(@"Unmounted", @"")];
 	[delegate notifyWithName:type
 							 title:title
-					 description:mounted ? @"Click to open" : nil
+					 description:mounted ? NSLocalizedString(@"Click to open", @"Message body on a volume mount notification, clicking it opens the drive in finder") : nil
 							  icon:[volume iconData]
 			  identifierString:[volume path]
 				  contextString:context 
