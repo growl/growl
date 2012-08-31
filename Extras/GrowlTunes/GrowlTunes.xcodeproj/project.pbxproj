@@ -155,13 +155,6 @@
 			remoteGlobalIDString = 93BC379E095A662B0002B365;
 			remoteInfo = Nano;
 		};
-		6A89593F1447D221009D09FC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6A89591B1447D221009D09FC /* Growl.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0AB508B00767C87B006EA5CB;
-			remoteInfo = MailMe;
-		};
 		6A8959411447D221009D09FC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6A89591B1447D221009D09FC /* Growl.xcodeproj */;
@@ -210,6 +203,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = FF93C8E214218EB3007EAC43;
 			remoteInfo = GNTPClientService;
+		};
+		BC8F61EA15F05CF400DEC0A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A89591B1447D221009D09FC /* Growl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC83FC11150087EB000504F9;
+			remoteInfo = GrowlPlugins;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -368,6 +368,7 @@
 		6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormattedItem.xib; sourceTree = "<group>"; };
 		839B9CF314D8AFC00042C2A4 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		839B9CF414D8AFCC0042C2A4 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BC8F61DB15F05CF400DEC0A8 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D603AFF4246FD5744B2B837F /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -498,6 +499,7 @@
 				6A89592E1447D221009D09FC /* Growl.app */,
 				6A87EE0D14F2044200CF7407 /* GrowlLauncher.app */,
 				6A8959301447D221009D09FC /* Growl.framework */,
+				BC8F61EB15F05CF400DEC0A8 /* GrowlPlugins.framework */,
 				6A8959321447D221009D09FC /* Speech.growlView */,
 				6A8959341447D221009D09FC /* Brushed.growlView */,
 				6A8959361447D221009D09FC /* Bubbles.growlView */,
@@ -505,7 +507,6 @@
 				6A89593A1447D221009D09FC /* Bezel.growlView */,
 				6A89593C1447D221009D09FC /* Smoke.growlView */,
 				6A89593E1447D221009D09FC /* Nano.growlView */,
-				6A8959401447D221009D09FC /* MailMe.growlView */,
 				6A8959421447D221009D09FC /* MusicVideo.growlView */,
 				6A8959441447D221009D09FC /* SMS.growlView */,
 				6A8959461447D221009D09FC /* Unit tests.octest */,
@@ -770,6 +771,7 @@
 				"zh-Hans",
 				"zh-Hant",
 				ru,
+				ca,
 			);
 			mainGroup = 6A9ED3751447D04F002A0537;
 			productRefGroup = 6A9ED3811447D04F002A0537 /* Products */;
@@ -860,13 +862,6 @@
 			remoteRef = 6A89593D1447D221009D09FC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6A8959401447D221009D09FC /* MailMe.growlView */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MailMe.growlView;
-			remoteRef = 6A89593F1447D221009D09FC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		6A8959421447D221009D09FC /* MusicVideo.growlView */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -893,6 +888,13 @@
 			fileType = wrapper.cfbundle;
 			path = com.company.application.GNTPClientService.xpc;
 			remoteRef = 6A8959471447D221009D09FC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC8F61EB15F05CF400DEC0A8 /* GrowlPlugins.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GrowlPlugins.framework;
+			remoteRef = BC8F61EA15F05CF400DEC0A8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1074,6 +1076,7 @@
 				6A5152E314D5179000E48670 /* zh-Hans */,
 				6A5152E514D5179100E48670 /* zh-Hant */,
 				839B9CF314D8AFC00042C2A4 /* ru */,
+				BC8F61DB15F05CF400DEC0A8 /* ca */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
