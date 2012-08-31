@@ -1,0 +1,4 @@
+· Capster inclou ara noves icones.
+· Capster pot reproduïr un so quan premis el bloqueig de majúscules.
+· Ja pots rebre una notificació quan premis la tecla de funció (FN).
+· Ja pots rebre notificacions quan premis la tecla de bloqueig de teclat numèric. 

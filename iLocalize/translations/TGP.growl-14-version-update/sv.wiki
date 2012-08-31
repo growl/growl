@@ -1,3 +1,31 @@
+Growl 2 förändringar
+
+Generellt
+- Stöd för OS X Notiser under 10.8
+- Stöd för Prowl och Boxcar tjänster som handlingsfönster.
+- Rollup upptäcker bättre viloläge
+- Growl är nu sandboxed.
+
+Inställningar
+- Av/På Knapparna genom hela Growl ska nu vara lättare att förstå.
+
+Skärmar
+- Tal introducerar nu mer kontroll.
+- Separata handlingsfönster från Virtuella skärmar
+- Musik Video kan nu vänster/höger justera text.
+- Fixar problem med höjd vid flera Notiser under Musik Video.
+- Nano kan nu visa på flera platser, vänster, centrerat och höger placerat.
+- Ny SoundAction skräm.
+- Nytt sätt att inte visa några visuella Notiser
+
+Bugg fixar
+- Fixat problemet med hög CPU användning
+- Fixat flertalet krascher.
+- Genvägar kan nu tas bort.
+
+
+Growl 1.4 förändringar
+
 Allmänt
 - Fliken Program är omarbetad! Detta är en total omarbetning, och den bör vara mycket enklare att arbeta med.
 - Inställningarna för Meddelanderullen är flyttade till en separat flik.

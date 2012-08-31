@@ -1,2 +1,16 @@
+HardwareGrowler 2
+
+- HardwareGrowler har blivit omskriven från grunden.
+- Du kan nu stänga av och sätta på specifika funktioner.
+- Lägger till möjligheten att ignorera drivrutiner via namn.
+- Nätverks övervakning har markant förbättrats.
+- Stöder nu IPv6
+- Stöder nu även USB Nätverks adapterar.
+- Stöd för Notiser i 10.8 när Growl inte är installerat.
+- Capster funktionerna finns nu i HardwareGrowler. Du kan se notiser för knapptryckningar på Capslock, Numlock, FN samt Shift tangenterna.
+- Ström övervakaren har ytterligare kontroll över när den skickar notiser.
+
+HardwareGrowler 1.3.2
+
 - La till språken franska och spanska.
 - Åtgärdade ett problem där svenska texter visade på rumänska.

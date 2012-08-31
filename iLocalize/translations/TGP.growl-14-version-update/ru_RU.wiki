@@ -1,34 +1,62 @@
-General
-- Applications Tab Redesign! This is a major overhaul, and should be much easier to use.
-- Moved Rollup controls to separate tab.
-- Major improvements to networking.
+Изменения в Growl 2
 
-Preference Pane overhaul
-- New slider switch for on/off switches
-- Added keyboard support to position picker.
-- General Tab Relayout.
-- Networking tab - Add support for subscription
-- History Tab, contextual menu for history table to jump to the app/notification settings
-- Rollup tab is the new home of controls related to the Rollup window.
-- Adding a new display should not require a restart of Growl now.
+Общее
+- Добавлена поддержка центра уведомлений в OS X 10.8.
+- Добавлена поддержка Prowl и Boxcar.
+- Улучшено Окно Rollup.
+- Growl теперь работает в песочнице.
 
-Networking
-- Support for Notification-Callback-Target, a URL field in GNTP. Upon click, Growl lets OSX figure out how to open the URL (such as the default browser for an http:// url)
-- Subscription support, subscribe to all applications on a remote machine.
-- General improvements to networking authentication, removed requirement for, and use of password headers if the password field is blank
-- Fix networking crash related to address data resolution.
-- Bind to local socket only if not listening for incoming notifications.
-- Address data caching, and observation of network changes to clear caches
+Настройки
+- Новые переключатели Вкл/Выкл стали проще в использовании.
+
+Плагины
+- Больше настроек голосового чтения.
+- Плагины визуального отображение отделены от плагинов действий.
+- Плагин "Музыкальное видео" теперь может выравнивать текст влево-вправо.
+- Исправлены проблемы высоты с многострочными уведомлениями плагина "Музыкальное видео"
+- "Нано" теперь может показываться в разных позициях слева, по центру и справа.
+- Добавлен плагин Звуковое Действие.
+- Добавлена возможность не использовать визуальные плагины вообще.
+
+Исправления ошибок
+- Исправлено чрезмерная нагрузка на процессор.
+- Исправлены множественные падения.
+- Сочетания клавиш теперь можно отменить.
+
+
+Изменения Growl 1.4
+
+Общее
+- Изменен дизайн вкладки Приложения! Она стала легче и проще в использовании.
+- Настройки окна истории перенесены на отдельную вкладку.
+- Множественные улучшения в работе с сетью.
+
+Улучшения панели настроек
+- Новый слайдер включения/выключения.
+- Поддержка клавиатуры в выборе позиций.
+- Изменен дизайн вкладки Общие.
+- Вкладка Сеть - Добавлена поддержка подписки
+- Вкладка История, контекстное меню для таблицы истории.
+- Вкладка Rollup с настройками окна истории сообщений
+- Добавление нового дисплея больше не требует перезапуска Growl.
+
+Работа с сетью
+- Поддержка Notification-Callback-Target, URL поля в GNTP. После нажатия, Growl позволит OS X определить как открыть URL (например, браузером по-умолчанию для http:// ссылок)
+- Поддержка подписок. Позволяет подписаться на все приложения на удаленном компьютере.
+- Общие улучшения в сетевой аутентификации, убрано требование всегда использовать заголовок с паролем, если пароль не задан.
+- Исправлены ошибки работы с сетью при разрешении адреса.
+- Используется локальный сокет, если нет необходимости принимать входящие соединения.
+- Использование кеширования адресов.
 
 Applescript
-- URL click feedback support, same as Notification-Callback-Target in GNTP
+- Поддержка кликов по URL, аналогичная Notification-Callback-Target и GNTP
 
-Bug fixes
-- Resolved a crash with webkit plugin bridge on creation.
-- Resolved a crash with forwarding.
-- Resolved an issue where the Speech display waits for previous message to complete causing a CPU drain
-- Resolved a crash with CFErrorGetDomain for WebKit Display Styles.
-- Fixed duplicate listings of display plugins on reinstall.
-- Notification-Callback-Target is now respected, and used, even without the method header.
-- Worked around problems with corrupt history databases.
-- Fixed a sorting problem when deleting a single entry in the history list.
+Исправления ошибок
+- Исправлено падение в плагине webkit.
+- Исправлено падение при форварде.
+- Исправлена проблема с черезмерным использованием процессора голосовыми уведомлениями.
+- Исправлено падение с ошибкой CFErrorGetDomain для стилей WebKit.
+- Исправлено дублирование списка плагинов при переустановке.
+- Теперь учитывается и используется Notification-Callback-Target, даже при отсутствии заголовка метода.
+- Исправлены проблемы с повреждением базы данных истории.
+- Исправлены проблемы сортировки при удалении одиночных записей списка истории.

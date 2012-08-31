@@ -1,0 +1,23 @@
+Growl és el sistema més avaçat de notificacions. És la manera més senzilla de saber instantàniament què succeeix amb les teves aplicacions mentres estas ocupat treballant o fent qualsevol cosa, a temps real o fins i tot quan no hi ets.
+
+Un dia estàvem treballant amb fotos al iPhoto mentres feiem servir el programa de missatgeria instantània Adium en segon pla. Cada vegada que voliem assabentar-nos de si s'havia dit alguna cosa important a l'Adium, haviem de canviar de pantalla. D'aquesta frustració va néixer Growl; notificacions en temps real que et permeten seguir treballant sense haver de canviar de pantalla. Amb Growl sempre sabràs de forma instantània el que està passant, fins i tot si no hi ets, d'una manera senzilla i eficient. 
+
+Mai abans havia existit un programa que et permetés personalitzar les notificacions amb tanta efectivitat. Pots rebre notificacions de diverses maneres, com per exemple a la pantalla, per correu, o fins i tot de veu. A més, si disposes de coneixement de tecnologies web (CSS/XHTML/Javascript) llavors podràs fer que Growl es mostri exactament com vols.
+
+Pots trobar moltes més funcionalitats increïbles aqui.
+
+
+· Personalitza les teves notificacions. Tria com es mostra i es sent Growl. 
+· Segueix funcionant fins i tot quan no hi ets. Torna al teu Mac i revisa què ha passat mentres tu no hi erets amb Rollup.
+· Pots filtrar quines aplicacions mostraran avisos per Growl i quines no de forma fàcil.
+· Per aquells amb problemes d'accessibilitat, el programa permet reproduïr les notificacions pels altaveus. 
+· Inclou un històric de notificacions que et permet veure què ha passat anteriorment.
+· Growl inclou diverses màscares d'estils diferents; des del nano, que mostra noticiacions minimalistes, fins a music video, on les notificacions són enormes.
+· Personalitza el teu Growl fàcilment amb les tecnologies web. 
+· Envia notificacions de Growl des de Cocoa, AppleScript o bé mitjançant la xarxa.
+· Possibilitat de comunicar dos o més Macs i que s'enviïn notificacions. 
+· Funciona al iPhone i a l'iPad mitjançant Prowl
+
+
+
+Growl és el que necessites. Milions de persones l'estimen, i tu també te n'enamoraràs. Segur!

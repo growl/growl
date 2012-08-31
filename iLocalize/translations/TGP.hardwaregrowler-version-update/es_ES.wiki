@@ -1,2 +1,16 @@
+HardwareGrowler 2
+
+- HardwareGrowler ha sido reescrito desde cero
+- Ahora puedes activar o desactivar funciones específicas de HardwareGrowler
+- Añade la posibilidad de ignorar volúmenes por su nombre
+- Se ha mejorado drásticamente el monitoreo de redes
+- Añade soporte para IPv6
+- Añade soporte para adaptadores Ethernet USB
+- Añade soporte para el Centro de Notificaciones cuando Growl no está presente en OS X 10.8
+- Las funciones de Capster ahora están en HardwareGrowler. Puedes ver notificaciones por teclas presionadas en el Bloq. Mayús, Bloq. Num., FN y Shift
+- El monitor tiene control adicional sobre las notificaciones que lanzará
+
+HardwareGrowler 1.3.2
+
 -Hemos agregado las localizaciones francesas y españolas.
 - Resolvimos un problema con la localización sueca monstrándose en Rumano.

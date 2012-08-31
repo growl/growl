@@ -1,3 +1,31 @@
+Cambios en Growl 2
+
+General
+- Agrega soporte para Notification Center en OS X 10.8.
+- Soporte para los servicios Prowl y Boxcar como acciones.
+- Detección de inactividad mejorada para el Resumen.
+- Growl ahora corre en un sandbox.
+
+Preferencias
+- El switch de "prendido / apagado" debe ser más fácil de entender.
+
+Estilos
+- Mayor control para el estilo de habla.
+- Separación entre los estilos de acción y los estilos visuales.
+- Music Video puede justificar el texto a la derecha o izquierda.
+- Arregla problemas de altura para notificaciones de varias líneas en Music Video.
+- Nano puede desplegarse en varias posiciones: izquierda, derecha y centro.
+- Se agregó un nuevo display de Sonido.
+- Se agregó una manera para no tener notificaciones visuales.
+
+Corrección de errores
+- Resuelve el error de alto consumo de CPU.
+- Resuelve varios errores fatales.
+- Ahora se pueden quitar los atajos de teclado.
+
+
+Cambios en Growl 1.4
+
 General
 - ¡Rediseño del tab de aplicaciones! Este es un cambio casi total y debe ser mucho más fácil de usar.
 - Se movieron los controles del Resumen a una tab separada.

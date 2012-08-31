@@ -1,0 +1,7 @@
+HardwareGrowler és la manera més fàcil de veure canvis de hardware en el teu Mac. Si necessites saber què està passant en el teu Mac, llavors necessites HardwareGrowler. 
+
+Quan es desconnecti el cable d'alimentació, HardwareGrowler t'avisarà inmediatament. Connecta un perifèric com un teclat, una memòria USB, o fins i tot uns auriculars USB i veuràs com HarwareGrowler t'avisarà inmediatament. 
+
+HarwareGrowler t'avisarà també quan hi hagin canvis en la connectivitat del teu Mac. Quan una connexió inalàmbrica canviï a un altre punt d'accés o bé canviï l'adreça IP, seràs notificat. 
+
+HarwareGrowler és el que necessites i vols saber-ho tot del teu hardware. HarwareGrowler pot utilitzar Growl per a notificar-te o fer-ho per si mateix. Fàcil d'utilitzar i de configurar, HarwareGrowler és l'aplicació per aquells que necessiten saber què està passant.

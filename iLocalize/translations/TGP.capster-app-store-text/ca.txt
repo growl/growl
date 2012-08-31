@@ -1,0 +1,3 @@
+A vegades prems sense voler el bloqueig de majúscules? Si és així, Capster és exactament el que necessites. Aquesta aplicació et permetrà saber quan tens bloquejades les majúscules mitjançant Growl o de forma independent. 
+
+Quan premis el bloqueig de majúscules, l'icona de Capster també canviarà. Si escrius sense mirar el teclat, aquesta funcionalitat et permetrà concentrar-te en la pantalla.
