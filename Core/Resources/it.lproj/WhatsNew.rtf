@@ -1,14 +1,75 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf320
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Verdana;}
+{\rtf1\ansi\ansicpg1252\cocoartf1187
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Verdana;}
 {\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww29020\viewh18760\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f0\b\fs24 \cf0 Novit\'e0 in Growl 1.4:
+\f0\b\fs24 \cf0 Novit\'e0 in Growl 2
 \b0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
+\
+Generali\
+- Aggiunto il supporto al centro notifiche di OSX 10.8.\
+- Aggiunto il supporto per i servizi Prowl e Boxcar come azioni di visualizzazione.\
+- Raggruppamento ha un miglior riconoscimento dello stato di inattivit\'e0.\
+- Growl \'e8 adesso sandboxed.\
+\
+Preferenze\
+- Il pulsante ON/OFF all\'92interno di Growl dovrebbe essere pi\'f9 facile da capire ora.\
+\
+Visualizzazione\
+- Voce ora aggiunge maggiori controlli.\
+- Separazioni delle azioni di notifica dalla visualizzazione delle notifiche.\
+- Musica e video ora possono allineare il testo a destra e sinistra.\
+- Sistemato un problema di altezza nelle notifiche multilinea in musica e video.\
+- Nano pu\'f2 ora essere posizionato in diversi punti, sinistra, centro e destra.\
+- Aggiunta una visualizzazione  SoundAction.\
+- Aggiunto il modo per non avere nessuna notifica visuale.\
+\
+Problemi risolti\
+- Alto consumo della CPU.\
+- Molteplici cause di crash.\
+- Scorciatoie possono ora essere deselezionate.\
+\
+\
 
-\f1 \cf0  \'95 {\field{\*\fldinst{HYPERLINK "growl://preferences/applications"}}{\fldrslt Nuovo Design Pannello applicazioni!}} Ridisegnato completamente \'e8 adesso pi\'f9 intuitivo e semplice\
- \'95 Suggerimenti in tutta l'interfaccia delle Preferenze\
- \'95 {\field{\*\fldinst{HYPERLINK "growl://preferences/network/subscriptions"}}{\fldrslt Sottoscrizione GNTP}}, disponibile nel Pannello Preferenze Rete\
- \'95 Risolti bug vari, specialmente nella gestione della Rete\
- \'95 Supporto per URL in GNTP, Applescript e {\field{\*\fldinst{HYPERLINK "http://growl.info/downloads#generaldownloads"}}{\fldrslt GrowlNotify}}}
+\b Cambiamenti in Growl 1.4 
+\b0 \
+\
+Generali\
+- 
+\f1 Nuovo Design Pannello applicazioni! Ridisegnato completamente \'e8 adesso pi\'f9 intuitivo e semplice\
+
+\f0 - Raggruppamento spostato in un pannello separato.\
+- Grandi miglioramenti nella rete.\
+\
+Pannelli preferenze\
+- Nuovi cursori per i pulsanti ON/OFF\
+- Added keyboard support to position picker.\
+- Pannello Generale ridisegnato\
+- Pannello Rete - Aggiunto supporto per sottoscrizioni\
+- Pannello Cronologia, menu contestuale nella tabella cronologia per andare direttamente nel settaggio delle notifiche dell\'92applicazione\
+- Pannello Raggruppamento riunisce ora tutti i controlli relativi alla finestra del riepilogo.\
+- Aggiungere un nuovo stile ora non richiede il riavvio di Growl.\
+\
+Rete\
+- Supporto per notifiche callback-target, un campo URL in GNTP. Con un solo click, Growl permette ad OSX di aprire un URL (tipo il browser, per un http://url)\
+- Supporto alla sottoscrizioni, sottoscrivi a tutte le applicazioni in macchine remote.\
+- Miglioramenti generali nell\'92autenticazione di rete, rimossa la richiesta, e uso di intestazioni di password se il campo password \'e8 vuoto\
+- Risolto un problema relativo all\'92indirizzamento dei dati.\
+- Aggancia alla rete locale se non riceve notifiche in entrata\
+- Indirizzamento cache dati, ed osservazione dei cambiamenti della rete per pulire la cache.\
+\
+\
+Applescript\
+- Supporto ai feedback con un click, come in notifiche Callback-target in GNTP\
+\
+Problemi risolti\
+- Risolto problema durante la creazione di bridge con plugin webkit\
+- Risolto problema con forwarding\
+- Risolto problema dove lo stile Speech attende il completamento del messaggio precedente causando un blocco CPU\
+- Risolto un problema con CFErrorGetDomain con stili Webkit.\
+- Risolta duplicazione stili nella lista dopo reinstallazione.\
+- Notifica Callback-Target \'e8 ora rispettata, ed usata, anche senza il metodo header.\
+- Risolto problema con la corruzione del database della cronologia.\
+- Risolto un problema di ordinamento con la cancellazione del singolo elemento nella lista della cronologia.\
+}
