@@ -264,6 +264,7 @@
 		83BE206014310BFB00890102 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = "<group>"; };
 		83BE20DA14310EC500890102 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../build/Debug/Growl.framework; sourceTree = "<group>"; };
 		BC678F6C15F1398300E567D8 /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC83629115F2672C0012FBA3 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F61C215F05CA600DEC0A8 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F61FB15F060CE00DEC0A8 /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F620C15F0611800DEC0A8 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -467,6 +468,7 @@
 				"zh-Hant",
 				pt,
 				es,
+				da,
 			);
 			mainGroup = 1DCC5607131F013B006F18CF;
 			productRefGroup = 1DCC5613131F013D006F18CF /* Products */;
@@ -670,6 +672,7 @@
 				BC8F621015F0622900DEC0A8 /* zh-Hant */,
 				BCC042E315F0F10C000E1768 /* pt */,
 				BC678F6C15F1398300E567D8 /* es */,
+				BC83629115F2672C0012FBA3 /* da */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
