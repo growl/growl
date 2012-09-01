@@ -6,11 +6,11 @@ HardwareGrowler 2
 - Netværksovervågning er drastisk forbedret.
 - Tilføjer support for IPv6.
 - Tilføjer support for USB Ethernet adapterer.
-- Tilføjer support for notifikationscenter, når Growl ikke er tilgængelig, i 10.8.
-- Capster funktioner er nu i HardwareGrowler. Du kan se notifikationer for tastetryk på Capslock, Numlock, FN og Shift-tasterne.
-- Strømtilslutningsovervågning har fået yderligere kontrol over hvornår den vil vise notifikationer.
+- Tilføjer support for Meddelelsescenter når Growl ikke er tilgængeligt i OS X 10.8.
+- Capster-funktioner er nu i HardwareGrowler. Du kan se notifikationer for tastetryk på Capslock, Numlock, FN og Shift-tasterne.
+- Strømtilslutningsovervågning har fået yderligere kontrol over hvornår den vil vise beskeder.
 
 HardwareGrowler 1.3.2
 
-- Tilføjet fransk og spansk oversættelse.
-- Løst et problem med at den svenske version blev vidst på rumænsk.
+- Tilføjet franske og spanske oversættelser.
+- Løst et problem, hvor den svenske version blev vist på rumænsk.
