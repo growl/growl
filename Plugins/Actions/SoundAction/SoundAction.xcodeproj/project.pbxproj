@@ -155,6 +155,7 @@
 		BC8F61B315F054B400DEC0A8 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC8F61B415F054BF00DEC0A8 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F61B515F054C900DEC0A8 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC9E6CFC15F1B4AF0017B66D /* ro */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCAD795D151265C70052EB51 /* SoundAction.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoundAction.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCAD7960151265C70052EB51 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BCAD7963151265C70052EB51 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -339,6 +340,7 @@
 				sv,
 				pt,
 				es,
+				ro,
 			);
 			mainGroup = BCAD7952151265C60052EB51;
 			productRefGroup = BCAD795E151265C70052EB51 /* Products */;
@@ -540,6 +542,7 @@
 				BC8F61B515F054C900DEC0A8 /* sv */,
 				BCC0429615F0EE53000E1768 /* pt */,
 				BC678F4C15F1368400E567D8 /* es */,
+				BC9E6CFC15F1B4AF0017B66D /* ro */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

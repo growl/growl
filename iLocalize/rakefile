@@ -113,9 +113,9 @@ shortcodes = {
     :de => 'de',
     :da => 'da',
     :sv => 'sv',
-    :et => 'et',
-    :he => 'he',
-    :ar => 'ar',
+   #:et => 'et',
+   #:he => 'he',
+   #:ar => 'ar',
     :lv_LV => 'lv',
     :it => 'it',
     :th_TH => 'th',
@@ -182,6 +182,10 @@ task :translate, :source, :destination do |t, args|
         destCopy["%%lproj%%"] = lproj
 
         destDir = File.dirname(destCopy)
+        if File.exist?("#{source}/#{strings}") and !File.exist?(destDir)
+           puts "Making: #{destDir}"
+           FileUtils.mkdir_p(destDir)
+        end
         if File.exist?("#{source}/#{strings}") and File.exist?(destDir)
 #            puts "from #{source}/#{strings} to #{destCopy}"
             FileUtils.cp_r("#{source}/#{strings}", "#{destCopy}")

@@ -158,6 +158,7 @@
 		BC8F619915F052C600DEC0A8 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F61AD15F053EB00DEC0A8 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC8F61AE15F053FF00DEC0A8 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC9E6CC915F1B3DC0017B66D /* ro */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCA446F015E67EE300BF4FDA /* BoxcarPrefPane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BoxcarPrefPane.xib; sourceTree = "<group>"; };
 		BCC042A715F0EE71000E1768 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCEA7EDE1517CD4400E98B1F /* Boxcar.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Boxcar.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -331,6 +332,7 @@
 				ru,
 				pt,
 				es,
+				ro,
 			);
 			mainGroup = BCEA7ED31517CD4400E98B1F;
 			productRefGroup = BCEA7EDF1517CD4400E98B1F /* Products */;
@@ -533,6 +535,7 @@
 				BC8F61AE15F053FF00DEC0A8 /* ru */,
 				BCC042A715F0EE71000E1768 /* pt */,
 				BC678F1815F135EA00E567D8 /* es */,
+				BC9E6CC915F1B3DC0017B66D /* ro */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

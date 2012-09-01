@@ -1,23 +1,14 @@
 Growl este un sistem de notificare de ultimă oră pentru Mac. Este cel mai simplu mod de a știi ce se întâmplă în celelalte aplicații active în timp ce atenția îți este îndreptată spre o aplicație din prim plan sau nu te afli lângă computer.
 
-One day we were working with pictures in iPhoto while having a conversation in Adium. While waiting on something important to come through in the conversation, we had to keep clicking back and forth every time an instant message came through. Even though we knew were getting a message we'd have to click back to the Adium window to see what was being said. The idea for Growl was born out of the frustration of being forced to click back and forth to see what was going on. The real time notifications keep you up to speed with everything you need to know. With smooth notifications and Growl's one of a kind rollup window, you'll always know what's going on even when you have to step away from your Mac. 
+Într-o zi pe când eram în așteptarea unui e-mail foarte important și lucram la niște fotografii în iPhoto în timp ce comunicam prin intermediul aplicației ADIUM, astfel că trebuia să îmi întrerup munca cu iPhoto în momentul când doream să verific căsuța poștală. Nu aveam nicio idee despre ce era vorba în fiecare e-mail, motiv pentru care trebuia pur și simplu să vizualizez la nesfârșit aplicația Mail, și aceasta de fiecare dată când primeam un e-mail nou. Idea pentru Growl s-a născut dintr-un comportament frustrant care mă forța să trec dintr-o aplicație în alta la nesfârșit. Notificările în timp real îmi sporesc munca și mă țin la curent cu tot ceea ce vreau să știu. Cu notificări lejere de tip - rulou - vei fi întotdeauna la curent, chiar și atunci când nu te vei afla lângă Mac. 
 
-Never before has there been anything that personalizes notifications in such an effective way. You can receive notifications in several ways, such as on screen, via email, or even have them spoken to you. Plus if you know a bit about web technologies (CSS/XHTML/Javascript) then you can make a Growl style look how you want it to.
+Niciodată nu a existat ceva care să personalizeze notificările într-un mod atât de eficient. Notificările pot fi primite în mai multe moduri, cum ar fi; pe ecran, prin e-mail sau îți pot fi rostite. În plus, dacă ai câteva cunoștințe despre tehnologiile de prelucrare web (CSS / XHTML / Javascript), atunci poți face ca Growl să aibă un stil original, personalizat și să arate exact cum îți place ție.
 
-So many more AWESOME features listed here.
+Multe alte caracteristici MINUNATE sunt listate mai jos.
 
 
-• Personalize your notifications. Choose Growl's presentation, look and feels.
-• Keeps working even when you are not. Come back to your mac and review what happened while you were gone with Rollup.
-• Easy to use Applications tab for controlling what you receive and what gets blocked.
-• Speech display for hearing your notifications, great for those who are visually impaired.
-• Awesome notification history, so you can see what has been going on.
-• A large variety of styles come with Growl. Anything from nano which is tiny, to music video which is huge.
-• Make your own Growl styles very easily with web technology to give Growl your own look and feel.
-• Send Growl notifications from Cocoa, AppleScript, or over the network.
-• Networking so that two or more macs can forward notifications to each other.
-• Can work with the iPhone and iPad via Prowl.
+• Personalizarea notificărilor.⏎“Alege prezentarea Growl, ‘looks’  - arată - & ‘feels’ - simte -”.⏎ • Continuă să funcționeze chiar și atunci când tu nu ești în fața Mac-ului.⏎“Întorcându-te la Mac-ul tău poți revizui tot ceea ce sa întâmplat atât timp cât tu ai fost plecat”.⏎ • O aplicație cu ‘file’ ușor de folosit.⏎“Pentru a controla ceea ce vei primi și/sau bloca”.⏎ • Rostire vocală a notificărilor.⏎“Avantajos pentru cei cu deficiențe de vedere”.⏎ • Un istoric minunat al notificărilor.⏎“Astfel vei putea vedea ce sa petrecut în lipsa ta".⏎ • Grwol 2.0 aduce aspecte noi.⏎“Orice, de la nano - care este foarte mic - la muzică și videoclipuri - care sunt imense -.”⏎ • Personalizarea aspectului.⏎“De acum, folosind tehnologia web, poți foarte ușor să îți faci propriile aspecte de redare Growl, pentru a dăruind aplicație Growl propriul aspect”.⏎ • Trimiterea notificărilor Growl	.⏎“Atât din Cocoa, AppleScript cât și/sau prin rețea”.⏎ • Configurarea rețelei.⏎“Două sau mai multe Mac-uri pot să își redirecționeze notificările unul către celălalt.”⏎ • iPhone, iPod Touch & iPad.⏎“Mulțumită opțiunii - Prowl - funcționează cu iPhone, iPod Touch & iPad."
 
 
 
-Growl is what you need. Millions of people love it, and you will too. Seriously!
+Growl este aplicația de care ai nevoie. Serios! Dacă milioane de oameni au deja nevoie de ea și tu vei avea.

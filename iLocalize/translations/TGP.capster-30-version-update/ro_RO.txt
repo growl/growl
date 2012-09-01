@@ -1,0 +1,4 @@
+- Capster include acum actulizări de stiluri.
+- Capster poate acum reda sunete prin apăsarea tastei Caps Lock.
+- Acum poți primi notificări pentru tasta cu funcția (FN).
+- Acum poți primi notificări pentru tasta Num Lock.

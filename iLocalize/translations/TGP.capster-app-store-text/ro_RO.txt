@@ -1,0 +1,3 @@
+Apeși cumva în mod accidental tasta Caps Lock tot timpul? Dacă este așa, Capster este exact ceea ce ai nevoie. Această aplicație ușor de utilizat îți va spune când ai apăsat tasta Caps Lock, fie pe cont propriu sau prin intermediul Growl.
+
+Când apăsați tasta Caps Lock, icoana lui Capster din bara de meniu se va schimba, de asemenea. Pentru dactilografie tactilă aceasta este o modalitate foarte bună de ați păstra concentrarea pe ecran.
