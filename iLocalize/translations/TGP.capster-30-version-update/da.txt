@@ -1,0 +1,4 @@
+- Capster inkludere nu opdaterede illustrationer.
+- Capster kan nu lave en lyd, når du trykker på Caps Lock-tasten.
+- Du kan nu få notifikationer for Funktions-tasten (FN).
+- Du kan nu få notifikationer for Num Lock-tasten.
