@@ -470,6 +470,7 @@
 		BC79898315E936BF00CDC5A0 /* SliderHandle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SliderHandle@2x.png"; path = "../../../external_dependencies/tmslidercontrol/SliderHandle@2x.png"; sourceTree = "<group>"; };
 		BC79898415E936BF00CDC5A0 /* SliderHandleDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SliderHandleDown@2x.png"; path = "../../../external_dependencies/tmslidercontrol/SliderHandleDown@2x.png"; sourceTree = "<group>"; };
 		BC79898515E936BF00CDC5A0 /* SliderWell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SliderWell@2x.png"; path = "../../../external_dependencies/tmslidercontrol/SliderWell@2x.png"; sourceTree = "<group>"; };
+		BC8362B915F268070012FBA3 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCA26B5D155585C0009C5ABC /* BluetoothMonitor.hwgrowlmonitor */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluetoothMonitor.hwgrowlmonitor; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA26B61155585C0009C5ABC /* BluetoothMonitor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BluetoothMonitor-Info.plist"; sourceTree = "<group>"; };
 		BCA26B63155585C0009C5ABC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1478,6 +1479,7 @@
 				ko,
 				"pt-PT",
 				pt,
+				ca,
 			);
 			mainGroup = BCB805DC155153330088C69A;
 			productRefGroup = BCB805E8155153330088C69A /* Products */;
@@ -2008,6 +2010,7 @@
 				832B24DE15E493B3004FD493 /* ko */,
 				832B24DF15E493BC004FD493 /* pt-PT */,
 				BCC042EA15F0F146000E1768 /* pt */,
+				BC8362B915F268070012FBA3 /* ca */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
