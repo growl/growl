@@ -1616,7 +1616,7 @@
 		BC83628815F266770012FBA3 /* he */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC83628915F266970012FBA3 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC83628A15F266B30012FBA3 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
-		BC83628B15F266E60012FBA3 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = Plugins/PluginFramework/he.lproj/PluginPrefStrings.strings; sourceTree = "<group>"; };
+		BC83628B15F266E60012FBA3 /* he */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = he; path = Plugins/PluginFramework/he.lproj/PluginPrefStrings.strings; sourceTree = "<group>"; };
 		BC83FC11150087EB000504F9 /* GrowlPlugins.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GrowlPlugins.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC83FC221500885F000504F9 /* GrowlPlugins-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GrowlPlugins-Prefix.pch"; path = "Plugins/PluginFramework/GrowlPlugins-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		BC86333C140FFB3600A26483 /* GrowlMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMenu.h; path = Core/Source/GrowlMenu.h; sourceTree = "<group>"; };
