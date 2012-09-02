@@ -1625,6 +1625,8 @@
 		BC86333D140FFB3600A26483 /* GrowlMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMenu.m; path = Core/Source/GrowlMenu.m; sourceTree = "<group>"; };
 		BC8696001510E9150034963A /* GrowlIdleStatusObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlIdleStatusObserver.h; path = Plugins/PluginFramework/GrowlIdleStatusObserver.h; sourceTree = "<group>"; };
 		BC8696011510E9150034963A /* GrowlIdleStatusObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlIdleStatusObserver.m; path = Plugins/PluginFramework/GrowlIdleStatusObserver.m; sourceTree = "<group>"; };
+		BC88FEA915F38DD7008C5849 /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC88FEAA15F38E02008C5849 /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC8F616015F00A5200DEC0A8 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F616215F00A7F00DEC0A8 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC8F616415F00A9C00DEC0A8 /* th */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -5370,6 +5372,7 @@
 				BC9E6D0D15F1B55B0017B66D /* ro */,
 				BC83628915F266970012FBA3 /* da */,
 				BC8362EC15F28A180012FBA3 /* he */,
+				BC88FEA915F38DD7008C5849 /* pt-PT */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -5401,6 +5404,7 @@
 				BC9E6D0E15F1B5900017B66D /* ro */,
 				BC83628A15F266B30012FBA3 /* da */,
 				BC8362ED15F28A400012FBA3 /* he */,
+				BC88FEAA15F38E02008C5849 /* pt-PT */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
