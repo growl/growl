@@ -1,0 +1,3 @@
+Kommer du ofte til at trykke tilfældigt på Caps Lock-tasten? Hvis du gør, så er Capster lige hvad du har behov for. Dette nemme program vil fortælle dig når du kommer til at trykke på Caps Lock, enten af sig selv eller igennem Growl.
+
+Når du trykker på Caps Lock-tasten, vil Capster's menu bar ikon ændre sig. For folk der skriver blindskrift, er dette en god måde at bibeholde fokus på skærmen.

@@ -133,6 +133,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		839F996715F3D23000A04D3C /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC1FE6EF15C0F04700E27306 /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../../xcconfig/Common.xcconfig; sourceTree = "<group>"; };
 		BC1FE6F015C0F04700E27306 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../../xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		BC1FE6F115C0F04700E27306 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../../xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
@@ -345,6 +346,7 @@
 				ro,
 				da,
 				he,
+				"pt-PT",
 			);
 			mainGroup = BCAD7952151265C60052EB51;
 			productRefGroup = BCAD795E151265C70052EB51 /* Products */;
@@ -549,6 +551,7 @@
 				BC9E6CFC15F1B4AF0017B66D /* ro */,
 				BC83627415F265A60012FBA3 /* da */,
 				BC8362EB15F289D50012FBA3 /* he */,
+				839F996715F3D23000A04D3C /* pt-PT */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
