@@ -1,34 +1,34 @@
-Growl 2更新
+Growl 2 更新
 
 常规
-- 支持10.8的OS X通知中心。
-- 加入Prowl和Boxcar服务支持。
-- Rollup更好地进行空闲检测。
-- Growl已沙盒化。
+- 支持 10.8 的 OS X 通知中心。
+- 加入 Prowl 和 Boxcar 服务支持。
+- Rollup 更好地进行空闲检测。
+- Growl 已沙盒化。
 
 偏好设置
 - 选用更易理解的开关。
 
 显示
-- Speech中更好的配置。
+- Speech 中更好的配置。
 - 独立的操作通知部分，区别于可视化通知。
-- Music Video可使用左/右对齐。
-- 修复了Music Video中多行通知的高度问题。
-- Nano可以在不同位置显示，包括左，中，右。
-- 加入SoundAction.
+- Music Video 可使用左/右对齐。
+- 修复了 Music Video 中多行通知的高度问题。
+- Nano 可以在不同位置显示，包括左，中，右。
+- 加入 SoundAction。
 - 可选择不使用任何可视化通知。
 
-Bug修复
-- 解决了高CPU占用的问题。
+Bug 修复
+- 解决了高 CPU 占用的问题。
 - 解决了部分应用崩溃的问题。
 - 快捷键可以被取消。
 
 
-Growl 1.4更新
+Growl 1.4 更新
 
 常规
 - 应用栏全新设计！这是主要更新内容之一，更易使用
-- 将Rollup的控制选项移到单独栏
+- 将 Rollup 的控制选项移到单独栏
 - 网络相关的大幅更新
 
 偏好设置面板全面更新
@@ -37,11 +37,11 @@ Growl 1.4更新
 - 常规栏重新布局
 - 网络栏 - 支持订阅
 - 历史栏 - 表格加入右键菜单，可以跳转到应用/通知设置
-- Rollup栏包含Rollup窗口相关控制
-- 加入新的样式无需再重启Growl
+- Rollup 栏包含 Rollup 窗口相关控制
+- 加入新的样式无需再重启 Growl
 
 网络
-- 支持Notification-Callback-Target，即GNTP的一个URL字段。点击后，由OSX确定如何打开(如由默认浏览器打开一个http://地址)。
+- 支持 Notification-Callback-Target，即 GNTP 的一个 URL 字段。点击后，由 OSX 确定如何打开(如由默认浏览器打开一个http://地址)。
 - 支持订阅，可订阅远程设备上的所有应用。
 - 改善网络验证，移除密码字段为空时密码头信息。
 - 修复因地址解析引起的崩溃。
@@ -49,14 +49,14 @@ Growl 1.4更新
 - 地址信息缓存，监测网络变化并清空缓存。
 
 Applescript
-- URL点击反馈支持，与GNTP中Notification-Callback-Target类似。
+- URL 点击反馈支持，与 GNTP 中 Notification-Callback-Target 类似。
 
 Bug修复
-- 解决创建webkit插件时的崩溃
+- 解决创建 webkit 插件时的崩溃
 - 解决转发时的崩溃
-- 解决当Speech样式等待前一条信息完成时导致的CPU高占用问题
-- 解决Webkit样式的CFErrorGetDomain问题
+- 解决当 Speech 样式等待前一条信息完成时导致的 CPU 高占用问题
+- 解决 Webkit 样式的 CFErrorGetDomain 问题
 - 修正重新安装后显示样式重复的问题
-- 即使没有方法头信息，Notification-Callback-Target也会被检测并使用
+- 即使没有方法头信息，Notification-Callback-Target 也会被检测并使用
 - 历史数据库损坏时的处理
 - 修正删除历史列表一个条目时的排序问题
