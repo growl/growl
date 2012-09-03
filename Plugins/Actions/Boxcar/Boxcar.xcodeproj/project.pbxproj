@@ -136,6 +136,7 @@
 /* Begin PBXFileReference section */
 		8358A9BB15EDAE8C00590748 /* lv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8358A9CC15EDAE9B00590748 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		839F997D15F458AD00A04D3C /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC19A13615198CE300A0CA64 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../../../Growl.xcodeproj; sourceTree = "<group>"; };
 		BC1FE6D415C0F00200E27306 /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../../xcconfig/Common.xcconfig; sourceTree = "<group>"; };
 		BC1FE6D515C0F00200E27306 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../../xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
@@ -337,6 +338,7 @@
 				ro,
 				da,
 				he,
+				"pt-PT",
 			);
 			mainGroup = BCEA7ED31517CD4400E98B1F;
 			productRefGroup = BCEA7EDF1517CD4400E98B1F /* Products */;
@@ -542,6 +544,7 @@
 				BC9E6CC915F1B3DC0017B66D /* ro */,
 				BC4002D715F2652900F95B4E /* da */,
 				BC8362C915F269E40012FBA3 /* he */,
+				839F997D15F458AD00A04D3C /* pt-PT */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

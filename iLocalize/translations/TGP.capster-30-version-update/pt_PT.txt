@@ -1,0 +1,4 @@
+- O Capster agora inclui grafismos actualizados
+- O Capster pode reproduzir um som quando pressiona a tecla Caps Lock
+- Pode receber notificações para a tecla Function (FN)
+- Pode receber notificações para a tecla Num Lock
