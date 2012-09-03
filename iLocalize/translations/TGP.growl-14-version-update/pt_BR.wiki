@@ -1,8 +1,8 @@
 Novidades no Growl 2
 
 Geral
-- Adicionado suporte para o centro de notificação do OS X no 10.8.
-- Adicionado suporte para serviçoes Prowl e Boxcar como forma de exibição.
+- Adicionado suporte para a Central de Notificações do OS X no 10.8.
+- Adicionado suporte para serviços Prowl e Boxcar como forma de exibição.
 - Agrupamento tem melhor detecção de inatividade.
 - Growl agora roda em sandbox.
 
@@ -11,7 +11,7 @@ Preferências
 
 Visuais
 - Speech agora introduz melhores controles.
-- Separadas os Visuais de Ação de Visuais de Aparência.
+- Separados os Visuais de Ação dos Visuais de Aparência.
 - Vídeo de Música agora pode ter texto em justificado à esquerda ou direita.
 - Correção de problemas de altura para notificações com múltiplas linhas no Vídeo de Música.
 - Nano agora pode ser exibido em múltiplas localizações, esquerda, centro e direita.
@@ -36,8 +36,8 @@ Painel de Preferências revisto:
 - Adicionado suporte a teclado para selecionar posição.
 - Guia Geral com novo layout.
 - Guia Rede - Adicionado suporte para inscrição
-- Guia de Histórico, menu contextual para tabela de histórico para pular para as configurações de aplicativo/notificação
-- Guia Agrupamento é o novo centro de controles relacionado à janela de Agrupamento.
+- Guia Histórico, menu contextual para tabela de histórico para pular para as configurações de aplicativo/notificação
+- Guia Agrupamento é a nova central de controles relacionada à janela de Agrupamento.
 - Adicionar um novo visual não deve mais exigir que Growl seja reiniciado.
 
 Conectividade
@@ -46,17 +46,17 @@ Conectividade
 - Melhoramentos gerais da autenticação de rede, removida sua necessidade, e uso de cabeçalhos de senha caso o campo de senha esteja vazio.
 - Correção de falha de conectividade relacionada a resolução de dados de endereço.
 - Vinculação a socket local somente se não estiver ouvindo notificações recebidas.
-- Cache de dados de endreço, e observação de alterações da rede para limpar caches.
+- Cache de dados de endereço, e observação de alterações da rede para limpar caches.
 
 Applescript
 - Suporte a feedback de clique em URL, mesmo que Notification-Callback-Target em GNTP
 
 Correção de Bugs
-- Resolvida uma falha com with bridge do plugin webkit na criação.
+- Resolvida uma falha com o bridge do plugin webkit na criação.
 - Resolvida uma falha com encaminhamento.
-- Resolvido um problema no qual a exibição de Fala espera por mensagens anteriores para completar estar sugando a CPU.
+- Resolvido um problema no qual a exibição de Speech espera por mensagens anteriores para completar estar sugando a CPU.
 - Resolvida uma falha com CFErrorGetDomain para Estilos de Exibição.
 - Corrigidas listagens duplicadas de visualização de plugins ao reinstalar.
 - Notification-Callback-Target agora é respeitado, e usado, mesmo sem o cabeçalho do método.
-- Contornados os problemas de base de dados de histórico corrompidas.
+- Resolvidos os problemas de base de dados de histórico corrompidas.
 - Corrigido um problema de ordenação ao deletar um registro da lista de histórico.
