@@ -1717,6 +1717,7 @@
 		BCA446B515E676B300BF4FDA /* pt-BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BCA446B715E676BA00BF4FDA /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BCA446B815E676C000BF4FDA /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BCA69E7D15F6CCCD00547523 /* ja */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCA6C74B14ECC65F005F5DE3 /* lv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BCA9D4621422228A00C98C98 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "GNTP Client/main.m"; sourceTree = "<group>"; };
 		BCA9D464142222A500C98C98 /* GNTPClientService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GNTPClientService-Info.plist"; path = "GNTP Client/GNTPClientService-Info.plist"; sourceTree = "<group>"; };
@@ -5373,6 +5374,7 @@
 				BC83628915F266970012FBA3 /* da */,
 				BC8362EC15F28A180012FBA3 /* he */,
 				BC88FEA915F38DD7008C5849 /* pt-PT */,
+				BCA69E7D15F6CCCD00547523 /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
