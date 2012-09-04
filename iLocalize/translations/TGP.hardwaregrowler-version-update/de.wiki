@@ -8,7 +8,7 @@ HardwareGrowler 2
 - Unterstützung für USB-Internetadapter hinzugefügt.
 - Unterstützung für OS X 10.8 Mitteilungszentrale, wenn Growl nicht läuft.
 - Integration der Funktionen von Capster in HardwareGrowler. Sie können nun Benachrichtigungen sehen, wenn die Feststelltaste, die Numlock, die Funktions- und Umschalttasten betätigt werden.
-- (The Power monitor has additional control for when it will fire a notification.)
+- Es sind nun zusätzliche Einstellungen vorhanden, um zu bestimmen, wenn eine Benachrichtigung ausgelöst wird.
 
 HardwareGrowler 1.3.2
 

@@ -4,32 +4,32 @@ Geral
 - Suporte para centro de notificações no 10.8.
 - Suporte adicional para os serviços Prowl e Boxcar como acções de apresentação.
 - Agregador tem melhor detecção de inactividade.
-- O Growl corre agora dentro de uma sandbox.
+- O Growl é agora executado dentro de uma sandbox.
 
 Preferências
 - O botão I/O deve ser agora mais fácil de entender.
 
 Apresentação
-- Voz com muito maior controle.
-- Acções separadas de estilos visuais
-- Teledisco pode justificar o texto à direita e esquerda.
-- Corrigidos problemas de altura para notificações multi linha no Teledisco.
+- Voz com muito maior controlo.
+- Separação entre apresentações Acções e Visualizações
+- Music Video pode justificar o texto à direita e esquerda.
+- Corrigidos problemas de altura para notificações multi linha no Music Video.
 - Nano agora funciona em múltiplas localizações, esquerda, centro e direita.
 - Adicionada uma apresentação SoundAction.
 - Adicionada uma maneira de não ter nenhumas notificações visuais.
 
 Bugs corrigidos
-- Utilização alta do CPU resolvida.
-- Múltiplos crashes resolvidos.
-- Atalhos agora podem ser desassociados.
+- Resolvida a utilização elevada do CPU.
+- Múltiplas falhas resolvidas.
+- Os atalhos podem agora ser desassociados.
 
 
 Alterações no Growl 1.4
 
 Geral
-- Redesign do separador de Aplicações! Trata-se de uma reformulação grande, deverá ser muito mais fácil de utilizar.
-- Movidos controles do Agregador para um separador novo.
-- Melhorias significativas ao suporte de rede.
+- Redesign do separador de Aplicações! Trata-se de uma grande reformulação, deverá ser muito mais fácil de utilizar.
+- Movidos controlos do Agregador para um separador novo.
+- Melhoramentos significativos ao suporte de rede.
 
 Reformulação da janela de preferências
 - Novo interruptor para botões I/O.
@@ -42,22 +42,22 @@ Reformulação da janela de preferências
 - Adicionar um novo estilo de apresentação não deverá requerer um reinício do Growl agora.
 
 Rede
-- Support for Notification-Callback-Target, a URL field in GNTP. Upon click, Growl lets OSX figure out how to open the URL (such as the default browser for an http:// url)
-- Subscription support, subscribe to all applications on a remote machine.
-- General improvements to networking authentication, removed requirement for, and use of password headers if the password field is blank
-- Resolvida falha relacionada com resolução de dados de endereço.
+- Suporte para Notification-Callback-Target, um campo de URL no GNTP. Ao clicar, o Growl permite ao OSX decidir como abrir o URL (como por exemplo o browser predefinido para um url http:// )
+- Suporte para subscrições, subscreva a todas as aplicações numa máquina remota.
+- Melhoramentos gerais na autenticação de rede, removida a necessidade de, e a utilização de cabeçalhos de palavra-passe se o campo de palavra-passe estiver em branco.
+- Resolvida uma falha relacionada com resolução de dados de endereço.
 - Bind to local socket only if not listening for incoming notifications.
-- Address data caching, and observation of network changes to clear caches
+- Cache de dados de endereços e monitorização de alterações na rede para limpar caches
 
 Applescript
-- Suporte a resposta com clique em URL, tal como Notification-Callback-Target no GNTP
+- Suporte a resposta a cliques em URL, tal como Notification-Callback-Target no GNTP
 
 Bugs corrigidos
-- Resolvido um crash com o plugin bridge de Webkit ao criar.
-- Resolvido um crash com reencaminhamentos.
-- Resolvido um problema onde a apresentação Voz espera que a última mensagem acabe, causando uma utilização alta de CPU.
-- Resolvido um crash com CFErrorGetDomain para estilos de apresentação Webkit.
-- Corrigidas listagens em duplicado de plugins de apresentação ao reinstalar.
+- Resolvida uma falha com o plugin bridge de Webkit ao criar.
+- Resolvida uma falha no reencaminhamento.
+- Resolvido um problema onde a apresentação Voz espera que a última mensagem termine, causando uma elevada utilização do CPU.
+- Resolvida uma falha com CFErrorGetDomain para estilos de apresentação Webkit.
+- Corrigida a listagem em duplicado de plugins de apresentação ao reinstalar.
 - Notification-Callback-Target é agora respeitado e utilizado, mesmo sem o cabeçalho do método.
-- Workaround para problemas de bases de dados de histórico corrompidas.
-- Corrigido um problema de ordenação ao apagar uma entrada única da lista de histórico.
+- Solucionados problemas com bases de dados de histórico corrompidas.
+- Corrigido um problema de ordenação ao apagar uma única entrada da lista de histórico.
