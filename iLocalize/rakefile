@@ -86,7 +86,7 @@ prowl_action_destination             = File.join(actions_dir, "Prowl/Prowl")
 
 sr_destination                       = File.join(toplevel_dir, "../shortcutrecorder/Framework/Localizations")
 sr_source                            = File.join(translation_dir, "TGP.shortcutrecorder-localizable-strings")
-
+sr_file                              = File.join(sr_destination, "%%lproj%%/ShortcutRecorder.strings")
 
 #Growl Global Localizable Files Destinations
 
@@ -229,25 +229,37 @@ end
 
 desc "update shortcut recorder"
 task :update_sr do
-   Rake::Task[:translate].invoke(sr_source, "#{sr_destination}/%%lproj%%/ShortcutRecorder.strings")
+   Rake::Task[:translate].execute({:source => sr_source, :destination => sr_file})
 end
+
+##This is probably a very bad way to do this, but to make sure update_lproj and update_sr_lproj match
+update_lproj_procedure = lambda { |sourceFile, destFile|
+   destDir = File.dirname(destFile)
+   if File.exist?(sourceFile) and !File.exist?(destDir)
+      puts "Making: #{destDir}"
+      FileUtils.mkdir_p(destDir)
+   end
+}
 
 desc "updates the localization directories"
 task :update_lproj do
-   procedure = lambda { |sourceFile, destFile|
-      destDir = File.dirname(destFile)
-      if File.exist?(sourceFile) and !File.exist?(destDir)
-         puts "Making: #{destDir}"
-         FileUtils.mkdir_p(destDir)
-      end
-   }
-
    [growl_translations, extras_translations].each { |dictionary|
       dictionary.each_pair do |key, value|
          puts "copying translations for #{key}"
-         value[:procedure] = procedure
+         value[:procedure] = update_lproj_procedure
          Rake::Task[:iterate_shortcodes].execute(value)
       end
    }
    puts "Done Updating lproj directories"
+end
+
+desc "updates the SR localization directories"
+task :update_sr_lproj do
+   value = {
+      :source => sr_source,
+      :destination => sr_file,
+      :procedure => update_lproj_procedure
+   }
+   Rake::Task[:iterate_shortcodes].execute(value)
+   puts "Done Updating SR lproj directories"
 end
