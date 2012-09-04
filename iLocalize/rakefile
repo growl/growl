@@ -13,8 +13,8 @@ toplevel_dir                         = File.expand_path '..'
 
 
 #Transifex files
-ilocalize_dir                        = File.join(toplevel_dir, "iLocalize") # growl-dev/iLocalize
-translation_dir                      = File.join(ilocalize_dir, "translations") # growl-dev/iLocalize/translations
+@ilocalize_dir                        = File.join(toplevel_dir, "iLocalize") # growl-dev/iLocalize
+translation_dir                      = File.join(@ilocalize_dir, "translations") # growl-dev/iLocalize/translations
 
 #Core Growl
 core_growl_dir                       = File.join(toplevel_dir, "Core") #growl-dev/Core
@@ -91,7 +91,7 @@ sr_file                              = File.join(sr_destination, "%%lproj%%/Shor
 #Growl Global Localizable Files Destinations
 
 
-shortcodes = {
+@shortcodes = {
    :sk => 'sk',
    :pt_BR => 'pt-BR',
    :pt_BR => 'pt',
@@ -156,8 +156,7 @@ extras_translations = {
 # End Variables #
 #################
 
-desc "Direct short code iteration, iterates every file for a given source/destination paring using the provided procedure/block/lamda thing. Do not try to call directly."
-task :iterate_shortcodes, :source, :destination, :procedure do |t, args|
+def iterate_shortcodes(args)
    if args.count < 3
       puts "Not enough arguments! Need source, destination, and procedure"
       return
@@ -172,8 +171,8 @@ task :iterate_shortcodes, :source, :destination, :procedure do |t, args|
    end
    
    curdir = FileUtils.pwd()
-   FileUtils.cd("#{ilocalize_dir}")
-   shortcodes.each_pair do |key, value|
+   FileUtils.cd(@ilocalize_dir)
+   @shortcodes.each_pair do |key, value|
       #puts "iterating #{key} to #{value}"
       strings = "#{key}.strings"
       lproj = "#{value}.lproj"
@@ -203,7 +202,8 @@ task :translate, :source, :destination do |t, args|
       end
    }
    args[:procedure] = procedure
-   Rake::Task[:iterate_shortcodes].execute(args)
+   #Rake::Task[:iterate_shortcodes].execute(args)
+   iterate_shortcodes(args)
 end
 
 desc "update all growl.app bundled translations"
@@ -247,7 +247,7 @@ task :update_lproj do
       dictionary.each_pair do |key, value|
          puts "copying translations for #{key}"
          value[:procedure] = update_lproj_procedure
-         Rake::Task[:iterate_shortcodes].execute(value)
+         iterate_shortcodes(value)
       end
    }
    puts "Done Updating lproj directories"
@@ -260,6 +260,6 @@ task :update_sr_lproj do
       :destination => sr_file,
       :procedure => update_lproj_procedure
    }
-   Rake::Task[:iterate_shortcodes].execute(value)
+   iterate_shortcodes(value)
    puts "Done Updating SR lproj directories"
 end
