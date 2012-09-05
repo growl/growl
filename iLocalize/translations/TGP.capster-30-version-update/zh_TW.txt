@@ -1,0 +1,4 @@
+- Capster 包含了更新的美工圖片。
+- Capster 可以在您按下 Caps Lock 鍵時發出提示音效。
+- Function（FN）鍵按下時您可獲得通知。
+- Num Lock 鍵按下時您可獲得通知。

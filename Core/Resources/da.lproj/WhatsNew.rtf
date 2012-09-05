@@ -1,15 +1,72 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf230
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Verdana;}
+{\rtf1\ansi\ansicpg1252\cocoartf1187
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
 \margl1440\margr1440\vieww9000\viewh8400\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
 
-\f0\b\fs24 \cf0 New to Growl 1.4:
+\f0\b\fs24 \cf0 Nyt til Growl 2
 \b0 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+Generelt\
+- Tilf\'f8jer support for OS X notifikationscenter p\'e5 10.8.\
+- Tilf\'f8jer support for Prowl og Boxcar som visningsstile.\
+- Rullegardin opdager bedre inaktivitet.\
+- Growl er nu sandboxed.\
+\
+Indstillinger\
+- TIL/FRA kontakten, igennem Growl, skulle nu v\'e6re nemmere at forst\'e5.\
+\
+Sk\'e6rme\
+- Tale introducere nu en st\'f8rre kontrol.\
+- Adskiller handlinger fra de visuelle sk\'e6rme.\
+- Music Video kan nu venstre- og h\'f8jrejustere tekst.\
+- Fixer h\'f8jdeproblemer for notifikationer med flere linjer i Music Video.\
+- Nano kan nu vises p\'e5 flere steder: venstre, midt og h\'f8jre.\
+- Tilf\'f8jet en Lyd-handling.\
+- Tilf\'f8jet en mulighed for ikke at have nogle visuelle notifikationer.\
+\
+Fejlrettelser\
+- L\'f8ser problem med h\'f8jt CPU-forbrug.\
+- L\'f8ser problemer der resulterede i nedbrydning.\
+- Genveje kan nu blive slettet.\
+\
+\
 
-\f1 \cf0  \'95 {\field{\*\fldinst{HYPERLINK "growl://preferences/applications"}}{\fldrslt New Applications Tab Design!}} Redesigned from the ground up, it is now much more user friendly\
- \'95 Layout tweaks throughout the preferences UI\
- \'95 {\field{\*\fldinst{HYPERLINK "growl://preferences/network/subscriptions"}}{\fldrslt GNTP Subscription}}, available in the Networking Tab of the Preferences\
- \'95 Bug fixes throughout, with emphasis on Networking fixes\
- \'95 Support for URL target in GNTP, Applescript, and {\field{\*\fldinst{HYPERLINK "http://growl.info/downloads#generaldownloads"}}{\fldrslt GrowlNotify}}}
+\b Growl 1.4-\'e6ndringer
+\b0 \
+\
+Generelt\
+- Program-fanen har f\'e5et nyt design! Dette er en stor \'e6ndring, og skulle g\'f8re det meget nemmere at bruge.\
+- Flyttet rullegardin-indstillingerne til en separat fane.\
+- Store forbedringer til netv\'e6rksdelen.\
+\
+Eftersyn af Systemindstillings-vindue\
+- Ny slider for til/fra knapper.\
+- Tilf\'f8jet tastatur support til positionsv\'e6lgeren.\
+- Generel-fanen har f\'e5et nyt design.\
+- Netv\'e6rks-fanen - Tilf\'f8jet support for abonnementer\
+- Rullegardin-fanen er det nye hjem for indstillinger relateret til rullegardins-vinduet.\
+- Tilf\'f8jelse af ny visningsstil kr\'e6ver ikke genstart af Growl.\
+\
+Netv\'e6rk\
+- Support for notifikation-Callback-Target, et URL-felt i GNTP. Ved klik, vil Growl lade OSX finde ud af hvordan adressen skal \'e5bnes (som i standardbrowseren for en http:// url)\
+- Abonnement support, abonner p\'e5 alle programmer p\'e5 en fjern computer.\
+- Generelle forbedringer til netv\'e6rksbekr\'e6ftigelse og fjernet behov for password-headers hvis man brugte et tomt password.\
+- Fixed et netv\'e6rks-nedbrud relateret til addresse data beslutning.\
+- Bind kun til lokal socket, hvis der ikke lyttes efter indkommende notifikationer.\
+- Addresse data caching og observation af netv\'e6rk \'e6ndringer for at rense cachen.\
+\
+Applescript\
+- URL klik respons support, samme som Notification-Callback-Target i GNTP.\
+\
+Fejlrettelser\
+- L\'f8ste problem med nedbrud med webkit plugin bro ved oprettelse.\
+- L\'f8ste problem med nedbrud ved vidersendelse.\
+- L\'f8ste problem hvor Tale-handlingen ventede p\'e5 at forrige besked var f\'e6rdig, hvilket for\'e5rsagede h\'f8jt CPU-forbrug.\
+- L\'f8ste et problem med nedbrud med CFErrorGetDomain for WebKit Display Styles.\
+- Fixede duplikering af visningsstile ved geninstallering.\
+- Notification-Callback-Target bliver nu brugt, selv uden metode-headeren.\
+- Arbejdet rundt om et problem med korrupte historie databaser.\
+- Fixede en sorteringsfejl under sletning af en enkelt registrering i historie-listen.\
+}
