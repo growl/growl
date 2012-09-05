@@ -64,6 +64,13 @@ enum {
 	[socket release];
 	socket = nil;
 	
+	self.key = nil;
+	self.responseParseErrorString = nil;
+	self.bogusResponse = nil;
+	self.host = nil;
+	self.addressData = nil;
+	self.password = nil;
+	
 	[super dealloc];
 }
 

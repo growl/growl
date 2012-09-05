@@ -38,8 +38,9 @@
 }
 
 - (void) dealloc {
-	[dictionary release];
-	[nextAttempt release];
+	[dictionary release]; dictionary = nil;
+	[nextAttempt release]; nextAttempt = nil;
+	[error release]; error = nil;
     
 	[super dealloc];
 }

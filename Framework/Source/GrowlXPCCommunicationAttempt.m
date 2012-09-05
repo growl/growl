@@ -53,6 +53,19 @@
 	return @"erehwon";
 }
 
+- (void)dealloc
+{
+	self.sendingDetails = nil;
+	self.responseDict = nil;
+	
+	if (xpcConnection) {
+		xpc_release(xpcConnection);
+		xpcConnection = NULL;
+	}
+	
+	[super dealloc];
+}
+
 - (void)begin
 {
 	if (![self establishConnection]) {

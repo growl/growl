@@ -47,6 +47,8 @@
 
 - (void)dealloc {
 	[windows release];
+	[positionController release]; positionController = nil;
+	[queuedWindows release]; queuedWindows = nil;
 	[super dealloc];
 }
 

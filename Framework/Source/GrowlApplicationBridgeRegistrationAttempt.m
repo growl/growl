@@ -22,6 +22,13 @@
 
 @synthesize applicationName;
 
+- (void)dealloc
+{
+	self.applicationName = nil;
+	
+	[super dealloc];
+}
+
 - (void) begin {
 	BOOL success = NO;
     
