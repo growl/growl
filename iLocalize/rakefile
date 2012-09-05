@@ -93,8 +93,7 @@ sr_file                              = File.join(sr_destination, "%%lproj%%/Shor
 
 @shortcodes = {
    :sk => 'sk',
-   :pt_BR => 'pt-BR',
-   :pt_BR => 'pt',
+   :pt_BR => ['pt-BR','pt'],
    :nb_NO => 'nb',
    :ja => 'ja',
    :ko => 'ko',
@@ -173,15 +172,17 @@ def iterate_shortcodes(args)
    curdir = FileUtils.pwd()
    FileUtils.cd(@ilocalize_dir)
    @shortcodes.each_pair do |key, value|
-      #puts "iterating #{key} to #{value}"
-      strings = "#{key}.strings"
-      lproj = "#{value}.lproj"
-      
-      destFile = Marshal.load(Marshal.dump(destination))
-      destFile["%%lproj%%"] = lproj
-      sourceFile = "#{source}/#{strings}"
-      
-      procedure.call(sourceFile, destFile)
+      value.each do |code|
+         #puts "iterating #{key} to #{value}"
+         strings = "#{key}.strings"
+         lproj = "#{code}.lproj"
+         
+         destFile = Marshal.load(Marshal.dump(destination))
+         destFile["%%lproj%%"] = lproj
+         sourceFile = "#{source}/#{strings}"
+         
+         procedure.call(sourceFile, destFile)
+      end
    end
 end
 
