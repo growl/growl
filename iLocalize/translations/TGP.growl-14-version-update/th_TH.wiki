@@ -1,3 +1,29 @@
+สิ่งที่เปลี่ยนแปลงใน Growl 2
+
+ทั่วไป
+- รองรับศูนย์แจ้งของ OS X 10.8
+- รองรับ Prowl และ Boxcar สำหรับการแสดงแจ้งเตือนบนจอ
+- ปรับปรุงการตรวจสอบสถานะ Idle ไร้กิจกรรม ของ Rollup 
+
+การตั้งค่า
+- สวิตช์ เปิด/ปิด ได้รับการปรับปรุงให้เข้าใจง่ายขึ้น
+
+การแสดงผล
+- เพิ่มการควบคุมมากมาย สำหรับการใช้เสียงอ่าน
+- แยกการแสดงผลแบบกิจกรรม ออกจากการแสดงผลบนจอ
+- เลือกอักษรชิดซ้ายหรือขวาได้ สำหรับรูปแบบมิวสิควิดีโอ
+- แก้ไขปัญหาความสูงของรูปแบบมิวสิควิดีโอ เมื่อข้อความมีหลายบรรทัด
+- เพิ่มการแสดงผล แบบกิจกรรมเสียง
+- เพิ่มตัวเลือกที่จะไม่แสดงแจ้งเตือนบนจอ
+
+แก้ไขบั๊ก
+- ปัญหาการใช้ CPU สูงเกิน
+- แอพปิดตัวเองหลายครั้ง
+- สามารถยกเลิกทางลัดได้
+
+
+สิ่งที่เปลี่ยนแปลงใน Growl 1.4
+
 ทั่วไป
 - ดีไซน์แท๊บ Applications ใหม่หมด ทำให้ใช้ง่ายขึ้น
 - แยกการควบคุม Rollup ไปแท็บใหม่
@@ -23,12 +49,12 @@
 AppleScript
 - รองรับ feedback จากการคลิก URL เหมือนใน Notification-Callback-Target ใน GNTP
 
-Bug fixes
-- Resolved a crash with webkit plugin bridge on creation.
-- Resolved a crash with forwarding.
-- Resolved an issue where the Speech display waits for previous message to complete causing a CPU drain
-- Resolved a crash with CFErrorGetDomain for WebKit Display Styles.
-- Fixed duplicate listings of display plugins on reinstall.
-- Notification-Callback-Target is now respected, and used, even without the method header.
-- Worked around problems with corrupt history databases.
-- Fixed a sorting problem when deleting a single entry in the history list.
+แก้ไขบั๊ก
+- การปิดตัวเองเกี่ยวกับปลั๊กอิน WebKit
+- การปิดตัวเองเมื่อส่งต่อข้อความ
+- ปัญหาเกี่ยวกับการใช้ CPU สูงเกินเมื่อเลือกใช้เสียงอ่าน ขณะรอข้อความก่อนหน้า
+- การปิดตัวเองเกี่ยวกับ CFErrorGetDomain สำหรับรูปแบบที่ใช้ WebKit
+- ปัญหารายการซ้ำเมื่อลงปลั๊กอินอีกครั้ง
+- Notification-Callback-Target ใช้โดยไม่จำเป็นต้องมี Method Header แล้ว
+- แก้ขัดฐานข้อมูลเสียหาย
+- ปัญหาจัดเรียงเมื่อลบรายการหนึ่งออกจากรายการประวัติ

@@ -1535,6 +1535,8 @@
 		BC4B073E1501489E006151B3 /* GrowlTicketDatabaseCompoundAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlTicketDatabaseCompoundAction.m; path = Core/Source/GrowlTicketDatabaseCompoundAction.m; sourceTree = "<group>"; };
 		BC4B0740150148C4006151B3 /* GrowlTicketDatabaseDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlTicketDatabaseDisplay.h; path = Core/Source/GrowlTicketDatabaseDisplay.h; sourceTree = "<group>"; };
 		BC4B0741150148C4006151B3 /* GrowlTicketDatabaseDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlTicketDatabaseDisplay.m; path = Core/Source/GrowlTicketDatabaseDisplay.m; sourceTree = "<group>"; };
+		BC4C9CD215F7B98B007ECC82 /* th */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BC4C9CD315F7B9BE007ECC82 /* th */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC4DE6E314D0666A00132B49 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = Core/Resources/en.lproj/mainmenu.strings; sourceTree = "<group>"; };
 		BC4DE6E514D06B7900132B49 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = Core/Resources/MainMenu.xib; sourceTree = "<group>"; };
 		BC5EF65C14F5428F003E4578 /* GrowlTicketDatabaseTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlTicketDatabaseTicket.h; path = Core/Source/GrowlTicketDatabaseTicket.h; sourceTree = "<group>"; };
@@ -5375,6 +5377,7 @@
 				BC8362EC15F28A180012FBA3 /* he */,
 				BC88FEA915F38DD7008C5849 /* pt-PT */,
 				BCA69E7D15F6CCCD00547523 /* ja */,
+				BC4C9CD215F7B98B007ECC82 /* th */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -5407,6 +5410,7 @@
 				BC83628A15F266B30012FBA3 /* da */,
 				BC8362ED15F28A400012FBA3 /* he */,
 				BC88FEAA15F38E02008C5849 /* pt-PT */,
+				BC4C9CD315F7B9BE007ECC82 /* th */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
