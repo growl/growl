@@ -2,16 +2,16 @@ Cambios en Growl 2
 
 General
 - Añade soporte para el Centro de Notificaciones de OS X 10.8
-- Añade soporte para Prowl y servicios de Boxcar como pantallas activas
+- Añade soporte para Prowl y servicios de Boxcar
 - Mejor detección de ausencia para Resumen
 - Soporte para sandbox
 
 Preferencias
 - El interruptor SÍ/NO a través de Growl es ahora más sencillo
 
-Pantallas
+Estilos visuales
 - Más control sobre las preferencias de voz
-- Separa las pantallas en acción de las pantallas visuales
+- Separa los estilos de acción de los estilos visuales
 - El estilo visual "Vídeo Musical" ahora puede alinear el texto a la izquierda, a la derecha y justificadamente
 - El estilo visual "Nano" ahora puede mostrarse en diferentes ubicaciones: izquierda, centro y derecha
 - Añadidos los sonidos para acciones
@@ -38,7 +38,7 @@ Rediseño completo del panel de preferencias
 - Añade soporte para suscripciones
 - Pestaña "Historial", con menú contextual para ver el historial en una tabla y moverse entre los ajustes de las Aplicaciones y Notificaciones
 - Todos los controles relativos a Resumen ahora están agrupados en la pestaña Resumen
-- Añadir una nueva pantalla ya no requiere que Growl se reinicie
+- Añadir un nuevo estilo visual ya no requiere que Growl se reinicie
 
 Redes
 - Soporte para objetos de notificaciones, un campo de URL en GNTP. Tras pinchar, Growl permite a OS X saber cómo abrir la URL (ya sea con el navegador por defecto con http://)

@@ -2,12 +2,12 @@ Growl é o sistema de notificação definitivo para Mac. É o meio mais fácil d
 
 Um dia nós estávamos trabalhando com imagens no iPhoto enquanto conversávamos no Adium. Enquanto esperávamos alguma coisa importante aparecer no chat, nós tínhamos que ficar clicando para acessar a janela e para voltar toda vez que uma mensagem instantânea chegava. Mesmo que soubéssemos que estávamos recebendo uma mensagem, nós tínhamos que acessar a janela do Adium só para ler que foi escrito. A ideia do Growl nasceu da frustração de ter que clicar para acessar e para voltar para ver o que está acontecendo. As notificações em tempo real mantêm você atualizado sobre tudo que você precisa saber. Com notificações diretas e a janela de agrupamento do Growl, você sempre saberá o que está acontecendo mesmo que você tenha que se afastar do seu Mac. 
 
-Nunca antes houve ... que personalizasse notificações de uma forma tão eficiente. Você pode receber notificações de diversas formas, como em uma tela, via email, ou até mesmo que elas falem com você. Adicionalmente, se você sabe um pouco sobre tecnologias web (CSS/XHTML/Javascript), então você pode fazer um estilo de aparência para o Growl que deseja.
+Nunca antes houve um sistema que personalizasse notificações de uma forma tão eficiente. Você pode receber notificações de diversas formas, como em uma tela, via email, ou até mesmo que elas falem com você. Adicionalmente, se você sabe um pouco sobre tecnologias web (CSS/XHTML/Javascript), então você pode fazer um estilo de aparência para o Growl que deseja.
 
 Muitos mais recursos IMPRESSIONANTES listados aqui.
 
 
-• Personaliza suas notificações. Escolha a apresentação e aparência e do Growl.
+• Personalize suas notificações. Escolha a apresentação e aparência e do Growl.
 • Fica trabalhando mesmo quando você não está. Volte para seu Mac e veja o que aconteceu enquanto você estava afastado com o Agrupamento.
 • Fácil de usar, a guia Aplicativos permite controle sobre o que você recebe e o que é bloqueado.
 • Exibição falada para ouvir suas notificações, ótimo para aqueles que são deficientes visuais.
