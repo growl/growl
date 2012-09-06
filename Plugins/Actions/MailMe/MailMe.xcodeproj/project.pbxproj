@@ -135,7 +135,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		839F99A915F58EDD00A04D3C /* he */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		839F99BA15F58EED00A04D3C /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC1FE70A15C0F08B00E27306 /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../../xcconfig/Common.xcconfig; sourceTree = "<group>"; };
 		BC1FE70B15C0F08B00E27306 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../../xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
@@ -552,7 +551,6 @@
 				BC678F2915F1361100E567D8 /* es */,
 				BC9E6CDA15F1B42A0017B66D /* ro */,
 				BC8362DA15F26B000012FBA3 /* da */,
-				839F99A915F58EDD00A04D3C /* he */,
 				839F99BA15F58EED00A04D3C /* pt-PT */,
 				BC4C9C9F15F7B8F9007ECC82 /* th */,
 			);

@@ -168,7 +168,6 @@
 		93D7D7A5144139CD00BFCFB6 /* nb */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93D7D7A6144139CD00BFCFB6 /* ja */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93D7D7A7144139CD00BFCFB6 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		93D7D7A8144139CD00BFCFB6 /* el */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93D7D7AD144139F800BFCFB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/main.xib; sourceTree = "<group>"; };
 		93D7D7AE144139F800BFCFB6 /* nl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nl; path = nl.lproj/main.xib; sourceTree = "<group>"; };
 		93D7D7AF144139F800BFCFB6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/main.xib; sourceTree = "<group>"; };
@@ -182,7 +181,6 @@
 		93D7D7B7144139F800BFCFB6 /* nb */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nb; path = nb.lproj/main.xib; sourceTree = "<group>"; };
 		93D7D7B8144139F800BFCFB6 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/main.xib; sourceTree = "<group>"; };
 		93D7D7B9144139F800BFCFB6 /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/main.xib; sourceTree = "<group>"; };
-		93D7D7BA144139F800BFCFB6 /* el */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = el; path = el.lproj/main.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -515,7 +513,6 @@
 				93D7D7A5144139CD00BFCFB6 /* nb */,
 				93D7D7A6144139CD00BFCFB6 /* ja */,
 				93D7D7A7144139CD00BFCFB6 /* de */,
-				93D7D7A8144139CD00BFCFB6 /* el */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -536,7 +533,6 @@
 				93D7D7B7144139F800BFCFB6 /* nb */,
 				93D7D7B8144139F800BFCFB6 /* ja */,
 				93D7D7B9144139F800BFCFB6 /* de */,
-				93D7D7BA144139F800BFCFB6 /* el */,
 			);
 			name = main.xib;
 			sourceTree = "<group>";
