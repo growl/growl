@@ -28,7 +28,7 @@
 
 @end
 
-@interface HWGrowlVolumeMonitor : NSObject <HWGrowlPluginProtocol, HWGrowlPluginNotifierProtocol>
+@interface HWGrowlVolumeMonitor : NSObject <HWGrowlPluginProtocol, HWGrowlPluginNotifierProtocol, NSTableViewDelegate>
 
 @property (nonatomic, retain) IBOutlet NSView *prefsView;
 

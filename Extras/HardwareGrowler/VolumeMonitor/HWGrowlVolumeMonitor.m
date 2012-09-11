@@ -135,6 +135,9 @@
 @property (nonatomic, retain) NSMutableDictionary *ejectCache;
 @property (nonatomic, retain) NSString *ignoredVolumeColumnTitle;
 
+@property (nonatomic, assign) IBOutlet NSArrayController *arrayController;
+@property (nonatomic, assign) IBOutlet NSTableView *tableView;
+
 @end
 
 @implementation HWGrowlVolumeMonitor
@@ -143,6 +146,8 @@
 @synthesize ejectCache;
 
 @synthesize prefsView;
+@synthesize arrayController;
+@synthesize tableView;
 
 -(id)init {
 	if((self = [super init])){
@@ -256,6 +261,23 @@
 	}
 }
 
+#pragma mark UI
+
+-(void)tableViewSelectionDidChange:(NSNotification *)notification {
+   NSArray *arranged = [arrayController arrangedObjects];
+   NSUInteger selection = [arrayController selectionIndex];
+   if(selection < [arranged count] && [arranged count]){
+      NSString *justastring = [[arranged objectAtIndex:selection] valueForKey:@"justastring"];
+      if(!justastring || [justastring isEqualToString:@""])
+         [self.tableView editColumn:0 row:selection withEvent:nil select:YES];
+   }
+}
+
+-(IBAction)addVolumeEntry:(id)sender {
+   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+   [self.arrayController addObject:dict];
+   [self.arrayController setSelectedObjects:[NSArray arrayWithObject:dict]];
+}
 #pragma mark HWGrowlPluginProtocol
 
 -(void)setDelegate:(id<HWGrowlPluginControllerProtocol>)aDelegate{
