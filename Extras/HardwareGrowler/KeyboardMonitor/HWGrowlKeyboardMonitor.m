@@ -173,6 +173,7 @@ self.NAME ## Flag = NAME;
 	numlockFlag = flags & NSNumericPadKeyMask ? YES : NO;
 	capsFlag = flags & NSAlphaShiftKeyMask ? YES : NO;
 	fnFlag = flags & NSFunctionKeyMask ? YES : NO;
+	shiftFlag = flags & NSShiftKeyMask ? YES : NO;
 }
 
 #pragma mark HWGrowlPluginProtocol
