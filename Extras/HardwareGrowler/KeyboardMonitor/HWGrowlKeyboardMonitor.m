@@ -95,12 +95,12 @@ self.NAME ## Flag = NAME;
 		NSUInteger flags = [NSEvent modifierFlags];
 		BOOL caps = flags & NSAlphaShiftKeyMask ? YES : NO;
 		BOOL fn = flags & NSFunctionKeyMask ? YES : NO;
-		BOOL numlock = flags & NSNumericPadKeyMask ? YES : NO;
+		//BOOL numlock = flags & NSNumericPadKeyMask ? YES : NO;
 		BOOL shift = flags & NSShiftKeyMask ? YES : NO;
 		
 		CHECK_FLAG(caps);
 		CHECK_FLAG(fn);
-		CHECK_FLAG(numlock);
+		//CHECK_FLAG(numlock);
 		CHECK_FLAG(shift)
 		
 		return event;
@@ -131,13 +131,13 @@ self.NAME ## Flag = NAME;
 		title = newState ? NSLocalizedString(@"Caps Lock On", @"") : NSLocalizedString(@"Caps Lock Off", @"");
 		identifier = @"HWGrowlCaps";
 		iconData = newState ? [[NSImage imageNamed:@"Capster-CapsLock-On"] TIFFRepresentation] : [[NSImage imageNamed:@"Capster-CapsLock-Off"] TIFFRepresentation];
-	}else if ([type isEqualToString:@"numlock"]){
+	}/*else if ([type isEqualToString:@"numlock"]){
 		enabledKey = @"numlock";
 		name = newState ? @"NumLockOn" : @"NumLockOff";
 		title = newState ? NSLocalizedString(@"Num Lock On", @"") : NSLocalizedString(@"Num Lock Off", @"");
 		identifier = @"HWGrowlNumLock";
 		iconData = newState ? [[NSImage imageNamed:@"Capster-NumLock-On"] TIFFRepresentation] : [[NSImage imageNamed:@"Capster-NumLock-Off"] TIFFRepresentation];
-	}else if ([type isEqualToString:@"fn"]){
+	}*/else if ([type isEqualToString:@"fn"]){
 		enabledKey = @"fnkey";
 		name = newState ? @"FNPressed" : @"FNReleased";
 		title = newState ? NSLocalizedString(@"FN Key Pressed", @"") : NSLocalizedString(@"FN Key Released", @"");
@@ -170,7 +170,7 @@ self.NAME ## Flag = NAME;
 -(void) initFlags
 {
 	NSUInteger flags = [NSEvent modifierFlags];
-	numlockFlag = flags & NSNumericPadKeyMask ? YES : NO;
+	//numlockFlag = flags & NSNumericPadKeyMask ? YES : NO;
 	capsFlag = flags & NSAlphaShiftKeyMask ? YES : NO;
 	fnFlag = flags & NSFunctionKeyMask ? YES : NO;
 	shiftFlag = flags & NSShiftKeyMask ? YES : NO;
@@ -209,13 +209,13 @@ self.NAME ## Flag = NAME;
 #pragma mark HWGrowlPluginNotifierProtocol
 
 -(NSArray*)noteNames {
-	return [NSArray arrayWithObjects:@"CapsLockOn", @"CapsLockOff", @"NumLockOn", @"NumLockOff", @"FNPressed", @"FNReleased", @"ShiftPressed", @"ShiftReleased", nil];
+	return [NSArray arrayWithObjects:@"CapsLockOn", @"CapsLockOff", /*@"NumLockOn", @"NumLockOff",*/ @"FNPressed", @"FNReleased", @"ShiftPressed", @"ShiftReleased", nil];
 }
 -(NSDictionary*)localizedNames {
 	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Caps Lock On", @""), @"CapsLockOn",
 			  NSLocalizedString(@"Caps Lock Off", @""), @"CapsLockOff",
-			  NSLocalizedString(@"Num Lock On", @""), @"NumLockOn",
-			  NSLocalizedString(@"Num Lock Off", @""), @"NumLockOff",
+			  //NSLocalizedString(@"Num Lock On", @""), @"NumLockOn",
+			  //NSLocalizedString(@"Num Lock Off", @""), @"NumLockOff",
 			  NSLocalizedString(@"FN Key Pressed", @""), @"FNPressed",
 			  NSLocalizedString(@"FN Key Released", @""), @"FNReleased",
 			  NSLocalizedString(@"Shift Key Pressed", @""), @"ShiftPressed",
@@ -224,15 +224,15 @@ self.NAME ## Flag = NAME;
 -(NSDictionary*)noteDescriptions {
 	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Caps Lock On", @""), @"CapsLockOn",
 			  NSLocalizedString(@"Caps Lock Off", @""), @"CapsLockOff",
-			  NSLocalizedString(@"Num Lock On", @""), @"NumLockOn",
-			  NSLocalizedString(@"Num Lock Off", @""), @"NumLockOff",
+			  //NSLocalizedString(@"Num Lock On", @""), @"NumLockOn",
+			  //NSLocalizedString(@"Num Lock Off", @""), @"NumLockOff",
 			  NSLocalizedString(@"FN Key Pressed", @""), @"FNPressed",
 			  NSLocalizedString(@"FN Key Released", @""), @"FNReleased",
 			  NSLocalizedString(@"Shift Key Pressed", @""), @"ShiftPressed",
 			  NSLocalizedString(@"Shift Key Released", @""), @"ShiftReleased", nil];
 }
 -(NSArray*)defaultNotifications {
-	return [NSArray arrayWithObjects:@"CapsLockOn", @"CapsLockOff", @"NumLockOn", @"NumLockOff", @"FNPressed", @"FNReleased", @"ShiftPressed", @"ShiftReleased", nil];
+	return [NSArray arrayWithObjects:@"CapsLockOn", @"CapsLockOff", /*@"NumLockOn", @"NumLockOff",*/ @"FNPressed", @"FNReleased", @"ShiftPressed", @"ShiftReleased", nil];
 }
 
 @end
