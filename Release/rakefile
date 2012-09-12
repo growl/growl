@@ -324,6 +324,35 @@ task :codesign_hwg do
 end
 
 
+
+
+
+
+
+
+
+
+desc "developer id codesign GrowlTunes"
+task :codesign_gt do
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/GrowlTunes.app/"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/GrowlTunes.app/Contents/Library/LoginItems/GrowlTunesLauncher.app/"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/GrowlTunes.app/Contents/Library/LoginItems/GrowlTunesLauncher.app/Contents/MacOS/GrowlTunesLauncher"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/GrowlTunes.app/Contents/XPCServices/com.growl.GrowlTunes.GNTPClientService.xpc/"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/GrowlTunes.app/Contents/XPCServices/com.growl.GrowlTunes.GNTPClientService.xpc/Contents/MacOS/com.growl.GrowlTunes.GNTPClientService"
+ system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/GrowlTunes.app/Contents/Frameworks/Growl.framework/"
+end
+
+
+
+
+
+
+
+
+
+
+
+
 desc "developer id codesign Growl"
 task :codesign_growl do
  system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/"
