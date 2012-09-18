@@ -3,14 +3,14 @@ HardwareGrowler 2
 - HardwareGrowler foi reescrito do zero.
 - Você pode ativar/desativar recursos específicos do HardwareGrowler
 - Adicionada a habilidade e ignorar drives por nome.
-- Monitoramento de conectividade melhorou drasticamente.
+- Monitoramento de conectividade melhorou consideravelmente.
 - Adicionado suporte a IPv6.
-- Adicionado suporte a adptadores Ethernet via USB.
-- Adicionado suporte ao Centro de Notificações, para quando Growl não estiver presente na versão 10.8.
-- Recursos do Capster estão agora no HardwareGrowler. Você pode ver notificações quando foram pressionadas as teclas de Capslock, Numlock, FN e Shift.
+- Adicionado suporte a adaptadores Ethernet via USB.
+- Adicionado suporte à Central de Notificações, para quando Growl não estiver presente na versão 10.8.
+- Recursos do Capster estão agora no HardwareGrowler. Você pode ver notificações quando foram pressionadas as teclas de Caps Lock, Num Lock, FN e Shift.
 - O monitor de energia tem um controle adicional de quando ele irá enviar uma notificação.
 
 HardwareGrowler 1.3.2
 
-- Adicionadas traduções para Francês e Espanhol.
-- Resolvido um problema com a tradução para Sueco exibindo em Romeno.
+- Adicionadas traduções para francês e espanhol.
+- Resolvido um problema com a tradução para sueco exibindo no romeno.
