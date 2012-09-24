@@ -229,8 +229,18 @@ static BOOL awoken = NO;
                                             selector:@selector(updatePosition:) 
                                                 name:GrowlPositionPickerChangedSelectionNotification 
                                               object:appPositionPicker];
-	
+   
 	__block GrowlApplicationsViewController *blockSelf = self;
+   [[NSNotificationCenter defaultCenter] addObserverForName:NSTableViewSelectionDidChangeNotification
+                                                     object:notificationsTable
+                                                      queue:[NSOperationQueue mainQueue]
+                                                 usingBlock:^(NSNotification *note) {
+                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                       [blockSelf selectDefaultDisplay:NO];
+                                                       [blockSelf selectDefaultActions:NO];
+                                                    });
+                                                 }];
+   	
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSUInteger index = [[blockSelf ticketsArrayController] indexOfFirstNonGroupItem];
 		if(index != NSNotFound){
