@@ -102,14 +102,11 @@ static const NSSize iconSize = { 128.0, 128.0 };
 
 		//Command used the "image from URL" argument
 		if (imageUrl) {
-			if (!(url = [self fileUrlForLocationReference:imageUrl])) {
-				return nil;
-			}
-			if (!(icon = [[NSImage alloc] initWithContentsOfURL:url])) {
-				//File exists, but is not a valid image format
-				[self setError:ERROR_ICON_OF_FILE_PATH_NOT_IMAGE];
-				return nil;
-			}
+         static dispatch_once_t onceToken;
+         dispatch_once(&onceToken, ^{
+            NSLog(@"'icon from location' is deprecated as of Growl 2.0, it will now fire using a generic icon.  To update your own applescript, see instructions here: <insert url here>, or contact the developer of your script and tell them they need to update their applescript.  This message will only show once.");
+         });
+         icon = [[NSWorkspace sharedWorkspace] iconForApplication:@"Applescript Editor.app"];
 		} else if (iconOfFile) {
 			//Command used the "icon of file" argument
 			if (!(url = [self fileUrlForLocationReference:iconOfFile])) {

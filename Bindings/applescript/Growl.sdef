@@ -77,7 +77,7 @@
 			<parameter name="application name" code="appl" type="text" description="name of the application posting the notification.">
 				<cocoa key="appName"/>
 			</parameter>
-			<parameter name="image from location" optional="yes" code="iurl" type="text" description="Location of the image file to use for this notification. Accepts aliases, paths and file:/// URLs.">
+			<parameter name="image from location" optional="yes" code="iurl" type="text" description="DEPRECATED as of Growl 2.0, non functional under sandboxing. - Location of the image file to use for this notification. Accepts aliases, paths and file:/// URLs.">
 				<cocoa class="NSString" key="imageFromURL"/>
 			</parameter>
 			<parameter name="icon of file" optional="yes" code="ifil" type="text" description="Location of the file whose icon should be used as the image for this notification. Accepts aliases, paths and file:/// URLs. e.g. 'file:///Applications'.">
