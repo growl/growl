@@ -274,6 +274,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 			NSMutableDictionary *configCopy = nil;
 			if([displayConfig respondsToSelector:@selector(configuration)])
 				configCopy = [[[displayConfig configuration] mutableCopy] autorelease];
+         if(!configCopy)
+            configCopy = [NSMutableDictionary dictionary];
 			[configCopy setValue:[NSNumber numberWithLong:[[GrowlPreferencesController sharedController] selectedPosition]]
 							  forKey:@"com.growl.positioncontroller.selectedposition"];
 			[configCopy setValue:[displayConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
@@ -465,6 +467,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
             GrowlTicketDatabaseDisplay *resolvedDisplayConfig = [notification resolvedDisplayConfig];
             GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[resolvedDisplayConfig pluginInstanceForConfiguration];
             NSMutableDictionary *configCopy = [[[resolvedDisplayConfig configuration] mutableCopy] autorelease];
+            if(!configCopy)
+               configCopy = [NSMutableDictionary dictionary];
             [configCopy setValue:[NSNumber numberWithInt:[ticket resolvedDisplayOrigin]] forKey:@"com.growl.positioncontroller.selectedposition"];
             [configCopy setValue:[resolvedDisplayConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
             if([display conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
@@ -481,6 +485,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 				dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 					if([action conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
 						NSMutableDictionary *actionConfigCopy = [[[obj configuration] mutableCopy] autorelease];
+                  if(!actionConfigCopy)
+                     actionConfigCopy = [NSMutableDictionary dictionary];
 						[actionConfigCopy setValue:[obj configID] forKey:GROWL_PLUGIN_CONFIG_ID];
 						[(id<GrowlDispatchNotificationProtocol>)action dispatchNotification:copyDict withConfiguration:actionConfigCopy];
 					}
