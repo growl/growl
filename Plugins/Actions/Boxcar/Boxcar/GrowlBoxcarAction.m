@@ -51,23 +51,29 @@
 	NSString *email = [configuration valueForKey:BoxcarEmail];
 	if(!email || [email isEqualToString:@""])
 		return;
-	
-	if([configuration valueForKey:BoxcarPushIdle] && 
-		[[configuration valueForKey:BoxcarPushIdle] boolValue] && 
-		[[GrowlIdleStatusObserver sharedObserver] isIdle])
-	{
-		//NSLog(@"Not pushing because not idle");
-		return;
-	}
-	
-	NSInteger priority = [[notification valueForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
-	if([configuration valueForKey:BoxcarUsePriority] && [[configuration valueForKey:BoxcarUsePriority] boolValue]){
-		NSInteger minPriority = [configuration valueForKey:BoxcarMinPriority] ? [[configuration valueForKey:BoxcarMinPriority] integerValue] : BoxcarMinPriorityDefault;
-		if (priority < minPriority) {
-			//NSLog(@"Not pushing because priority too low");
-			return;
-		}
-	}
+   
+   NSString *event = [notification objectForKey:GROWL_NOTIFICATION_TITLE];
+	NSString *application = [notification valueForKey:GROWL_APP_NAME];
+   NSInteger priority = [[notification valueForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
+   BOOL isPreview = ([application isEqualToString:@"Growl"] && [event isEqualToString:@"Preview"]);
+
+   if(!isPreview){
+      if([configuration valueForKey:BoxcarPushIdle] &&
+         [[configuration valueForKey:BoxcarPushIdle] boolValue] &&
+         ![[GrowlIdleStatusObserver sharedObserver] isIdle])
+      {
+         //NSLog(@"Not pushing because not idle");
+         return;
+      }
+      
+      if([configuration valueForKey:BoxcarUsePriority] && [[configuration valueForKey:BoxcarUsePriority] boolValue]){
+         NSInteger minPriority = [configuration valueForKey:BoxcarMinPriority] ? [[configuration valueForKey:BoxcarMinPriority] integerValue] : BoxcarMinPriorityDefault;
+         if (priority < minPriority) {
+            //NSLog(@"Not pushing because priority too low");
+            return;
+         }
+      }
+   }
 	
 	NSURL *baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://boxcar.io/devices/providers/%@/notifications", BoxcarProviderKey]];
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:baseURL 
