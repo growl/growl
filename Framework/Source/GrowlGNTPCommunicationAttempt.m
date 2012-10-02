@@ -263,14 +263,30 @@ enum {
       
 	} else if (tag == GrowlGNTPCommAttemptReadPhaseResponseHeaderLine) {
 		NSData *trimmed = [NSData dataWithBytes:[data bytes] length:[data length] - [[GCDAsyncSocket CRLFData] length]];
-		NSString *header = [trimmed length] > 0 ? [NSString stringWithUTF8String:[trimmed bytes]] : @"";
+		NSString *header = @"";
+		
+		@try {
+			header = [trimmed length] > 0 ? [NSString stringWithUTF8String:[trimmed bytes]] : @"";
+		}
+		@catch (NSException *exception) {
+			NSLog(@"stringWithUTF8String failed: %@", exception);
+		}
+		
 		if([self parseHeader:header]){
 			[self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
 		}
 	} else if (tag == GrowlGNTPCommAttemptReadPhaseEncrypted){
 		//Trim and decrypt
 		NSData *decrypted = [self.key decrypt:[NSData dataWithBytes:[data bytes] length:[data length] - [[GNTPUtilities doubleCRLF] length]]];
-		NSString *headersString = [NSString stringWithUTF8String:[decrypted bytes]];
+		NSString *headersString = nil;
+		
+		@try {
+			headersString = [NSString stringWithUTF8String:[decrypted bytes]];
+		}
+		@catch (NSException *exception) {
+			NSLog(@"stringWithUTF8String failed: %@", exception);
+		}
+		
 		NSArray *headerArray = [headersString componentsSeparatedByString:@"\r\n"];
 		[headerArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 			//Components seperated by string creates strings without the \r\n, add them back on so it behaves the same as the above function;

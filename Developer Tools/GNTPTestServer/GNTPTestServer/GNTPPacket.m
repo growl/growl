@@ -647,7 +647,15 @@
 		case 0:
 		{
 			decryptedData = [self.key decrypt:data];
-			NSString *allHeaders = [NSString stringWithUTF8String:[decryptedData bytes]];
+			NSString *allHeaders = nil;
+			
+			@try {
+				allHeaders = [NSString stringWithUTF8String:[decryptedData bytes]];
+			}
+			@catch (NSException *exception) {
+				NSLog(@"stringWithUTF8String failed: %@", exception);
+			}
+			
 			NSMutableArray *portions = [[[allHeaders componentsSeparatedByString:@"\r\n\r\n"] mutableCopy] autorelease];
 			if([portions count] > 0) {
 				do {
@@ -681,8 +689,16 @@
 		case 0:
 		{
 			//Our initial header block
-			NSString *headersString = [NSString stringWithUTF8String:[data bytes]];
-			[GNTPPacket enumerateHeaders:headersString 
+			NSString *headersString = nil;
+			
+			@try {
+				headersString = [NSString stringWithUTF8String:[data bytes]];
+			}
+			@catch (NSException *exception) {
+				NSLog(@"stringWithUTF8String failed: %@", exception);
+			}
+			
+			[GNTPPacket enumerateHeaders:headersString
 									 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
 										 [blockSelf parseHeaderKey:headerKey value:headerValue];
 										 return NO;
@@ -769,7 +785,15 @@
 }
 
 -(void)parseResourceDataHeader:(NSData*)data {
-	NSString *headersString = [NSString stringWithUTF8String:[data bytes]];
+	NSString *headersString = nil;
+	
+	@try {
+		headersString = [NSString stringWithUTF8String:[data bytes]];
+	}
+	@catch (NSException *exception) {
+		NSLog(@"stringWithUTF8String failed: %@", exception);
+	}
+	
 	__block NSString *newId = nil;
 	__block NSString *newLength = nil;
 	[GNTPPacket enumerateHeaders:headersString 
