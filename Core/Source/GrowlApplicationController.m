@@ -337,7 +337,96 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 
 #pragma mark Dispatching notifications
 
-- (GrowlNotificationResult) dispatchNotificationWithDictionary:(NSDictionary *) dict {
+- (GrowlNotificationResult) dispatchNotificationWithDictionary:(NSDictionary *)dict {
+   NSURL *baseURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory
+                                                           inDomain:NSUserDomainMask
+                                                  appropriateForURL:nil
+                                                             create:YES
+                                                              error:nil];
+   if(baseURL){
+      NSError *error = nil;
+      NSURL *path = [baseURL URLByAppendingPathComponent:@"Rules.scpt"];
+      NSUserAppleScriptTask *task = [[NSUserAppleScriptTask alloc] initWithURL:path
+                                                                         error:&error];
+      if(!error && task){
+         int pid = [[NSProcessInfo processInfo] processIdentifier];
+         NSAppleEventDescriptor *thisApplication = [NSAppleEventDescriptor descriptorWithDescriptorType:typeKernelProcessID
+                                                                                                  bytes:&pid
+                                                                                                 length:sizeof(pid)];
+         
+         NSAppleEventDescriptor *event = [NSAppleEventDescriptor appleEventWithEventClass:'ascr'
+                                                                                  eventID:'psbr'
+                                                                         targetDescriptor:thisApplication
+                                                                                 returnID:kAutoGenerateReturnID
+                                                                            transactionID:kAnyTransactionID];
+         [event setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:@"evaluate_notification"]
+                        forKeyword:'snam'];
+         
+         NSAppleEventDescriptor *noteDesc = [NSAppleEventDescriptor recordDescriptor];
+         NSAppleEventDescriptor *list = [NSAppleEventDescriptor listDescriptor];
+         [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"app_name"] atIndex:1];
+         [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_APP_NAME]] atIndex:2];
+         [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"note_type"] atIndex:3];
+         [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_NAME]] atIndex:4];
+         [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"note_title"] atIndex:5];
+         [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_TITLE]] atIndex:6];
+         [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"note_description"] atIndex:7];
+         [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]] atIndex:8];
+         [noteDesc setDescriptor:list forKeyword:'usrf'];
+
+         NSAppleEventDescriptor *record = [NSAppleEventDescriptor listDescriptor];
+         [record insertDescriptor:noteDesc atIndex:1];
+         [event setParamDescriptor:record
+                        forKeyword:keyDirectObject];
+         
+         [task executeWithAppleEvent:event
+                   completionHandler:^(NSAppleEventDescriptor *result, NSError *completionError) {
+                      if(!completionError){
+                         if(result) {
+                            if([result descriptorType] == typeAERecord){
+                               if([result descriptorForKeyword:'GrDs']){
+                                  NSLog(@"Display using: %@", [[result descriptorForKeyword:'GrDs'] stringValue]);
+                               }
+                               if([result descriptorForKeyword:'GrAc']){
+                                  NSAppleEventDescriptor *actionsDesc = [result descriptorForKeyword:'GrAc'];
+                                  if([actionsDesc descriptorType] == typeAEList){
+                                     NSMutableArray *actions = [NSMutableArray array];
+                                     for(int i = 1; i <= [actionsDesc numberOfItems]; i++){
+                                        [actions addObject:[[actionsDesc descriptorAtIndex:i] stringValue]];
+                                     }
+                                     NSLog(@"actions: %@", actions);
+                                  }else if([actionsDesc descriptorType] == typeAEText){
+                                     NSLog(@"use action: %@", [actionsDesc stringValue]);
+                                  }else{
+                                     NSLog(@"actions error, %@, is not a known type", actionsDesc);
+                                  }
+                               }
+                               dispatch_async(dispatch_get_main_queue(), ^{
+                                  [self dispatchNotificationWithDictionaryNoReally:dict];
+                               });
+                            }
+                         }else{
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                               [self dispatchNotificationWithDictionaryNoReally:dict];
+                            });
+                         }
+                      }else{
+                         NSLog(@"completion error: %@", completionError);
+                         dispatch_async(dispatch_get_main_queue(), ^{
+                            [self dispatchNotificationWithDictionaryNoReally:dict];
+                         });
+                      }
+                   }];
+         return GrowlNotificationResultPosted;
+      }else if(error){
+         NSLog(@"error: %@", error);
+      }
+   }
+   
+   return [self dispatchNotificationWithDictionaryNoReally:dict];
+}
+
+- (GrowlNotificationResult) dispatchNotificationWithDictionaryNoReally:(NSDictionary *) dict {
 	@autoreleasepool {
 		
 		[[GrowlLog sharedController] writeNotificationDictionaryToLog:dict];

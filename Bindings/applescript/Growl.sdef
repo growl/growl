@@ -5,7 +5,28 @@
 	AppleScript command support for Growl notifications.
 -->
 
-<dictionary title="Growl Terminology">    
+<dictionary title="Growl Terminology">
+   <suite name="Growl Rules" description="Method to provide rules for Growl, telling it what to do with a given notification" code="GrRl">
+      <event name="evaluate_notification" description="Evaluate a notification, and return the actions to take" code="grev">
+         <parameter name="notification" code="grht" type="Notification" description="The notification to evaluate"/>
+         <result type="RuleResult" description="The actions to take upon completion"/>
+      </event>
+      <class name="Notification" description="A growl notification" code="GrNt">
+         <property name="app_name" description="The application name" code="apnm" type="text"/>
+         <property name="note_type" description="The underlying note type" code="nttp" type="text"/>
+         <property name="note_title" description="The note's title" code="titl" type="text"/>
+         <property name="note_description" description="The note's main text" code="desc" type="text"/>
+      </class>
+      <record-type name="RuleResult" description="Return value from evaluating a rule" code="GrRs">
+         <property name="actions" description="Action(s) to take" code="GrAc">
+            <type type="text"/>
+            <type type="text" list="yes"/>
+         </property>
+         <property name="display" description="Display to use" code="GrDs" type="text"/>
+         <property name="network forward" description="Whether to forward via network" code="GrNF" type="boolean"/>
+         <property name="history log" description="Whether to log in the network" code="GrHs" type="boolean"/>
+      </record-type>
+   </suite>
     <suite name="Growl Control" description="control Growl via AppleScript" code="Rawr">
         <class name="application" code="capp" description="Growl">
             <cocoa class="GrowlApplication"/>
