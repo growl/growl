@@ -18,13 +18,15 @@
          <property name="note_description" description="The note's main text" code="desc" type="text"/>
       </class>
       <record-type name="RuleResult" description="Return value from evaluating a rule" code="GrRs">
-         <property name="actions" description="Action(s) to take" code="GrAc">
+         <property name="enabled" code="GrEN" description="Whether to fire the note at all" type="boolean" optional="yes"/>
+         <property name="actions" description="Action(s) to take" code="GrAc" optional="yes">
             <type type="text"/>
             <type type="text" list="yes"/>
          </property>
-         <property name="display" description="Display to use" code="GrDs" type="text"/>
-         <property name="network forward" description="Whether to forward via network" code="GrNF" type="boolean"/>
-         <property name="history log" description="Whether to log in the network" code="GrHs" type="boolean"/>
+         <property name="display" description="Display to use" code="GrDs" type="text" optional="yes"/>
+         <property name="network_forward" description="Whether to forward via network" code="GrNF" type="boolean" optional="yes"/>
+         <property name="network_subscribers" description="Whether to send to network subscribers" code="GrNS" type="boolean" optional="yes"/>
+         <property name="history_log" description="Whether to log in the network" code="GrHL" type="boolean" optional="yes"/>
       </record-type>
    </suite>
     <suite name="Growl Control" description="control Growl via AppleScript" code="Rawr">
