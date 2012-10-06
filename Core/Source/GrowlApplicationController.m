@@ -398,14 +398,20 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 -(NSAppleEventDescriptor*)notificationDescriptor:(NSDictionary*)dict {
    NSAppleEventDescriptor *noteDesc = [NSAppleEventDescriptor recordDescriptor];
    NSAppleEventDescriptor *list = [NSAppleEventDescriptor listDescriptor];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"app_name"] atIndex:1];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_APP_NAME]] atIndex:2];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"note_type"] atIndex:3];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_NAME]] atIndex:4];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"note_title"] atIndex:5];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_TITLE]] atIndex:6];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"note_description"] atIndex:7];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]] atIndex:8];
+   NSInteger index = 1;
+   NSString *host = [dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+   if(!host || [host isLocalHost])
+      host = @"localhost";
+   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"host"] atIndex:index++];
+   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:host] atIndex:index++];
+   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"app_name"] atIndex:index++];
+   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_APP_NAME]] atIndex:index++];
+   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"note_type"] atIndex:index++];
+   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_NAME]] atIndex:index++];
+   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"note_title"] atIndex:index++];
+   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_TITLE]] atIndex:index++];
+   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"note_description"] atIndex:index++];
+   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]] atIndex:index++];
    [noteDesc setDescriptor:list forKeyword:'usrf'];
    return noteDesc;
 }

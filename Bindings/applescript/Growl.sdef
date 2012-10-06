@@ -12,6 +12,7 @@
          <result type="RuleResult" description="The actions to take upon completion"/>
       </event>
       <class name="Notification" description="A growl notification" code="GrNt">
+         <property name="host" description="The computer from which the note came, localhost for the local machine" code="nths" type="text"/>
          <property name="app_name" description="The application name" code="apnm" type="text"/>
          <property name="note_type" description="The underlying note type" code="nttp" type="text"/>
          <property name="note_title" description="The note's title" code="titl" type="text"/>
