@@ -456,15 +456,19 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        }
                                     }
                                     
+                                    BOOL displayed = NO;
                                     if([result descriptorForKeyword:'GrDs']){
                                        NSString *displayName =[[result descriptorForKeyword:'GrDs'] stringValue];
                                        //NSLog(@"Display using: %@", displayName);
                                        if([displayName caseInsensitiveCompare:@"default"] == NSOrderedSame){
-                                          [blockSelf displayNotificationUsingDefaultDisplay:copyDict];
+                                          //This is handled below by if(!displayed) section
                                        }else if([displayName caseInsensitiveCompare:@"none"] == NSOrderedSame){
-                                          //Dont use any!
+                                          //Dont use any! Setting displayed to yes will fool the bit below to use the default display
+                                          displayed = YES;
                                        }else if([displayName caseInsensitiveCompare:@"notification-center"] == NSOrderedSame){
+                                          //Explicit NC call
                                           [blockSelf _fireAppleNotificationCenter:dict];
+                                          displayed = YES;
                                        }else{
                                           //Find this display if we can, otherwise fall back
                                           GrowlTicketDatabasePlugin *pluginConfig = [[GrowlTicketDatabase sharedInstance] actionForName:displayName];
@@ -472,17 +476,19 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                              [blockSelf displayNotification:copyDict
                                                                  withPlugin:(GrowlDisplayPlugin*)[pluginConfig pluginInstanceForConfiguration]
                                                           withConfiguration:[pluginConfig configuration]];
-                                          }else{
-                                             [blockSelf displayNotificationUsingDefaultDisplay:copyDict];
+                                             displayed = YES;
                                           }
                                        }
-                                    }else{
+                                    }
+                                    if(!displayed && ![[GrowlPreferencesController sharedController] squelchMode]){
                                        [blockSelf displayNotificationUsingDefaultDisplay:copyDict];
                                     }
                                     
+                                    BOOL actedUpon = NO;
                                     if([result descriptorForKeyword:'GrAc']){
                                        NSAppleEventDescriptor *actionsDesc = [result descriptorForKeyword:'GrAc'];
                                        if([actionsDesc descriptorType] == typeAEList){
+                                          actedUpon = YES;  //Regardless, yes we acted upon it
                                           NSMutableSet *actionNames = [NSMutableSet set];
                                           for(int i = 1; i <= [actionsDesc numberOfItems]; i++){
                                              [actionNames addObject:[[actionsDesc descriptorAtIndex:i] stringValue]];
@@ -499,23 +505,22 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                           [blockSelf dispatchNotification:copyDict toActions:actions];
                                        }else if([actionsDesc descriptorType] == typeAEText){
                                           NSString *actionName = [actionsDesc stringValue];
-                                          NSLog(@"use action: %@", [actionsDesc stringValue]);
+                                          //NSLog(@"use action: %@", [actionsDesc stringValue]);
                                           if([actionName caseInsensitiveCompare:@"default"] == NSOrderedSame) {
-                                             [blockSelf dispatchNotificationToDefaultConfigSet:copyDict];
+                                             //This is handled by the if(!actedUpon) below
                                           }else if([actionName caseInsensitiveCompare:@"none"] == NSOrderedSame) {
-                                             //Do nothing!
+                                             //Do nothing! Just like the display, this prevents us from taking the default actions
+                                             actedUpon = YES;
                                           }else{
                                              GrowlTicketDatabasePlugin *pluginConfig = [[GrowlTicketDatabase sharedInstance] actionForName:actionName];
                                              if(pluginConfig){
                                                 [blockSelf dispatchNotification:copyDict toActions:[NSSet setWithObject:pluginConfig]];
-                                             }else{
-                                                [blockSelf displayNotificationUsingDefaultDisplay:copyDict];
+                                                actedUpon = YES;
                                              }
                                           }
-                                       }else{
-                                          [blockSelf dispatchNotificationToDefaultConfigSet:copyDict];
                                        }
-                                    }else{
+                                    }
+                                    if(!actedUpon && ![[GrowlPreferencesController sharedController] squelchMode]){
                                        [blockSelf dispatchNotificationToDefaultConfigSet:copyDict];
                                     }
                                     
