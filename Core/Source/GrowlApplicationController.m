@@ -388,14 +388,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    
    if(![preferences squelchMode])
    {
-      if ([preferences shouldUseAppleNotifications]) {
-         // We ignore display preferences, and use Notification Center instead.
-         [self _fireAppleNotificationCenter:aDict];
-      }
-      else {
-         [self displayNotificationUsingDefaultDisplay:aDict];
-      }
-
+      [self displayNotificationUsingDefaultDisplay:aDict];
       [self dispatchNotificationToDefaultConfigSet:aDict];
    }
    
@@ -470,8 +463,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                           [blockSelf displayNotificationUsingDefaultDisplay:copyDict];
                                        }else if([displayName caseInsensitiveCompare:@"none"] == NSOrderedSame){
                                           //Dont use any!
+                                       }else if([displayName caseInsensitiveCompare:@"notification-center"] == NSOrderedSame){
+                                          [blockSelf _fireAppleNotificationCenter:dict];
                                        }else{
-                                          
                                           //Find this display if we can, otherwise fall back
                                           GrowlTicketDatabasePlugin *pluginConfig = [[GrowlTicketDatabase sharedInstance] actionForName:displayName];
                                           if(pluginConfig && [pluginConfig canFindInstance]){
@@ -698,20 +692,26 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 }
 
 -(void)displayNotificationUsingDefaultDisplay:(NSDictionary*)dict {
-   GrowlTicketDatabaseApplication *ticket = [self appTicketForDict:dict];
-   GrowlTicketDatabaseNotification *notification = [self notificationTicketForDict:dict];
-   if (!ticket || !notification) {
-      return;
+   if ([[GrowlPreferencesController sharedController] shouldUseAppleNotifications]) {
+      // We ignore display preferences, and use Notification Center instead.
+      [self _fireAppleNotificationCenter:dict];
    }
-   
-   GrowlTicketDatabaseDisplay *resolvedDisplayConfig = [notification resolvedDisplayConfig];
-   GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[resolvedDisplayConfig pluginInstanceForConfiguration];
-   NSMutableDictionary *configCopy = [[[resolvedDisplayConfig configuration] mutableCopy] autorelease];
-   if(!configCopy)
-      configCopy = [NSMutableDictionary dictionary];
-   [configCopy setValue:[NSNumber numberWithInt:[ticket resolvedDisplayOrigin]] forKey:@"com.growl.positioncontroller.selectedposition"];
-   [configCopy setValue:[resolvedDisplayConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
-   [self displayNotification:dict withPlugin:display withConfiguration:configCopy];
+   else {
+      GrowlTicketDatabaseApplication *ticket = [self appTicketForDict:dict];
+      GrowlTicketDatabaseNotification *notification = [self notificationTicketForDict:dict];
+      if (!ticket || !notification) {
+         return;
+      }
+      
+      GrowlTicketDatabaseDisplay *resolvedDisplayConfig = [notification resolvedDisplayConfig];
+      GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[resolvedDisplayConfig pluginInstanceForConfiguration];
+      NSMutableDictionary *configCopy = [[[resolvedDisplayConfig configuration] mutableCopy] autorelease];
+      if(!configCopy)
+         configCopy = [NSMutableDictionary dictionary];
+      [configCopy setValue:[NSNumber numberWithInt:[ticket resolvedDisplayOrigin]] forKey:@"com.growl.positioncontroller.selectedposition"];
+      [configCopy setValue:[resolvedDisplayConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
+      [self displayNotification:dict withPlugin:display withConfiguration:configCopy];
+   }
 }
 
 -(void)displayNotification:(NSDictionary*)note withPlugin:(GrowlDisplayPlugin*)plugin withConfiguration:(NSDictionary*)configDict {
