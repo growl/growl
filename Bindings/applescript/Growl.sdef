@@ -7,10 +7,10 @@
 
 <dictionary title="Growl Terminology">
    <suite name="Growl Rules" description="Method to provide rules for Growl, telling it what to do with a given notification" code="GrRl">
-      <!--<event name="evaluate_notification" description="Evaluate a notification, and return the actions to take" code="GrRuleEv">
+      <event name="evaluate notification" description="Evaluate a notification, and return the actions to take" code="GrRuNtEv">
          <parameter name="with" code="NtPa" type="GrowlNotification" description="The notification to evaluate"/>
          <result type="RuleResult" description="The actions to take upon completion"/>
-      </event>-->
+      </event>
       <record-type name="GrowlNotification" description="A growl notification" code="GrNt">
          <property name="host" description="The computer from which the note came, localhost for the local machine" code="NtHs" type="text" access="rw"/>
          <property name="app_name" description="The application name" code="ApNm" type="text" access="rw"/>

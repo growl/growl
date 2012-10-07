@@ -406,22 +406,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    NSString *host = [dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
    if(!host || [host isLocalHost])
       host = @"localhost";
-   
-/*   NSAppleEventDescriptor *noteDesc = [NSAppleEventDescriptor recordDescriptor];
-   NSAppleEventDescriptor *list = [NSAppleEventDescriptor listDescriptor];
-   NSInteger index = 1;
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"host"] atIndex:index++];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:host] atIndex:index++];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"app_name"] atIndex:index++];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_APP_NAME]] atIndex:index++];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"note_type"] atIndex:index++];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_NAME]] atIndex:index++];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"note_title"] atIndex:index++];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_TITLE]] atIndex:index++];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"note_description"] atIndex:index++];
-   [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]] atIndex:index++];
-   [noteDesc setDescriptor:list forKeyword:'usrf'];*/
-   
+      
    NSAppleEventDescriptor *noteDesc = [NSAppleEventDescriptor recordDescriptor];
    [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:host] forKeyword:'NtHs'];
    [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_APP_NAME]] forKeyword:'ApNm'];
@@ -441,20 +426,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    NSAppleEventDescriptor *thisApplication = [NSAppleEventDescriptor descriptorWithDescriptorType:typeKernelProcessID
                                                                                             bytes:&pid
                                                                                            length:sizeof(pid)];
-   
-   NSAppleEventDescriptor *event = [NSAppleEventDescriptor appleEventWithEventClass:'ascr'
-                                                                            eventID:'psbr'
+   //GrRuNtEv
+   NSAppleEventDescriptor *event = [NSAppleEventDescriptor appleEventWithEventClass:'GrRu'
+                                                                            eventID:'NtEv'
                                                                    targetDescriptor:thisApplication
                                                                            returnID:kAutoGenerateReturnID
                                                                       transactionID:kAnyTransactionID];
-   [event setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:@"evaluate_notification"]
-                  forKeyword:'snam'];
-   
-   
-   NSAppleEventDescriptor *record = [NSAppleEventDescriptor listDescriptor];
-   [record insertDescriptor:[self notificationDescriptor:dict] atIndex:1];
-   [event setParamDescriptor:record
-                  forKeyword:keyDirectObject];
+   [event setDescriptor:[self notificationDescriptor:dict] forKeyword:'NtPa'];
 
    __block NSDictionary *copyDict = [dict copy];
    __block GrowlApplicationController *blockSelf = self;
