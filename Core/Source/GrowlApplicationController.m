@@ -341,16 +341,28 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    return NSClassFromString(@"NSUserAppleScriptTask") != nil;
 }
 
+-(NSURL*)baseScriptDirectoryURL {
+   NSError *urlError = nil;
+   NSURL *baseURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory
+                                                           inDomain:NSUserDomainMask
+                                                  appropriateForURL:nil
+                                                             create:YES
+                                                              error:&urlError];
+   if(urlError){
+      static dispatch_once_t onceToken;
+      dispatch_once(&onceToken, ^{
+         NSLog(@"Error retrieving Application Scripts directoy, %@", urlError);
+      });
+   }
+   return urlError ? nil : baseURL;
+}
+
 - (NSUserAppleScriptTask*)appleScriptTask {
    NSUserAppleScriptTask* result = nil;
    if([self hasAppleScriptTaskClass]){
-      NSError *urlError = nil;
-      NSURL *baseURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory
-                                                              inDomain:NSUserDomainMask
-                                                     appropriateForURL:nil
-                                                                create:YES
-                                                                 error:&urlError];
-      if(baseURL && !urlError){
+      NSURL *baseURL = [self baseScriptDirectoryURL];
+      
+      if(baseURL){
          NSError *error = nil;
          NSURL *path = [baseURL URLByAppendingPathComponent:@"Rules.scpt"];
          result = [[NSUserAppleScriptTask alloc] initWithURL:path
@@ -358,11 +370,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
          if(error){
             NSLog(@"Error retrieving apple script task");
          }
-      }else{
-         static dispatch_once_t onceToken;
-         dispatch_once(&onceToken, ^{
-            NSLog(@"Error retrieving Application Scripts directoy, %@", urlError);
-         });
       }
    }
    return [result autorelease];
@@ -396,12 +403,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 }
 
 -(NSAppleEventDescriptor*)notificationDescriptor:(NSDictionary*)dict {
-   NSAppleEventDescriptor *noteDesc = [NSAppleEventDescriptor recordDescriptor];
-   NSAppleEventDescriptor *list = [NSAppleEventDescriptor listDescriptor];
-   NSInteger index = 1;
    NSString *host = [dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
    if(!host || [host isLocalHost])
       host = @"localhost";
+   
+/*   NSAppleEventDescriptor *noteDesc = [NSAppleEventDescriptor recordDescriptor];
+   NSAppleEventDescriptor *list = [NSAppleEventDescriptor listDescriptor];
+   NSInteger index = 1;
    [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"host"] atIndex:index++];
    [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:host] atIndex:index++];
    [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"app_name"] atIndex:index++];
@@ -412,7 +420,15 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_TITLE]] atIndex:index++];
    [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:@"note_description"] atIndex:index++];
    [list insertDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]] atIndex:index++];
-   [noteDesc setDescriptor:list forKeyword:'usrf'];
+   [noteDesc setDescriptor:list forKeyword:'usrf'];*/
+   
+   NSAppleEventDescriptor *noteDesc = [NSAppleEventDescriptor recordDescriptor];
+   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:host] forKeyword:'NtHs'];
+   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_APP_NAME]] forKeyword:'ApNm'];
+   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_NAME]] forKeyword:'NtTp'];
+   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_TITLE]] forKeyword:'Titl'];
+   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]] forKeyword:'Desc'];
+ 
    return noteDesc;
 }
 
@@ -439,7 +455,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    [record insertDescriptor:[self notificationDescriptor:dict] atIndex:1];
    [event setParamDescriptor:record
                   forKeyword:keyDirectObject];
-   
+
    __block NSDictionary *copyDict = [dict copy];
    __block GrowlApplicationController *blockSelf = self;
    [applescriptTask executeWithAppleEvent:event
@@ -553,15 +569,11 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                     }
                                     
                                  }else{
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                       [blockSelf dispatchByClassicWithFilledInDict:copyDict];
-                                    });
+                                    [blockSelf dispatchByClassicWithFilledInDict:copyDict];
                                  }
                               }else{
                                  NSLog(@"completion error: %@", completionError);
-                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                    [blockSelf dispatchByClassicWithFilledInDict:copyDict];
-                                 });
+                                 [blockSelf dispatchByClassicWithFilledInDict:copyDict];
                               }
                               
                               [copyDict release];

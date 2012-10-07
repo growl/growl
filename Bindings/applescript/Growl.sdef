@@ -7,27 +7,27 @@
 
 <dictionary title="Growl Terminology">
    <suite name="Growl Rules" description="Method to provide rules for Growl, telling it what to do with a given notification" code="GrRl">
-      <event name="evaluate_notification" description="Evaluate a notification, and return the actions to take" code="grev">
-         <parameter name="notification" code="grht" type="Notification" description="The notification to evaluate"/>
+      <!--<event name="evaluate_notification" description="Evaluate a notification, and return the actions to take" code="GrRuleEv">
+         <parameter name="with" code="NtPa" type="GrowlNotification" description="The notification to evaluate"/>
          <result type="RuleResult" description="The actions to take upon completion"/>
-      </event>
-      <class name="Notification" description="A growl notification" code="GrNt">
-         <property name="host" description="The computer from which the note came, localhost for the local machine" code="nths" type="text"/>
-         <property name="app_name" description="The application name" code="apnm" type="text"/>
-         <property name="note_type" description="The underlying note type" code="nttp" type="text"/>
-         <property name="note_title" description="The note's title" code="titl" type="text"/>
-         <property name="note_description" description="The note's main text" code="desc" type="text"/>
-      </class>
-      <record-type name="RuleResult" description="Return value from evaluating a rule" code="GrRs">
-         <property name="enabled" code="GrEN" description="Whether to fire the note at all" type="boolean" optional="yes"/>
+      </event>-->
+      <record-type name="GrowlNotification" description="A growl notification" code="GrNt">
+         <property name="host" description="The computer from which the note came, localhost for the local machine" code="NtHs" type="text" access="rw"/>
+         <property name="app_name" description="The application name" code="ApNm" type="text" access="rw"/>
+         <property name="note_type" description="The underlying note type" code="NtTp" type="text" access="rw"/>
+         <property name="note_title" description="The note's title" code="Titl" type="text" access="rw"/>
+         <property name="note_description" description="The note's main text" code="Desc" type="text" access="rw"/>
+      </record-type>
+      <record-type name="RuleResult" description="Return value from evaluating a notification" code="GrRs">
+         <property name="enabled" code="GrEN" description="Whether to fire the note at all" type="boolean"/>
          <property name="actions" description="Action(s) to take" code="GrAc" optional="yes">
             <type type="text"/>
             <type type="text" list="yes"/>
          </property>
          <property name="display" description="Display to use" code="GrDs" type="text" optional="yes"/>
-         <property name="network_forward" description="Whether to forward via network" code="GrNF" type="boolean" optional="yes"/>
-         <property name="network_subscribers" description="Whether to send to network subscribers" code="GrNS" type="boolean" optional="yes"/>
-         <property name="history_log" description="Whether to log in the network" code="GrHL" type="boolean" optional="yes"/>
+         <property name="network_forward" description="Whether to forward via network" code="GrNF" type="boolean"/>
+         <property name="network_subscribers" description="Whether to send to network subscribers" code="GrNS" type="boolean"/>
+         <property name="history_log" description="Whether to log in the network" code="GrHL" type="boolean"/>
       </record-type>
    </suite>
     <suite name="Growl Control" description="control Growl via AppleScript" code="Rawr">
@@ -60,10 +60,10 @@
             <property name="allows incoming network" code="innt" type="boolean" access="r" description="Is Growl accepting notifications from the network?">
                <cocoa key="allowsIncomingNetwork"/>
             </property>
-           <property name="forwarding enabled" code="otnt" type="boolean" access="r" description="Is Growl forwarding notifications?">
+           <property name="forwarding enabled" code="OtNT" type="boolean" access="r" description="Is Growl forwarding notifications?">
               <cocoa key="forwardingEnabled"/>
            </property>
-           <property name="subscription allowed" code="sont" type="boolean" access="r" description="Is Growl allowing subscribers?">
+           <property name="subscription allowed" code="SoNT" type="boolean" access="r" description="Is Growl allowing subscribers?">
               <cocoa key="subscriptionAllowed"/>
            </property>
         </class>
