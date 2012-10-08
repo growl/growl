@@ -395,7 +395,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    
    if(![preferences squelchMode])
    {
-      [self displayNotificationUsingDefaultDisplay:aDict];
+      [self displayNotificationUsingDefaultDisplayInDefaultPosition:aDict];
       [self dispatchNotificationToDefaultConfigSet:aDict];
    }
    
@@ -416,6 +416,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithDescriptorType:typeData
                                                                            data:[dict valueForKey:GROWL_NOTIFICATION_ICON_DATA]]
                 forKeyword:'Icon'];
+   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:[[dict valueForKey:GROWL_NOTIFICATION_STICKY] boolValue]] forKeyword:'Stic'];
    return noteDesc;
 }
 
@@ -464,6 +465,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        NSString *description = nil;
                                        NSData *iconData = nil;
                                        NSAppleEventDescriptor *notification = [result descriptorForKeyword:'NtRt'];
+                                       NSAppleEventDescriptor *sticky = [notification descriptorForKeyword:'Stic'];
                                        if([notification descriptorForKeyword:'Titl']){
                                           title = [[notification descriptorForKeyword:'Titl'] stringValue];
                                        }
@@ -477,7 +479,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        BOOL changed = NO;
                                        if((title && ![title isEqualToString:@""]) ||
                                           (description && ![description isEqualToString:@""]) ||
-                                          (iconData && [iconData length] != 0))
+                                          (iconData && [iconData length] != 0) ||
+                                          (sticky && [sticky descriptorType] == typeBoolean))
                                        {
                                           if(title && ![title isEqualToString:[copyDict valueForKey:GROWL_NOTIFICATION_TITLE]]){
                                              [mutableCopy setObject:title forKey:GROWL_NOTIFICATION_TITLE];
@@ -492,6 +495,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                              [mutableCopy setObject:iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
                                              changed = YES;
                                           }
+                                          if(sticky && [sticky booleanValue] != [[copyDict valueForKey:GROWL_NOTIFICATION_STICKY] boolValue]){
+                                             [mutableCopy setObject:[NSNumber numberWithBool:[sticky booleanValue]] forKey:GROWL_NOTIFICATION_STICKY];
+                                             changed = YES;
+                                          }
                                           
                                           if(changed){
                                              [copyDict release];
@@ -500,6 +507,31 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        }
                                        
                                        [mutableCopy release];
+                                    }
+                                    
+                                    GrowlPositionOrigin origin = GrowlNoOrigin;
+                                    if([result descriptorForKeyword:'Orig']){
+                                       NSAppleEventDescriptor *originDesc = [result descriptorForKeyword:'Orig'];
+                                       if([originDesc descriptorType] == typeEnumerated){
+                                          switch ([originDesc enumCodeValue]) {
+                                             case 'PoNO':
+                                                origin = GrowlNoOrigin;
+                                                break;
+                                             case 'PoTL':
+                                                origin = GrowlTopLeftCorner;
+                                                break;
+                                             case 'PoBR':
+                                                origin = GrowlBottomRightCorner;
+                                                break;
+                                             case 'PoTR':
+                                             default:
+                                                origin = GrowlTopRightCorner;
+                                                break;
+                                             case 'PoBL':
+                                                origin = GrowlBottomLeftCorner;
+                                                break;
+                                          }
+                                       }
                                     }
                                     
                                     BOOL displayed = NO;
@@ -518,16 +550,25 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        }else{
                                           //Find this display if we can, otherwise fall back
                                           GrowlTicketDatabasePlugin *pluginConfig = [[GrowlTicketDatabase sharedInstance] actionForName:displayName];
+                                          NSMutableDictionary *configCopy = [[[pluginConfig configuration] mutableCopy] autorelease];
+                                          if(!configCopy)
+                                             configCopy = [NSMutableDictionary dictionary];
+                                          if(origin == GrowlNoOrigin){
+                                             GrowlTicketDatabaseNotification *ticket = [blockSelf notificationTicketForDict:copyDict];
+                                             origin = (GrowlPositionOrigin)[ticket resolvedDisplayOrigin];
+                                          }
+                                          [configCopy setValue:[NSNumber numberWithInt:origin] forKey:@"com.growl.positioncontroller.selectedposition"];
+                                          [configCopy setValue:[pluginConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
                                           if(pluginConfig && [pluginConfig canFindInstance]){
                                              [blockSelf displayNotification:copyDict
                                                                  withPlugin:(GrowlDisplayPlugin*)[pluginConfig pluginInstanceForConfiguration]
-                                                          withConfiguration:[pluginConfig configuration]];
+                                                          withConfiguration:configCopy];
                                              displayed = YES;
                                           }
                                        }
                                     }
                                     if(!displayed && ![[GrowlPreferencesController sharedController] squelchMode]){
-                                       [blockSelf displayNotificationUsingDefaultDisplay:copyDict];
+                                       [blockSelf displayNotificationUsingDefaultDisplay:copyDict atPosition:origin];
                                     }
                                     
                                     BOOL actedUpon = NO;
@@ -750,7 +791,11 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    return aDict;
 }
 
--(void)displayNotificationUsingDefaultDisplay:(NSDictionary*)dict {
+-(void)displayNotificationUsingDefaultDisplayInDefaultPosition:(NSDictionary*)dict {
+   [self displayNotificationUsingDefaultDisplay:dict atPosition:GrowlNoOrigin];
+}
+
+-(void)displayNotificationUsingDefaultDisplay:(NSDictionary*)dict atPosition:(GrowlPositionOrigin)position {
    if ([[GrowlPreferencesController sharedController] shouldUseAppleNotifications]) {
       // We ignore display preferences, and use Notification Center instead.
       [self _fireAppleNotificationCenter:dict];
@@ -767,7 +812,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
       NSMutableDictionary *configCopy = [[[resolvedDisplayConfig configuration] mutableCopy] autorelease];
       if(!configCopy)
          configCopy = [NSMutableDictionary dictionary];
-      [configCopy setValue:[NSNumber numberWithInt:[ticket resolvedDisplayOrigin]] forKey:@"com.growl.positioncontroller.selectedposition"];
+      if(position == GrowlNoOrigin)
+         position = (GrowlPositionOrigin)[ticket resolvedDisplayOrigin];
+      [configCopy setValue:[NSNumber numberWithInt:position] forKey:@"com.growl.positioncontroller.selectedposition"];
       [configCopy setValue:[resolvedDisplayConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
       [self displayNotification:dict withPlugin:display withConfiguration:configCopy];
    }

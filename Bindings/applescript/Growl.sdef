@@ -18,6 +18,7 @@
          <property name="note title" description="The note's title" code="Titl" type="text" access="rw"/>
          <property name="note description" description="The note's main text" code="Desc" type="text" access="rw"/>
          <property name="note icon" description="The icon the note will display with" code="Icon" type="Image" access="rw"/>
+         <property name="sticky" description="Whether the notification will be sticky" code="Stic" type="boolean" access="rw"/>
       </record-type>
       <record-type name="RuleResult" description="Return value from evaluating a notification" code="GrRs">
          <property name="enabled" code="GrEN" description="Whether to fire the note at all" type="boolean" optional="yes"/>
@@ -35,8 +36,16 @@
             <type type="text" list="yes" hidden="yes"/>
          </property>
          <property name="history log" description="Whether to log in the network" code="GrHL" type="boolean" optional="yes"/>
-         <property name="notification return" description="The updated notification to display, only modifiable fields are title, description, and icon" type="GrowlNotification" code="NtRt" optional="yes"/>
+         <property name="notification return" description="The updated notification to display, only modifiable fields are title, description, icon, sticky" type="GrowlNotification" code="NtRt" optional="yes"/>
+         <property name="position" description="What position to display at" type="GrowlPositionOrigin" code="Orig" optional="yes"/>
       </record-type>
+      <enumeration name="GrowlPositionOrigin" description="A list of possible origins, including the default or 'no origin'" code="GrOr">
+         <enumerator name="no origin" code="PoNO"/>
+         <enumerator name="top left" code="PoTL"/>
+         <enumerator name="bottom right" code="PoBR"/>
+         <enumerator name="top right" code="PoTR"/>
+         <enumerator name="bottom left" code="PoBL"/>
+      </enumeration>
    </suite>
     <suite name="Growl Control" description="control Growl via AppleScript" code="Rawr">
         <class name="application" code="capp" description="Growl">
