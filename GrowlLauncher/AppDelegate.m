@@ -10,18 +10,22 @@
 
 @implementation AppDelegate
 
-@synthesize window = _window;
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	NSURL* appURL = [[[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"../../../../Contents/MacOS/Growl" isDirectory:NO] URLByResolvingSymlinksInPath];
-	NSLog(@"Launching Growl at URL: %@", appURL);
-	NSDictionary* conf = [NSDictionary dictionary];
-	NSError* error = nil;
-	[[NSWorkspace sharedWorkspace] launchApplicationAtURL:appURL options:NSWorkspaceLaunchDefault configuration:conf error:&error];
-	if (error) {
-		NSLog(@"%@", error);
-	}
+    //we only want to actually launch Growl if growl isn't actually running yet.
+    NSArray *growlInstances = [NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.Growl.GrowlHelperApp"];
+    if(!growlInstances.count)
+    {
+        NSURL* appURL = [[[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"../../../../Contents/MacOS/Growl" isDirectory:NO] URLByResolvingSymlinksInPath];
+        NSLog(@"Launching Growl at URL: %@", appURL);
+        NSDictionary* conf = [NSDictionary dictionary];
+        NSError* error = nil;
+        
+        [[NSWorkspace sharedWorkspace] launchApplicationAtURL:appURL options:NSWorkspaceLaunchDefault configuration:conf error:&error];
+        if (error) {
+            NSLog(@"%@", error);
+        }
+    }
 	[NSApp terminate:nil];
 }
 
