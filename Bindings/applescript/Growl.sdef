@@ -13,27 +13,29 @@
       </event>
       <record-type name="GrowlNotification" description="A growl notification" code="GrNt">
          <property name="host" description="The computer from which the note came, localhost for the local machine" code="NtHs" type="text" access="rw"/>
-         <property name="app_name" description="The application name" code="ApNm" type="text" access="rw"/>
-         <property name="note_type" description="The underlying note type" code="NtTp" type="text" access="rw"/>
-         <property name="note_title" description="The note's title" code="Titl" type="text" access="rw"/>
-         <property name="note_description" description="The note's main text" code="Desc" type="text" access="rw"/>
+         <property name="app name" description="The application name" code="ApNm" type="text" access="rw"/>
+         <property name="note type" description="The underlying note type" code="NtTp" type="text" access="rw"/>
+         <property name="note title" description="The note's title" code="Titl" type="text" access="rw"/>
+         <property name="note description" description="The note's main text" code="Desc" type="text" access="rw"/>
+         <property name="note icon" description="The icon the note will display with" code="Icon" type="Image" access="rw"/>
       </record-type>
       <record-type name="RuleResult" description="Return value from evaluating a notification" code="GrRs">
-         <property name="enabled" code="GrEN" description="Whether to fire the note at all" type="boolean"/>
+         <property name="enabled" code="GrEN" description="Whether to fire the note at all" type="boolean" optional="yes"/>
          <property name="actions" description="Action(s) to take" code="GrAc" optional="yes">
             <type type="text"/>
             <type type="text" list="yes"/>
          </property>
          <property name="display" description="Display to use" code="GrDs" type="text" optional="yes"/>
-         <property name="network_forward" description="Whether to forward via network to all enabled destinations" code="GrNF">
+         <property name="network forward" description="Whether to forward via network to all enabled destinations" code="GrNF" optional="yes">
             <type type="boolean"/>
             <type type="text" list="yes" hidden="yes"/>
          </property>
-         <property name="network_subscribers" description="Whether to send to all network subscribers" code="GrNS">
+         <property name="network subscribers" description="Whether to send to all network subscribers" code="GrNS" optional="yes">
             <type type="boolean"/>
             <type type="text" list="yes" hidden="yes"/>
          </property>
-         <property name="history_log" description="Whether to log in the network" code="GrHL" type="boolean"/>
+         <property name="history log" description="Whether to log in the network" code="GrHL" type="boolean" optional="yes"/>
+         <property name="notification return" description="The updated notification to display, only modifiable fields are title, description, and icon" type="GrowlNotification" code="NtRt" optional="yes"/>
       </record-type>
    </suite>
     <suite name="Growl Control" description="control Growl via AppleScript" code="Rawr">

@@ -413,7 +413,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_NAME]] forKeyword:'NtTp'];
    [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_TITLE]] forKeyword:'Titl'];
    [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]] forKeyword:'Desc'];
- 
+   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithDescriptorType:typeData
+                                                                           data:[dict valueForKey:GROWL_NOTIFICATION_ICON_DATA]]
+                forKeyword:'Icon'];
    return noteDesc;
 }
 
@@ -454,6 +456,50 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                           [copyDict release];
                                           return;
                                        }
+                                    }
+                                    
+                                    if([result descriptorForKeyword:'NtRt']){
+                                       NSMutableDictionary *mutableCopy = [copyDict mutableCopy];
+                                       NSString *title = nil;
+                                       NSString *description = nil;
+                                       NSData *iconData = nil;
+                                       NSAppleEventDescriptor *notification = [result descriptorForKeyword:'NtRt'];
+                                       if([notification descriptorForKeyword:'Titl']){
+                                          title = [[notification descriptorForKeyword:'Titl'] stringValue];
+                                       }
+                                       if([notification descriptorForKeyword:'Desc']){
+                                          description = [[notification descriptorForKeyword:'Desc'] stringValue];
+                                       }
+                                       if([notification descriptorForKeyword:'Icon']){
+                                          iconData = [[notification descriptorForKeyword:'Icon'] data];
+                                       }
+                                       
+                                       BOOL changed = NO;
+                                       if((title && ![title isEqualToString:@""]) ||
+                                          (description && ![description isEqualToString:@""]) ||
+                                          (iconData && [iconData length] != 0))
+                                       {
+                                          if(title && ![title isEqualToString:[copyDict valueForKey:GROWL_NOTIFICATION_TITLE]]){
+                                             [mutableCopy setObject:title forKey:GROWL_NOTIFICATION_TITLE];
+                                             changed = YES;
+                                          }
+                                          if(description && ![description isEqualToString:[copyDict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]]){
+                                             [mutableCopy setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
+                                             changed = YES;
+                                          }
+                                          if(iconData && ![iconData isEqualToData:[copyDict valueForKey:GROWL_NOTIFICATION_APP_ICON_DATA]]){
+                                             //Should also verify that the data is valid!
+                                             [mutableCopy setObject:iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
+                                             changed = YES;
+                                          }
+                                          
+                                          if(changed){
+                                             [copyDict release];
+                                             copyDict = [mutableCopy copy];
+                                          }
+                                       }
+                                       
+                                       [mutableCopy release];
                                     }
                                     
                                     BOOL displayed = NO;
