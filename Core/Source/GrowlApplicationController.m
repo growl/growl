@@ -525,16 +525,28 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                     }
                                     
                                     if([result descriptorForKeyword:'GrNF']){
-                                       if([[result descriptorForKeyword:'GrNF'] booleanValue])
+                                       NSAppleEventDescriptor *forward = [result descriptorForKeyword:'GrNF'];
+                                       if([forward descriptorType] == typeBoolean && [forward booleanValue])
                                           [blockSelf forwardGrowlDictViaNetwork:[[copyDict copy] autorelease]];
+                                       else if([forward descriptorType] == typeAEList) {
+                                          //Handle the list
+                                       }else {
+                                          NSLog(@"Unrecognized type for network_forward");
+                                       }
                                     }else{
                                        if([[GrowlPreferencesController sharedController] isForwardingEnabled])
                                           [blockSelf forwardGrowlDictViaNetwork:[[copyDict copy] autorelease]];
                                     }
                                     
                                     if([result descriptorForKeyword:'GrNS']){
-                                       if([[result descriptorForKeyword:'GrNS'] booleanValue])
+                                       NSAppleEventDescriptor *subscribe = [result descriptorForKeyword:'GrNS'];
+                                       if([subscribe descriptorType] == typeBoolean && [subscribe booleanValue])
                                           [blockSelf sendGrowlDictToSubscribers:[[copyDict copy] autorelease]];
+                                       else if([subscribe descriptorType] == typeAEList) {
+                                          //Handle the list
+                                       }else {
+                                          NSLog(@"Unrecognized type for network_subscribers");
+                                       }
                                     }else{
                                        [blockSelf sendGrowlDictToSubscribers:[[copyDict copy] autorelease]];
                                     }

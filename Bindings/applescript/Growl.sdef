@@ -25,8 +25,14 @@
             <type type="text" list="yes"/>
          </property>
          <property name="display" description="Display to use" code="GrDs" type="text" optional="yes"/>
-         <property name="network_forward" description="Whether to forward via network" code="GrNF" type="boolean"/>
-         <property name="network_subscribers" description="Whether to send to network subscribers" code="GrNS" type="boolean"/>
+         <property name="network_forward" description="Whether to forward via network to all enabled destinations" code="GrNF">
+            <type type="boolean"/>
+            <type type="text" list="yes" hidden="yes"/>
+         </property>
+         <property name="network_subscribers" description="Whether to send to all network subscribers" code="GrNS">
+            <type type="boolean"/>
+            <type type="text" list="yes" hidden="yes"/>
+         </property>
          <property name="history_log" description="Whether to log in the network" code="GrHL" type="boolean"/>
       </record-type>
    </suite>
