@@ -44,6 +44,8 @@
 #define ERROR_ICON_OF_FILE_PATH_NOT_IMAGE			5
 #define ERROR_ICON_OF_FILE_UNSUPPORTED_PROTOCOL		6
 
+NSString *IMAGE_FROM_LOCATION_DEPRECATION_URL = @"http://growl.info/documentation/faq.php#applescriptimagelocation";
+
 static const NSSize iconSize = { 128.0, 128.0 };
 
 @implementation GrowlNotifyScriptCommand
@@ -99,14 +101,15 @@ static const NSSize iconSize = { 128.0, 128.0 };
 	@try {
 		NSImage *icon = nil;
 		NSURL   *url = nil;
-
+        
 		//Command used the "image from URL" argument
 		if (imageUrl) {
-         static dispatch_once_t onceToken;
-         dispatch_once(&onceToken, ^{
-            NSLog(@"'icon from location' is deprecated as of Growl 2.0, it will now fire using a generic icon.  To update your own applescript, see instructions here: <insert url here>, or contact the developer of your script and tell them they need to update their applescript.  This message will only show once.");
-         });
-         icon = [[NSWorkspace sharedWorkspace] iconForApplication:@"Applescript Editor.app"];
+            static dispatch_once_t onceToken;
+            dispatch_once(&onceToken, ^{
+                NSLog([NSString stringWithFormat:@"'icon from location' is deprecated as of Growl 2.0, it will now fire using a generic icon.  To update your own applescript, see instructions here: %@, or contact the developer of your script and tell them they need to update their applescript.  This message will only show once.", IMAGE_FROM_LOCATION_DEPRECATION_URL]);
+            });
+            //we retain this icon because all the other paths assume an owning reference
+            icon = [[[NSWorkspace sharedWorkspace] iconForApplication:@"AppleScript Editor.app"] retain];
 		} else if (iconOfFile) {
 			//Command used the "icon of file" argument
 			if (!(url = [self fileUrlForLocationReference:iconOfFile])) {
