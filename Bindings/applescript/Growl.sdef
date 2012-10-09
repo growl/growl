@@ -147,11 +147,15 @@
       </event>
       <record-type name="RuleResult" description="Return value from evaluating a notification" code="GrRs">
          <property name="enabled" code="GrEN" description="Whether to fire the note at all" type="boolean" optional="yes"/>
+         <property name="display" description="Display to use, send 'notification-center' for explicitly sending to Notification Center" code="GrDs" optional="yes">
+            <type type="text"/>
+            <type type="GrowlDefaultLevel"/>
+         </property>
          <property name="actions" description="Action(s) to take" code="GrAc" optional="yes">
             <type type="text"/>
             <type type="text" list="yes"/>
+            <type type="GrowlDefaultLevel"/>
          </property>
-         <property name="display" description="Display to use" code="GrDs" type="text" optional="yes"/>
          <property name="network forward" description="Whether to forward via network to all enabled destinations" code="GrNF" optional="yes">
             <type type="boolean"/>
             <type type="text" list="yes" hidden="yes"/>
@@ -170,6 +174,11 @@
          <enumerator name="bottom right" code="PoBR"/>
          <enumerator name="top right" code="PoTR"/>
          <enumerator name="bottom left" code="PoBL"/>
+      </enumeration>
+      <enumeration name="GrowlDefaultLevel" description="A list of what level of display/action to take, none, default, or global default" code="GrDL">
+         <enumerator name="none" code="DLNo"/>
+         <enumerator name="default" code="DLDf"/>
+         <enumerator name="global default" code="DLGD"/>
       </enumeration>
    </suite>
 </dictionary>

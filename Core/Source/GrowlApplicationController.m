@@ -14,6 +14,7 @@
 #import "GrowlTicketDatabase.h"
 #import "GrowlTicketDatabaseApplication.h"
 #import "GrowlTicketDatabaseNotification.h"
+#import "GrowlTicketDatabaseDisplay.h"
 #import "GrowlTicketDatabaseAction.h"
 #import "GrowlTicketDatabaseCompoundAction.h"
 #import "GrowlPathway.h"
@@ -545,34 +546,38 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                     
                                     BOOL displayed = NO;
                                     if([result descriptorForKeyword:'GrDs']){
-                                       NSString *displayName =[[result descriptorForKeyword:'GrDs'] stringValue];
-                                       //NSLog(@"Display using: %@", displayName);
-                                       if([displayName caseInsensitiveCompare:@"default"] == NSOrderedSame){
-                                          //This is handled below by if(!displayed) section
-                                       }else if([displayName caseInsensitiveCompare:@"none"] == NSOrderedSame){
-                                          //Dont use any! Setting displayed to yes will fool the bit below to use the default display
-                                          displayed = YES;
-                                       }else if([displayName caseInsensitiveCompare:@"notification-center"] == NSOrderedSame){
-                                          //Explicit NC call
-                                          [blockSelf _fireAppleNotificationCenter:dict];
-                                          displayed = YES;
-                                       }else{
-                                          //Find this display if we can, otherwise fall back
-                                          GrowlTicketDatabasePlugin *pluginConfig = [[GrowlTicketDatabase sharedInstance] actionForName:displayName];
-                                          NSMutableDictionary *configCopy = [[[pluginConfig configuration] mutableCopy] autorelease];
-                                          if(!configCopy)
-                                             configCopy = [NSMutableDictionary dictionary];
-                                          if(origin == GrowlNoOrigin){
-                                             GrowlTicketDatabaseNotification *ticket = [blockSelf notificationTicketForDict:copyDict];
-                                             origin = (GrowlPositionOrigin)[ticket resolvedDisplayOrigin];
+                                       NSAppleEventDescriptor *displayDesc = [result descriptorForKeyword:'GrDs'];
+                                       if([displayDesc descriptorType] == typeEnumerated){
+                                          switch ([displayDesc enumCodeValue]) {
+                                             case 'DLNo': //None
+                                                displayed = YES;
+                                                break;
+                                             case 'DLDf': //Default explicit or not for note, handled below
+                                             default:
+                                                break;
+                                             case 'DLGD': //Global default
+                                                [blockSelf displayNotification:copyDict
+                                                             usingPluginConfig:[[GrowlTicketDatabase sharedInstance] defaultDisplayConfig]
+                                                                    atPosition:origin];
+                                                displayed = YES;
+                                                break;
                                           }
-                                          [configCopy setValue:[NSNumber numberWithInt:origin] forKey:@"com.growl.positioncontroller.selectedposition"];
-                                          [configCopy setValue:[pluginConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
-                                          if(pluginConfig && [pluginConfig canFindInstance]){
-                                             [blockSelf displayNotification:copyDict
-                                                                 withPlugin:(GrowlDisplayPlugin*)[pluginConfig pluginInstanceForConfiguration]
-                                                          withConfiguration:configCopy];
+                                       }else if([displayDesc descriptorType] == typeUnicodeText){
+                                          NSString *displayName =[[result descriptorForKeyword:'GrDs'] stringValue];
+                                          //NSLog(@"Display using: %@", displayName);
+                                          if([displayName caseInsensitiveCompare:@"notification-center"] == NSOrderedSame){
+                                             //Explicit NC call
+                                             [blockSelf _fireAppleNotificationCenter:dict];
                                              displayed = YES;
+                                          }else{
+                                             //Find this display if we can, otherwise fall back
+                                             GrowlTicketDatabasePlugin *pluginConfig = [[GrowlTicketDatabase sharedInstance] actionForName:displayName];
+                                             if([pluginConfig isKindOfClass:[GrowlTicketDatabaseDisplay class]]){
+                                                [blockSelf displayNotification:copyDict
+                                                             usingPluginConfig:(GrowlTicketDatabaseDisplay*)pluginConfig
+                                                                    atPosition:origin];
+                                                displayed = YES;
+                                             }
                                           }
                                        }
                                     }
@@ -584,7 +589,21 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                     if([result descriptorForKeyword:'GrAc']){
                                        NSAppleEventDescriptor *actionsDesc = [result descriptorForKeyword:'GrAc'];
                                        //NSLog(@"%@", actionsDesc);
-                                       if([actionsDesc descriptorType] == typeAEList){
+                                       if([actionsDesc descriptorType] == typeEnumerated){
+                                          switch ([actionsDesc enumCodeValue]) {
+                                             case 'DLNo': //None
+                                                displayed = YES;
+                                                break;
+                                             case 'DLDf': //Default explicit or not for note, handled below
+                                             default:
+                                                break;
+                                             case 'DLGD': //Global Default
+                                                [self dispatchNotification:copyDict
+                                                                 toActions:[[GrowlTicketDatabase sharedInstance] defaultActionConfigSet]];
+                                                displayed = YES;
+                                                break;
+                                          }
+                                       }else if([actionsDesc descriptorType] == typeAEList){
                                           actedUpon = YES;  //Regardless, yes we acted upon it
                                           NSMutableSet *actionNames = [NSMutableSet set];
                                           for(int i = 1; i <= [actionsDesc numberOfItems]; i++){
@@ -603,17 +622,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        }else if([actionsDesc descriptorType] == typeUnicodeText){
                                           NSString *actionName = [actionsDesc stringValue];
                                           //NSLog(@"use action: %@", [actionsDesc stringValue]);
-                                          if([actionName caseInsensitiveCompare:@"default"] == NSOrderedSame) {
-                                             //This is handled by the if(!actedUpon) below
-                                          }else if([actionName caseInsensitiveCompare:@"none"] == NSOrderedSame) {
-                                             //Do nothing! Just like the display, this prevents us from taking the default actions
+                                          GrowlTicketDatabasePlugin *pluginConfig = [[GrowlTicketDatabase sharedInstance] actionForName:actionName];
+                                          if(pluginConfig && [pluginConfig isKindOfClass:[GrowlTicketDatabaseAction class]]){
+                                             [blockSelf dispatchNotification:copyDict toActions:[NSSet setWithObject:pluginConfig]];
                                              actedUpon = YES;
-                                          }else{
-                                             GrowlTicketDatabasePlugin *pluginConfig = [[GrowlTicketDatabase sharedInstance] actionForName:actionName];
-                                             if(pluginConfig){
-                                                [blockSelf dispatchNotification:copyDict toActions:[NSSet setWithObject:pluginConfig]];
-                                                actedUpon = YES;
-                                             }
                                           }
                                        }
                                     }
@@ -811,28 +823,31 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
       [self _fireAppleNotificationCenter:dict];
    }
    else {
-      GrowlTicketDatabaseApplication *ticket = [self appTicketForDict:dict];
+      //GrowlTicketDatabaseApplication *ticket = [self appTicketForDict:dict];
       GrowlTicketDatabaseNotification *notification = [self notificationTicketForDict:dict];
-      if (!ticket || !notification) {
+      if (!notification) {
          return;
       }
-      
-      GrowlTicketDatabaseDisplay *resolvedDisplayConfig = [notification resolvedDisplayConfig];
-      GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[resolvedDisplayConfig pluginInstanceForConfiguration];
-      NSMutableDictionary *configCopy = [[[resolvedDisplayConfig configuration] mutableCopy] autorelease];
-      if(!configCopy)
-         configCopy = [NSMutableDictionary dictionary];
-      if(position == GrowlNoOrigin)
-         position = (GrowlPositionOrigin)[ticket resolvedDisplayOrigin];
-      [configCopy setValue:[NSNumber numberWithInt:position] forKey:@"com.growl.positioncontroller.selectedposition"];
-      [configCopy setValue:[resolvedDisplayConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
-      [self displayNotification:dict withPlugin:display withConfiguration:configCopy];
+      [self displayNotification:dict usingPluginConfig:[notification resolvedDisplayConfig] atPosition:position];
    }
 }
 
--(void)displayNotification:(NSDictionary*)note withPlugin:(GrowlDisplayPlugin*)plugin withConfiguration:(NSDictionary*)configDict {
-   if([plugin conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
-      [plugin dispatchNotification:note withConfiguration:configDict];
+-(void)displayNotification:(NSDictionary*)dict
+         usingPluginConfig:(GrowlTicketDatabaseDisplay*)pluginConfig
+                atPosition:(GrowlPositionOrigin)origin
+{
+   GrowlTicketDatabaseApplication *ticket = [self appTicketForDict:dict];
+   GrowlDisplayPlugin *display = (GrowlDisplayPlugin*)[pluginConfig pluginInstanceForConfiguration];
+   NSMutableDictionary *configCopy = [[[pluginConfig configuration] mutableCopy] autorelease];
+   if(!configCopy)
+      configCopy = [NSMutableDictionary dictionary];
+   if(origin == GrowlNoOrigin)
+      origin = (GrowlPositionOrigin)[ticket resolvedDisplayOrigin];
+   [configCopy setValue:[NSNumber numberWithInt:origin] forKey:@"com.growl.positioncontroller.selectedposition"];
+   [configCopy setValue:[pluginConfig configID] forKey:GROWL_PLUGIN_CONFIG_ID];
+   
+   if(display && [display conformsToProtocol:@protocol(GrowlDispatchNotificationProtocol)]){
+      [display dispatchNotification:dict withConfiguration:configCopy];
    }
 }
 
