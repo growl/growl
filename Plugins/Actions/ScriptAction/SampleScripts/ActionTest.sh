@@ -5,6 +5,7 @@
 #
 #  Created by Daniel Siemer on 10/9/12.
 #
+#test
 
 for var in "$@"
 do
