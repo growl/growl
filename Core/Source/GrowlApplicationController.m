@@ -406,17 +406,22 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    NSString *host = [dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
    if(!host || [host isLocalHost])
       host = @"localhost";
-      
+   
+   id icon = [dict valueForKey:GROWL_NOTIFICATION_ICON_DATA];
+   NSData *iconData = [icon isKindOfClass:[NSData class]] ? icon : ([icon isKindOfClass:[NSImage class]] ? [icon TIFFRepresentation] : nil);
+   
    NSAppleEventDescriptor *noteDesc = [NSAppleEventDescriptor recordDescriptor];
    [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:host] forKeyword:'NtHs'];
    [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_APP_NAME]] forKeyword:'ApNm'];
    [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_NAME]] forKeyword:'NtTp'];
    [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_TITLE]] forKeyword:'Titl'];
    [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]] forKeyword:'Desc'];
-   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithDescriptorType:typeData
-                                                                           data:[dict valueForKey:GROWL_NOTIFICATION_ICON_DATA]]
-                forKeyword:'Icon'];
    [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:[[dict valueForKey:GROWL_NOTIFICATION_STICKY] boolValue]] forKeyword:'Stic'];
+   if(iconData != nil){
+      [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithDescriptorType:typeData
+                                                                              data:iconData]
+                   forKeyword:'Icon'];
+   }
    return noteDesc;
 }
 
@@ -491,9 +496,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                              changed = YES;
                                           }
                                           if(iconData && ![iconData isEqualToData:[copyDict valueForKey:GROWL_NOTIFICATION_APP_ICON_DATA]]){
-                                             //Should also verify that the data is valid!
-                                             [mutableCopy setObject:iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
-                                             changed = YES;
+                                             NSImage *imageFromData = [[[NSImage alloc] initWithData:iconData] autorelease];
+                                             if(imageFromData != nil){
+                                                [mutableCopy setObject:iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
+                                                changed = YES;
+                                             }else{
+                                                NSLog(@"Unable to validate image data!");
+                                             }
                                           }
                                           if(sticky && [sticky booleanValue] != [[copyDict valueForKey:GROWL_NOTIFICATION_STICKY] boolValue]){
                                              [mutableCopy setObject:[NSNumber numberWithBool:[sticky booleanValue]] forKey:GROWL_NOTIFICATION_STICKY];
@@ -574,6 +583,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                     BOOL actedUpon = NO;
                                     if([result descriptorForKeyword:'GrAc']){
                                        NSAppleEventDescriptor *actionsDesc = [result descriptorForKeyword:'GrAc'];
+                                       //NSLog(@"%@", actionsDesc);
                                        if([actionsDesc descriptorType] == typeAEList){
                                           actedUpon = YES;  //Regardless, yes we acted upon it
                                           NSMutableSet *actionNames = [NSMutableSet set];
@@ -590,7 +600,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                              }
                                           }];
                                           [blockSelf dispatchNotification:copyDict toActions:actions];
-                                       }else if([actionsDesc descriptorType] == typeAEText){
+                                       }else if([actionsDesc descriptorType] == typeUnicodeText){
                                           NSString *actionName = [actionsDesc stringValue];
                                           //NSLog(@"use action: %@", [actionsDesc stringValue]);
                                           if([actionName caseInsensitiveCompare:@"default"] == NSOrderedSame) {

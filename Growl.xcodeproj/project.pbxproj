@@ -376,6 +376,7 @@
 		BC9EFE0115105F8E00534A7C /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC7E26D815065CF100828D29 /* Carbon.framework */; };
 		BC9EFE0215105FA000534A7C /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC9EFDFA15105EDE00534A7C /* ShortcutRecorder.framework */; };
 		BCA08220153EF89000340F16 /* Growl.icns in Resources */ = {isa = PBXBuildFile; fileRef = 93A60E3F13C4159B00514EF8 /* Growl.icns */; };
+		BCA3774C162446BE003ABCD2 /* ScriptAction.growlView in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = BC0D530016238FFD0027B326 /* ScriptAction.growlView */; };
 		BCA446A215E6764D00BF4FDA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAD872B15BB8AEE00A80055 /* Localizable.strings */; };
 		BCA446BB15E676D800BF4FDA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCAD872E15BB8CD000A80055 /* Localizable.strings */; };
 		BCA446BC15E678D600BF4FDA /* GrowlPluginPreferenceStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = BC80A32614D6F10100B055FE /* GrowlPluginPreferenceStrings.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -670,6 +671,13 @@
 			remoteGlobalIDString = 95E17B8F085E216A00990AB3;
 			remoteInfo = Revision;
 		};
+		BC0D52FF16238FFD0027B326 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC0D52F716238FFD0027B326 /* ScriptAction.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BC0D52A316238EB50027B326;
+			remoteInfo = ScriptAction;
+		};
 		BC1693C2151CBE610000A05C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 93D3C243150EF8BC00108F4A /* ShortcutRecorder.xcodeproj */;
@@ -739,6 +747,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 9398377F0DA42965007F53F3;
 			remoteInfo = ShortcutRecorder.framework;
+		};
+		BCA3774A1624469C003ABCD2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC0D52F716238FFD0027B326 /* ScriptAction.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BC0D52A216238EB50027B326;
+			remoteInfo = ScriptAction;
 		};
 		BCAD79EF1512664F0052EB51 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -826,6 +841,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				BCA3774C162446BE003ABCD2 /* ScriptAction.growlView in Copy Growl Styles */,
 				BCCB23E115372D310064FD1D /* MailMe.growlView in Copy Growl Styles */,
 				113EA428152BEEC20070C235 /* Prowl.growlView in Copy Growl Styles */,
 				BC19A19B15198DE700A0CA64 /* Boxcar.growlView in Copy Growl Styles */,
@@ -1424,6 +1440,7 @@
 		BC0D31DC14D3045400587B7B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = Core/Resources/en.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
 		BC0D31DF14D3073E00587B7B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = Core/Resources/en.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
 		BC0D31E314D3266100587B7B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = Core/Resources/en.lproj/OldGrowl.rtf; sourceTree = "<group>"; };
+		BC0D52F716238FFD0027B326 /* ScriptAction.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ScriptAction.xcodeproj; path = Plugins/Actions/ScriptAction/ScriptAction.xcodeproj; sourceTree = "<group>"; };
 		BC17CF8C147AB6EC005408AC /* GNTPSubscriptionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPSubscriptionController.h; path = Core/Source/GNTPSubscriptionController.h; sourceTree = "<group>"; };
 		BC17CF8D147AB6EC005408AC /* GNTPSubscriptionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GNTPSubscriptionController.m; path = Core/Source/GNTPSubscriptionController.m; sourceTree = "<group>"; };
 		BC17CF8F147BFDE4005408AC /* GNTPSubscriberEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GNTPSubscriberEntry.h; path = Core/Source/GNTPSubscriberEntry.h; sourceTree = "<group>"; };
@@ -2757,6 +2774,14 @@
 			name = "First Launch Text";
 			sourceTree = "<group>";
 		};
+		BC0D52F816238FFD0027B326 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC0D530016238FFD0027B326 /* ScriptAction.growlView */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		BC17CF8B147AB6C8005408AC /* Subscription */ = {
 			isa = PBXGroup;
 			children = (
@@ -3146,6 +3171,7 @@
 				BCAD79EB1512664F0052EB51 /* SoundAction.xcodeproj */,
 				BC19A16D15198D4600A0CA64 /* Boxcar.xcodeproj */,
 				113EA40B152BEE1D0070C235 /* Prowl.xcodeproj */,
+				BC0D52F716238FFD0027B326 /* ScriptAction.xcodeproj */,
 			);
 			name = Actions;
 			sourceTree = "<group>";
@@ -3679,6 +3705,7 @@
 				BC19A19A15198DCB00A0CA64 /* PBXTargetDependency */,
 				113EA427152BEEB50070C235 /* PBXTargetDependency */,
 				BCCB23E015372D190064FD1D /* PBXTargetDependency */,
+				BCA3774B1624469C003ABCD2 /* PBXTargetDependency */,
 			);
 			name = Growl.app;
 			productName = GrowlHelperApp;
@@ -3820,6 +3847,10 @@
 					ProjectRef = 113EA40B152BEE1D0070C235 /* Prowl.xcodeproj */;
 				},
 				{
+					ProductGroup = BC0D52F816238FFD0027B326 /* Products */;
+					ProjectRef = BC0D52F716238FFD0027B326 /* ScriptAction.xcodeproj */;
+				},
+				{
 					ProductGroup = 93D3C244150EF8BC00108F4A /* Products */;
 					ProjectRef = 93D3C243150EF8BC00108F4A /* ShortcutRecorder.xcodeproj */;
 				},
@@ -3870,6 +3901,13 @@
 			fileType = wrapper.cfbundle;
 			path = GrowlQL.qlgenerator;
 			remoteRef = 93A042AA1382150A00C46F0A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC0D530016238FFD0027B326 /* ScriptAction.growlView */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ScriptAction.growlView;
+			remoteRef = BC0D52FF16238FFD0027B326 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		BC19A17615198D4600A0CA64 /* Boxcar.growlView */ = {
@@ -4813,6 +4851,11 @@
 			isa = PBXTargetDependency;
 			name = ShortcutRecorder.framework;
 			targetProxy = BC9EFDFF15105F2300534A7C /* PBXContainerItemProxy */;
+		};
+		BCA3774B1624469C003ABCD2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ScriptAction;
+			targetProxy = BCA3774A1624469C003ABCD2 /* PBXContainerItemProxy */;
 		};
 		BCAD79F2151267390052EB51 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
