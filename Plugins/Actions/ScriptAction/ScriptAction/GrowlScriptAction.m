@@ -112,8 +112,8 @@
    if(!host /*|| [host isLocalHost]*/)
       host = @"localhost";
    
-   //id icon = [dict valueForKey:GROWL_NOTIFICATION_ICON_DATA];
-   //NSData *iconData = [icon isKindOfClass:[NSData class]] ? icon : ([icon isKindOfClass:[NSImage class]] ? [icon TIFFRepresentation] : nil);
+   id icon = [dict valueForKey:GROWL_NOTIFICATION_ICON_DATA];
+   NSData *iconData = [icon isKindOfClass:[NSData class]] ? icon : ([icon isKindOfClass:[NSImage class]] ? [icon TIFFRepresentation] : nil);
    
    [result addObject:host];
    [result addObject:[dict valueForKey:GROWL_APP_NAME]];
@@ -121,11 +121,11 @@
    [result addObject:[dict valueForKey:GROWL_NOTIFICATION_TITLE]];
    [result addObject:[dict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]];
    BOOL sticky = [dict valueForKey:GROWL_NOTIFICATION_STICKY] ? [[dict valueForKey:GROWL_NOTIFICATION_STICKY] boolValue] : NO;
-   NSString *stickyString = sticky ? @"yes" : @"no";
+   NSString *stickyString = sticky ? @"0" : @"1";
    [result addObject:stickyString];
-   /*if(iconData != nil){
+   if(iconData != nil){
       [result addObject:iconData];
-   }*/
+   }
 
    return [[result copy] autorelease];
 }
@@ -136,7 +136,7 @@
  * If you have a requirement to be serialized, make a custom serial queue for your own use. 
  */
 -(void)dispatchNotification:(NSDictionary *)notification withConfiguration:(NSDictionary *)configuration {
-   NSString *fileName = @"ActionTest.sh";
+   NSString *fileName = [configuration valueForKey:@"ScriptActionFileName"];
    NSUserScriptTask *scriptTask = [self scriptTaskForFile:fileName];
 
    if(scriptTask){

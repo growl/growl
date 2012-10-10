@@ -12,7 +12,29 @@
 
 #import "GrowlScriptActionPreferencePane.h"
 
+@interface GrowlScriptActionPreferencePane ()
+
+@property (nonatomic, assign) IBOutlet NSTableView	*actionsTableView;
+@property (nonatomic, retain) NSArray *actions;
+-(void)setActionName:(NSString *)actionName;
+-(NSString*)actionName;
+
+@end
+
 @implementation GrowlScriptActionPreferencePane
+
+-(id)initWithBundle:(NSBundle *)bundle {
+	if((self = [super initWithBundle:bundle])){
+      
+	}
+	return self;
+}
+
+-(void)dealloc {
+   self.actionName = nil;
+	self.actions = nil;
+	[super dealloc];
+}
 
 -(NSString*)mainNibName {
 	return @"ScriptActionPrefPane";
@@ -26,7 +48,7 @@
 	static NSSet *keys = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		keys = [[NSSet set] retain];
+		keys = [[NSSet setWithObjects:@"actions", @"actionName", nil] retain];
 	});
 	return keys;
 }
@@ -36,10 +58,80 @@
  * that are unbindable.  Call the super version in order to ensure bindingKeys is also called and used.
  * Uncomment the method to use.
  */
-/*
+
 -(void)updateConfigurationValues {
+	[self updateActionList];
 	[super updateConfigurationValues];
+	if((!self.actionName || ![self.actions containsObject:[self actionName]]) && [self.actions count] > 0){
+		[self setActionName:[self.actions objectAtIndex:0U]];
+	}
+   [self.actionsTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[self.actions indexOfObject:[self actionName]]]
+                      byExtendingSelection:NO];
 }
-*/
+
+-(void)tableViewSelectionDidChange:(NSNotification *)notification	{
+	NSInteger selectedRow = [self.actionsTableView selectedRow];
+	if(selectedRow >= 0 && (NSUInteger)selectedRow < [self.actions count]){
+		NSString *actionName = [self.actions objectAtIndex:selectedRow];
+		if([[self actionName] caseInsensitiveCompare:actionName] != NSOrderedSame){
+         if([self respondsToSelector:@selector(pluginConfiguration)]){
+            NSManagedObject *pluginConfiguration = [self performSelector:@selector(pluginConfiguration)];
+            [pluginConfiguration setValue:actionName forKey:@"displayName"];
+         }
+			[self setActionName:actionName];
+		}
+	}
+}
+
+-(NSString*)actionName {
+   return [self.configuration valueForKey:@"ScriptActionFileName"];
+}
+
+-(void)setActionName:(NSString *)newName {
+   [self setConfigurationValue:newName forKey:@"ScriptActionFileName"];
+}
+
+-(NSURL*)baseScriptDirectoryURL {
+   NSError *urlError = nil;
+   NSURL *baseURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory
+                                                           inDomain:NSUserDomainMask
+                                                  appropriateForURL:nil
+                                                             create:YES
+                                                              error:&urlError];
+   if(urlError){
+      static dispatch_once_t onceToken;
+      dispatch_once(&onceToken, ^{
+         NSLog(@"Error retrieving Application Scripts directoy, %@", urlError);
+      });
+   }
+   return urlError ? nil : baseURL;
+}
+
+-(void)updateActionList {
+	NSMutableArray *actionNames = [NSMutableArray array];
+	
+   NSURL *scriptURL = [self baseScriptDirectoryURL];
+   if(scriptURL){
+      NSError *error = nil;
+      NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:scriptURL
+                                                        includingPropertiesForKeys:nil
+                                                                           options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                             error:&error];
+      if(!error){
+         [contents enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if(![[obj pathExtension] isEqualToString:@"workflow"] &&
+               ![[obj lastPathComponent] isEqualToString:@"Rules.scpt"])
+            {
+               [actionNames addObject:[obj lastPathComponent]];
+            }
+         }];
+      }else{
+         NSLog(@"Unable to get contents, %@", error);
+      }
+   }
+   
+	self.actions = actionNames;
+}
+
 
 @end
