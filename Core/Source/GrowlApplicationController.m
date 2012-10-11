@@ -592,7 +592,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        if([actionsDesc descriptorType] == typeEnumerated){
                                           switch ([actionsDesc enumCodeValue]) {
                                              case 'DLNo': //None
-                                                displayed = YES;
+                                                actedUpon = YES;
                                                 break;
                                              case 'DLDf': //Default explicit or not for note, handled below
                                              default:
@@ -600,7 +600,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                              case 'DLGD': //Global Default
                                                 [self dispatchNotification:copyDict
                                                                  toActions:[[GrowlTicketDatabase sharedInstance] defaultActionConfigSet]];
-                                                displayed = YES;
+                                                actedUpon = YES;
                                                 break;
                                           }
                                        }else if([actionsDesc descriptorType] == typeAEList){
@@ -739,7 +739,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 
 -(NSDictionary*)filledInNotificationDictForDict:(NSDictionary*)dict
 {
-   NSMutableDictionary *aDict = [dict mutableCopy];
+   NSMutableDictionary *aDict = [[dict mutableCopy] autorelease];
    
    GrowlTicketDatabaseApplication *ticket = [self appTicketForDict:dict];
    //NSLog(@"Dispatching notification from %@: %@", appName, notificationName);
