@@ -30,4 +30,7 @@
 - (void)forwardNotification:(NSDictionary *)dict;
 - (void)forwardRegistration:(NSDictionary *)dict;
 
+//Publicly exposed for rules
+- (void)forwardDictionary:(NSDictionary*)dict isRegistration:(BOOL)registration toEntryIDs:(NSArray*)entryIDs;
+
 @end

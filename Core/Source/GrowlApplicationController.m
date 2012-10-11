@@ -633,30 +633,61 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        [blockSelf dispatchNotificationToDefaultConfigSet:copyDict];
                                     }
                                     
+                                    BOOL useDefaultForward = YES;
                                     if([result descriptorForKeyword:'GrNF']){
                                        NSAppleEventDescriptor *forward = [result descriptorForKeyword:'GrNF'];
-                                       if([forward descriptorType] == typeBoolean && [forward booleanValue])
-                                          [blockSelf forwardGrowlDictViaNetwork:[[copyDict copy] autorelease]];
-                                       else if([forward descriptorType] == typeAEList) {
+                                       if([forward descriptorType] == typeBoolean && [forward booleanValue]){
+                                          //This bypasses the checks on forwarding enabled
+                                          [[GNTPForwarder sharedController] forwardDictionary:[[copyDict copy] autorelease]
+                                                                               isRegistration:NO
+                                                                                   toEntryIDs:nil];
+                                          useDefaultForward = NO;
+                                       }else if([forward descriptorType] == typeAEList) {
                                           //Handle the list
+                                          NSMutableArray *entryIDs = [NSMutableArray arrayWithCapacity:[forward numberOfItems]];
+                                          //1 indexed array in AppleEvents
+                                          for(int idx = 1; idx <= [forward numberOfItems]; idx++) {
+                                             [entryIDs addObject:[[forward descriptorAtIndex:idx] stringValue]];
+                                          }
+                                          [[GNTPForwarder sharedController] forwardDictionary:[[copyDict copy] autorelease]
+                                                                               isRegistration:NO
+                                                                                   toEntryIDs:entryIDs];
+                                          useDefaultForward = NO;
                                        }else {
                                           NSLog(@"Unrecognized type for network_forward");
                                        }
-                                    }else{
+                                    }
+                                    if(useDefaultForward) {
                                        if([[GrowlPreferencesController sharedController] isForwardingEnabled])
                                           [blockSelf forwardGrowlDictViaNetwork:[[copyDict copy] autorelease]];
                                     }
                                     
+                                    BOOL useDefaultSubscription = YES;
                                     if([result descriptorForKeyword:'GrNS']){
                                        NSAppleEventDescriptor *subscribe = [result descriptorForKeyword:'GrNS'];
-                                       if([subscribe descriptorType] == typeBoolean && [subscribe booleanValue])
-                                          [blockSelf sendGrowlDictToSubscribers:[[copyDict copy] autorelease]];
-                                       else if([subscribe descriptorType] == typeAEList) {
+                                       if([subscribe descriptorType] == typeBoolean && [subscribe booleanValue]){
+                                          //This bypasses the checks on is subscription allowed, however we still will only send
+                                          //to active subscribers, so kind of a chicken and the egg thing
+                                          [[GNTPSubscriptionController sharedController] forwardDictionary:[[copyDict copy] autorelease]
+                                                                                            isRegistration:NO
+                                                                                                toEntryIDs:nil];
+                                          useDefaultSubscription = NO;
+                                       }else if([subscribe descriptorType] == typeAEList) {
                                           //Handle the list
+                                          NSMutableArray *entryIDs = [NSMutableArray arrayWithCapacity:[subscribe numberOfItems]];
+                                          //1 indexed array in AppleEvents
+                                          for(int idx = 1; idx <= [subscribe numberOfItems]; idx++) {
+                                             [entryIDs addObject:[[subscribe descriptorAtIndex:idx] stringValue]];
+                                          }
+                                          [[GNTPSubscriptionController sharedController] forwardDictionary:[[copyDict copy] autorelease]
+                                                                                            isRegistration:NO
+                                                                                                toEntryIDs:entryIDs];
+                                          useDefaultSubscription = NO;
                                        }else {
                                           NSLog(@"Unrecognized type for network_subscribers");
                                        }
-                                    }else{
+                                    }
+                                    if(useDefaultSubscription){
                                        [blockSelf sendGrowlDictToSubscribers:[[copyDict copy] autorelease]];
                                     }
                                     

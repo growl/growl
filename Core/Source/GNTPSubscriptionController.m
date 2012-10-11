@@ -230,51 +230,89 @@
    return [password autorelease];
 }
 
--(void)forwardAttempt:(GrowlXPCCommunicationAttempt*)attempt {
-   if(![preferences isSubscriptionAllowed])
-      return;
-
-	__block GNTPSubscriptionController *blockSubscriber = self;
+- (NSArray*)sendingDetaulsForEnabledHosts {
+   NSMutableArray *enabledArray = [NSMutableArray array];
    [remoteSubscriptions enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
       if([[obj validTime] compare:[NSDate date]] == NSOrderedAscending)
          return;
-      
-		NSData *coercedAddress = [GrowlNetworkUtilities addressData:[obj lastKnownAddress] coercedToPort:[obj subscriberPort]];
-		if(coercedAddress){
-			NSMutableDictionary *sendingDetails = [NSMutableDictionary dictionary];
-			[sendingDetails setObject:coercedAddress forKey:@"GNTPAddressData"];
-			if([preferences remotePassword])
-				[sendingDetails setObject:[NSString stringWithFormat:@"%@%@", [preferences remotePassword], [obj subscriberID]] forKey:@"GNTPPassword"];
-			[attempt setSendingDetails:sendingDetails];
-			[attempt setDelegate:self];
-			dispatch_async(dispatch_get_main_queue(), ^{
+      [enabledArray addObject:obj];
+   }];
+   return [self sendingDetailsForBrowserEntries:enabledArray];
+}
+
+- (NSArray*)sendingDetailsForBrowserEntryIDs:(NSArray*)entryIDs {
+   NSMutableArray *entriesArray = [NSMutableArray array];
+   [remoteSubscriptions enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+      if([[obj validTime] compare:[NSDate date]] == NSOrderedAscending)
+         return;
+      if([entryIDs containsObject:[obj uuid]]){
+         [entriesArray addObject:obj];
+      }
+   }];
+   return [self sendingDetailsForBrowserEntries:entriesArray];
+}
+
+- (NSArray*)sendingDetailsForBrowserEntries:(NSArray*)hosts {
+   NSMutableArray *hostResults = [NSMutableArray array];
+   @autoreleasepool {
+      [hosts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+         NSData *coercedAddress = [GrowlNetworkUtilities addressData:[obj lastKnownAddress] coercedToPort:[obj subscriberPort]];
+         if(coercedAddress){
+            NSMutableDictionary *sendingDetails = [NSMutableDictionary dictionary];
+            [sendingDetails setObject:coercedAddress forKey:@"GNTPAddressData"];
+            if([preferences remotePassword])
+               [sendingDetails setObject:[NSString stringWithFormat:@"%@%@", [preferences remotePassword], [obj subscriberID]] forKey:@"GNTPPassword"];
+            [hostResults addObject:sendingDetails];
+         }
+      }];
+   }
+   return hostResults;
+}
+
+- (void)forwardDictionary:(NSDictionary*)dict isRegistration:(BOOL)registration toEntryIDs:(NSArray*)entryIDs {
+   __block GNTPSubscriptionController *blockSubscriber = self;
+   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      NSArray *sendingDetails = nil;
+      if(!entryIDs || [entryIDs count] == 0){
+         sendingDetails = [self sendingDetaulsForEnabledHosts];
+      }else{
+         sendingDetails = [self sendingDetailsForBrowserEntryIDs:entryIDs];
+      }
+      [sendingDetails enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+         GrowlXPCCommunicationAttempt *attempt = nil;
+         if(registration){
+            attempt = [[GrowlXPCRegistrationAttempt alloc] initWithDictionary:dict];
+         }else{
+            attempt = [[GrowlXPCNotificationAttempt alloc] initWithDictionary:dict];
+         }
+         [attempt setSendingDetails:obj];
+         [attempt setDelegate:blockSubscriber];
+         dispatch_async(dispatch_get_main_queue(), ^{
 				//send note
 				[[blockSubscriber attemptArray] addObject:attempt];
 				[attempt begin];
-			});
-		}
-	}];
+         });
+         [attempt release];
+      }];
+   });
 }
 
--(void)forwardNotification:(NSDictionary*)noteDict {
-	GrowlXPCNotificationAttempt *attempt = [[GrowlXPCNotificationAttempt alloc] initWithDictionary:noteDict];
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		[self forwardAttempt:attempt];
-	});
-	[attempt release];
+- (void)forwardNotification:(NSDictionary *)dict
+{
+   if([preferences isSubscriptionAllowed])
+      [self forwardDictionary:dict isRegistration:NO toEntryIDs:nil];
 }
 
--(void)forwardRegistration:(NSDictionary*)dict {
-	GrowlXPCRegistrationAttempt *attempt = [[GrowlXPCRegistrationAttempt alloc] initWithDictionary:dict];
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		[self forwardAttempt:attempt];
-	});
-	[attempt release];
+- (void)appRegistered:(NSNotification*)dict
+{
+   if([preferences isSubscriptionAllowed])
+      [self forwardRegistration:[dict userInfo]];
 }
 
-/* Hande forwarding registrations */
--(void)appRegistered:(NSNotification*)note {
-	[self forwardNotification:[note userInfo]];
+- (void)forwardRegistration:(NSDictionary *)dict
+{
+   if([preferences isSubscriptionAllowed])
+      [self forwardDictionary:dict isRegistration:YES toEntryIDs:nil];
 }
 
 #pragma mark Table bindings accessor

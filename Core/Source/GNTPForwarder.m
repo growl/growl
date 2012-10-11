@@ -173,56 +173,95 @@
 
 #pragma mark Forwarding support
 
-- (void)sendViaXPC:(GrowlXPCCommunicationAttempt *)attempt
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-   
-   if(![[GrowlPreferencesController sharedController] isForwardingEnabled])
-      return;
-   
-   __block GNTPForwarder *blockForwarder = self;
+- (NSArray*)sendingDetaulsForEnabledHosts {
+   NSMutableArray *enabledArray = [NSMutableArray array];
    [destinations enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
       if(![obj isKindOfClass:[GrowlBrowserEntry class]])
          return;
       //If we are using it, and either its a manual, and if we are browsing, we should know if its active
 		if ([obj use] && ([obj manualEntry] || (![[GrowlBonjourBrowser sharedBrowser] browser] || [obj active]))) {
-			//NSLog(@"Looking up address for %@", [entry computerName]);
-			NSData *destAddress = [preferences boolForKey:@"AddressCachingEnabled"] ? [obj lastKnownAddress] : nil;
-         if(!destAddress){
-            destAddress = [GrowlNetworkUtilities addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[obj computerName] withDomain:[obj domain]];
-            [obj setLastKnownAddress:destAddress];
-         }
-			if (!destAddress) {
-				/* No destination address. Nothing to see here; move along. */
-				NSLog(@"Could not obtain destination address for %@", [obj computerName]);
-				return;
-			}
+         [enabledArray addObject:obj];
+      }
+   }];
+   return [self sendingDetailsForBrowserEntries:enabledArray];
+}
 
-			NSMutableDictionary *sendingDetails = [NSMutableDictionary dictionary];
-			[sendingDetails setObject:destAddress forKey:@"GNTPAddressData"];
-			if([obj password])
-				[sendingDetails setObject:[obj password] forKey:@"GNTPPassword"];
-			[attempt setSendingDetails:sendingDetails];
-			[attempt setDelegate:self];
+- (NSArray*)sendingDetailsForBrowserEntryIDs:(NSArray*)entryIDs {
+   NSMutableArray *entriesArray = [NSMutableArray array];
+   [destinations enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+      if(![obj isKindOfClass:[GrowlBrowserEntry class]])
+         return;
+      if([entryIDs containsObject:[obj uuid]] && ([obj manualEntry] || (![[GrowlBonjourBrowser sharedBrowser] browser] || [obj active]))){
+         [entriesArray addObject:obj];
+      }
+   }];
+   return [self sendingDetailsForBrowserEntries:entriesArray];
+}
+
+- (NSArray*)sendingDetailsForBrowserEntries:(NSArray*)hosts {
+   NSMutableArray *hostResults = [NSMutableArray array];
+   @autoreleasepool {
+      [hosts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+         
+         if(![obj isKindOfClass:[GrowlBrowserEntry class]])
+            return;
+         //If we are using it, and either its a manual, and if we are browsing, we should know if its active
+         if ([obj use] && ([obj manualEntry] || (![[GrowlBonjourBrowser sharedBrowser] browser] || [obj active]))) {
+            //NSLog(@"Looking up address for %@", [entry computerName]);
+            NSData *destAddress = [preferences boolForKey:@"AddressCachingEnabled"] ? [obj lastKnownAddress] : nil;
+            if(!destAddress){
+               destAddress = [GrowlNetworkUtilities addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[obj computerName] withDomain:[obj domain]];
+               [obj setLastKnownAddress:destAddress];
+            }
+            if (!destAddress) {
+               /* No destination address. Nothing to see here; move along. */
+               NSLog(@"Could not obtain destination address for %@", [obj computerName]);
+               return;
+            }
+            
+            NSMutableDictionary *sendingDetails = [NSMutableDictionary dictionary];
+            [sendingDetails setObject:destAddress forKey:@"GNTPAddressData"];
+            if([obj password])
+               [sendingDetails setObject:[obj password] forKey:@"GNTPPassword"];
+            [hostResults addObject:sendingDetails];
+         }
+      }];
+   }
+   return hostResults;
+}
+
+- (void)forwardDictionary:(NSDictionary*)dict isRegistration:(BOOL)registration toEntryIDs:(NSArray*)entryIDs {
+   __block GNTPForwarder *blockForwarder = self;
+   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      NSArray *sendingDetails = nil;
+      if(!entryIDs || [entryIDs count] == 0){
+         sendingDetails = [self sendingDetaulsForEnabledHosts];
+      }else{
+         sendingDetails = [self sendingDetailsForBrowserEntryIDs:entryIDs];
+      }
+      [sendingDetails enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+         GrowlXPCCommunicationAttempt *attempt = nil;
+         if(registration){
+            attempt = [[GrowlXPCRegistrationAttempt alloc] initWithDictionary:dict];
+         }else{
+            attempt = [[GrowlXPCNotificationAttempt alloc] initWithDictionary:dict];
+         }
+         [attempt setSendingDetails:obj];
+         [attempt setDelegate:blockForwarder];
          dispatch_async(dispatch_get_main_queue(), ^{
 				//send note
 				[[blockForwarder attemptArray] addObject:attempt];
 				[attempt begin];
          });
-		}       
-   }];
-   
-	[pool release];	
+         [attempt release];
+      }];
+   });
 }
 
 - (void)forwardNotification:(NSDictionary *)dict
 {
-	GrowlXPCCommunicationAttempt *attempt = [[GrowlXPCNotificationAttempt alloc] initWithDictionary:dict];
-   __block GNTPForwarder *blockForwarder = self;
-   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      [blockForwarder sendViaXPC:attempt];
-   });
-	[attempt release];
+   if([preferences isForwardingEnabled])
+      [self forwardDictionary:dict isRegistration:NO toEntryIDs:nil];
 }
 
 - (void)appRegistered:(NSNotification*)dict 
@@ -233,12 +272,8 @@
 
 - (void)forwardRegistration:(NSDictionary *)dict
 {
-	GrowlXPCCommunicationAttempt *attempt = [[GrowlXPCRegistrationAttempt alloc] initWithDictionary:dict];
-   __block GNTPForwarder *blockForwarder = self;
-   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      [blockForwarder sendViaXPC:attempt];
-   });
-	[attempt release];
+   if([preferences isForwardingEnabled])
+      [self forwardDictionary:dict isRegistration:YES toEntryIDs:nil];
 }
 
 -(void)addressChanged:(NSNotification*)note

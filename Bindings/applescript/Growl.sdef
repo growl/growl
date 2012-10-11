@@ -156,13 +156,13 @@
             <type type="text" list="yes"/>
             <type type="GrowlDefaultLevel"/>
          </property>
-         <property name="network forward" description="Whether to forward via network to all enabled destinations" code="GrNF" optional="yes">
+         <property name="network forward" description="Whether to forward via network to all enabled destinations, or a list of the ID's of the destination machines" code="GrNF" optional="yes">
             <type type="boolean"/>
-            <type type="text" list="yes" hidden="yes"/>
+            <type type="text" list="yes"/>
          </property>
-         <property name="network subscribers" description="Whether to send to all network subscribers" code="GrNS" optional="yes">
+         <property name="network subscribers" description="Whether to send to all network subscribers, or a list of the ID's of subscribed machines" code="GrNS" optional="yes">
             <type type="boolean"/>
-            <type type="text" list="yes" hidden="yes"/>
+            <type type="text" list="yes"/>
          </property>
          <property name="history log" description="Whether to log in the network" code="GrHL" type="boolean" optional="yes"/>
          <property name="notification return" description="The updated notification to display, only modifiable fields are title, description, icon, sticky" type="GrowlNotification" code="NtRt" optional="yes"/>
