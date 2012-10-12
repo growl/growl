@@ -74,9 +74,8 @@
 	if(selectedRow >= 0 && (NSUInteger)selectedRow < [self.actions count]){
 		NSString *actionName = [self.actions objectAtIndex:selectedRow];
 		if([[self actionName] caseInsensitiveCompare:actionName] != NSOrderedSame){
-         if([self respondsToSelector:@selector(pluginConfiguration)]){
-            NSManagedObject *pluginConfiguration = [self performSelector:@selector(pluginConfiguration)];
-            [pluginConfiguration setValue:actionName forKey:@"displayName"];
+         if([self respondsToSelector:@selector(_setDisplayName:)]){
+            [self performSelector:@selector(_setDisplayName:) withObject:actionName];
          }
 			[self setActionName:actionName];
 		}
