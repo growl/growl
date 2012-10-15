@@ -74,5 +74,7 @@
 	<integer>60</integer>
 	<key>IdleTimeExceptions</key>
 	<array/>
+	<key>GrowlRulesLoggingEnabled</key>
+	<false/>
 </dict>
 </plist>

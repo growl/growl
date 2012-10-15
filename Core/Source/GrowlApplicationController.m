@@ -443,16 +443,33 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                                                       transactionID:kAnyTransactionID];
    [event setDescriptor:[self notificationDescriptor:dict] forKeyword:'NtPa'];
 
+   BOOL logRuleResult = [[GrowlPreferencesController sharedController] boolForKey:@"GrowlRulesLoggingEnabled"];
    __block NSDictionary *copyDict = [dict copy];
    __block GrowlApplicationController *blockSelf = self;
    [applescriptTask executeWithAppleEvent:event
                         completionHandler:^(NSAppleEventDescriptor *result, NSError *completionError) {
                            dispatch_async(dispatch_get_main_queue(), ^{
+                              NSMutableString *ruleLogString = logRuleResult ? [NSMutableString stringWithString:@"RuleResult for note:"] : nil;
+                              if(logRuleResult){
+                                 NSString *host = [dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
+                                 if(!host || [host isLocalHost])
+                                    host = @"localhost";
+                                 [ruleLogString appendFormat:@"\nhost: %@", host];
+                                 [ruleLogString appendFormat:@"\napp: %@", [dict valueForKey:GROWL_APP_NAME]];
+                                 [ruleLogString appendFormat:@"\ntype: %@", [dict valueForKey:GROWL_NOTIFICATION_NAME]];
+                                 [ruleLogString appendFormat:@"\ntitle: %@", [dict valueForKey:GROWL_NOTIFICATION_TITLE]];
+                                 [ruleLogString appendFormat:@"\ndescription: %@", [dict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]];
+                                 [ruleLogString appendFormat:@"\nsticky: %@\n", [[dict valueForKey:GROWL_NOTIFICATION_STICKY] boolValue] ? @"YES" : @"NO"];
+                              }
                               if(!completionError){
                                  if(result && [result descriptorType] == typeAERecord)
                                  {
                                     if([result descriptorForKeyword:'GrEn']){
                                        if(![[result descriptorForKeyword:'GrEn'] booleanValue]){
+                                          if(logRuleResult){
+                                             [ruleLogString appendFormat:@"\nRule result returned enabled set to no"];
+                                             NSLog(ruleLogString);
+                                          }
                                           [copyDict release];
                                           return;
                                        }
@@ -460,6 +477,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        //Check if it is enabled in the UI
                                        GrowlTicketDatabaseNotification *noteTicket = [self notificationTicketForDict:copyDict];
                                        if(![noteTicket isTicketAllowed]){
+                                          if(logRuleResult){
+                                             [ruleLogString appendFormat:@"\nRule result did not return enabled, note disabled in UI"];
+                                             NSLog(ruleLogString);
+                                          }
                                           [copyDict release];
                                           return;
                                        }
@@ -491,16 +512,25 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                           if(title && ![title isEqualToString:[copyDict valueForKey:GROWL_NOTIFICATION_TITLE]]){
                                              [mutableCopy setObject:title forKey:GROWL_NOTIFICATION_TITLE];
                                              changed = YES;
+                                             if(logRuleResult){
+                                                [ruleLogString appendFormat:@"\nModified title to: %@", title];
+                                             }
                                           }
                                           if(description && ![description isEqualToString:[copyDict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]]){
                                              [mutableCopy setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
                                              changed = YES;
+                                             if(logRuleResult){
+                                                [ruleLogString appendFormat:@"\nModified description to: %@", description];
+                                             }
                                           }
                                           if(iconData && ![iconData isEqualToData:[copyDict valueForKey:GROWL_NOTIFICATION_APP_ICON_DATA]]){
                                              NSImage *imageFromData = [[[NSImage alloc] initWithData:iconData] autorelease];
                                              if(imageFromData != nil){
                                                 [mutableCopy setObject:iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
                                                 changed = YES;
+                                                if(logRuleResult){
+                                                   [ruleLogString appendFormat:@"\nModified icon"];
+                                                }
                                              }else{
                                                 NSLog(@"Unable to validate image data!");
                                              }
@@ -508,6 +538,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                           if(sticky && [sticky booleanValue] != [[copyDict valueForKey:GROWL_NOTIFICATION_STICKY] boolValue]){
                                              [mutableCopy setObject:[NSNumber numberWithBool:[sticky booleanValue]] forKey:GROWL_NOTIFICATION_STICKY];
                                              changed = YES;
+                                             if(logRuleResult){
+                                                [ruleLogString appendFormat:@"\nModified sticky to: %@", sticky ? @"yes" : @"no"];
+                                             }
                                           }
                                           
                                           if(changed){
@@ -522,24 +555,33 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                     GrowlPositionOrigin origin = GrowlNoOrigin;
                                     if([result descriptorForKeyword:'Orig']){
                                        NSAppleEventDescriptor *originDesc = [result descriptorForKeyword:'Orig'];
+                                       NSString *locationString = nil;
                                        if([originDesc descriptorType] == typeEnumerated){
                                           switch ([originDesc enumCodeValue]) {
                                              case 'PoNO':
                                                 origin = GrowlNoOrigin;
+                                                locationString = @"no origin (use default)";
                                                 break;
                                              case 'PoTL':
                                                 origin = GrowlTopLeftCorner;
+                                                locationString = @"top left";
                                                 break;
                                              case 'PoBR':
                                                 origin = GrowlBottomRightCorner;
+                                                locationString = @"bottom right";
                                                 break;
                                              case 'PoTR':
                                              default:
                                                 origin = GrowlTopRightCorner;
+                                                locationString = @"top right";
                                                 break;
                                              case 'PoBL':
                                                 origin = GrowlBottomLeftCorner;
+                                                locationString = @"bottom left";
                                                 break;
+                                          }
+                                          if(logRuleResult){
+                                             [ruleLogString appendFormat:@"\nModified start position to: %@", locationString];
                                           }
                                        }
                                     }
@@ -550,12 +592,18 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        if([displayDesc descriptorType] == typeEnumerated){
                                           switch ([displayDesc enumCodeValue]) {
                                              case 'DLNo': //None
+                                                if(logRuleResult){
+                                                   [ruleLogString appendFormat:@"\nDo not display visually"];
+                                                }
                                                 displayed = YES;
                                                 break;
                                              case 'DLDf': //Default explicit or not for note, handled below
                                              default:
                                                 break;
                                              case 'DLGD': //Global default
+                                                if(logRuleResult){
+                                                   [ruleLogString appendFormat:@"\nDisplay using global default"];
+                                                }
                                                 [blockSelf displayNotification:copyDict
                                                              usingPluginConfig:[[GrowlTicketDatabase sharedInstance] defaultDisplayConfig]
                                                                     atPosition:origin];
@@ -567,21 +615,34 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                           //NSLog(@"Display using: %@", displayName);
                                           if([displayName caseInsensitiveCompare:@"notification-center"] == NSOrderedSame){
                                              //Explicit NC call
+                                             if(logRuleResult){
+                                                [ruleLogString appendFormat:@"\nDisplay using notification-center"];
+                                             }
                                              [blockSelf _fireAppleNotificationCenter:dict];
                                              displayed = YES;
                                           }else{
                                              //Find this display if we can, otherwise fall back
                                              GrowlTicketDatabasePlugin *pluginConfig = [[GrowlTicketDatabase sharedInstance] actionForName:displayName];
                                              if([pluginConfig isKindOfClass:[GrowlTicketDatabaseDisplay class]]){
+                                                if(logRuleResult){
+                                                   [ruleLogString appendFormat:@"\nDisplay using config: %@", displayName];
+                                                }
                                                 [blockSelf displayNotification:copyDict
                                                              usingPluginConfig:(GrowlTicketDatabaseDisplay*)pluginConfig
                                                                     atPosition:origin];
                                                 displayed = YES;
+                                             }else{
+                                                if(logRuleResult){
+                                                   [ruleLogString appendFormat:@"\nDisplay config: %@ not a display config, will use default", displayName];
+                                                }
                                              }
                                           }
                                        }
                                     }
                                     if(!displayed && ![[GrowlPreferencesController sharedController] squelchMode]){
+                                       if(logRuleResult){
+                                          [ruleLogString appendFormat:@"\nDisplay using default for note type"];
+                                       }
                                        [blockSelf displayNotificationUsingDefaultDisplay:copyDict atPosition:origin];
                                     }
                                     
@@ -592,12 +653,18 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        if([actionsDesc descriptorType] == typeEnumerated){
                                           switch ([actionsDesc enumCodeValue]) {
                                              case 'DLNo': //None
+                                                if(logRuleResult){
+                                                   [ruleLogString appendFormat:@"\nDo not do any actions"];
+                                                }
                                                 actedUpon = YES;
                                                 break;
                                              case 'DLDf': //Default explicit or not for note, handled below
                                              default:
                                                 break;
                                              case 'DLGD': //Global Default
+                                                if(logRuleResult){
+                                                   [ruleLogString appendFormat:@"\nDo Global Default action set"];
+                                                }
                                                 [self dispatchNotification:copyDict
                                                                  toActions:[[GrowlTicketDatabase sharedInstance] defaultActionConfigSet]];
                                                 actedUpon = YES;
@@ -614,33 +681,77 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                           NSMutableSet *actions = [NSMutableSet setWithCapacity:[actionNames count]];
                                           [actionNames enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
                                              GrowlTicketDatabasePlugin *pluginConfig = [[GrowlTicketDatabase sharedInstance] actionForName:obj];
-                                             if(pluginConfig && [pluginConfig canFindInstance]){
+                                             if([pluginConfig isKindOfClass:[GrowlTicketDatabaseCompoundAction class]]){
+                                                [actions unionSet:[(GrowlTicketDatabaseCompoundAction*)pluginConfig resolvedActionConfigSet]];
+                                             }else if(pluginConfig && [pluginConfig canFindInstance]){
                                                 [actions addObject:pluginConfig];
                                              }
                                           }];
+                                          if(logRuleResult){
+                                             [ruleLogString appendFormat:@"\nRequested Actions: "];
+                                             [actionNames enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+                                                [ruleLogString appendFormat:@"%@, ", obj];
+                                             }];
+                                             [ruleLogString appendFormat:@"\nResolved Actions: "];
+                                             [actions enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+                                                [ruleLogString appendFormat:@"%@, ", [obj displayName]];
+                                             }];
+                                          }
+                                          
                                           [blockSelf dispatchNotification:copyDict toActions:actions];
                                        }else if([actionsDesc descriptorType] == typeUnicodeText){
                                           NSString *actionName = [actionsDesc stringValue];
                                           //NSLog(@"use action: %@", [actionsDesc stringValue]);
                                           GrowlTicketDatabasePlugin *pluginConfig = [[GrowlTicketDatabase sharedInstance] actionForName:actionName];
-                                          if(pluginConfig && [pluginConfig isKindOfClass:[GrowlTicketDatabaseAction class]]){
+                                          if([pluginConfig isKindOfClass:[GrowlTicketDatabaseCompoundAction class]]){
+                                             NSSet *compoundActions = [(GrowlTicketDatabaseCompoundAction*)pluginConfig resolvedActionConfigSet];
+                                             if(logRuleResult){
+                                                [ruleLogString appendFormat:@"\nRequested Action: %@", actionName];
+                                                [ruleLogString appendFormat:@"\nResolved Actions: "];
+                                                [compoundActions enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+                                                   [ruleLogString appendFormat:@"%@, ", [obj displayName]];
+                                                }];
+                                             }
+                                             [blockSelf dispatchNotification:copyDict toActions:compoundActions];
+                                             actedUpon = YES;
+                                          }else if(pluginConfig && [pluginConfig isKindOfClass:[GrowlTicketDatabaseAction class]]){
+                                             if(logRuleResult){
+                                                [ruleLogString appendFormat:@"\nDo action config: %@", actionName];
+                                             }
+                                             
                                              [blockSelf dispatchNotification:copyDict toActions:[NSSet setWithObject:pluginConfig]];
                                              actedUpon = YES;
+                                          }else{
+                                             if(logRuleResult){
+                                                [ruleLogString appendFormat:@"\nAction config: %@ not an action config, will use default", actionName];
+                                             }
                                           }
                                        }
                                     }
                                     if(!actedUpon && ![[GrowlPreferencesController sharedController] squelchMode]){
+                                       if(logRuleResult){
+                                          [ruleLogString appendFormat:@"\nDo default actions for note type"];
+                                       }
                                        [blockSelf dispatchNotificationToDefaultConfigSet:copyDict];
                                     }
                                     
                                     BOOL useDefaultForward = YES;
                                     if([result descriptorForKeyword:'GrNF']){
                                        NSAppleEventDescriptor *forward = [result descriptorForKeyword:'GrNF'];
-                                       if([forward descriptorType] == typeBoolean && [forward booleanValue]){
-                                          //This bypasses the checks on forwarding enabled
-                                          [[GNTPForwarder sharedController] forwardDictionary:[[copyDict copy] autorelease]
-                                                                               isRegistration:NO
-                                                                                   toEntryIDs:nil];
+                                       if([forward descriptorType] == typeBoolean){
+                                          if([forward booleanValue]){
+                                             if(logRuleResult){
+                                                [ruleLogString appendFormat:@"\nForwarding to UI selected entries"];
+                                             }
+                                             //This bypasses the checks on forwarding enabled
+                                             [[GNTPForwarder sharedController] forwardDictionary:[[copyDict copy] autorelease]
+                                                                                  isRegistration:NO
+                                                                                      toEntryIDs:nil];
+                                          }else{
+                                             if(logRuleResult){
+                                                [ruleLogString appendFormat:@"\nNot forwarding"];
+                                             }
+                                          }
                                           useDefaultForward = NO;
                                        }else if([forward descriptorType] == typeAEList) {
                                           //Handle the list
@@ -649,28 +760,45 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                           for(int idx = 1; idx <= [forward numberOfItems]; idx++) {
                                              [entryIDs addObject:[[forward descriptorAtIndex:idx] stringValue]];
                                           }
+                                          if(logRuleResult){
+                                             [ruleLogString appendFormat:@"\nForwarding to entry ids: "];
+                                             [entryIDs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                                                [ruleLogString appendFormat:@"%@, ", obj];
+                                             }];
+                                          }
                                           [[GNTPForwarder sharedController] forwardDictionary:[[copyDict copy] autorelease]
                                                                                isRegistration:NO
                                                                                    toEntryIDs:entryIDs];
                                           useDefaultForward = NO;
-                                       }else {
-                                          NSLog(@"Unrecognized type for network_forward");
                                        }
                                     }
                                     if(useDefaultForward) {
-                                       if([[GrowlPreferencesController sharedController] isForwardingEnabled])
+                                       BOOL globalForwardingEnabled = [[GrowlPreferencesController sharedController] isForwardingEnabled];
+                                       if(logRuleResult){
+                                          [ruleLogString appendFormat:@"\nForwarding according to default: %@", globalForwardingEnabled ? @"enabled" : @"disabled"];
+                                       }
+                                       if(globalForwardingEnabled)
                                           [blockSelf forwardGrowlDictViaNetwork:[[copyDict copy] autorelease]];
                                     }
                                     
                                     BOOL useDefaultSubscription = YES;
                                     if([result descriptorForKeyword:'GrNS']){
                                        NSAppleEventDescriptor *subscribe = [result descriptorForKeyword:'GrNS'];
-                                       if([subscribe descriptorType] == typeBoolean && [subscribe booleanValue]){
-                                          //This bypasses the checks on is subscription allowed, however we still will only send
-                                          //to active subscribers, so kind of a chicken and the egg thing
-                                          [[GNTPSubscriptionController sharedController] forwardDictionary:[[copyDict copy] autorelease]
-                                                                                            isRegistration:NO
-                                                                                                toEntryIDs:nil];
+                                       if([subscribe descriptorType] == typeBoolean){
+                                          if([subscribe booleanValue]){
+                                             //This bypasses the checks on is subscription allowed, however we still will only send
+                                             //to active subscribers, so kind of a chicken and the egg thing
+                                             if(logRuleResult){
+                                                [ruleLogString appendFormat:@"\nForwarding to all subscribers"];
+                                             }
+                                             [[GNTPSubscriptionController sharedController] forwardDictionary:[[copyDict copy] autorelease]
+                                                                                               isRegistration:NO
+                                                                                                   toEntryIDs:nil];
+                                          }else{
+                                             if(logRuleResult){
+                                                [ruleLogString appendFormat:@"\nNot forwarding to subscribers"];
+                                             }
+                                          }
                                           useDefaultSubscription = NO;
                                        }else if([subscribe descriptorType] == typeAEList) {
                                           //Handle the list
@@ -679,26 +807,48 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                           for(int idx = 1; idx <= [subscribe numberOfItems]; idx++) {
                                              [entryIDs addObject:[[subscribe descriptorAtIndex:idx] stringValue]];
                                           }
+                                          if(logRuleResult){
+                                             [ruleLogString appendFormat:@"\nForwarding to subscriber entry ids: "];
+                                             [entryIDs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                                                [ruleLogString appendFormat:@"%@, ", obj];
+                                             }];
+                                          }
                                           [[GNTPSubscriptionController sharedController] forwardDictionary:[[copyDict copy] autorelease]
                                                                                             isRegistration:NO
                                                                                                 toEntryIDs:entryIDs];
                                           useDefaultSubscription = NO;
-                                       }else {
-                                          NSLog(@"Unrecognized type for network_subscribers");
                                        }
                                     }
                                     if(useDefaultSubscription){
+                                       if(logRuleResult){
+                                          [ruleLogString appendFormat:@"\nForwarding according to subscription defaults"];
+                                       }
                                        [blockSelf sendGrowlDictToSubscribers:[[copyDict copy] autorelease]];
                                     }
                                     
                                     if([result descriptorForKeyword:'GrHL']){
-                                       if([[result descriptorForKeyword:'GrHL'] booleanValue])
+                                       if([[result descriptorForKeyword:'GrHL'] booleanValue]){
+                                          if(logRuleResult){
+                                             [ruleLogString appendFormat:@"\nSending to the history log system"];
+                                          }
                                           [blockSelf logNotification:copyDict];
+                                       }else{
+                                          [ruleLogString appendFormat:@"\nNot sending to the history log system"];
+                                       }
                                     }else{
+                                       if(logRuleResult){
+                                          [ruleLogString appendFormat:@"\nSending to the history log system by default"];
+                                       }
                                        [blockSelf logNotification:copyDict];
                                     }
                                     
+                                    if(logRuleResult){
+                                       //Make this better, don't send it raw to the console.
+                                       NSLog(ruleLogString);
+                                    }
+                                 
                                  }else{
+                                    NSLog(@"Unrecognized rule return type, doing default actions");
                                     [blockSelf dispatchByClassicWithFilledInDict:copyDict];
                                  }
                               }else{
