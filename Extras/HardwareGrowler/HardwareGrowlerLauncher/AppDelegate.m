@@ -12,14 +12,18 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-	NSURL* appURL = [[[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"../../../../Contents/MacOS/HardwareGrowler" isDirectory:NO] URLByResolvingSymlinksInPath];
-	NSLog(@"Launching HardwareGrowler at URL: %@", appURL);
-	NSDictionary* conf = [NSDictionary dictionary];
-	NSError* error = nil;
-	[[NSWorkspace sharedWorkspace] launchApplicationAtURL:appURL options:NSWorkspaceLaunchDefault configuration:conf error:&error];
-	if (error) {
-		NSLog(@"%@", error);
-	}
+   NSArray *growlInstances = [NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.growl.HardwareGrowler"];
+   if(!growlInstances.count)
+   {
+      NSURL* appURL = [[[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"../../../../Contents/MacOS/HardwareGrowler" isDirectory:NO] URLByResolvingSymlinksInPath];
+      NSLog(@"Launching HardwareGrowler at URL: %@", appURL);
+      NSDictionary* conf = [NSDictionary dictionary];
+      NSError* error = nil;
+      [[NSWorkspace sharedWorkspace] launchApplicationAtURL:appURL options:NSWorkspaceLaunchDefault configuration:conf error:&error];
+      if (error) {
+         NSLog(@"%@", error);
+      }
+   }
 	[NSApp terminate:nil];
 }
 
