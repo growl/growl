@@ -444,6 +444,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    [event setDescriptor:[self notificationDescriptor:dict] forKeyword:'NtPa'];
 
    BOOL logRuleResult = [[GrowlPreferencesController sharedController] boolForKey:@"GrowlRulesLoggingEnabled"];
+   //NSDate *startDate = [NSDate date];
    __block NSDictionary *copyDict = [dict copy];
    __block GrowlApplicationController *blockSelf = self;
    [applescriptTask executeWithAppleEvent:event
@@ -451,6 +452,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                            dispatch_async(dispatch_get_main_queue(), ^{
                               NSMutableString *ruleLogString = logRuleResult ? [NSMutableString stringWithString:@"RuleResult for note:"] : nil;
                               if(logRuleResult){
+                                 //[ruleLogString appendFormat:@"Rule evaluation took: %.3f seconds", -[startDate timeIntervalSinceNow]];
                                  NSString *host = [dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
                                  if(!host || [host isLocalHost])
                                     host = @"localhost";
@@ -844,11 +846,14 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                     
                                     if(logRuleResult){
                                        //Make this better, don't send it raw to the console.
+                                       //[ruleLogString appendFormat:@"Total time from receipt of note: %.3f\n", -[startDate timeIntervalSinceNow]];
                                        NSLog(ruleLogString);
                                     }
                                  
                                  }else{
-                                    NSLog(@"Unrecognized rule return type, doing default actions");
+                                    if(logRuleResult){
+                                       NSLog(@"Unrecognized rule return type, sending to the default system");
+                                    }
                                     [blockSelf dispatchByClassicWithFilledInDict:copyDict];
                                  }
                               }else{
