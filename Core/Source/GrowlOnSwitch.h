@@ -9,7 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "TMSliderControl.h"
 
-@interface GrowlOnSwitch : TMSliderControl
+@interface GrowlOnSwitch : TMSliderControl {
+   NSTextField *_onLabel;
+   NSTextField *_offLabel;
+}
 
 @property (nonatomic, retain) IBOutlet NSTextField *onLabel;
 @property (nonatomic, retain) IBOutlet NSTextField *offLabel;

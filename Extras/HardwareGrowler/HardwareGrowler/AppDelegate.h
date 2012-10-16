@@ -54,6 +54,8 @@ typedef enum : NSInteger {
 	NSString *iconInDock;
 	NSString *iconInBoth;
 	NSString *noIcon;
+   
+   ProcessSerialNumber previousPSN;
 }
 
 @property (nonatomic, retain) IBOutlet NSString *showDevices;

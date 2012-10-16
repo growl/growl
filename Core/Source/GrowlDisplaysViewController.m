@@ -129,6 +129,9 @@
 @synthesize addCompoundOption;
 @synthesize noActionsTitle;
 
+@synthesize disabledPluginSheetDescription;
+@synthesize disabledPluginSheetCloseButtonTitle;
+
 @synthesize awokeFromNib;
 
 #pragma mark "Display" tab pane
@@ -164,6 +167,9 @@
       self.defaultActionPopUpTitle = NSLocalizedString(@"Actions", @"Title to go on Actions pop up");
       self.addCompoundOption = NSLocalizedString(@"Add Compound", @"Option to add a compound action config");
       self.noActionsTitle = NSLocalizedString(@"No Default Actions", @"Don't do any actions");
+      
+      self.disabledPluginSheetDescription = NSLocalizedString(@"The following plugins have been disabled since they are not fully supported by Growl 2.0.", @"Explanation for why these plugins are listed");
+      self.disabledPluginSheetCloseButtonTitle = NSLocalizedString(@"Close", @"Close the sheet with disabled plugins");
       
 		self.awokeFromNib = NO;
    }

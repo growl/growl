@@ -50,6 +50,9 @@
 @property (nonatomic, retain) NSString *addCompoundOption;
 @property (nonatomic, retain) NSString *noActionsTitle;
 
+@property (nonatomic, retain) NSString *disabledPluginSheetDescription;
+@property (nonatomic, retain) NSString *disabledPluginSheetCloseButtonTitle;
+
 @property (nonatomic) BOOL awokeFromNib;
 
 - (void)selectDefaultPlugin:(NSString*)pluginID;

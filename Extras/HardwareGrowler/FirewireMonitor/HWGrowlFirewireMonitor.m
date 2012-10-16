@@ -77,7 +77,7 @@
 																	 kIORegistryIterateRecursively);
 	
 	if (tempDeviceName)
-		return tempDeviceName;
+		return [tempDeviceName autorelease];
 	
 	tempDeviceName = IORegistryEntrySearchCFProperty(thisObject,
 																	 kIOFireWirePlane,
@@ -86,7 +86,7 @@
 																	 kIORegistryIterateRecursively);
 	
 	if (tempDeviceName)
-		return tempDeviceName;
+		return [tempDeviceName autorelease];
 	
 	return NSLocalizedString(@"Unnamed FireWire Device", @"");
 }
