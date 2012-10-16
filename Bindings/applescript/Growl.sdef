@@ -126,21 +126,21 @@
 			</parameter>
 		</command>
 	</suite>
-   <suite name="GrowlScriptAction" description="The event handler for script actions" code="GrSA">
+   <suite name="GrowlScriptAction" description="The event handler for script actions, this functionality is only available on 10.8+" code="GrSA">
       <event name="perform action" description="Perform an action based on the notification passed" code="GrAcScPe">
          <parameter name="with" code="NtPa" type="GrowlNotification" description="The notification to perform the action with"/>
       </event>
       <record-type name="GrowlNotification" description="A growl notification" code="GrNt">
-         <property name="host" description="The computer from which the note came, localhost for the local machine" code="NtHs" type="text" access="rw"/>
-         <property name="app name" description="The application name" code="ApNm" type="text" access="rw"/>
-         <property name="note type" description="The underlying note type" code="NtTp" type="text" access="rw"/>
-         <property name="note title" description="The note's title" code="Titl" type="text" access="rw"/>
-         <property name="note description" description="The note's main text" code="Desc" type="text" access="rw"/>
-         <property name="note icon" description="The icon the note will display with" code="Icon" type="Image" access="rw"/>
-         <property name="sticky" description="Whether the notification will be sticky" code="Stic" type="boolean" access="rw"/>
+         <property name="host" description="The computer from which the note came, localhost for the local machine" code="NtHs" type="text"/>
+         <property name="app name" description="The application name" code="ApNm" type="text"/>
+         <property name="note type" description="The underlying note type" code="NtTp" type="text"/>
+         <property name="note title" description="The note's title" code="Titl" type="text"/>
+         <property name="note description" description="The note's main text" code="Desc" type="text"/>
+         <property name="note icon" description="The icon the note will display with" code="Icon" type="Image"/>
+         <property name="sticky" description="Whether the notification will be sticky" code="Stic" type="boolean"/>
       </record-type>
    </suite>
-   <suite name="Growl Rules" description="Method to provide rules for Growl, telling it what to do with a given notification" code="GrRl">
+   <suite name="Growl Rules" description="Method to provide rules for Growl, telling it what to do with a given notification, this functionality is only available on 10.8+" code="GrRl">
       <event name="evaluate notification" description="Evaluate a notification, and return the actions to take" code="GrRuNtEv">
          <parameter name="with" code="NtPa" type="GrowlNotification" description="The notification to evaluate"/>
          <result type="RuleResult" description="The actions to take upon completion"/>
