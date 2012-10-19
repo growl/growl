@@ -25,7 +25,7 @@
 /* Auto generated method returning our PreferencePane, do not touch */
 - (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
-		preferencePane = [[Growl___PACKAGENAME___PreferencePane alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"___VARIABLE_bundleIdentifierPrefix:bundleIdentifier___.___PACKAGENAME___"]];
+		preferencePane = [[Growl___PACKAGENAME___PreferencePane alloc] initWithBundle:[NSBundle bundleForClass:[self class]]];
 	
 	return preferencePane;
 }
