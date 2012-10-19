@@ -864,7 +864,7 @@ static struct {
 }
 
 + (NSDictionary *) frameworkInfoDictionary {
-	return (NSDictionary *)CFBundleGetInfoDictionary(CFBundleGetBundleWithIdentifier(CFSTR("com.growl.growlframework")));
+	return [[NSBundle bundleForClass:[self class]] infoDictionary];
 }
 
 #pragma mark -

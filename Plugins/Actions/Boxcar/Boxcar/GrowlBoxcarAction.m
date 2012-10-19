@@ -153,7 +153,7 @@
 /* Auto generated method returning our PreferencePane, do not touch */
 - (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
-		preferencePane = [[GrowlBoxcarPreferencePane alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Boxcar"]];
+		preferencePane = [[GrowlBoxcarPreferencePane alloc] initWithBundle:[NSBundle bundleForClass:[self class]]];
 	
 	return preferencePane;
 }

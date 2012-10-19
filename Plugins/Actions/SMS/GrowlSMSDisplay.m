@@ -34,7 +34,7 @@
 
 - (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
-		preferencePane = [[GrowlSMSPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.SMS"]];
+		preferencePane = [[GrowlSMSPrefs alloc] initWithBundle:[NSBundle bundleForClass:[self class]]];
 	return preferencePane;
 }
 

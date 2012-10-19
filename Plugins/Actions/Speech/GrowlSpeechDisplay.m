@@ -95,7 +95,7 @@
 
 - (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane){
-		preferencePane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.growl.Speech"]];
+		preferencePane = [[GrowlSpeechPrefs alloc] initWithBundle:[NSBundle bundleForClass:[self class]]];
 		__block GrowlSpeechDisplay *blockSelf = self;
 		[[NSNotificationCenter defaultCenter] addObserverForName:GrowlSpeechHotKeyChanged
 																		  object:preferencePane

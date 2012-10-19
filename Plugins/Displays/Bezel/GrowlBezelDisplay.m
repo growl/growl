@@ -27,7 +27,7 @@
 
 - (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
-		preferencePane = [[GrowlBezelPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Bezel"]];
+		preferencePane = [[GrowlBezelPrefs alloc] initWithBundle:[NSBundle bundleForClass:[self class]]];
 	return preferencePane;
 }
 

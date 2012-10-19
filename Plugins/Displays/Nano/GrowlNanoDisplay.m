@@ -29,7 +29,7 @@
 
 - (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
-		preferencePane = [[GrowlNanoPrefs alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.Growl.Nano"]];
+		preferencePane = [[GrowlNanoPrefs alloc] initWithBundle:[NSBundle bundleForClass:[self class]]];
 	return preferencePane;
 }
 

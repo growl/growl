@@ -87,7 +87,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
           [views addObject:loginDict];
           [loginBlock release];
        }
-       if([GrowlPathUtilities growlPrefPaneBundle] != nil) {
+       if([[GrowlPathUtilities runningHelperAppBundle] isEqual:[NSBundle mainBundle]]) {
           GrowlFirstLaunchAction oldBlock = [^{
                 [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/documentation/growl-package-removal.php#1.2easy"]];
           } copy];

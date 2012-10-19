@@ -10,9 +10,6 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlDefinesInternal.h"
 
-static NSBundle *helperAppBundle;
-static NSBundle *prefPaneBundle;
-
 #define NAME_OF_SCREENSHOTS_DIRECTORY           @"Screenshots"
 #define NAME_OF_TICKETS_DIRECTORY               @"Tickets"
 #define NAME_OF_PLUGINS_DIRECTORY               @"Plugins"
@@ -42,112 +39,6 @@ static NSBundle *prefPaneBundle;
 //Obtains the bundle for the active GrowlHelperApp process. Returns nil if there is no such process.
 + (NSBundle *) runningHelperAppBundle {
 	return [self bundleForProcessWithBundleIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
-}
-
-+ (NSBundle *) growlPrefPaneBundle {
-	NSArray			*librarySearchPaths;
-	NSString		*bundleIdentifier;
-	NSBundle		*bundle;
-
-	if (prefPaneBundle)
-		return prefPaneBundle;
-
-	prefPaneBundle = [NSBundle bundleWithIdentifier:GROWL_PREFPANE_BUNDLE_IDENTIFIER];
- 	if (prefPaneBundle)
-		return prefPaneBundle;
-
-	//If GHA is running, the prefpane bundle is the bundle that contains it.
-	NSBundle *runningHelperAppBundle = [self runningHelperAppBundle];
-	NSString *runningHelperAppBundlePath = [runningHelperAppBundle bundlePath];
-	//GHA in Growl.prefPane/Contents/Resources/
-	NSString *possiblePrefPaneBundlePath1 = [runningHelperAppBundlePath stringByDeletingLastPathComponent];
-	//GHA in Growl.prefPane/ (hypothetical)
-	NSString *possiblePrefPaneBundlePath2 = [[possiblePrefPaneBundlePath1 stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
-	if ([[[possiblePrefPaneBundlePath1 pathExtension] lowercaseString] isEqualToString:@"prefpane"]) {
-		prefPaneBundle = [NSBundle bundleWithPath:possiblePrefPaneBundlePath1];
-		if (prefPaneBundle)
-			return prefPaneBundle;
-	}
-	if ([[[possiblePrefPaneBundlePath2 pathExtension] lowercaseString] isEqualToString:@"prefpane"]) {
-		prefPaneBundle = [NSBundle bundleWithPath:possiblePrefPaneBundlePath2];
-		if (prefPaneBundle)
-			return prefPaneBundle;
-	}
-	
-	static const unsigned bundleIDComparisonFlags = NSCaseInsensitiveSearch | NSBackwardsSearch;
-
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-
-	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
-	librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask & ~NSSystemDomainMask, YES);
-
-	/*First up, we'll look for Growl.prefPane, and if it exists, check whether
-	 *	it is our prefPane.
-	 *This is much faster than having to enumerate all preference panes, and
-	 *	can drop a significant amount of time off this code.
-	 */
-	for (NSString *path in librarySearchPaths) {
-		path = [path stringByAppendingPathComponent:PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY];
-		path = [path stringByAppendingPathComponent:GROWL_PREFPANE_NAME];
-
-		if ([fileManager fileExistsAtPath:path]) {
-			bundle = [NSBundle bundleWithPath:path];
-
-			if (bundle) {
-				bundleIdentifier = [bundle bundleIdentifier];
-
-				if (bundleIdentifier && ([bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:bundleIDComparisonFlags] == NSOrderedSame)) {
-					prefPaneBundle = bundle;
-					return prefPaneBundle;
-				}
-			}
-		}
-	}
-
-	/*Enumerate all installed preference panes, looking for the Growl prefpane
-	 *	bundle identifier and stopping when we find it.
-	 *Note that we check the bundle identifier because we should not insist
-	 *	that the user not rename his preference pane files, although most users
-	 *	of course will not.  If the user wants to mutilate the Info.plist file
-	 *	inside the bundle, he/she deserves to not have a working Growl
-	 *	installation.
-	 */
-	for (NSString *path in librarySearchPaths) {
-		NSString				*bundlePath;
-		NSDirectoryEnumerator   *bundleEnum;
-
-		path = [path stringByAppendingPathComponent:PREFERENCE_PANES_SUBFOLDER_OF_LIBRARY];
-		bundleEnum = [fileManager enumeratorAtPath:path];
-
-		while ((bundlePath = [bundleEnum nextObject])) {
-			if ([[bundlePath pathExtension] isEqualToString:PREFERENCE_PANE_EXTENSION]) {
-				bundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:bundlePath]];
-
-				if (bundle) {
-					bundleIdentifier = [bundle bundleIdentifier];
-
-					if (bundleIdentifier && ([bundleIdentifier compare:GROWL_PREFPANE_BUNDLE_IDENTIFIER options:bundleIDComparisonFlags] == NSOrderedSame)) {
-						prefPaneBundle = bundle;
-						return prefPaneBundle;
-					}
-				}
-
-				[bundleEnum skipDescendents];
-			}
-		}
-	}
-
-	return nil;
-}
-
-+ (NSBundle *) helperAppBundle {
-	if (!helperAppBundle) {
-		helperAppBundle = [self runningHelperAppBundle];
-		if (!helperAppBundle) {
-			helperAppBundle = [NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
-		}
-	}
-	return helperAppBundle;
 }
 
 #pragma mark -
