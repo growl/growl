@@ -235,14 +235,7 @@
 	long writeToTag = 1;
 	if(tag == 0){
 		//Parse our first 4 bytes
-		NSString *initialString = @"";
-		
-		@try {
-			initialString = [NSString stringWithUTF8String:[data bytes]];
-		}
-		@catch (NSException *exception) {
-			NSLog(@"stringWithUTF8String failed: %@", exception);
-		}
+		NSString *initialString = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
 		
 		if([initialString caseInsensitiveCompare:@"GNTP"] == NSOrderedSame){
 			//Read the security header for testing it
