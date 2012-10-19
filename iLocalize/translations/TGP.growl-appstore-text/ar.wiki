@@ -1,23 +1,23 @@
-Growl is the is ultimate notification system for the Mac.  It's the easiest way to instantly know what is going on with other applications while you are busy working on something else, in real time or even when you step away.
+غرول هو نظام الإعلام الأفضل للماك. إنه الطريقة الأسهل لتعرف مباشرة ماذا يجري مع التطبيقات الأخرى بينما أنت منشغل بعمل شيء اخر, في الوقت الحقيقي أو عندما تبتعد.
 
-One day we were working with pictures in iPhoto while having a conversation in Adium. While waiting on something important to come through in the conversation, we had to keep clicking back and forth every time an instant message came through. Even though we knew were getting a message we'd have to click back to the Adium window to see what was being said. The idea for Growl was born out of the frustration of being forced to click back and forth to see what was going on. The real time notifications keep you up to speed with everything you need to know. With smooth notifications and Growl's one of a kind rollup window, you'll always know what's going on even when you have to step away from your Mac. 
+يوما كنا نعمل بصور أي فون بينما المحادثة في اديوم . بانتظار شيء مهم يأتي من المحادثة, كان علينا الاستمرار بضغط رجوع و عليها كل مرة تأتي رسالة فورية. على الرغم من أننا عرفنا أين الحصول على رسالة كنا نضغط على رجوع لنافذة اديوم لرؤية ماذا كان يقال. ولدت فكرة غرول من الإحباط أنه يجب الضغط للخلف لرؤية ماذا يحدث. ملاحظات الوقت الحقيقي تبقيك بسرعة مع كل ما تريد معرفته. مع الملاحظات السلسة غرول نوعا ما هو نافذة تراكمية, ستعرف دائما ماذا يحدث حتى عندما تخرج من الماك الخاص بك. 
 
-Never before has there been anything that personalizes notifications in such an effective way. You can receive notifications in several ways, such as on screen, via email, or even have them spoken to you. Plus if you know a bit about web technologies (CSS/XHTML/Javascript) then you can make a Growl style look how you want it to.
+لم يكن هناك سابقا ملاحظات شخصية بهذه الطريقة المؤثرة. يمكنك أن تستقبل ملاحظات بطرق عديدة, مثلا على الشاشة, عبر البريد الالكتروني, أو حتى إرسالها لك محكية. بالإضافة إذا كنت تعرف قليلا عن تكنولوجيا الشبكة (CSS/XHTML/Javascript) عندها تستطيع أن تجعل غرول يبدو كما تريد.
 
-So many more AWESOME features listed here.
-
-
-• Personalize your notifications. Choose Growl's presentation, look and feels.
-• Keeps working even when you are not. Come back to your mac and review what happened while you were gone with Rollup.
-• Easy to use Applications tab for controlling what you receive and what gets blocked.
-• Speech display for hearing your notifications, great for those who are visually impaired.
-• Awesome notification history, so you can see what has been going on.
-• A large variety of styles come with Growl. Anything from nano which is tiny, to music video which is huge.
-• Make your own Growl styles very easily with web technology to give Growl your own look and feel.
-• Send Growl notifications from Cocoa, AppleScript, or over the network.
-• Networking so that two or more macs can forward notifications to each other.
-• Can work with the iPhone and iPad via Prowl.
+العديد من الهيئات الجميلة مدرجة هنا.
 
 
+اجعل ملاحظاتك شخصية. اختر تقديم غرول, نظرة و مشاعر.
+متابعة العمل حتى لو لم تكن. تعال للماك الخاص بك و استعرض ماذا حدث عندما ذهبت.
+ من السهل استخدام تطبيقات علامات التبويب للتحكم بما تستقبل و ما يتم حظره.
+عرض الكلام لتسمع ملاحظاتك, جيد لضعاف النظر.
+تاريخ ملاحظات رائع, حيث تستطيع رؤية ما حدث.
+تنوع كبير في المظهر يأتي مع غرول. أي شيء صغير من نانو, بالنسبة لفيديو الموسيقى حيث أنة كبير.
+اجعل مظاهر غرول  الخاص بك يعطي بسهولة أكثر مع تكنولوجيا الشبكة نظرتك و شعورك.
+أرسل ملاحظات غرول من كوكاو, ابل يكريت, أو عير السبكة.
+الشبكة ليتمكن جهازي ماك أو أكثر من تمرير الملاحظات لبعض.
+بمكنك العمل باي فون أو اي باد عبر برول.
 
-Growl is what you need. Millions of people love it, and you will too. Seriously!
+
+
+غرول هو ما تحتاج. ملايين من الناس يحبوه, و أنت أيضا ستفعل. جديا!
