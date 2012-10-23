@@ -94,7 +94,7 @@
 
 - (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
-		preferencePane = [[GrowlSoundActionPreferencePane alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.growl.soundaction"]];
+		preferencePane = [[GrowlSoundActionPreferencePane alloc] initWithBundle:[NSBundle bundleForClass:[self class]]];
 	
 	return preferencePane;
 }

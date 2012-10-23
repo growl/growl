@@ -14,7 +14,7 @@
 @implementation GrowlWebKitPrefsController
 
 - (id) initWithStyle:(NSString *)styleName {
-	if ((self = [self initWithBundle:[NSBundle bundleWithIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER]])) {
+	if ((self = [self initWithBundle:[NSBundle bundleForClass:[self class]]])) {
 		style = [styleName retain];
 		prefDomain = [[NSString alloc] initWithFormat:@"%@.%@", GrowlWebKitPrefDomain, style];
    }

@@ -106,14 +106,7 @@
 			//Reading in notifications
 			//break it down
 			//No need to handle the extra CLRF's after the last line
-			NSString *noteHeaderBlock = nil;
-			
-			@try {
-				noteHeaderBlock = [NSString stringWithUTF8String:[data bytes]];
-			}
-			@catch (NSException *exception) {
-				NSLog(@"stringWithUTF8String failed: %@", exception);
-			}
+			NSString *noteHeaderBlock = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
 			
 			NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 			[GNTPPacket enumerateHeaders:noteHeaderBlock

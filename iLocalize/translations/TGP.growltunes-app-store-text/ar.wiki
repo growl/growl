@@ -1,3 +1,3 @@
-What song just started playing in iTunes? With GrowlTunes you will no longer have to ask yourself that question, you'll just know. GrowlTunes makes it easy to see what track is playing, and gives you even more control, like changing track ratings and the volume of iTunes too. If you have Growl you can even change the way track change notifications look. 
+ما هي الأغنية التي بدأت للتو في اي تونز؟ مع غرول تونز لن تسأل نفسك ذلك السؤال, ستعرف فقط. غرول تونز يجعل من السهل رؤية أي مقطع صوتي يعمل, ويعطيك تحكم أكثر, كتغيير تقييمات المقطع الصوتي و تغيير حجم صوت الاي تونز أيضا. إذا كان لديك غرول تستطيع تغيير مظهر ملاحطات تغيير المقطع الصوتي. 
 
-GrowlTunes makes using iTunes even more fun. Whether in an office or at a party, GrowlTunes definitely comes in handy when you just need to know.
+غرول تونز يجعل استخدام اي تونز ممتع أكثر. سواء في مكتب أو حفلة, غرول بالتأكيد في متناول اليدين عندما تحتاج أن تعرف.

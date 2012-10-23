@@ -1,7 +1,7 @@
-HardwareGrowler is the best way to find out when hardware status changes on the Mac. If you need to know what's going on with your Mac, then you need HardwareGrowler. 
+هاردويرغرولر هو أفضل طريقة لمعرفة متى تتغير حالة الجهاز تتغير على الماك. إذا أردت أن تعرف مالذي يحدث مع الماك الخاص بط, إذا تحتاج هاردويرغرولر. 
 
-When your power cable unplugs, HardwareGrowler will spring into action and lets you know about it. Plug in a device like a keyboard, thumb drive, or even a usb headset and get notified about the hardware changes.
+عندما يفصل كابل الطاقة الخاص بك, هاردويرغرولر سيقوم بإعلامك بذلك. وصل أداة كلوحة المفاتيح, متصفح, أو حتى سماعة USB و الإعلام عن تغييرات الجهاز.
 
-HardwareGrowler will also let you know about changes to networking on your Mac. When a wireless connection changes to a different access point or an IP address changes, you'll be notified about the change. 
+هاردويرغرولر سيدعك تعرف عن تغييرات الشبكة على الماك الخاص بك. عندما يتغير اتصال لاسلكي لنقطة دخول مختلفة أو عنوان IP يتغير, سيتم إعلامك عن ذلك التغيير. 
 
-HardwareGrowler is what you need if you need to know about your hardware. HardwareGrowler uses Growl to provide notifications or can do it all by itself. Simple to use, easy to configure, HardwareGrowler is the application for those who need to know.
+هاردويرغرولر هو ما تحتاج إليه إذا أردت أن تعرف عن جهازك. هاردويرغرولر يستخدم لتوفير الملاحظات هدير أو يستطيع القيام بذلك بنفسه. بسيط الاستخدام, سهل التكوين, هاردويرغرولر هو التطبيق لمن يريد أن يعرف.

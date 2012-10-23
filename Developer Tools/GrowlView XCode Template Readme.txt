@@ -9,7 +9,7 @@ GrowlView.xctemplate is an XCode template for making a .growlView (cocoa) plugin
 From there, simply create a new project, selecting either action, or display, and all the base files needed for the selected type will be created.
 
 For any growlView that includes:
-Info.plist, including the author and description fields, and prepopulated primary class depending on type of growlView
+Info.plist, including the author and description fields, and pre-populated primary class depending on type of growlView
 Growl<ProjectName>PreferencePane.h/m, the subclass of GrowlPluginPreferencePane that links your UI to our storage method for plugin configurations.
 Growl<ProjectName>PrefPane.xib
 GrowlPlugins.framework, a copy of the framework we use for storing the primary classes your plugin will want/need from us.  You do not need to bundle this with your app, we bundle it with Growl.app.

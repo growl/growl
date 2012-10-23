@@ -263,14 +263,7 @@ enum {
       
 	} else if (tag == GrowlGNTPCommAttemptReadPhaseResponseHeaderLine) {
 		NSData *trimmed = [NSData dataWithBytes:[data bytes] length:[data length] - [[GCDAsyncSocket CRLFData] length]];
-		NSString *header = @"";
-		
-		@try {
-			header = [trimmed length] > 0 ? [NSString stringWithUTF8String:[trimmed bytes]] : @"";
-		}
-		@catch (NSException *exception) {
-			NSLog(@"stringWithUTF8String failed: %@", exception);
-		}
+		NSString *header = [trimmed length] > 0 ? [[[NSString alloc] initWithData:trimmed encoding:NSUTF8StringEncoding] autorelease] : @"";
 		
 		if([self parseHeader:header]){
 			[self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseResponseHeaderLine];
@@ -278,14 +271,7 @@ enum {
 	} else if (tag == GrowlGNTPCommAttemptReadPhaseEncrypted){
 		//Trim and decrypt
 		NSData *decrypted = [self.key decrypt:[NSData dataWithBytes:[data bytes] length:[data length] - [[GNTPUtilities doubleCRLF] length]]];
-		NSString *headersString = nil;
-		
-		@try {
-			headersString = [NSString stringWithUTF8String:[decrypted bytes]];
-		}
-		@catch (NSException *exception) {
-			NSLog(@"stringWithUTF8String failed: %@", exception);
-		}
+		NSString *headersString = [[[NSString alloc] initWithData:decrypted encoding:NSUTF8StringEncoding] autorelease];
 		
 		NSArray *headerArray = [headersString componentsSeparatedByString:@"\r\n"];
 		[headerArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {

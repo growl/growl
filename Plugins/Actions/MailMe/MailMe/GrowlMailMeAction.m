@@ -81,7 +81,7 @@
 /* Auto generated method returning our PreferencePane, do not touch */
 - (GrowlPluginPreferencePane *) preferencePane {
 	if (!preferencePane)
-		preferencePane = [[GrowlMailMePreferencePane alloc] initWithBundle:[NSBundle bundleWithIdentifier:@"com.growl.MailMe"]];
+		preferencePane = [[GrowlMailMePreferencePane alloc] initWithBundle:[NSBundle bundleForClass:[self class]]];
 	
 	return preferencePane;
 }

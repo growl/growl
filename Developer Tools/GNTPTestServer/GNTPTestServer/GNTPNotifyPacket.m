@@ -62,7 +62,7 @@
 																											options:0
 																											  error:NULL];
 				if(propertyListData){
-					contextString = [NSString stringWithUTF8String:[propertyListData bytes]];
+					contextString = [[[NSString alloc] initWithData:propertyListData encoding:NSUTF8StringEncoding] autorelease];
 				}
 			}
 			if(!contextString){
@@ -125,11 +125,11 @@
 				contextType = @"String";
 		}else if([NSPropertyListSerialization propertyList:context isValidForFormat:kCFPropertyListXMLFormat_v1_0]){
 			NSData *plistData = [NSPropertyListSerialization dataWithPropertyList:context
-																								 format:kCFPropertyListXMLFormat_v1_0
-																								options:0 
-																								  error:NULL];
+                                                                        format:kCFPropertyListXMLFormat_v1_0
+                                                                       options:0
+                                                                         error:NULL];
 			if(plistData){
-				contextString = [NSString stringWithUTF8String:[plistData bytes]];
+				contextString = [[[NSString alloc] initWithData:plistData encoding:NSUTF8StringEncoding] autorelease];
 			}
 			contextType = @"Plist";
 		}else if([context isKindOfClass:[NSURL class]]){
