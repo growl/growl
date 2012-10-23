@@ -276,6 +276,7 @@
 		BC3C079A146C878A00E7BBB0 /* GrowlHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0799146C878A00E7BBB0 /* GrowlHistoryViewController.m */; };
 		BC3E905614EB60FE00EBB28C /* GrowlMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E905514EB60FE00EBB28C /* GrowlMatrix.m */; };
 		BC3E905D14EB65B600EBB28C /* RollupSS.png in Resources */ = {isa = PBXBuildFile; fileRef = BC3E905C14EB65B600EBB28C /* RollupSS.png */; };
+		BC44F81B1636FAFD0017A51F /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = BC44F8191636FAFD0017A51F /* About.html */; };
 		BC47859A15E66D7900B6451A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 83315C6215E5E39100D1F30D /* Localizable.strings */; };
 		BC4785A715E66FC600B6451A /* PluginPrefStrings.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCC7F9811503C282005FFE04 /* PluginPrefStrings.strings */; };
 		BC4B070115012179006151B3 /* GrowlDisplayPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 07803B6408E7E6BC00299E08 /* GrowlDisplayPlugin.m */; };
@@ -1522,6 +1523,7 @@
 		BC4002D215F2642900F95B4E /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ca; path = Core/Resources/ca.lproj/StartAtLogin.rtf; sourceTree = "<group>"; };
 		BC4002D315F2642900F95B4E /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ca; path = Core/Resources/ca.lproj/Welcome.rtf; sourceTree = "<group>"; };
 		BC4002D415F2642900F95B4E /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = ca; path = Core/Resources/ca.lproj/WhatsNew.rtf; sourceTree = "<group>"; };
+		BC44F81A1636FAFD0017A51F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = Core/Resources/en.lproj/About.html; sourceTree = "<group>"; };
 		BC47859515E66B0F00B6451A /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = Plugins/PluginFramework/da.lproj/PluginPrefStrings.strings; sourceTree = "<group>"; };
 		BC4785F915E6738C00B6451A /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = Plugins/Actions/Speech/cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC4785FB15E6739B00B6451A /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = Plugins/Actions/Speech/de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -2201,6 +2203,7 @@
 				BCF24CB5146DB35700B91675 /* RollupPrefs.xib */,
 				BCDCFCD5146ABFA30074E001 /* HistoryPrefs.xib */,
 				BCDCFCD7146ABFE20074E001 /* About.xib */,
+				BC44F8191636FAFD0017A51F /* About.html */,
 				93E4EEAD141EFCA1005A26CF /* InfoPlist.strings */,
 				93E4EEAF141EFCA1005A26CF /* Localizable.strings */,
 				BC4DE6E214D0666A00132B49 /* mainmenu.strings */,
@@ -4108,6 +4111,7 @@
 				93F2172E15E5C43E00343EB1 /* SliderHandleDown@2x.png in Resources */,
 				93F2172F15E5C43E00343EB1 /* SliderWell@2x.png in Resources */,
 				BCC4933815EE46CB0078D28D /* About.rtf in Resources */,
+				BC44F81B1636FAFD0017A51F /* About.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5142,6 +5146,14 @@
 				BC29B28E14D12D5300C72855 /* en */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		BC44F8191636FAFD0017A51F /* About.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC44F81A1636FAFD0017A51F /* en */,
+			);
+			name = About.html;
 			sourceTree = "<group>";
 		};
 		BC4DE6E214D0666A00132B49 /* mainmenu.strings */ = {

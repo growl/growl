@@ -12,7 +12,8 @@
 @implementation GrowlAboutViewController
 
 @synthesize aboutVersionString;
-@synthesize aboutBoxTextView;
+//@synthesize aboutBoxTextView;
+@synthesize aboutWebView;
 
 @synthesize bugSubmissionLabel;
 @synthesize growlWebsiteLabel;
@@ -54,7 +55,9 @@
 	[aboutVersionString setStringValue:[NSString stringWithFormat:@"%@ %@", 
                                        [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"], 
                                        versionString]];
-	[aboutBoxTextView readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"About" ofType:@"rtf"]];
+	//[aboutBoxTextView readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"About" ofType:@"rtf"]];
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"About" ofType:@"html"];
+	[aboutWebView setMainFrameURL:path];
 }
 
 - (IBAction) openGrowlWebSite:(id)sender {
