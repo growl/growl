@@ -208,7 +208,7 @@
          //If we are using it, and either its a manual, and if we are browsing, we should know if its active
          if ([obj use] && ([obj manualEntry] || (![[GrowlBonjourBrowser sharedBrowser] browser] || [obj active]))) {
             //NSLog(@"Looking up address for %@", [entry computerName]);
-            NSData *destAddress = [preferences boolForKey:@"AddressCachingEnabled"] ? [obj lastKnownAddress] : nil;
+            NSData *destAddress = nil;//[preferences boolForKey:@"AddressCachingEnabled"] ? [obj lastKnownAddress] : nil;
             if(!destAddress){
                destAddress = [GrowlNetworkUtilities addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[obj computerName] withDomain:[obj domain]];
                [obj setLastKnownAddress:destAddress];

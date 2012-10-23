@@ -379,7 +379,7 @@
     */
    __block GNTPSubscriberEntry *blockSelf = self;
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      NSData *destAddress = [[GrowlPreferencesController sharedController] boolForKey:@"AddressCachingEnabled"] ? blockSelf.lastKnownAddress : nil;
+      NSData *destAddress = nil;//[[GrowlPreferencesController sharedController] boolForKey:@"AddressCachingEnabled"] ? blockSelf.lastKnownAddress : nil;
       if(!destAddress){
          destAddress = [GrowlNetworkUtilities addressDataForGrowlServerOfType:@"_gntp._tcp." withName:[blockSelf computerName] withDomain:[blockSelf domain]];
          self.lastKnownAddress = destAddress;
