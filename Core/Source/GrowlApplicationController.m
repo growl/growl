@@ -74,8 +74,21 @@
 	NSString *noteKey = [[notification userInfo] valueForKey:@"AppleNotificationID"];
    NSDictionary *growlNotificationDict = [self.growlDicts valueForKey:noteKey];
 	if(growlNotificationDict){
+      NSString *notificationType = GROWL_NOTIFICATION_CLICKED;
+      
+      if(notification.activationType == NSUserNotificationActivationTypeActionButtonClicked) {
+         // Action button clicked
+         NSMutableDictionary *temporaryNotificationDict = [growlNotificationDict mutableCopy];
+         [temporaryNotificationDict setObject:[NSNumber numberWithBool:YES] forKey:GROWL_NOTIFICATION_CLICK_BUTTONUSED];
+      }
+      else if (notification.activationType == NSUserNotificationActivationTypeNone) {
+         // Cancel button clicked *or* the item was removed from Notification Center with the (X) button,
+         // so we'll handle this case as a timeout.
+         notificationType = GROWL_NOTIFICATION_TIMED_OUT;
+      }
+      
 		GrowlNotification *growlNotification = [[[GrowlNotification alloc] initWithDictionary:growlNotificationDict configurationDict:nil] autorelease];
-		
+      
 		[center removeDeliveredNotification:notification];
 		
 		// Toss the click context back to the hosting app.
@@ -322,8 +335,16 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	
 	NSString *noteKey = [[NSProcessInfo processInfo] globallyUniqueString];
 	appleNotification.userInfo = [NSDictionary dictionaryWithObject:noteKey forKey:@"AppleNotificationID"];
+   appleNotification.hasActionButton = NO;
 	
-	// If we ever add support for action buttons in Growl (please), we'll want to add those here.
+   if ([growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION]) {
+      appleNotification.hasActionButton = YES;
+      appleNotification.actionButtonTitle = [growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION];
+   }
+   
+   if ([growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL])
+      appleNotification.otherButtonTitle = [growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
+   
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		appleNotificationDelegate = [[GrowlApplicationNotificationCenterDelegate alloc] init];
