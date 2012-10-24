@@ -12,8 +12,8 @@
 
 -(id)init {
 	if((self = [super init])){
-		self.titleLabel = NSLocalizedString(@"Title: (TESTING)", @"Automator action title label");
-		self.descriptionLabel = NSLocalizedString(@"Description:", @"Automator action description label");
+		self.titleLabel = NSLocalizedString(@"Title:", @"Automator action title label");
+		self.descriptionLabel = NSLocalizedString(@"Description: (if blank, uses input)", @"Automator action description label");
 		self.priorityLabel = NSLocalizedString(@"Priority:", @"Automator action priority label");
 		self.stickyLabel = NSLocalizedString(@"Sticky", @"Automator action Sticky checkbox label");
 		
