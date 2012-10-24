@@ -2204,6 +2204,7 @@
 			isa = PBXGroup;
 			children = (
 				93E4EEA5141EFCA0005A26CF /* About.rtf */,
+				BC44F8191636FAFD0017A51F /* About.html */,
 				BC0D31E114D3074C00587B7B /* First Launch Text */,
 				BC986FD414D0FE1F00CC5E57 /* FirstLaunchWindow.xib */,
 				BC0B6F9D14BF6E71004F2339 /* AwayHistoryWindow.xib */,
@@ -2215,7 +2216,6 @@
 				BCF24CB5146DB35700B91675 /* RollupPrefs.xib */,
 				BCDCFCD5146ABFA30074E001 /* HistoryPrefs.xib */,
 				BCDCFCD7146ABFE20074E001 /* About.xib */,
-				BC44F8191636FAFD0017A51F /* About.html */,
 				93E4EEAD141EFCA1005A26CF /* InfoPlist.strings */,
 				93E4EEAF141EFCA1005A26CF /* Localizable.strings */,
 				BC4DE6E214D0666A00132B49 /* mainmenu.strings */,
