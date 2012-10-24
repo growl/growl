@@ -274,6 +274,10 @@
 		BC3C0794146C1FA700E7BBB0 /* GrowlDisplaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0793146C1FA700E7BBB0 /* GrowlDisplaysViewController.m */; };
 		BC3C0797146C685D00E7BBB0 /* GrowlServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0796146C685D00E7BBB0 /* GrowlServerViewController.m */; };
 		BC3C079A146C878A00E7BBB0 /* GrowlHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3C0799146C878A00E7BBB0 /* GrowlHistoryViewController.m */; };
+		BC3D4AB1163791B500407B17 /* StartAtLogin.html in Resources */ = {isa = PBXBuildFile; fileRef = BC3D4AAF163791B500407B17 /* StartAtLogin.html */; };
+		BC3D4AB8163794C000407B17 /* OldGrowl.html in Resources */ = {isa = PBXBuildFile; fileRef = BC3D4AB2163794C000407B17 /* OldGrowl.html */; };
+		BC3D4AB9163794C000407B17 /* Welcome.html in Resources */ = {isa = PBXBuildFile; fileRef = BC3D4AB4163794C000407B17 /* Welcome.html */; };
+		BC3D4ABA163794C000407B17 /* WhatsNew.html in Resources */ = {isa = PBXBuildFile; fileRef = BC3D4AB6163794C000407B17 /* WhatsNew.html */; };
 		BC3E905614EB60FE00EBB28C /* GrowlMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E905514EB60FE00EBB28C /* GrowlMatrix.m */; };
 		BC3E905D14EB65B600EBB28C /* RollupSS.png in Resources */ = {isa = PBXBuildFile; fileRef = BC3E905C14EB65B600EBB28C /* RollupSS.png */; };
 		BC44F81B1636FAFD0017A51F /* About.html in Resources */ = {isa = PBXBuildFile; fileRef = BC44F8191636FAFD0017A51F /* About.html */; };
@@ -1513,6 +1517,10 @@
 		BC3C0796146C685D00E7BBB0 /* GrowlServerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlServerViewController.m; path = Core/Source/GrowlServerViewController.m; sourceTree = "<group>"; };
 		BC3C0798146C878A00E7BBB0 /* GrowlHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlHistoryViewController.h; path = Core/Source/GrowlHistoryViewController.h; sourceTree = "<group>"; };
 		BC3C0799146C878A00E7BBB0 /* GrowlHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlHistoryViewController.m; path = Core/Source/GrowlHistoryViewController.m; sourceTree = "<group>"; };
+		BC3D4AB0163791B500407B17 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = Core/Resources/en.lproj/StartAtLogin.html; sourceTree = "<group>"; };
+		BC3D4AB3163794C000407B17 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = Core/Resources/en.lproj/OldGrowl.html; sourceTree = "<group>"; };
+		BC3D4AB5163794C000407B17 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = Core/Resources/en.lproj/Welcome.html; sourceTree = "<group>"; };
+		BC3D4AB7163794C000407B17 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = Core/Resources/en.lproj/WhatsNew.html; sourceTree = "<group>"; };
 		BC3E905414EB60FE00EBB28C /* GrowlMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMatrix.h; path = Core/Source/GrowlMatrix.h; sourceTree = "<group>"; };
 		BC3E905514EB60FE00EBB28C /* GrowlMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMatrix.m; path = Core/Source/GrowlMatrix.m; sourceTree = "<group>"; };
 		BC3E905C14EB65B600EBB28C /* RollupSS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RollupSS.png; path = Core/Resources/RollupSS.png; sourceTree = "<group>"; };
@@ -2773,6 +2781,10 @@
 				BC0D31E214D3266100587B7B /* OldGrowl.rtf */,
 				BC0D31DB14D3045400587B7B /* WhatsNew.rtf */,
 				BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */,
+				BC3D4AAF163791B500407B17 /* StartAtLogin.html */,
+				BC3D4AB2163794C000407B17 /* OldGrowl.html */,
+				BC3D4AB4163794C000407B17 /* Welcome.html */,
+				BC3D4AB6163794C000407B17 /* WhatsNew.html */,
 			);
 			name = "First Launch Text";
 			sourceTree = "<group>";
@@ -4112,6 +4124,10 @@
 				93F2172F15E5C43E00343EB1 /* SliderWell@2x.png in Resources */,
 				BCC4933815EE46CB0078D28D /* About.rtf in Resources */,
 				BC44F81B1636FAFD0017A51F /* About.html in Resources */,
+				BC3D4AB1163791B500407B17 /* StartAtLogin.html in Resources */,
+				BC3D4AB8163794C000407B17 /* OldGrowl.html in Resources */,
+				BC3D4AB9163794C000407B17 /* Welcome.html in Resources */,
+				BC3D4ABA163794C000407B17 /* WhatsNew.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5146,6 +5162,38 @@
 				BC29B28E14D12D5300C72855 /* en */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		BC3D4AAF163791B500407B17 /* StartAtLogin.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC3D4AB0163791B500407B17 /* en */,
+			);
+			name = StartAtLogin.html;
+			sourceTree = "<group>";
+		};
+		BC3D4AB2163794C000407B17 /* OldGrowl.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC3D4AB3163794C000407B17 /* en */,
+			);
+			name = OldGrowl.html;
+			sourceTree = "<group>";
+		};
+		BC3D4AB4163794C000407B17 /* Welcome.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC3D4AB5163794C000407B17 /* en */,
+			);
+			name = Welcome.html;
+			sourceTree = "<group>";
+		};
+		BC3D4AB6163794C000407B17 /* WhatsNew.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BC3D4AB7163794C000407B17 /* en */,
+			);
+			name = WhatsNew.html;
 			sourceTree = "<group>";
 		};
 		BC44F8191636FAFD0017A51F /* About.html */ = {
