@@ -40,8 +40,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
 
 +(BOOL)shouldRunFirstLaunch
 {
-	return YES;
-   /*GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+   GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
    if(![preferences objectForKey:GrowlFirstLaunch] || [preferences boolForKey:GrowlFirstLaunch])
       return YES;
    
@@ -49,7 +48,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
    if([GrowlFirstLaunchWindowController previousVersionOlder]){
       return YES;
    }
-   return NO;*/
+   return NO;
 }
 
 - (id)init
@@ -59,32 +58,26 @@ typedef void(^GrowlFirstLaunchAction)(void);
        self.windowTitle = NSLocalizedString(@"Welcome to Growl!", @"");
        self.continueButtonTitle = NSLocalizedString(@"Continue", @"Continue button title");
        
-//       GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
+       GrowlPreferencesController *preferences = [GrowlPreferencesController sharedController];
        self.current = 0;
        
        NSMutableArray *views = [NSMutableArray array];
       
-/*       NSData *welcomeData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Welcome" withExtension:@"rtf"]];
-       NSAttributedString *welcomeString = [[[NSAttributedString alloc] initWithRTF:welcomeData documentAttributes:nil] autorelease];*/
 		 NSString *welcomeString = [[[NSBundle mainBundle] URLForResource:@"Welcome" withExtension:@"html"] absoluteString];
        NSDictionary *welcomeDict = [NSDictionary dictionaryWithObjectsAndKeys:welcomeString, @"textBody", nil];
        [views addObject:welcomeDict];
        
-/*       NSData *whatsNewData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"WhatsNew" withExtension:@"rtf"]];
-       NSAttributedString *whatsNewString = [[[NSAttributedString alloc] initWithRTF:whatsNewData documentAttributes:nil] autorelease];*/
 		 NSString *whatsNewString = [[[NSBundle mainBundle] URLForResource:@"WhatsNew" withExtension:@"html"] absoluteString];
        NSDictionary *whatsNewDict = [NSDictionary dictionaryWithObjectsAndKeys:whatsNewString, @"textBody", nil];
        [views addObject:whatsNewDict];
        
-       if(/* ![preferences allowStartAtLogin]*/YES) {
+       if(![preferences allowStartAtLogin]) {
          GrowlFirstLaunchAction loginBlock = [^{
              GrowlPreferencesController *prefs = [GrowlPreferencesController sharedController];
              [prefs setShouldStartGrowlAtLogin:YES];
              [prefs setAllowStartAtLogin:YES];
           } copy];
           
-          /*NSData *loginData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"StartAtLogin" withExtension:@"rtf"]];
-          NSAttributedString *loginString = [[[NSAttributedString alloc] initWithRTF:loginData documentAttributes:nil] autorelease];*/
 			 NSString *loginString = [[[NSBundle mainBundle] URLForResource:@"StartAtLogin" withExtension:@"html"] absoluteString];
           NSDictionary *loginDict = [NSDictionary dictionaryWithObjectsAndKeys:loginString, @"textBody",
                                                                                loginBlock, @"actionBlock", 
@@ -92,12 +85,10 @@ typedef void(^GrowlFirstLaunchAction)(void);
           [views addObject:loginDict];
           [loginBlock release];
        }
-       if(/*[[GrowlPathUtilities runningHelperAppBundle] isEqual:[NSBundle mainBundle]]*/YES) {
+       if([[GrowlPathUtilities runningHelperAppBundle] isEqual:[NSBundle mainBundle]]) {
           GrowlFirstLaunchAction oldBlock = [^{
-                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/documentation/growl-package-removal.php#1.2easy"]];
+				 [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/documentation/growl-package-removal.php#1.2easy"]];
           } copy];
-          /*NSData *oldData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"OldGrowl" withExtension:@"rtf"]];
-          NSAttributedString *oldString = [[[NSAttributedString alloc] initWithRTF:oldData documentAttributes:nil] autorelease];*/
 			 NSString *oldString = [[[NSBundle mainBundle] URLForResource:@"OldGrowl" withExtension:@"html"] absoluteString];
           NSDictionary *oldDict = [NSDictionary dictionaryWithObjectsAndKeys:oldString, @"textBody",
                                                                              oldBlock, @"actionBlock",
