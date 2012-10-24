@@ -9,6 +9,7 @@
 #import "GrowlScriptAction.h"
 #import "GrowlScriptActionPreferencePane.h"
 #import <GrowlPlugins/GrowlDefines.h>
+#import <GrowlPlugins/GrowlAppleScriptNoteConverter.h>
 
 @implementation GrowlScriptAction
 
@@ -56,29 +57,6 @@
       }
    }
    return [result autorelease];
-}
-
--(NSAppleEventDescriptor*)notificationDescriptor:(NSDictionary*)dict {
-   NSString *host = [dict valueForKey:@"GNTP Notification Sent-By"];
-   if(!host /*|| [host isLocalHost]*/)
-      host = @"localhost";
-   
-   id icon = [dict valueForKey:GROWL_NOTIFICATION_ICON_DATA];
-   NSData *iconData = [icon isKindOfClass:[NSData class]] ? icon : ([icon isKindOfClass:[NSImage class]] ? [icon TIFFRepresentation] : nil);
-   
-   NSAppleEventDescriptor *noteDesc = [NSAppleEventDescriptor recordDescriptor];
-   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:host] forKeyword:'NtHs'];
-   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_APP_NAME]] forKeyword:'ApNm'];
-   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_NAME]] forKeyword:'NtTp'];
-   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_TITLE]] forKeyword:'Titl'];
-   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]] forKeyword:'Desc'];
-   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:[[dict valueForKey:GROWL_NOTIFICATION_STICKY] boolValue]] forKeyword:'Stic'];
-   if(iconData != nil){
-      [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithDescriptorType:typeData
-                                                                              data:iconData]
-                   forKeyword:'Icon'];
-   }
-   return noteDesc;
 }
 
 -(NSDictionary*)strippedDownDictionaryForAutomator:(NSDictionary*)dict {
@@ -151,7 +129,7 @@
                                                                          targetDescriptor:thisApplication
                                                                                  returnID:kAutoGenerateReturnID
                                                                             transactionID:kAnyTransactionID];
-         [event setDescriptor:[self notificationDescriptor:notification] forKeyword:'NtPa'];
+         [event setDescriptor:[GrowlAppleScriptNoteConverter appleEventDescriptorForNotification:notification] forKeyword:'NtPa'];
          [(NSUserAppleScriptTask*)scriptTask executeWithAppleEvent:event
                                                  completionHandler:^(NSAppleEventDescriptor *result, NSError *completionError) {
                                                     if(completionError){

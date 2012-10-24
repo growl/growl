@@ -374,6 +374,8 @@
 		BC8FD3FF15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3FC15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m */; };
 		BC94845613FB21690036382B /* Growl_512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = BC94845513FB21690036382B /* Growl_512x512.png */; };
 		BC949E5A15B3033300AD6489 /* NSObject+XPCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */; };
+		BC977EAD1638381F007881D5 /* GrowlAppleScriptNoteConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = BC977EAB1638381F007881D5 /* GrowlAppleScriptNoteConverter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BC977EAE1638381F007881D5 /* GrowlAppleScriptNoteConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = BC977EAC1638381F007881D5 /* GrowlAppleScriptNoteConverter.m */; };
 		BC986FD514D0FE1F00CC5E57 /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD414D0FE1F00CC5E57 /* FirstLaunchWindow.xib */; };
 		BC986FD814D0FE3D00CC5E57 /* Welcome.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD614D0FE3C00CC5E57 /* Welcome.rtf */; };
 		BC9AE9731255952700759016 /* GrowlImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9AE9721255952700759016 /* GrowlImageCache.m */; };
@@ -1673,6 +1675,8 @@
 		BC8FD3FB15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlXPCSubscriptionAttempt.h; path = Framework/Source/GrowlXPCSubscriptionAttempt.h; sourceTree = "<group>"; };
 		BC8FD3FC15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlXPCSubscriptionAttempt.m; path = Framework/Source/GrowlXPCSubscriptionAttempt.m; sourceTree = "<group>"; };
 		BC94845513FB21690036382B /* Growl_512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Growl_512x512.png; path = Core/Resources/Growl_512x512.png; sourceTree = "<group>"; };
+		BC977EAB1638381F007881D5 /* GrowlAppleScriptNoteConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlAppleScriptNoteConverter.h; path = Plugins/PluginFramework/GrowlAppleScriptNoteConverter.h; sourceTree = "<group>"; };
+		BC977EAC1638381F007881D5 /* GrowlAppleScriptNoteConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlAppleScriptNoteConverter.m; path = Plugins/PluginFramework/GrowlAppleScriptNoteConverter.m; sourceTree = "<group>"; };
 		BC986F9C14D0787100CC5E57 /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = Core/Resources/cs.lproj/mainmenu.strings; sourceTree = "<group>"; };
 		BC986F9E14D0787C00CC5E57 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = Core/Resources/da.lproj/mainmenu.strings; sourceTree = "<group>"; };
 		BC986FA014D0788700CC5E57 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = Core/Resources/de.lproj/mainmenu.strings; sourceTree = "<group>"; };
@@ -2893,6 +2897,8 @@
 		BC4B0700150120E8006151B3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BC977EAB1638381F007881D5 /* GrowlAppleScriptNoteConverter.h */,
+				BC977EAC1638381F007881D5 /* GrowlAppleScriptNoteConverter.m */,
 				BCAEAA6615347BCB00D00D6D /* NSURL+StringEncoding.h */,
 				BCAEAA6715347BCB00D00D6D /* NSURL+StringEncoding.m */,
 				BCC7F9A61503C4C5005FFE04 /* GrowlPlugins-Info.plist */,
@@ -3466,6 +3472,7 @@
 				BC7FC596152F41D60047368D /* NSScreen+GrowlScreenAdditions.h in Headers */,
 				BCAEAA6815347BCB00D00D6D /* NSURL+StringEncoding.h in Headers */,
 				BCA446BC15E678D600BF4FDA /* GrowlPluginPreferenceStrings.h in Headers */,
+				BC977EAD1638381F007881D5 /* GrowlAppleScriptNoteConverter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4557,6 +4564,7 @@
 				BC0CB6711524B08D0050205F /* GrowlDisplayBridgeController.m in Sources */,
 				BC7FC597152F41D60047368D /* NSScreen+GrowlScreenAdditions.m in Sources */,
 				BCAEAA6915347BCB00D00D6D /* NSURL+StringEncoding.m in Sources */,
+				BC977EAE1638381F007881D5 /* GrowlAppleScriptNoteConverter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

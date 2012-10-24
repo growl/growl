@@ -45,6 +45,7 @@
 #import <GrowlPlugins/GrowlDisplayPlugin.h>
 #import <GrowlPlugins/GrowlActionPlugin.h>
 #import <GrowlPlugins/GrowlKeychainUtilities.h>
+#import <GrowlPlugins/GrowlAppleScriptNoteConverter.h>
 
 #include "CFURLAdditions.h"
 #import "GrowlImageTransformer.h"
@@ -424,29 +425,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    return GrowlNotificationResultPosted;
 }
 
--(NSAppleEventDescriptor*)notificationDescriptor:(NSDictionary*)dict {
-   NSString *host = [dict valueForKey:GROWL_NOTIFICATION_GNTP_SENT_BY];
-   if(!host || [host isLocalHost])
-      host = @"localhost";
-   
-   id icon = [dict valueForKey:GROWL_NOTIFICATION_ICON_DATA];
-   NSData *iconData = [icon isKindOfClass:[NSData class]] ? icon : ([icon isKindOfClass:[NSImage class]] ? [icon TIFFRepresentation] : nil);
-   
-   NSAppleEventDescriptor *noteDesc = [NSAppleEventDescriptor recordDescriptor];
-   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:host] forKeyword:'NtHs'];
-   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_APP_NAME]] forKeyword:'ApNm'];
-   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_NAME]] forKeyword:'NtTp'];
-   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_TITLE]] forKeyword:'Titl'];
-   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithString:[dict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]] forKeyword:'Desc'];
-   [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:[[dict valueForKey:GROWL_NOTIFICATION_STICKY] boolValue]] forKeyword:'Stic'];
-   if(iconData != nil){
-      [noteDesc setDescriptor:[NSAppleEventDescriptor descriptorWithDescriptorType:typeData
-                                                                              data:iconData]
-                   forKeyword:'Icon'];
-   }
-   return noteDesc;
-}
-
 -(GrowlNotificationResult)dispatchByRuleSwithFilledInDict:(NSDictionary*)dict {
    NSUserAppleScriptTask *applescriptTask = [self appleScriptTask];
    if(!applescriptTask)
@@ -462,7 +440,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                                                    targetDescriptor:thisApplication
                                                                            returnID:kAutoGenerateReturnID
                                                                       transactionID:kAnyTransactionID];
-   [event setDescriptor:[self notificationDescriptor:dict] forKeyword:'NtPa'];
+   [event setDescriptor:[GrowlAppleScriptNoteConverter appleEventDescriptorForNotification:dict] forKeyword:'NtPa'];
 
    BOOL logRuleResult = [[GrowlPreferencesController sharedController] boolForKey:@"GrowlRulesLoggingEnabled"];
    //NSDate *startDate = [NSDate date];
@@ -516,6 +494,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        NSData *iconData = nil;
                                        NSAppleEventDescriptor *notification = [result descriptorForKeyword:'NtRt'];
                                        NSAppleEventDescriptor *sticky = [notification descriptorForKeyword:'Stic'];
+													NSInteger priority = GrowlPriorityUnset;
+													
                                        if([notification descriptorForKeyword:'Titl']){
                                           title = [[notification descriptorForKeyword:'Titl'] stringValue];
                                        }
@@ -525,12 +505,33 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        if([notification descriptorForKeyword:'Icon']){
                                           iconData = [[notification descriptorForKeyword:'Icon'] data];
                                        }
+													if([notification descriptorForKeyword:'Prio']){
+														switch ([[notification descriptorForKeyword:'Prio'] enumCodeValue]) {
+															case 'PrVL':
+																priority = GrowlPriorityVeryLow;
+																break;
+															case 'PrMo':
+																priority = GrowlPriorityLow;
+																break;
+															case 'PrHi':
+																priority = GrowlPriorityHigh;
+																break;
+															case 'PrEm':
+																priority = GrowlPriorityEmergency;
+																break;
+															case 'PrNo':
+															default:
+																priority = GrowlPriorityNormal;
+																break;
+														}
+													}
                                        
                                        BOOL changed = NO;
                                        if((title && ![title isEqualToString:@""]) ||
                                           (description && ![description isEqualToString:@""]) ||
                                           (iconData && [iconData length] != 0) ||
-                                          (sticky && [sticky descriptorType] == typeBoolean))
+                                          (sticky && [sticky descriptorType] == typeBoolean) ||
+														priority != GrowlPriorityUnset)
                                        {
                                           if(title && ![title isEqualToString:[copyDict valueForKey:GROWL_NOTIFICATION_TITLE]]){
                                              [mutableCopy setObject:title forKey:GROWL_NOTIFICATION_TITLE];
@@ -565,6 +566,13 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                                 [ruleLogString appendFormat:@"\nModified sticky to: %@", sticky ? @"yes" : @"no"];
                                              }
                                           }
+														if(priority != GrowlPriorityUnset && priority != [[copyDict valueForKey:GROWL_NOTIFICATION_PRIORITY] integerValue]){
+															changed = YES;
+															[mutableCopy setObject:[NSNumber numberWithInteger:priority] forKey:GROWL_NOTIFICATION_STICKY];
+															if(logRuleResult){
+                                                [ruleLogString appendFormat:@"\nModified priority to: %ld", priority];
+                                             }
+														}
                                           
                                           if(changed){
                                              [copyDict release];
