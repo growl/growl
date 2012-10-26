@@ -175,7 +175,7 @@ self.NAME ## Flag = NAME;
 		return;
 	
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
-    NSData *iconData = [NSData dataWithContentsOfFile:imagePath options:NSDataReadingUncached error:nil];
+    NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
     [delegate notifyWithName:name
                        title:title
                  description:nil
