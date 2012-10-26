@@ -29,7 +29,7 @@
 	<key>LSMultipleInstancesProhibited</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2012 The Growl Project, LLC. All rights reserved.</string>
+	<string>${COPYRIGHT}</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

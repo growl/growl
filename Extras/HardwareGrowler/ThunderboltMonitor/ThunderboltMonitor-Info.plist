@@ -23,7 +23,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2012 The Growl Project, LLC. All rights reserved.</string>
+	<string>${COPYRIGHT}</string>
 	<key>NSPrincipalClass</key>
 	<string>HWGrowlThunderboltMonitor</string>
 </dict>

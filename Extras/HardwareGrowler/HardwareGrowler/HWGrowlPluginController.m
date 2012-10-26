@@ -140,7 +140,7 @@
 		contextCombined = [NSString stringWithFormat:@"%@ : %@", NSStringFromClass([plugin class]), context];
 	}
 	
-	[GrowlApplicationBridge	notifyWithTitle:title
+    [GrowlApplicationBridge	notifyWithTitle:title
 										 description:description
 								  notificationName:name 
 											 iconData:iconData

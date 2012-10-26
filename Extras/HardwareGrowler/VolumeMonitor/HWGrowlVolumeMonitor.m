@@ -31,7 +31,11 @@
 	static NSData *_mountIconData = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		_mountIconData = [[[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericRemovableMediaIcon)] TIFFRepresentation] retain];
+        NSArray *representations = [[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kGenericRemovableMediaIcon)] representations];
+        NSBitmapImageRep *bitmapRep = [representations objectAtIndex:0U];
+
+		_mountIconData = [bitmapRep representationUsingType: NSPNGFileType
+                                                 properties: nil];
 	});
 	return _mountIconData;
 }
@@ -47,7 +51,12 @@
 - (id) initForMountWithPath:(NSString *)aPath {
 	if ((self = [self initWithPath:aPath])) {
 		if (path) {
-			iconData = [[[[NSWorkspace sharedWorkspace] iconForFile:path] TIFFRepresentation] retain];
+            NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
+            CGImageRef iconRef = [icon CGImageForProposedRect:nil context:nil hints:nil];
+            NSBitmapImageRep *bitmapRep = [[[NSBitmapImageRep alloc] initWithCGImage:iconRef] autorelease];
+			self.iconData = [bitmapRep representationUsingType: NSPNGFileType
+                                                      properties: nil];
+;
 		} else {
 			self.iconData = [VolumeInfo mountIconData];
 		}
@@ -79,11 +88,11 @@
 			//For some reason, passing [icon TIFFRepresentation] only passes the unbadged volume icon to Growl, even though writing the same TIFF data out to a file and opening it in Preview does show the badge. If anybody can figure that out, you're welcome to do so. Until then:
 			//We get a NSBIR for the current focused view (the image), and make PNG data from it. (There is no reason why this could not be TIFF if we wanted it to be. I just generally prefer PNG. —boredzo)
 			NSBitmapImageRep *imageRep = [[[NSBitmapImageRep alloc] initWithFocusedViewRect:(NSRect){ NSZeroPoint, iconSize }] autorelease];
-			iconData = [[imageRep representationUsingType:NSPNGFileType properties:nil] retain];
+			self.iconData = [imageRep representationUsingType:NSPNGFileType properties:nil];
 			
 			[icon unlockFocus];
 		} else {
-			iconData = [[[VolumeInfo ejectIconImage] TIFFRepresentation] retain];
+			self.iconData = [[[[VolumeInfo ejectIconImage] representations] objectAtIndex:0U]representationUsingType:NSPNGFileType properties:nil];
 		}
 	}
 	
@@ -176,7 +185,9 @@
 	[ejectCache release];
 	ejectCache = nil;
 	
-	self.ignoredVolumeColumnTitle = nil;
+    [_ignoredVolumeColumnTitle release];
+	_ignoredVolumeColumnTitle = nil;
+
 	[super dealloc];
 }
 

@@ -58,6 +58,17 @@ typedef enum {
 	return self;
 }
 
+- (void)dealloc
+{
+    [interface release];
+    interface = nil;
+    
+    [status release];
+    status = nil;
+    
+    [super dealloc];
+}
+
 @end
 
 @interface HWGrowlNetworkMonitor ()
@@ -96,6 +107,11 @@ typedef enum {
 		CFRelease(dynStore);
 	
 	[networkInterfaceStates release];
+    networkInterfaceStates = nil;
+    
+    [previousIPCombined release];
+    previousIPCombined = nil;
+    
 	[super dealloc];
 }
 
@@ -236,10 +252,12 @@ typedef enum {
 }
 
 -(void)airportDisconnected:(NSString*)networkName {
-	[delegate notifyWithName:@"AirportDisconnected"
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"Network-Wifi-Off" ofType:@"tif"];
+    NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
+    [delegate notifyWithName:@"AirportDisconnected"
 							 title:NSLocalizedString(@"AirPort Disconnected", @"")
 					 description:[NSString stringWithFormat:NSLocalizedString(@"Left network %@.", @""), networkName]
-							  icon:[[NSImage imageNamed:@"Network-Wifi-Off"] TIFFRepresentation]
+							  icon:iconData
 			  identifierString:@"HWGrowlAirPort"
 				  contextString:nil 
 							plugin:self];
@@ -259,10 +277,14 @@ typedef enum {
 									 name,
 									 bssid];
 	
+    
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"Network-Wifi-4" ofType:@"tif"];
+    NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
+
 	[delegate notifyWithName:@"AirportConnected"
 							 title:NSLocalizedString(@"AirPort Connected", @"")
 					 description:description
-							  icon:[[NSImage imageNamed:@"Network-Wifi-4"] TIFFRepresentation]
+							  icon:iconData
 			  identifierString:@"HWGrowlAirPort"
 				  contextString:nil
 							plugin:self];
@@ -278,7 +300,7 @@ typedef enum {
 	NSString *noteName = nil;
 	NSString *noteTitle = nil;
 	NSString *noteDescription = nil;
-	NSData *imageData = nil;
+	NSString *imageName = nil;
 	if (newActive && !oldActive) {
 		noteName = @"NetworkLinkUp";
 		noteTitle = NSLocalizedString(@"Network Link Up", @"");
@@ -286,19 +308,22 @@ typedef enum {
 								 NSLocalizedString(@"Interface:\t%@\nMedia:\t%@", "The first %@ will be replaced with the interface (en0, en1, etc) second %@ will be replaced by a description of the Ethernet media such as '100BT/full-duplex'"),
 								 interfaceString,
 								 [self getMediaForInterface:interfaceString]];
-		imageData = [[NSImage imageNamed:@"Network-Ethernet-On"] TIFFRepresentation];
+		imageName = @"Network-Ethernet-On";
 	} else if (!newActive && oldActive) {
 		noteName = @"NetworkLinkDown";
 		noteTitle = NSLocalizedString(@"Network Link Down", @"");
 		noteDescription = [NSString stringWithFormat:NSLocalizedString(@"Interface:\t%@", nil), interfaceString];
-		imageData = [[NSImage imageNamed:@"Network-Ethernet-Off"] TIFFRepresentation];
+		imageName = @"Network-Ethernet-Off";
 	}
 	
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
+    NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
+   
 	if(noteName){
 		[delegate notifyWithName:noteName
 								 title:noteTitle
 						 description:noteDescription
-								  icon:imageData
+								  icon:iconData
 				  identifierString:@"HWGrowlNetworkLink"
 					  contextString:nil
 								plugin:self];
@@ -379,17 +404,20 @@ typedef enum {
 	if([combined isEqualToString:previousIPCombined])
 		return;
 		
-	NSData *imageData = nil;
+	NSString *imageName = nil;
 	if([combined isEqualToString:@""]) {
 		combined = nil;
-		imageData = [[NSImage imageNamed:@"Network-Generic-Off"] TIFFRepresentation];
+		imageName = @"Network-Generic-Off";
 	}else{
-		imageData = [[NSImage imageNamed:@"Network-Generic-On"] TIFFRepresentation];
+		imageName = @"Network-Generic-On";
 	}
+
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
+    NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
 	[delegate notifyWithName:@"IPAddressChange"
 							 title:NSLocalizedString(@"IP Addresses Updated", @"")
 					 description:combined ? combined : NSLocalizedString(@"No routable IP addresses", @"")
-							  icon:imageData
+							  icon:iconData
 			  identifierString:@"HWGrowlIPAddressChange"
 				  contextString:nil
 							plugin:self];

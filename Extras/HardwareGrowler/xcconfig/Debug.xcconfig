@@ -7,4 +7,4 @@
 //
 
 #include "../../xcconfig/Debug.xcconfig"
-#include "xcconfig/Common.xcconfig"
+#include "Common.xcconfig"

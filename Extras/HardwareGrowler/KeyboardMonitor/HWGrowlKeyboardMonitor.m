@@ -18,7 +18,7 @@ typedef enum {
 @interface HWGrowlKeyboardMonitor ()
 
 @property (nonatomic, assign) id<HWGrowlPluginControllerProtocol> delegate;
-@property (nonatomic, retain) IBOutlet NSView *prefsView;
+@property (nonatomic, assign) IBOutlet NSView *prefsView;
 
 @property (nonatomic, retain) NSString *notifyForLabel;
 @property (nonatomic, retain) NSString *capsLockLabel;
@@ -51,6 +51,7 @@ typedef enum {
 
 -(id)init {
 	if((self = [super init])){
+        
 		//Bleh, not happy with this really, but eh
 		NSDictionary *enabledDict = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"hwgkeyboardkeysenabled"];
 		if(!enabledDict){
@@ -74,6 +75,21 @@ typedef enum {
 }
 
 -(void)dealloc {
+    [notifyForLabel release];
+    notifyForLabel = nil;
+    
+    [capsLockLabel release];
+    capsLockLabel = nil;
+
+    [numLockLabel release];
+    numLockLabel = nil;
+
+    [fnKeyLabel release];
+    fnKeyLabel = nil;
+
+    [shifyKeyLabel release];
+    shifyKeyLabel = nil;
+
 	[super dealloc];
 }
 
@@ -121,34 +137,34 @@ self.NAME ## Flag = NAME;
 	NSString *name = nil;
 	NSString *title = nil;
 	NSString *identifier = nil;
-	NSData *iconData = nil;
+	NSString *imageName = nil;
 	
 	NSString *enabledKey = nil;
-	
+
 	if([type isEqualToString:@"caps"]){
 		enabledKey = @"capslock";
 		name = newState ? @"CapsLockOn" : @"CapsLockOff";
 		title = newState ? NSLocalizedString(@"Caps Lock On", @"") : NSLocalizedString(@"Caps Lock Off", @"");
 		identifier = @"HWGrowlCaps";
-		iconData = newState ? [[NSImage imageNamed:@"Capster-CapsLock-On"] TIFFRepresentation] : [[NSImage imageNamed:@"Capster-CapsLock-Off"] TIFFRepresentation];
+		imageName = newState ? @"Capster-CapsLock-On" : @"Capster-CapsLock-Off";
 	}/*else if ([type isEqualToString:@"numlock"]){
 		enabledKey = @"numlock";
 		name = newState ? @"NumLockOn" : @"NumLockOff";
 		title = newState ? NSLocalizedString(@"Num Lock On", @"") : NSLocalizedString(@"Num Lock Off", @"");
 		identifier = @"HWGrowlNumLock";
-		iconData = newState ? [[NSImage imageNamed:@"Capster-NumLock-On"] TIFFRepresentation] : [[NSImage imageNamed:@"Capster-NumLock-Off"] TIFFRepresentation];
+		imageName = newState ? @"Capster-NumLock-On" : @"Capster-NumLock-Off";
 	}*/else if ([type isEqualToString:@"fn"]){
 		enabledKey = @"fnkey";
 		name = newState ? @"FNPressed" : @"FNReleased";
 		title = newState ? NSLocalizedString(@"FN Key Pressed", @"") : NSLocalizedString(@"FN Key Released", @"");
 		identifier = @"HWGrowlFNKey";
-		iconData = newState ? [[NSImage imageNamed:@"Capster-FnKey-On"] TIFFRepresentation] : [[NSImage imageNamed:@"Capster-FnKey-Off"] TIFFRepresentation];
+		imageName = newState ? @"Capster-FnKey-On" : @"Capster-FnKey-Off";
 	}else if ([type isEqualToString:@"shift"]){
 		enabledKey = @"shiftkey";
 		name = newState ? @"ShiftPressed" : @"ShiftReleased";
 		title = newState ? NSLocalizedString(@"Shift Key Pressed", @"") : NSLocalizedString(@"Shift Key Released", @"");
 		identifier = @"HWGrowlShiftKey";
-		iconData = newState ? [[NSImage imageNamed:@"Capster-Shift-On"] TIFFRepresentation] : [[NSImage imageNamed:@"Capster-Shift-Off"] TIFFRepresentation];
+		imageName = newState ? @"Capster-Shift-On" : @"Capster-Shift-Off";
 	}else {
 		return;
 	}
@@ -158,13 +174,15 @@ self.NAME ## Flag = NAME;
 	if(![enabled boolValue])
 		return;
 	
-	[delegate notifyWithName:name
-							 title:title
-					 description:nil
-							  icon:iconData
-			  identifierString:identifier
-				  contextString:nil
-							plugin:self];
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
+    NSData *iconData = [NSData dataWithContentsOfFile:imagePath options:NSDataReadingUncached error:nil];
+    [delegate notifyWithName:name
+                       title:title
+                 description:nil
+                        icon:iconData
+            identifierString:identifier
+               contextString:nil
+                      plugin:self];
 }
 
 -(void) initFlags

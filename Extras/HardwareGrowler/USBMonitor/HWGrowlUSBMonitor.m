@@ -112,10 +112,14 @@ static void usbDeviceRemoved(void *refCon, io_iterator_t iterator);
 -(void)usbDeviceID:(uint64_t)deviceID name:(NSString*)deviceName added:(BOOL)added {
 	NSString *title = added ? NSLocalizedString(@"USB Connection", @"") : NSLocalizedString(@"USB Disconnection", @"");
 	
+    NSData *iconData = nil;
+    NSString *imageName = added ? @"USB-On" : @"USB-Off";
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
+    iconData = [NSData dataWithContentsOfFile:imagePath];
 	[delegate notifyWithName:added ? @"USBConnected" : @"USBDisconnected"
 							 title:title
 					 description:deviceName
-							  icon:added ? [[NSImage imageNamed:@"USB-On"] TIFFRepresentation] : [[NSImage imageNamed:@"USB-Off"] TIFFRepresentation]
+							  icon:iconData
 			  identifierString:[NSString stringWithFormat:@"%llu", deviceID]
 				  contextString:nil
 							plugin:self];

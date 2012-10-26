@@ -31,6 +31,10 @@
 -(void)dealloc {
 	[connectionNotification unregister];
 	connectionNotification = nil;
+    
+    [phone release];
+    phone = nil;
+    
 	[super dealloc];
 }
 

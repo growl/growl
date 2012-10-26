@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		932173D816390DB700D5790F /* KeyboardMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC5BF7EB15752CEF0088443E /* KeyboardMonitor.hwgrowlmonitor */; };
+		932173D9163A43F200D5790F /* NetworkMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCB807471551A6E90088C69A /* NetworkMonitor.hwgrowlmonitor */; };
+		932173DA163A43F200D5790F /* VolumeMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCECA38C155322D200F49280 /* VolumeMonitor.hwgrowlmonitor */; };
+		932173DB163A43F200D5790F /* USBMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC523C221555686000548427 /* USBMonitor.hwgrowlmonitor */; };
+		932173DC163A43F200D5790F /* BluetoothMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26B5D155585C0009C5ABC /* BluetoothMonitor.hwgrowlmonitor */; };
+		932173DD163A43F200D5790F /* FirewireMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26B871555B3F5009C5ABC /* FirewireMonitor.hwgrowlmonitor */; };
+		932173DE163A43F200D5790F /* PowerMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26BB31555BB1A009C5ABC /* PowerMonitor.hwgrowlmonitor */; };
 		BC006C3215AB004900643FA8 /* HWGPrefsBluetooth.tif in Resources */ = {isa = PBXBuildFile; fileRef = BC006C2515AB004900643FA8 /* HWGPrefsBluetooth.tif */; };
 		BC006C3315AB004900643FA8 /* HWGPrefsCapster.tif in Resources */ = {isa = PBXBuildFile; fileRef = BC006C2615AB004900643FA8 /* HWGPrefsCapster.tif */; };
 		BC006C3415AB004900643FA8 /* HWGPrefsDefault.tif in Resources */ = {isa = PBXBuildFile; fileRef = BC006C2715AB004900643FA8 /* HWGPrefsDefault.tif */; };
@@ -61,13 +68,11 @@
 		BC523C231555686000548427 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BC523C291555686000548427 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC523C271555686000548427 /* InfoPlist.strings */; };
 		BC523C31155568A000548427 /* HWGrowlUSBMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC523C30155568A000548427 /* HWGrowlUSBMonitor.m */; };
-		BC523C3415556B6200548427 /* USBMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC523C221555686000548427 /* USBMonitor.hwgrowlmonitor */; };
 		BC523C3715556BFA00548427 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BC5ADEA115643AFD0042C168 /* PowerMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5ADEA015643AFD0042C168 /* PowerMonitorPrefs.xib */; };
 		BC5BF7EC15752CEF0088443E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BC5BF7F215752CEF0088443E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF7F015752CEF0088443E /* InfoPlist.strings */; };
 		BC5BF7FA15752D4D0088443E /* HWGrowlKeyboardMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5BF7F915752D4D0088443E /* HWGrowlKeyboardMonitor.m */; };
-		BC5BF7FD15752F9B0088443E /* KeyboardMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BC5BF7EB15752CEF0088443E /* KeyboardMonitor.hwgrowlmonitor */; };
 		BC5BF8271576599F0088443E /* KeyboardMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF816157658810088443E /* KeyboardMonitorPrefs.xib */; };
 		BC602F4115880E6E005E174F /* HandsFreeDeviceSDPRecord.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC602F4015880E6E005E174F /* HandsFreeDeviceSDPRecord.plist */; };
 		BC7300AB1554594900CCCA74 /* VolumeMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */; };
@@ -82,17 +87,14 @@
 		BCA26B5E155585C0009C5ABC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCA26B64155585C0009C5ABC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA26B62155585C0009C5ABC /* InfoPlist.strings */; };
 		BCA26B6C155585FA009C5ABC /* HWGrowlBluetoothMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA26B6B155585FA009C5ABC /* HWGrowlBluetoothMonitor.m */; };
-		BCA26B6D15558810009C5ABC /* BluetoothMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26B5D155585C0009C5ABC /* BluetoothMonitor.hwgrowlmonitor */; };
 		BCA26B7215558853009C5ABC /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA26B7015558837009C5ABC /* IOBluetooth.framework */; };
 		BCA26B881555B3F5009C5ABC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCA26B8E1555B3F5009C5ABC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA26B8C1555B3F5009C5ABC /* InfoPlist.strings */; };
 		BCA26BA51555B46F009C5ABC /* HWGrowlFirewireMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA26BA41555B46F009C5ABC /* HWGrowlFirewireMonitor.m */; };
-		BCA26BAD1555B65A009C5ABC /* FirewireMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26B871555B3F5009C5ABC /* FirewireMonitor.hwgrowlmonitor */; };
 		BCA26BAE1555BA11009C5ABC /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BCA26BB41555BB1B009C5ABC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCA26BBA1555BB1B009C5ABC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA26BB81555BB1B009C5ABC /* InfoPlist.strings */; };
 		BCAA1764155784C800D9E4ED /* HWGrowlPowerMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAA1763155784C800D9E4ED /* HWGrowlPowerMonitor.m */; };
-		BCAA17671557858700D9E4ED /* PowerMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCA26BB31555BB1A009C5ABC /* PowerMonitor.hwgrowlmonitor */; };
 		BCAA1778155804A000D9E4ED /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC523C3515556BE500548427 /* IOKit.framework */; };
 		BCB805EC155153330088C69A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCB805F6155153330088C69A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCB805F4155153330088C69A /* InfoPlist.strings */; };
@@ -116,7 +118,6 @@
 		BCB8070815517EE90088C69A /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB8070615517EE10088C69A /* ServiceManagement.framework */; };
 		BCB807481551A6EA0088C69A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCB8074F1551A6EA0088C69A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCB8074D1551A6EA0088C69A /* InfoPlist.strings */; };
-		BCB807671551A7250088C69A /* NetworkMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCB807471551A6E90088C69A /* NetworkMonitor.hwgrowlmonitor */; };
 		BCB8076A1551A7510088C69A /* HWGrowlNetworkMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB807691551A7510088C69A /* HWGrowlNetworkMonitor.m */; };
 		BCB8076F1551A82B0088C69A /* HWGrowlPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB8076E1551A82A0088C69A /* HWGrowlPluginController.m */; };
 		BCD4756A156BCDD000F81910 /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD47569156BCDD000F81910 /* ACImageAndTextCell.m */; };
@@ -137,7 +138,6 @@
 		BCECA38D155322D200F49280 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCECA394155322D200F49280 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCECA392155322D200F49280 /* InfoPlist.strings */; };
 		BCECA3AB155322FD00F49280 /* HWGrowlVolumeMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA3AA155322FD00F49280 /* HWGrowlVolumeMonitor.m */; };
-		BCECA3AE1553364A00F49280 /* VolumeMonitor.hwgrowlmonitor in Copy Plugins */ = {isa = PBXBuildFile; fileRef = BCECA38C155322D200F49280 /* VolumeMonitor.hwgrowlmonitor */; };
 		BCF6236A156878CC00AB4676 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCF62370156878CC00AB4676 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCF6236E156878CC00AB4676 /* InfoPlist.strings */; };
 		BCF6237C15687B2E00AB4676 /* HWGrowlTimeMachineMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCF6237B15687B2E00AB4676 /* HWGrowlTimeMachineMonitor.m */; };
@@ -350,13 +350,13 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				BC5BF7FD15752F9B0088443E /* KeyboardMonitor.hwgrowlmonitor in Copy Plugins */,
-				BCAA17671557858700D9E4ED /* PowerMonitor.hwgrowlmonitor in Copy Plugins */,
-				BCA26BAD1555B65A009C5ABC /* FirewireMonitor.hwgrowlmonitor in Copy Plugins */,
-				BCA26B6D15558810009C5ABC /* BluetoothMonitor.hwgrowlmonitor in Copy Plugins */,
-				BC523C3415556B6200548427 /* USBMonitor.hwgrowlmonitor in Copy Plugins */,
-				BCECA3AE1553364A00F49280 /* VolumeMonitor.hwgrowlmonitor in Copy Plugins */,
-				BCB807671551A7250088C69A /* NetworkMonitor.hwgrowlmonitor in Copy Plugins */,
+				932173D9163A43F200D5790F /* NetworkMonitor.hwgrowlmonitor in Copy Plugins */,
+				932173DA163A43F200D5790F /* VolumeMonitor.hwgrowlmonitor in Copy Plugins */,
+				932173DB163A43F200D5790F /* USBMonitor.hwgrowlmonitor in Copy Plugins */,
+				932173DC163A43F200D5790F /* BluetoothMonitor.hwgrowlmonitor in Copy Plugins */,
+				932173DD163A43F200D5790F /* FirewireMonitor.hwgrowlmonitor in Copy Plugins */,
+				932173DE163A43F200D5790F /* PowerMonitor.hwgrowlmonitor in Copy Plugins */,
+				932173D816390DB700D5790F /* KeyboardMonitor.hwgrowlmonitor in Copy Plugins */,
 			);
 			name = "Copy Plugins";
 			runOnlyForDeploymentPostprocessing = 0;

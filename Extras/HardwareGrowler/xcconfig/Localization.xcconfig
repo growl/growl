@@ -7,4 +7,4 @@
 //
 
 #include "../../xcconfig/Localization.xcconfig"
-#include "xcconfig/Common.xcconfig"
+#include "Common.xcconfig"

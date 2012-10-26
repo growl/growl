@@ -1,0 +1,5 @@
+//Automatically extracted from the Release configuration of the Growl Xcode project using xcconfig-extract revision 12f44ab4aa70.
+//If you want to change one of these settings, please delete it from this section and add it with the new value in the section below.
+
+#include "Localization.xcconfig"
+#include "Common-Framework.xcconfig"

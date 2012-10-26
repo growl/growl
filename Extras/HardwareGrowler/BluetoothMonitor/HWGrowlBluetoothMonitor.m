@@ -75,10 +75,14 @@
 -(void)bluetoothName:(NSString*)name connected:(BOOL)connected {
 	NSString *title = connected ? NSLocalizedString(@"Bluetooth Connection", @"") : NSLocalizedString(@"Bluetooth Disconnection", @"");
 	
+    NSString *imageName = (connected ? @"Bluetooth-On" : @"Bluetooth-Off");
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
+    NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
+    
 	[delegate notifyWithName:connected ? @"BluetoothConnected" : @"BluetoothDisconnected"
 							 title:title
 					 description:name
-							  icon:connected ? [[NSImage imageNamed:@"Bluetooth-On"] TIFFRepresentation] : [[NSImage imageNamed:@"Bluetooth-Off"] TIFFRepresentation]
+							  icon:iconData
 			  identifierString:name
 				  contextString:nil
 							plugin:self];

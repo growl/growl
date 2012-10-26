@@ -46,9 +46,14 @@
 	dispatch_release(tmQueue);
 	[pollTimer invalidate];
 	[pollTimer release];
+    pollTimer = nil;
+    
 	[lastStartTime release];
+    lastStartTime = nil;
 	[lastSearchTime release];
+    lastSearchTime = nil;
 	[lastEndTime release];
+    lastEndTime = nil;
 	[super dealloc];
 }
 
@@ -62,7 +67,8 @@
 	dispatch_once(&onceToken, ^{
 		NSString *path = [[NSWorkspace sharedWorkspace] fullPathForApplication:@"Time Machine"];
 		NSImage *appIcon = path ? [[NSWorkspace sharedWorkspace] iconForFile:path] : nil;
-		data = [[appIcon TIFFRepresentation] retain];
+		data = [[[appIcon representations] objectAtIndex:0U] representationUsingType: NSPNGFileType
+    properties: nil];
 	});
 	return data;
 }
@@ -127,10 +133,13 @@
 			description = [NSString stringWithFormat:NSLocalizedString(@"%@ since last back-up", @""), timeString];
 		else
 			description = NSLocalizedString(@"First backup, or no previous backup found in the system log", @"");
+        
+        NSString *iconPath = [[NSBundle mainBundle] resourceNamed:@"TimeMachine-On" ofType:@"tif"];
+        NSData *iconData = [NSData dataWithContentsOfFile:iconPath];
 		[blockSelf->delegate notifyWithName:@"TimeMachineStart"
 												title:NSLocalizedString(@"Time Machine started", @"") 
 										description:description
-												 icon:[[NSImage imageNamed:@"TimeMachine-On"] TIFFRepresentation]
+												 icon:iconData
 								 identifierString:@"HWGTimeMachineMonitor"
 									 contextString:nil
 											  plugin:blockSelf];
@@ -195,10 +204,12 @@
 				if (postGrowlNotifications) {
 					dispatch_async(dispatch_get_main_queue(), ^{
 						NSString *timeString = [blockSelf stringWithTimeInterval:[blockSelf->lastEndTime timeIntervalSinceDate:blockSelf->lastStartTime]];
-						[blockSelf->delegate notifyWithName:@"TimeMachineFinish"
+                        NSString *iconPath = [[NSBundle mainBundle] resourceNamed:@"TimeMachine-Off" ofType:@"tif"];
+                        NSData *iconData = [NSData dataWithContentsOfFile:iconPath];
+                        [blockSelf->delegate notifyWithName:@"TimeMachineFinish"
 																title:NSLocalizedString(@"Time Machine finished", @"")
 														description:[NSString stringWithFormat:NSLocalizedString(@"Back-up took %@", @""), timeString]
-																 icon:[[NSImage imageNamed:@"TimeMachine-Off"] TIFFRepresentation]
+																 icon:iconData
 												 identifierString:@"HWGTimeMachineMonitor"
 													 contextString:nil
 															  plugin:blockSelf];
@@ -221,10 +232,13 @@
 							description = [NSString stringWithFormat:NSLocalizedString(@"Failed after %@", @""), timeString];
 						else
 							description = [NSString stringWithFormat:NSLocalizedString(@"Canceled after %@", @""), timeString];
+                        NSString *iconPath = [[NSBundle mainBundle] resourceNamed:@"TimeMachine-Failed" ofType:@"tif"];
+                        NSData *iconData = [NSData dataWithContentsOfFile:iconPath];
+
 						[blockSelf->delegate notifyWithName:wasFailure ? @"TimeMachineFailed" : @"TimeMachineCanceled"
 																title:wasFailure ? NSLocalizedString(@"Time Machine Failed", @"") : NSLocalizedString(@"Time Machine Canceled", @"")
 														description:description
-																 icon:[[NSImage imageNamed:@"TimeMachine-Failed"] TIFFRepresentation]
+																 icon:iconData
 												 identifierString:@"HWGTimeMachineMonitor"
 													 contextString:nil
 															  plugin:blockSelf];
