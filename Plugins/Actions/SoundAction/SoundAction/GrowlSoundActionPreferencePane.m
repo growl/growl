@@ -72,6 +72,9 @@
 		if([[self soundName] caseInsensitiveCompare:soundName] != NSOrderedSame){
 			[self setSoundName:soundName];
 			[[NSSound soundNamed:soundName] play];
+         if([self respondsToSelector:@selector(_setDisplayName:)]){
+            [self performSelector:@selector(_setDisplayName:) withObject:soundName];
+         }
 		}
 	}
 }

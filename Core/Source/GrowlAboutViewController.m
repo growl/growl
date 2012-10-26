@@ -12,7 +12,8 @@
 @implementation GrowlAboutViewController
 
 @synthesize aboutVersionString;
-@synthesize aboutBoxTextView;
+//@synthesize aboutBoxTextView;
+@synthesize aboutWebView;
 
 @synthesize bugSubmissionLabel;
 @synthesize growlWebsiteLabel;
@@ -54,7 +55,9 @@
 	[aboutVersionString setStringValue:[NSString stringWithFormat:@"%@ %@", 
                                        [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"], 
                                        versionString]];
-	[aboutBoxTextView readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"About" ofType:@"rtf"]];
+	//[aboutBoxTextView readRTFDFromFile:[[NSBundle mainBundle] pathForResource:@"About" ofType:@"rtf"]];
+	NSString *path = [[[NSBundle mainBundle] URLForResource:@"About" withExtension:@"html"] absoluteString];
+	[aboutWebView setMainFrameURL:path];
 }
 
 - (IBAction) openGrowlWebSite:(id)sender {
@@ -63,6 +66,20 @@
 
 - (IBAction) openGrowlBugSubmissionPage:(id)sender {
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/reportabug.php"]];
+}
+
+- (void)webView:(WebView *)webView
+decidePolicyForNavigationAction:(NSDictionary *)actionInformation
+		  request:(NSURLRequest *)request
+			 frame:(WebFrame *)frame
+decisionListener:(id < WebPolicyDecisionListener >)listener
+{
+	NSString *host = [[request URL] host];
+	if (host) {
+		[[NSWorkspace sharedWorkspace] openURL:[request URL]];
+	} else {
+		[listener use];
+	}
 }
 
 @end
