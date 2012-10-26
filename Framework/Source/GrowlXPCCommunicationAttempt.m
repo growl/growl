@@ -104,8 +104,8 @@
 			} else if (object == XPC_ERROR_CONNECTION_INVALID) {
 				NSString *errorDescription = [NSString stringWithUTF8String:xpc_dictionary_get_string(object, XPC_ERROR_KEY_DESCRIPTION)];
 				NSLog(@"Connection Invalid error for XPC service (%@)", errorDescription);
-				xpc_release(xpcConnection);
-				xpcConnection = NULL;
+				xpc_release(blockSafe->xpcConnection);
+				blockSafe->xpcConnection = NULL;
 				[blockSafe failed];
 			} else {
 				NSLog(@"Unexpected error for XPC service");
