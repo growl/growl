@@ -168,6 +168,7 @@ static dispatch_queue_t __imageCacheQueue;
 	GrowlWebKitWindowView *view = [[GrowlWebKitWindowView alloc] initWithFrame:panelFrame
 																	 frameName:nil
 																	 groupName:nil];
+	[view setStyleBundle:[plugin bundle]];
 	[view setMaintainsBackForwardList:NO];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];

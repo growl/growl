@@ -49,7 +49,6 @@
 		else
 			iconSize = GrowlSmokeIconSize;
 	}
-	[self setCloseBoxOrigin:NSMakePoint(2,3)];
 	return self;
 }
 
