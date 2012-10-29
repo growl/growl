@@ -286,7 +286,7 @@
 
 -(void)updateDefaultDisplayPreference{
 	NSInteger index = [defaultDisplayPopUp indexOfSelectedItem];
-	NSString *newDefaultID = nil;
+	NSString *newDefaultID = @"";
 	if(index >= 2 && index - 2 < (NSInteger)[[displayConfigsArrayController arrangedObjects] count]){
 		id pluginToUse = [[displayConfigsArrayController arrangedObjects] objectAtIndex:index - 2];
 		if(pluginToUse && [pluginToUse isKindOfClass:[GrowlTicketDatabaseDisplay class]])
