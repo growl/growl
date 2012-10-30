@@ -203,7 +203,7 @@ self.NAME ## Flag = NAME;
 	return delegate;
 }
 -(NSString*)pluginDisplayName{
-	return NSLocalizedString(@"Capster", @"");
+	return NSLocalizedString(@"Keyboard Monitor", @"");
 }
 -(NSImage*)preferenceIcon {
 	static NSImage *_icon = nil;
