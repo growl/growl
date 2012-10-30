@@ -1328,6 +1328,7 @@
 		BC0B6F6114BF4F43004F2339 /* GrowlSubscriptionCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlSubscriptionCellView.m; path = Core/Source/GrowlSubscriptionCellView.m; sourceTree = "<group>"; };
 		BC0B6F8D14BF68DB004F2339 /* GrowlPref.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GrowlPref.xib; path = Core/Resources/GrowlPref.xib; sourceTree = "<group>"; };
 		BC0B6F9D14BF6E71004F2339 /* AwayHistoryWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AwayHistoryWindow.xib; path = Core/Resources/AwayHistoryWindow.xib; sourceTree = "<group>"; };
+		BC0B7C7816402CE300138193 /* Common-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Common-Framework.xcconfig"; path = "xcconfig/Common-Framework.xcconfig"; sourceTree = "<group>"; };
 		BC0CB6611524AA540050205F /* GrowlDisplayBridgeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlDisplayBridgeController.h; path = Plugins/PluginFramework/GrowlDisplayBridgeController.h; sourceTree = "<group>"; };
 		BC0CB6621524AA540050205F /* GrowlDisplayBridgeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlDisplayBridgeController.m; path = Plugins/PluginFramework/GrowlDisplayBridgeController.m; sourceTree = "<group>"; };
 		BC0CB6641524AAC10050205F /* GrowlPositionColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlPositionColumn.h; path = Plugins/PluginFramework/GrowlPositionColumn.h; sourceTree = "<group>"; };
@@ -2560,7 +2561,7 @@
 				93EA7FFE136908B100AB89AE /* Release.xcconfig */,
 				315C88BB1068F9A200880530 /* Localization.xcconfig */,
 				93EA804613690D8800AB89AE /* Common.xcconfig */,
-				93217436163A476900D5790F /* Common-Framework.xcconfig */,
+				BC0B7C7816402CE300138193 /* Common-Framework.xcconfig */,
 				93217437163A476900D5790F /* Debug-Framework.xcconfig */,
 				93217438163A476900D5790F /* Localization-Framework.xcconfig */,
 				93217439163A476900D5790F /* Release-Framework.xcconfig */,
