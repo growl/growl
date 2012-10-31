@@ -33,7 +33,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
 
 +(BOOL)previousVersionOlder
 {
-   NSString *current = @"2.0";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+   NSString *current = @"2.1a1";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
    NSString *previous = [[GrowlPreferencesController sharedController] objectForKey:LastKnownVersionKey];
    return (!previous || compareVersionStrings(previous, current) == kCFCompareLessThan);
 }
@@ -85,7 +85,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
           [views addObject:loginDict];
           [loginBlock release];
        }
-       if([[GrowlPathUtilities runningHelperAppBundle] isEqual:[NSBundle mainBundle]]) {
+       if(![[GrowlPathUtilities runningHelperAppBundle] isEqual:[NSBundle mainBundle]]) {
           GrowlFirstLaunchAction oldBlock = [^{
 				 [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/documentation/growl-package-removal.php#1.2easy"]];
           } copy];
