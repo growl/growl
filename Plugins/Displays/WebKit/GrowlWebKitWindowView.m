@@ -132,7 +132,7 @@
 			if([bundleDict objectForKey:@"GrowlCloseButtonXOrigin"])
 				xOrig = [[bundleDict objectForKey:@"GrowlCloseButtonXOrigin"] floatValue];
 			if([bundleDict objectForKey:@"GrowlCloseButtonYOrigin"])
-				yOrig = [[bundleDict objectForKey:@"GrowlCloseButtonYOrigin"] floatValue];
+				yOrig = yOrig - [[bundleDict objectForKey:@"GrowlCloseButtonYOrigin"] floatValue];
 			if([bundleDict objectForKey:@"GrowlCloseButtonWidth"])
 				width = [[bundleDict objectForKey:@"GrowlCloseButtonWidth"] floatValue];
 			if([bundleDict objectForKey:@"GrowlCloseButtonHeight"])
