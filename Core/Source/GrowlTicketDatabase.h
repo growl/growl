@@ -25,6 +25,7 @@
 -(void)createNewCompoundAction;
 -(GrowlTicketDatabaseDisplay*)defaultDisplayConfig;
 -(NSSet*)defaultActionConfigSet;
+-(GrowlTicketDatabasePlugin*)pluginConfigForBundleID:(NSString*)bundleID;
 -(GrowlTicketDatabasePlugin*)pluginConfigForID:(NSString*)configID;
 -(GrowlTicketDatabasePlugin*)actionForName:(NSString*)name;
 -(void)deletePluginConfiguration:(GrowlTicketDatabasePlugin*)plugin;

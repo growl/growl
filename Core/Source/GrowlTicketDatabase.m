@@ -125,8 +125,7 @@
    NSString *pluginName = [noteDict valueForKey:GrowlPluginInfoKeyName];
    GrowlPlugin *plugin = [[GrowlPluginController sharedController] pluginInstanceWithName:pluginName];
    if(plugin){
-      newConfig = (GrowlTicketDatabasePlugin*)[self managedObjectForEntity:@"GrowlPlugin"
-                                                                 predicate:[NSPredicate predicateWithFormat:@"pluginID == %@", [[plugin bundle] bundleIdentifier]]];
+      newConfig = [self pluginConfigForBundleID:[[plugin bundle] bundleIdentifier]];
       if(newConfig && !force){
          NSLog(@"At least one configuration entry already exists for bundle id %@, returning the existing config", [[plugin bundle] bundleIdentifier]);
          return newConfig;
@@ -343,8 +342,7 @@
 	__block GrowlTicketDatabaseDisplay* plugin = (GrowlTicketDatabaseDisplay*)[self pluginConfigForID:defaultDisplayID];
 	if(!plugin || ![plugin canFindInstance]) {
 		//resolve to a smoke display config if possible
-		plugin = (GrowlTicketDatabaseDisplay*)[self managedObjectForEntity:@"GrowlDisplay" 
-																				  predicate:[NSPredicate predicateWithFormat:@"pluginID == %@", @"com.Growl.Smoke"]];
+		plugin = (GrowlTicketDatabaseDisplay*)[self pluginConfigForBundleID:@"com.Growl.Smoke"];
 		if(!plugin || ![plugin canFindInstance]){
 			__block NSManagedObjectContext *blockContext = self.managedObjectContext;
 			void (^pluginBlock)(void) = ^{
@@ -395,6 +393,11 @@
 		return resolvedSet;
 	else
 		return nil;
+}
+
+-(GrowlTicketDatabasePlugin*)pluginConfigForBundleID:(NSString*)bundleID {
+	return (GrowlTicketDatabasePlugin*)[self managedObjectForEntity:@"GrowlPlugin"
+																			predicate:[NSPredicate predicateWithFormat:@"pluginID == %@", bundleID]];
 }
 
 -(GrowlTicketDatabasePlugin*)pluginConfigForID:(NSString*)configID {

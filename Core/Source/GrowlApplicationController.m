@@ -1348,7 +1348,31 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
             [preferences setSelectedPreferenceTab:6];
          }
       }
-   }
+   }else if([[components objectAtIndex:0] caseInsensitiveCompare:@"plugin"] == NSOrderedSame) {
+		if([components count] > 1){
+			if([[components objectAtIndex:1] caseInsensitiveCompare:@"preview"] == NSOrderedSame) {
+				if([components count] > 2){
+					NSString *pluginPreviewString = [components objectAtIndex:2];
+					GrowlTicketDatabasePlugin *plugin = [[GrowlTicketDatabase sharedInstance] actionForName:pluginPreviewString];
+					
+					if(!plugin){
+						plugin = [[GrowlTicketDatabase sharedInstance] pluginConfigForID:pluginPreviewString];
+					}
+					if(!plugin){
+						plugin = [[GrowlTicketDatabase sharedInstance] pluginConfigForBundleID:pluginPreviewString];
+					}
+					
+					if(plugin){
+						[[NSNotificationCenter defaultCenter] postNotificationName:GrowlPreview
+																							 object:plugin
+																						  userInfo:nil];
+					}else{
+						NSLog(@"%@ not found to preview", pluginPreviewString);
+					}
+				}
+			}
+		}
+	}
 }
 
 - (void)handleGetURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent
