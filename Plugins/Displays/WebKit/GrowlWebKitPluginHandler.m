@@ -48,10 +48,7 @@
 		return NO;
 	}
 
-	NSDictionary *pluginDict = [[GrowlPluginController sharedController] addPluginInstance:instance fromBundle:pluginBundle];
-	if([pluginDict pluginInstance] != instance){
-		NSLog(@"this plugin already existed");
-	}
+	[[GrowlPluginController sharedController] addPluginInstance:instance fromBundle:pluginBundle];
 	[instance release];
 	[pluginBundle release];
 	return YES;

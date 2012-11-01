@@ -39,7 +39,7 @@
 }
 
 - (NSView *) hitTest:(NSPoint)aPoint {
-	if (realHitTest)
+	if (realHitTest || ![self showsCloseBox])
 		return [super hitTest:aPoint];
 
 	if ([[self superview] mouse:aPoint inRect:[self frame]])
@@ -105,6 +105,9 @@
 }
 
 - (BOOL) showsCloseBox {
+	NSDictionary *bundleDict = [styleBundle infoDictionary];
+	if([bundleDict objectForKey:@"GrowlCloseButtonEnabled"])
+		return [[bundleDict objectForKey:@"GrowCloseButtonEnabled"] boolValue];
 	return YES;
 }
 
@@ -149,6 +152,14 @@
 			[gCloseButton setFrame:NSMakeRect(0,0,30,30)]; // restore the default frame
 			closeButtonRect = NSZeroRect;
 		}
+	}else {
+		NSString *webScriptMethodName = nil;
+		if(flag){
+			webScriptMethodName = @"showCloseButton";
+		}else{
+			webScriptMethodName = @"hideCloseButton";
+		}
+		[[self windowScriptObject] callWebScriptMethod:webScriptMethodName withArguments:nil];
 	}
 }
 
@@ -202,7 +213,7 @@
 	mouseOver = NO;
 
 	if (NSPointInRect([event locationInWindow], closeButtonRect)) {
-		[[GrowlNotificationView closeButton] mouseDown:event];
+		[[GrowlNotificationView closeButtonForKey:[styleBundle bundleIdentifier]] mouseDown:event];
 
 	} else {
 		if (target && action && [target respondsToSelector:action])

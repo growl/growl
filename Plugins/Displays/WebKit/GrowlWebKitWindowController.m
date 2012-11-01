@@ -327,6 +327,22 @@ static dispatch_queue_t __imageCacheQueue;
 	}
 }
 
+- (void)webView:(WebView *)webView windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
+	[windowScriptObject setValue:self forKey:@"NotificationWindowController"];
+	
+}
+- (id)invokeUndefinedMethodFromWebScript:(NSString *)name withArguments:(NSArray *)args
+{
+	if([name isEqualToString:@"closeNote"])
+	{
+		if([self respondsToSelector:@selector(clickedClose)])
+			[self performSelector:@selector(clickedClose)];
+	}else if([name isEqualToString:@"clickNote"]){
+		[self notificationClicked:nil];
+	}
+	return nil;
+}
+
 /*!
  * @brief Invoked once the webview has loaded and is ready to accept content
  */
