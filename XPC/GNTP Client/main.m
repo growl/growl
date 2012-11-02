@@ -18,12 +18,12 @@
 static GrowlNotifier *notifier = nil;
 static BOOL keepAlive = NO;
 
-static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event) 
+static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
 {
-   if(!keepAlive){
-      xpc_transaction_begin();
-      keepAlive = YES;
-   }
+	if(!keepAlive){
+		xpc_transaction_begin();
+		keepAlive = YES;
+	}
 	
 	xpc_type_t type = xpc_get_type(event);
 	if (type == XPC_TYPE_ERROR) {
@@ -33,17 +33,15 @@ static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
 			// the connection is in an invalid state, and you do not need to
 			// call xpc_connection_cancel(). Just tear down any associated state
 			// here.
+			void *ctxt = xpc_connection_get_context(peer);
+			if(ctxt != NULL)
+				[(GrowlGNTPCommunicationAttempt*)ctxt setConnection:NULL];
+			xpc_connection_set_context(peer, NULL);
 		} else if (event == XPC_ERROR_TERMINATION_IMMINENT) {
 			// Handle per-connection termination cleanup.
 		}
 	} else {
 		assert(type == XPC_TYPE_DICTIONARY);
-		
-		/*
-		 xpc_connection_t remote = xpc_dictionary_get_remote_connection(event);
-		 
-		 xpc_object_t reply = xpc_dictionary_create_reply(event); */
-		
 		
 		// Here we unpack our dictionary.
 		NSDictionary *dict = [NSObject xpcObjectToNSObject:event];
@@ -60,22 +58,21 @@ static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
 			
 		}else if ([purpose caseInsensitiveCompare:@"notification"] == NSOrderedSame) {
 			attempt = [[[GrowlGNTPNotificationAttempt alloc] initWithDictionary:growlDict] autorelease];
-		}/*else if ([purpose caseInsensitiveCompare:@"subscribe"] == NSOrderedSame){
-			attempt = [[[GrowlGNTPSubscriptionAttempt alloc] initWithDictionary:growlDict] autorelease];
-		}*/
+		}
 		if(attempt){
 			attempt.delegate = (id <GrowlCommunicationAttemptDelegate>)notifier;
 			attempt.host = host;
 			attempt.addressData = address;
 			attempt.password = pass;
 			attempt.connection = peer;
-
+			
+			xpc_connection_set_context(peer, attempt);
 			[notifier sendCommunicationAttempt:attempt];
 		}
 	}
 }
 
-static void GNTP_event_handler(xpc_connection_t peer) 
+static void GNTP_event_handler(xpc_connection_t peer)
 {
 	// By defaults, new connections will target the default dispatch
 	// concurrent queue.
@@ -91,7 +88,7 @@ static void GNTP_event_handler(xpc_connection_t peer)
 
 int main(int argc, const char *argv[])
 {
-    notifier = [[GrowlNotifier alloc] init];
+	notifier = [[GrowlNotifier alloc] init];
 	xpc_main(GNTP_event_handler);
 	return 0;
 }
