@@ -585,6 +585,28 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
    [self setObject:newID forKey:@"GNTPSubscriberID"];
 }
 
+#pragma mark Rules
+
+-(BOOL)hasShownWarningForRules {
+	return [self boolForKey:@"GrowlRulesWarningShown"];
+}
+-(void)setHasShownWarningForRules:(BOOL)flag {
+	[self setBool:flag forKey:@"GrowlRulesWarningShown"];
+}
+-(BOOL)allowsRules {
+	return [self boolForKey:@"GrowlAllowsRules"];
+}
+-(void)setAllowsRules:(BOOL)flag {
+	return [self setBool:flag forKey:@"GrowlAllowsRules"];
+}
+
+-(BOOL)rulesLoggingEnabled {
+	return [self boolForKey:@"GrowlRulesLoggingEnabled"];
+}
+-(void)setRulesLoggingEnabled:(BOOL)flag {
+	[self setBool:flag forKey:@"GrowlRulesLoggingEnabled"];
+}
+
 #pragma mark -
 /*
  * @brief Growl preferences changed

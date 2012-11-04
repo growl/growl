@@ -45,7 +45,7 @@
 #import <GrowlPlugins/GrowlDisplayPlugin.h>
 #import <GrowlPlugins/GrowlActionPlugin.h>
 #import <GrowlPlugins/GrowlKeychainUtilities.h>
-#import <GrowlPlugins/GrowlAppleScriptNoteConverter.h>
+#import <GrowlPlugins/GrowlUserScriptTaskUtilities.h>
 
 #include "CFURLAdditions.h"
 #import "GrowlImageTransformer.h"
@@ -360,44 +360,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 
 #pragma mark Dispatching notifications
 
--(BOOL)hasAppleScriptTaskClass {
-   return NSClassFromString(@"NSUserAppleScriptTask") != nil;
-}
-
--(NSURL*)baseScriptDirectoryURL {
-   NSError *urlError = nil;
-   NSURL *baseURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory
-                                                           inDomain:NSUserDomainMask
-                                                  appropriateForURL:nil
-                                                             create:YES
-                                                              error:&urlError];
-   if(urlError){
-      static dispatch_once_t onceToken;
-      dispatch_once(&onceToken, ^{
-         NSLog(@"Error retrieving Application Scripts directoy, %@", urlError);
-      });
-   }
-   return urlError ? nil : baseURL;
-}
-
-- (NSUserAppleScriptTask*)appleScriptTask {
-   NSUserAppleScriptTask* result = nil;
-   if([self hasAppleScriptTaskClass]){
-      NSURL *baseURL = [self baseScriptDirectoryURL];
-      
-      if(baseURL){
-         NSError *error = nil;
-         NSURL *path = [baseURL URLByAppendingPathComponent:@"Rules.scpt"];
-         result = [[NSUserAppleScriptTask alloc] initWithURL:path
-                                                       error:&error];
-         if(error){
-            NSLog(@"Error retrieving apple script task");
-         }
-      }
-   }
-   return [result autorelease];
-}
-
 -(GrowlNotificationResult)dispatchByClassicWithFilledInDict:(NSDictionary*)aDict {   
    GrowlTicketDatabaseNotification *notification = [self notificationTicketForDict:aDict];
    if (![notification isTicketAllowed]) {
@@ -426,7 +388,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 }
 
 -(GrowlNotificationResult)dispatchByRuleSwithFilledInDict:(NSDictionary*)dict {
-   NSUserAppleScriptTask *applescriptTask = [self appleScriptTask];
+   NSUserAppleScriptTask *applescriptTask = [GrowlUserScriptTaskUtilities rulesScriptTask];
    if(!applescriptTask)
       return [self dispatchByClassicWithFilledInDict:dict];
       
@@ -440,9 +402,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                                                    targetDescriptor:thisApplication
                                                                            returnID:kAutoGenerateReturnID
                                                                       transactionID:kAnyTransactionID];
-   [event setDescriptor:[GrowlAppleScriptNoteConverter appleEventDescriptorForNotification:dict] forKeyword:'NtPa'];
+   [event setDescriptor:[GrowlUserScriptTaskUtilities appleEventDescriptorForNotification:dict] forKeyword:'NtPa'];
 
-   BOOL logRuleResult = [[GrowlPreferencesController sharedController] boolForKey:@"GrowlRulesLoggingEnabled"];
+   BOOL logRuleResult = [[GrowlPreferencesController sharedController] rulesLoggingEnabled];
    //NSDate *startDate = [NSDate date];
    __block NSDictionary *copyDict = [dict copy];
    __block GrowlApplicationController *blockSelf = self;
@@ -896,15 +858,39 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    return GrowlNotificationResultPosted;
 }
 
+- (BOOL)showRulesWarning {
+	BOOL allow = [[GrowlPreferencesController sharedController] allowsRules];
+	if(![[GrowlPreferencesController sharedController] hasShownWarningForRules]){
+		NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Rules.scpt Detected", nil)
+													defaultButton:NSLocalizedString(@"Yes", nil)
+												 alternateButton:NSLocalizedString(@"No", nil)
+													  otherButton:nil
+									informativeTextWithFormat:NSLocalizedString(@"Growl has detected a Rules.scpt in your user's ~/Library/Application Scripts/com.Growl.GrowlHelperApp folder.\nIf you click yes, Growl will start using it to evaluate notifications and determine what to do with them.\nIf you don't know what a rules script is, or you don't wish to use it, click no.\nYou may change this preference at any time in Growl's Preferences window on the general tab.\n", nil)];
+		
+		NSInteger result = [alert runModal];
+		[[GrowlPreferencesController sharedController] setHasShownWarningForRules:YES];
+		if(result == NSOKButton){
+			allow = YES;
+		}else{
+			[[GrowlPreferencesController sharedController] setAllowsRules:NO];
+			allow = NO;
+		}
+	}
+	return allow;
+}
+
 - (GrowlNotificationResult) dispatchNotificationWithDictionary:(NSDictionary *)note {
    NSDictionary *dict = [self filledInNotificationDictForDict:note];
    if(!dict)
       return GrowlNotificationResultNotRegistered;
    
-   if(![self hasAppleScriptTaskClass] && [self appleScriptTask]){
-      return [self dispatchByClassicWithFilledInDict:dict];
-   }else{
+   if([GrowlUserScriptTaskUtilities hasScriptTaskClass] &&
+		[GrowlUserScriptTaskUtilities hasRulesScript] &&
+		[self showRulesWarning])
+	{
       return [self dispatchByRuleSwithFilledInDict:dict];
+   }else{
+		return [self dispatchByClassicWithFilledInDict:dict];
    }
    
    [growlNotificationCenter notifyObservers:dict];

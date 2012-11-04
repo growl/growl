@@ -76,5 +76,9 @@
 	<array/>
 	<key>GrowlRulesLoggingEnabled</key>
 	<false/>
+	<key>GrowlRulesWarningShown</key>
+	<false/>
+	<key>GrowlAllowsRules</key>
+	<string>YES</string>
 </dict>
 </plist>

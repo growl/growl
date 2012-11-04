@@ -11,6 +11,7 @@
 //  This ensures that the configuration gets saved into the database properly.
 
 #import "GrowlScriptActionPreferencePane.h"
+#import <GrowlPlugins/GrowlUserScriptTaskUtilities.h>
 
 @interface GrowlScriptActionPreferencePane ()
 
@@ -90,45 +91,16 @@
    [self setConfigurationValue:newName forKey:@"ScriptActionFileName"];
 }
 
--(NSURL*)baseScriptDirectoryURL {
-   NSError *urlError = nil;
-   NSURL *baseURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory
-                                                           inDomain:NSUserDomainMask
-                                                  appropriateForURL:nil
-                                                             create:YES
-                                                              error:&urlError];
-   if(urlError){
-      static dispatch_once_t onceToken;
-      dispatch_once(&onceToken, ^{
-         NSLog(@"Error retrieving Application Scripts directoy, %@", urlError);
-      });
-   }
-   return urlError ? nil : baseURL;
-}
-
 -(void)updateActionList {
 	NSMutableArray *actionNames = [NSMutableArray array];
-	
-   NSURL *scriptURL = [self baseScriptDirectoryURL];
-   if(scriptURL){
-      NSError *error = nil;
-      NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:scriptURL
-                                                        includingPropertiesForKeys:nil
-                                                                           options:NSDirectoryEnumerationSkipsHiddenFiles
-                                                                             error:&error];
-      if(!error){
-         [contents enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            if(![[obj pathExtension] isEqualToString:@"workflow"] &&
-               ![[obj lastPathComponent] isEqualToString:@"Rules.scpt"])
-            {
-               [actionNames addObject:[obj lastPathComponent]];
-            }
-         }];
-      }else{
-         NSLog(@"Unable to get contents, %@", error);
-      }
-   }
-   
+	NSArray *contents = [GrowlUserScriptTaskUtilities contentsOfScriptDirectory];
+	[contents enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if(![[obj pathExtension] isEqualToString:@"workflow"] &&
+			![[obj lastPathComponent] isEqualToString:@"Rules.scpt"])
+		{
+			[actionNames addObject:[obj lastPathComponent]];
+		}
+	}];
 	self.actions = actionNames;
 }
 

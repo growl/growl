@@ -9,54 +9,18 @@
 #import "GrowlScriptAction.h"
 #import "GrowlScriptActionPreferencePane.h"
 #import <GrowlPlugins/GrowlDefines.h>
-#import <GrowlPlugins/GrowlAppleScriptNoteConverter.h>
+#import <GrowlPlugins/GrowlUserScriptTaskUtilities.h>
 
 @implementation GrowlScriptAction
 
 -(id)init{
-   if(NSClassFromString(@"NSUserScriptTask") == nil)
+   if(![GrowlUserScriptTaskUtilities hasScriptTaskClass])
       return nil;
    
    if((self = [super init])){
       
    }
    return self;
-}
-
--(BOOL)hasAppleScriptTaskClass {
-   return NSClassFromString(@"NSUserAppleScriptTask") != nil;
-}
--(NSURL*)baseScriptDirectoryURL {
-   NSError *urlError = nil;
-   NSURL *baseURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory
-                                                           inDomain:NSUserDomainMask
-                                                  appropriateForURL:nil
-                                                             create:YES
-                                                              error:&urlError];
-   if(urlError){
-      static dispatch_once_t onceToken;
-      dispatch_once(&onceToken, ^{
-         NSLog(@"Error retrieving Application Scripts directoy, %@", urlError);
-      });
-   }
-   return urlError ? nil : baseURL;
-}
-- (NSUserScriptTask*)scriptTaskForFile:(NSString*)fileName {
-   NSUserScriptTask* result = nil;
-   if([self hasAppleScriptTaskClass]){
-      NSURL *baseURL = [self baseScriptDirectoryURL];
-      
-      if(baseURL){
-         NSError *error = nil;
-         NSURL *path = [baseURL URLByAppendingPathComponent:fileName];
-         result = [[NSUserScriptTask alloc] initWithURL:path
-                                                  error:&error];
-         if(error && !result){
-            NSLog(@"Error retrieving script task for file %@ - %@", fileName, error);
-         }
-      }
-   }
-   return [result autorelease];
 }
 
 -(NSDictionary*)strippedDownDictionaryForAutomator:(NSDictionary*)dict {
@@ -84,28 +48,47 @@
    return [[result copy] autorelease];
 }
 
--(NSArray*)unixArgumentsForDictionary:(NSDictionary*)dict {
-   NSMutableArray *result = [NSMutableArray array];
-   NSString *host = [dict valueForKey:@"GNTP Notification Sent-By"];
-   if(!host /*|| [host isLocalHost]*/)
-      host = @"localhost";
-   
-   id icon = [dict valueForKey:GROWL_NOTIFICATION_ICON_DATA];
-   NSData *iconData = [icon isKindOfClass:[NSData class]] ? icon : ([icon isKindOfClass:[NSImage class]] ? [icon TIFFRepresentation] : nil);
-   
-   [result addObject:host];
-   [result addObject:[dict valueForKey:GROWL_APP_NAME]];
-   [result addObject:[dict valueForKey:GROWL_NOTIFICATION_NAME]];
-   [result addObject:[dict valueForKey:GROWL_NOTIFICATION_TITLE]];
-   [result addObject:[dict valueForKey:GROWL_NOTIFICATION_DESCRIPTION]];
-   BOOL sticky = [dict valueForKey:GROWL_NOTIFICATION_STICKY] ? [[dict valueForKey:GROWL_NOTIFICATION_STICKY] boolValue] : NO;
-   NSString *stickyString = sticky ? @"0" : @"1";
-   [result addObject:stickyString];
-   if(iconData != nil){
-      [result addObject:iconData];
-   }
+-(NSArray*)unixArgumentsForDictionary:(NSDictionary*)dict withOrderedKeys:(NSArray*)keys {
+	NSMutableArray *result = [NSMutableArray array];
+	[keys enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if([obj isEqualToString:GROWL_APP_NAME] ||
+			[obj isEqualToString:GROWL_NOTIFICATION_NAME] ||
+			[obj isEqualToString:GROWL_NOTIFICATION_TITLE]){
+			if([dict valueForKey:obj] != nil)
+				[result addObject:[dict valueForKey:obj]];
+		}else if([obj isEqualToString:@"GNTP Notification Sent-By"]){
+			NSString *host = [dict valueForKey:obj];
+			if(!host /*|| [host isLocalHost]*/)
+				host = @"localhost";
+			[result addObject:host];
+		}else if([obj isEqualToString:GROWL_NOTIFICATION_STICKY]){
+			BOOL sticky = [dict valueForKey:GROWL_NOTIFICATION_STICKY] ? [[dict valueForKey:GROWL_NOTIFICATION_STICKY] boolValue] : NO;
+			NSString *stickyString = sticky ? @"0" : @"1";
+			[result addObject:stickyString];
+		}else if([obj isEqualToString:GROWL_NOTIFICATION_PRIORITY]){
+			NSInteger priority = [dict valueForKey:GROWL_NOTIFICATION_STICKY] ? [[dict valueForKey:GROWL_NOTIFICATION_STICKY] boolValue] : NO;
+			NSString *priorityString = [NSString stringWithFormat:@"%ld", priority];
+			[result addObject:priorityString];
+		}else if([obj isEqualToString:GROWL_NOTIFICATION_ICON_DATA]){
+			id icon = [dict valueForKey:GROWL_NOTIFICATION_ICON_DATA];
+			NSData *iconData = [icon isKindOfClass:[NSData class]] ? icon : ([icon isKindOfClass:[NSImage class]] ? [icon TIFFRepresentation] : nil);
+			if(iconData != nil){
+				[result addObject:iconData];
+			}
+		}
+	}];
+	return result;
+}
 
-   return [[result copy] autorelease];
+-(NSArray*)unixArgumentsForDictionary:(NSDictionary*)dict {
+	return [self unixArgumentsForDictionary:dict withOrderedKeys:[NSArray arrayWithObjects:@"GNTP Notification Sent-By",
+																					  GROWL_APP_NAME,
+																					  GROWL_NOTIFICATION_NAME,
+																					  GROWL_NOTIFICATION_TITLE,
+																					  GROWL_NOTIFICATION_DESCRIPTION,
+																					  GROWL_NOTIFICATION_PRIORITY,
+																					  GROWL_NOTIFICATION_STICKY,
+																					  GROWL_NOTIFICATION_ICON_DATA, nil]];
 }
 
 
@@ -115,7 +98,7 @@
  */
 -(void)dispatchNotification:(NSDictionary *)notification withConfiguration:(NSDictionary *)configuration {
    NSString *fileName = [configuration valueForKey:@"ScriptActionFileName"];
-   NSUserScriptTask *scriptTask = [self scriptTaskForFile:fileName];
+   NSUserScriptTask *scriptTask = [GrowlUserScriptTaskUtilities scriptTaskForFile:fileName];
 
    if(scriptTask){
       if([scriptTask isKindOfClass:[NSUserAppleScriptTask class]]){
@@ -129,7 +112,7 @@
                                                                          targetDescriptor:thisApplication
                                                                                  returnID:kAutoGenerateReturnID
                                                                             transactionID:kAnyTransactionID];
-         [event setDescriptor:[GrowlAppleScriptNoteConverter appleEventDescriptorForNotification:notification] forKeyword:'NtPa'];
+         [event setDescriptor:[GrowlUserScriptTaskUtilities appleEventDescriptorForNotification:notification] forKeyword:'NtPa'];
          [(NSUserAppleScriptTask*)scriptTask executeWithAppleEvent:event
                                                  completionHandler:^(NSAppleEventDescriptor *result, NSError *completionError) {
                                                     if(completionError){
@@ -137,11 +120,16 @@
                                                     }
                                                  }];
       }else if([scriptTask isKindOfClass:[NSUserUnixTask class]]){
-         //Pass arguments
          [(NSUserUnixTask*)scriptTask setStandardInput:[NSFileHandle fileHandleWithStandardInput]];
          [(NSUserUnixTask*)scriptTask setStandardOutput:[NSFileHandle fileHandleWithStandardOutput]];
          [(NSUserUnixTask*)scriptTask setStandardError:[NSFileHandle fileHandleWithStandardError]];
-         [(NSUserUnixTask*)scriptTask executeWithArguments:[self unixArgumentsForDictionary:notification]
+			NSArray *argumentKeys = [configuration valueForKey:@"ScriptActionUnixArgumentOrder"];
+			NSArray *arguments = nil;
+			if(argumentKeys)
+				arguments = [self unixArgumentsForDictionary:notification withOrderedKeys:argumentKeys];
+			else
+				arguments = [self unixArgumentsForDictionary:notification];
+         [(NSUserUnixTask*)scriptTask executeWithArguments:arguments
                                          completionHandler:^(NSError *error) {
                                             if(error){
                                                NSLog(@"Error executing selected Unix Script: %@", error);
