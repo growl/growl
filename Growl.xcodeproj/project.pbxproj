@@ -393,6 +393,7 @@
 		BCAD8A7013E2FCA5000292F4 /* GroupedArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */; };
 		BCAEAA6815347BCB00D00D6D /* NSURL+StringEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = BCAEAA6615347BCB00D00D6D /* NSURL+StringEncoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BCAEAA6915347BCB00D00D6D /* NSURL+StringEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAEAA6715347BCB00D00D6D /* NSURL+StringEncoding.m */; };
+		BCB34D261647636000024751 /* GrowlWebSocketProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB34D251647636000024751 /* GrowlWebSocketProxy.m */; };
 		BCB744011442CA2A009121C9 /* GrowlMenuImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB744001442CA2A009121C9 /* GrowlMenuImageView.m */; };
 		BCBC3D3D142035BB0032BCA0 /* GNTPKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 938CB10B1081250600259421 /* GNTPKey.m */; };
 		BCBCDD73121B9FD900C07D0D /* GrowlNotificationDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = BCBCDD72121B9FD900C07D0D /* GrowlNotificationDatabase.m */; };
@@ -1625,6 +1626,8 @@
 		BCAD8A6F13E2FCA5000292F4 /* GroupedArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupedArrayController.m; path = Core/Source/GroupedArrayController.m; sourceTree = "<group>"; };
 		BCAEAA6615347BCB00D00D6D /* NSURL+StringEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "NSURL+StringEncoding.h"; path = "Plugins/PluginFramework/NSURL+StringEncoding.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		BCAEAA6715347BCB00D00D6D /* NSURL+StringEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = "NSURL+StringEncoding.m"; path = "Plugins/PluginFramework/NSURL+StringEncoding.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		BCB34D241647636000024751 /* GrowlWebSocketProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlWebSocketProxy.h; path = Core/Source/GrowlWebSocketProxy.h; sourceTree = "<group>"; };
+		BCB34D251647636000024751 /* GrowlWebSocketProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlWebSocketProxy.m; path = Core/Source/GrowlWebSocketProxy.m; sourceTree = "<group>"; };
 		BCB743FF1442CA2A009121C9 /* GrowlMenuImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlMenuImageView.h; path = Core/Source/GrowlMenuImageView.h; sourceTree = "<group>"; };
 		BCB744001442CA2A009121C9 /* GrowlMenuImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlMenuImageView.m; path = Core/Source/GrowlMenuImageView.m; sourceTree = "<group>"; };
 		BCBCDD71121B9FD900C07D0D /* GrowlNotificationDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNotificationDatabase.h; path = Core/Source/GrowlNotificationDatabase.h; sourceTree = "<group>"; };
@@ -2858,6 +2861,8 @@
 				BC1AF92815B05A4100CD47F9 /* GNTPUtilities.m */,
 				BC79CBE215ACE3CA0081DCBE /* GrowlDispatchMutableDictionary.h */,
 				BC79CBE315ACE3CA0081DCBE /* GrowlDispatchMutableDictionary.m */,
+				BCB34D241647636000024751 /* GrowlWebSocketProxy.h */,
+				BCB34D251647636000024751 /* GrowlWebSocketProxy.m */,
 			);
 			name = GNTP;
 			sourceTree = "<group>";
@@ -4567,6 +4572,7 @@
 				934B85E515C2704F0056A72A /* TMSliderControl.m in Sources */,
 				93BD8B8D15C59974004A2E7D /* GrowlOnSwitchLabel.m in Sources */,
 				BCF9A74716407999008A1C99 /* GrowlWebKitWindowTransition.m in Sources */,
+				BCB34D261647636000024751 /* GrowlWebSocketProxy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

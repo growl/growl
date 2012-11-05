@@ -17,6 +17,7 @@
 #import "GrowlGNTPDefines.h"
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
+#import "GrowlWebSocketProxy.h"
 
 #import "GrowlDispatchMutableDictionary.h"
 
@@ -258,10 +259,15 @@
 			readToTag = -2;
 
 		}else if([initialString caseInsensitiveCompare:@"GET "] == NSOrderedSame){
-			//This needs us to read more data before we can finish the websocket
-		   readToTag = 101;
-			//This might not be right
-			readToData = [GNTPUtilities doubleCRLF];
+			//The only good way to handle this is to proxy all our read/writes through a separate class
+			//This is UGLY, but since GCDAsyncSocket isn't something I want to mess with subclassing, a proxy object is the only thing I can think of
+			GrowlWebSocketProxy *proxySocket = [[GrowlWebSocketProxy alloc] initWithSocket:sock];
+			[self.socketsByGUID setObject:sock forKey:guid];
+			sock = (GCDAsyncSocket*)proxySocket;
+			
+			//Now that that is all done, set our first read from the proxy socket, same as if we were on a fresh socket
+			readToLength = 4;
+			readToTag = 0;
 		}else{
 			[self dumpSocket:sock
 					actionType:nil
@@ -456,9 +462,6 @@
 		readToLength = 4;
 		readToTag = 0;
 		
-	}else if(tag == 101){
-		//We've read in the rest of a websocket, parse and reply, and then setup a read of the first bit of the socket
-		[self dumpSocket:sock fromDisconnect:NO];
 	}else{
 		//We shouldn't have an unknown read tag, dump the socket
 		[self dumpSocket:sock fromDisconnect:NO];
