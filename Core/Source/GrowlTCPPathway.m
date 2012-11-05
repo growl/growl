@@ -106,7 +106,7 @@
 																			type:@"_gntp._tcp." 
 																			name:publishingName 
 																			port:GROWL_TCP_PORT] autorelease];
-      NSDictionary * txtRecordDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: @"1.0", @"version", @"mac", @"platform", nil];
+      NSDictionary * txtRecordDataDictionary = [NSDictionary dictionaryWithObjectsAndKeys: @"1.0", @"version", @"mac", @"platform", @"13", @"websocket", nil];
       [self.netService setTXTRecordData:[NSNetService dataFromTXTRecordDictionary:txtRecordDataDictionary]];
       [self.netService publish];
    }

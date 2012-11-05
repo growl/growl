@@ -29,4 +29,36 @@
 	return _gntpEndData;
 }
 
+#pragma mark Header Parsing methods
++(NSString*)headerKeyFromHeader:(NSString*)header {
+	NSInteger location = [header rangeOfString:@": "].location;
+	if(location != NSNotFound)
+		return [header substringToIndex:location];
+	return nil;
+}
++(NSString*)headerValueFromHeader:(NSString*)header{
+	NSInteger location = [header rangeOfString:@": "].location;
+	if(location != NSNotFound)
+		return [header substringFromIndex:location + 2];
+	return nil;
+}
++(void)enumerateHeaders:(NSString*)headersString
+				  withBlock:(GNTPHeaderBlock)headerBlock
+{
+	NSArray *headers = [headersString componentsSeparatedByString:@"\r\n"];
+	[headers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if(!obj || [obj isEqualToString:@""] || [obj isEqualToString:@"\r\n"])
+			return;
+		
+		NSString *headerKey = [GNTPUtilities headerKeyFromHeader:obj];
+		NSString *headerValue = [GNTPUtilities headerValueFromHeader:obj];
+		if(headerKey && headerValue){
+			if(headerBlock(headerKey, headerValue))
+				*stop = YES;
+		}else{
+			//NSLog(@"Unable to find ': ' that seperates key and value in %@", obj);
+		}
+	}];
+}
+
 @end

@@ -17,6 +17,8 @@
 
 - (id)initWithSocket:(GCDAsyncSocket*)socket;
 
+- (void)disconnect;
+
 - (NSString *)connectedHost;
 - (NSData *)connectedAddress;
 

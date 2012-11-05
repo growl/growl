@@ -255,38 +255,6 @@
 	return key;
 }
 
-#pragma mark Header Parsing methods
-+(NSString*)headerKeyFromHeader:(NSString*)header {
-	NSInteger location = [header rangeOfString:@": "].location;
-	if(location != NSNotFound)
-		return [header substringToIndex:location];
-	return nil;
-}
-+(NSString*)headerValueFromHeader:(NSString*)header{
-	NSInteger location = [header rangeOfString:@": "].location;
-	if(location != NSNotFound)
-		return [header substringFromIndex:location + 2];
-	return nil;
-}
-+(void)enumerateHeaders:(NSString*)headersString 
-				  withBlock:(GNTPHeaderBlock)headerBlock 
-{
-	NSArray *headers = [headersString componentsSeparatedByString:@"\r\n"];
-	[headers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		if(!obj || [obj isEqualToString:@""] || [obj isEqualToString:@"\r\n"])
-			return;
-		
-		NSString *headerKey = [GNTPPacket headerKeyFromHeader:obj];
-		NSString *headerValue = [GNTPPacket headerValueFromHeader:obj];
-		if(headerKey && headerValue){
-			if(headerBlock(headerKey, headerValue))
-				*stop = YES;
-		}else{
-			//NSLog(@"Unable to find ': ' that seperates key and value in %@", obj);
-		}
-	}];
-}
-
 #pragma mark Conversion Methods
 #pragma mark GNTP to Growl
 +(NSDictionary*)gntpToGrowlMatchingDict {
@@ -690,11 +658,11 @@
 			//Our initial header block
 			NSString *headersString = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
 			
-			[GNTPPacket enumerateHeaders:headersString
-									 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
-										 [blockSelf parseHeaderKey:headerKey value:headerValue];
-										 return NO;
-									 }];
+			[GNTPUtilities enumerateHeaders:headersString
+										 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
+											 [blockSelf parseHeaderKey:headerKey value:headerValue];
+											 return NO;
+										 }];
 			result = [self.dataBlockIdentifiers count];
 			if(result == 0)
 				self.state = 999;
@@ -781,19 +749,19 @@
 	
 	__block NSString *newId = nil;
 	__block NSString *newLength = nil;
-	[GNTPPacket enumerateHeaders:headersString 
-							 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
-								 if([headerKey caseInsensitiveCompare:@"Identifier"] == NSOrderedSame){
-									 newId = [headerValue retain];
-								 }else if([headerKey caseInsensitiveCompare:@"Length"] == NSOrderedSame){
-									 newLength = [headerValue retain];
-								 }else {
-									 //NSLog(@"No other headers we care about here");
-								 }
-								 if(newId && newLength)
-									 return YES;
-								 return NO;
-							 }];
+	[GNTPUtilities enumerateHeaders:headersString
+								 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
+									 if([headerKey caseInsensitiveCompare:@"Identifier"] == NSOrderedSame){
+										 newId = [headerValue retain];
+									 }else if([headerKey caseInsensitiveCompare:@"Length"] == NSOrderedSame){
+										 newLength = [headerValue retain];
+									 }else {
+										 //NSLog(@"No other headers we care about here");
+									 }
+									 if(newId && newLength)
+										 return YES;
+									 return NO;
+								 }];
 	if(!newId || !newLength){
 		NSLog(@"Error! Could not find id and length in header");
 	}else{

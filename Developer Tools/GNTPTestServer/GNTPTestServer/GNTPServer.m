@@ -261,13 +261,17 @@
 		}else if([initialString caseInsensitiveCompare:@"GET "] == NSOrderedSame){
 			//The only good way to handle this is to proxy all our read/writes through a separate class
 			//This is UGLY, but since GCDAsyncSocket isn't something I want to mess with subclassing, a proxy object is the only thing I can think of
-			GrowlWebSocketProxy *proxySocket = [[GrowlWebSocketProxy alloc] initWithSocket:sock];
-			[self.socketsByGUID setObject:sock forKey:guid];
+#if GROWLHELPERAPP
+			GrowlWebSocketProxy *proxySocket = [[[GrowlWebSocketProxy alloc] initWithSocket:sock] autorelease];
+			[self.socketsByGUID setObject:proxySocket forKey:guid];
 			sock = (GCDAsyncSocket*)proxySocket;
-			
+
 			//Now that that is all done, set our first read from the proxy socket, same as if we were on a fresh socket
 			readToLength = 4;
 			readToTag = 0;
+#else
+			[self dumpSocket:sock fromDisconnect:NO];
+#endif
 		}else{
 			[self dumpSocket:sock
 					actionType:nil

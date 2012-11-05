@@ -284,8 +284,8 @@ enum {
 
 - (BOOL)parseHeader:(NSString*)string {
 	//NSLog(@"%@", string);
-	NSString *headerKey = [GNTPPacket headerKeyFromHeader:string];
-	NSString *headerValue = [GNTPPacket headerValueFromHeader:string];
+	NSString *headerKey = [GNTPUtilities headerKeyFromHeader:string];
+	NSString *headerValue = [GNTPUtilities headerValueFromHeader:string];
 	if (headerKey && headerValue){
 		if(!callbackHeaderItems)
 			self.callbackHeaderItems = [NSMutableDictionary dictionary];
