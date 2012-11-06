@@ -154,10 +154,38 @@
 -(void)displayChangeNotification:(NSNotification*)note {
    __block GrowlDisplayBridgeController *blockSelf = self;
    NSArray *screens = [NSScreen screens];
+	
+	/* Special case for laptops with dynamic graphics switching on
+	 */
+	if([screens count] == 1 && [screens count] == [[positionControllers allKeys] count]){
+		GrowlPositionController *current = [[positionControllers allValues] objectAtIndex:0];
+		NSScreen *new = [screens objectAtIndex:0];
+		if(CGRectEqualToRect([current screenFrame], [new visibleFrame]) && [current deviceID] != [new screenID]){
+			//We have the same screen frame, the same screen count, but different ID's
+			//The cause we care about is automatic graphics switching, but the result is the same
+			//We want to preserve our current controllers for it, without making a new display
+
+			//NSLog(@"re labeling display id %@ to display id %@", currentID, newID);
+			NSString *currentID = [NSString stringWithFormat:@"%lu", [current deviceID]];
+			NSString *newID = [new screenIDString];
+			[current setDeviceID:[new screenID]];
+			[positionControllers setValue:current forKey:newID];
+			[positionControllers setValue:nil forKey:currentID];
+			
+			if([windowsByDisplayID valueForKey:currentID]){
+				[windowsByDisplayID setValue:[windowsByDisplayID valueForKey:currentID] forKey:newID];
+				[windowsByDisplayID setValue:nil forKey:currentID];
+			}
+			if([queueKeysByDisplayID valueForKey:currentID]){
+				[queueKeysByDisplayID setValue:[queueKeysByDisplayID valueForKey:currentID] forKey:newID];
+				[queueKeysByDisplayID setValue:nil forKey:currentID];
+			}
+		}
+	}
+	
    __block NSMutableArray *newIDs = [NSMutableArray array];
    [screens enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-      NSUInteger screenID = [obj screenID];
-      [newIDs addObject:[NSString stringWithFormat:@"%lu", screenID]];
+      [newIDs addObject:[obj screenIDString]];
    }];
    
    __block NSMutableArray *toRemove = [NSMutableArray array];
