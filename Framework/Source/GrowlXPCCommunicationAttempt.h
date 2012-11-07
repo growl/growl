@@ -11,15 +11,16 @@
 
 @interface GrowlXPCCommunicationAttempt : GrowlCommunicationAttempt {
 @private
-	
-	xpc_connection_t                    xpcConnection;
-		
+			
 	NSDictionary *sendingDetails;
 	NSDictionary *responseDict;
+    
+    xpc_connection_t connection;
 }
 
 @property (nonatomic, retain) NSDictionary *sendingDetails;
 @property (nonatomic, retain) NSDictionary *responseDict;
+@property (nonatomic, retain) xpc_connection_t connection NS_AVAILABLE(10_7, 5_0) __attribute__((NSObject));
 
 + (BOOL)canCreateConnection;
 - (NSString *)purpose;

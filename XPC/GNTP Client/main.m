@@ -33,10 +33,6 @@ static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
 			// the connection is in an invalid state, and you do not need to
 			// call xpc_connection_cancel(). Just tear down any associated state
 			// here.
-			void *ctxt = xpc_connection_get_context(peer);
-			if(ctxt != NULL)
-				[(GrowlGNTPCommunicationAttempt*)ctxt setConnection:NULL];
-			xpc_connection_set_context(peer, NULL);
 		} else if (event == XPC_ERROR_TERMINATION_IMMINENT) {
 			// Handle per-connection termination cleanup.
 		}
@@ -49,7 +45,7 @@ static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
 		NSDictionary *growlDict = [dict objectForKey:@"GrowlDict"];
 		
 		NSData *address = [dict objectForKey:@"GNTPAddressData"];
-		NSString *host = [dict valueForKey:@"GNTPHost"];
+		NSString *host = [dict valueForKey :@"GNTPHost"];
 		NSString *pass = [dict valueForKey:@"GNTPPassword"];
 		
 		GrowlGNTPCommunicationAttempt *attempt = nil;
@@ -66,7 +62,6 @@ static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
 			attempt.password = pass;
 			attempt.connection = peer;
 			
-			xpc_connection_set_context(peer, attempt);
 			[notifier sendCommunicationAttempt:attempt];
 		}
 	}

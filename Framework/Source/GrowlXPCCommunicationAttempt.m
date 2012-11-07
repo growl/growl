@@ -17,6 +17,7 @@
 
 @synthesize sendingDetails;
 @synthesize responseDict;
+@synthesize connection;
 
 + (NSString*)XPCBundleID
 {
@@ -55,12 +56,15 @@
 
 - (void)dealloc
 {
-	self.sendingDetails = nil;
-	self.responseDict = nil;
+    [sendingDetails release];
+	sendingDetails = nil;
+    
+	[responseDict release];
+    responseDict= nil;
 	
-	if (xpcConnection) {
-		xpc_release(xpcConnection);
-		xpcConnection = NULL;
+	if (connection) {
+		xpc_release(connection);
+		connection = NULL;
 	}
 	
 	[super dealloc];
@@ -91,10 +95,10 @@
 	
 	__block GrowlXPCCommunicationAttempt *blockSafe = self;
 	//Third party developers will need to make sure to rename the bundle, executable, and info.plist stuff to tld.company.product.GNTPClientService 
-	xpcConnection = xpc_connection_create([[GrowlXPCCommunicationAttempt XPCBundleID] UTF8String], dispatch_get_main_queue());
-	if (!xpcConnection)
+	connection = xpc_connection_create([[GrowlXPCCommunicationAttempt XPCBundleID] UTF8String], dispatch_get_main_queue());
+	if (!connection)
 		return NO;
-	xpc_connection_set_event_handler(xpcConnection, ^(xpc_object_t object) {
+	xpc_connection_set_event_handler(connection, ^(xpc_object_t object) {
 		xpc_type_t type = xpc_get_type(object);
 		
 		if (type == XPC_TYPE_ERROR) {
@@ -104,8 +108,8 @@
 			} else if (object == XPC_ERROR_CONNECTION_INVALID) {
 				NSString *errorDescription = [NSString stringWithUTF8String:xpc_dictionary_get_string(object, XPC_ERROR_KEY_DESCRIPTION)];
 				NSLog(@"Connection Invalid error for XPC service (%@)", errorDescription);
-				xpc_release(blockSafe->xpcConnection);
-				blockSafe->xpcConnection = NULL;
+				xpc_connection_cancel(blockSafe->connection);
+				blockSafe->connection = NULL;
 				[blockSafe failed];
 			} else {
 				NSLog(@"Unexpected error for XPC service");
@@ -117,7 +121,7 @@
 		}
 		
 	});
-	xpc_connection_resume(xpcConnection);
+	xpc_connection_resume(connection);
 	return YES;
 }
 
@@ -180,7 +184,7 @@
 
 - (BOOL) sendMessageWithPurpose:(NSString *)purpose
 {
-	if (!xpcConnection)
+	if (!connection)
 		return NO;
 	
 	NSMutableDictionary *messageDict = [NSMutableDictionary dictionary];
@@ -201,7 +205,7 @@
 	
 	xpc_object_t xpcMessage = [(NSObject*)messageDict newXPCObject];
 	if(xpcMessage){
-		xpc_connection_send_message(xpcConnection, xpcMessage);
+		xpc_connection_send_message(connection, xpcMessage);
 		xpc_release(xpcMessage);
 	}else{
 		NSLog(@"Error generating XPC message for dictionary: %@", dictionary);

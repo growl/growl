@@ -71,6 +71,11 @@ enum {
 	self.addressData = nil;
 	self.password = nil;
 	
+    if(connection)
+    {
+        xpc_release(connection);
+        connection = nil;
+    }
 	[super dealloc];
 }
 
