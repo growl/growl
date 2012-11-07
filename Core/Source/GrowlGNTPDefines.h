@@ -258,6 +258,30 @@ extern NSString *GrowlGNTPNotificationCallbackTarget;
  */
 extern NSString *GrowlGNTPXNotificationAlreadyShown;
 
+/* @brief X-Notification-Buttons-Action: <string>
+ * @discussion An optional extended field to provide a title for an action button, in display types
+ *   which support an action/cancel button pair.  Action is treated as a special case, and fires
+ *   the growlNotificationActionButtonClicked: delegate.
+ * @optional
+ */
+extern NSString *GrowlGNTPXNotificationButtonsAction;
+
+/* @brief X-Notification-Buttons-Action: <string>
+ * @discussion An optional extended field to provide a title for a cancel button, in display types
+ *   which support an action/cancel button pair.  Cancel is treated as a notification timeout or
+ *   close would be.
+ * @optional
+ */
+extern NSString *GrowlGNTPXNotificationButtonsCancel;
+
+/* @brief X-Notification-ButtonWasClicked: <bool>
+ * @discussion An optional extended field on a reply which determines if the action button
+ *   was clicked by the user.
+ * @optional
+ */
+extern NSString *GrowlGNTPXNotificationButtonWasClicked;
+
+
 #pragma mark Subscribe Headers
 //Subscribe
 

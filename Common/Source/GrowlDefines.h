@@ -228,9 +228,42 @@
  *   plugins to skip a notification, while still allowing Growl
  *   actions to run on them.
  *
- *	 Optional. Not supported by all display plugins.
+ *	 Optional. Used by Growl internally.
  */
 #define GROWL_NOTIFICATION_ALREADY_SHOWN		XSTR("AlreadyShown")
+
+/*!	@defined GROWL_NOTIFICATION_BUTTONTITLE_ACTION
+ *	@abstract If this key is set, it should contain a string to
+ *   be used as the title for an 'action' button in displays
+ *   that support such.  This is also used as the title
+ *   for the action button in Notification Center
+ *   integration.
+ *
+ *	 Optional. Not supported by all display plugins.
+ */
+#define GROWL_NOTIFICATION_BUTTONTITLE_ACTION		XSTR("ButtonAction")
+
+/*!	@defined GROWL_NOTIFICATION_BUTTONTITLE_CANCEL
+ *	@abstract If this key is set, it should contain a string to
+ *   be used as the title for a 'cancel' button in displays
+ *   that support such.  This is also used as the title
+ *   for the cancel button in Notification Center
+ *   integration.  If this is not set, but an Action button
+ *   is, the title will use 'Cancel' as a default.
+ *
+ *	 Optional. Not supported by all display plugins.
+ */
+#define GROWL_NOTIFICATION_BUTTONTITLE_CANCEL		XSTR("ButtonCancel")
+
+/*!	@defined GROWL_NOTIFICATION_CLICK_BUTTONUSED
+ *	@abstract If this key is set, it should contain a bool value
+ *   wrapped in an NSNumber which determines whether or not the 
+ *   action button was clicked by the user when this notification
+ *   was fired.
+ *
+ *	 Optional. Not supported by all display plugins.
+ */
+#define GROWL_NOTIFICATION_CLICK_BUTTONUSED		XSTR("ActionButtonClicked")
 
 
 // Notifications

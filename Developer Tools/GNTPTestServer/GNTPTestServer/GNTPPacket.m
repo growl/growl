@@ -301,7 +301,10 @@
 								GROWL_NOTIFICATION_NAME, GrowlGNTPNotificationName,
 								GROWL_NOTIFICATION_TITLE, GrowlGNTPNotificationTitle,
 								GROWL_NOTIFICATION_DESCRIPTION, GrowlGNTPNotificationText,
-                        GROWL_NOTIFICATION_ALREADY_SHOWN, GrowlGNTPXNotificationAlreadyShown,
+                     GROWL_NOTIFICATION_ALREADY_SHOWN, GrowlGNTPXNotificationAlreadyShown,
+                     GROWL_NOTIFICATION_BUTTONTITLE_ACTION, GrowlGNTPXNotificationButtonsAction,
+                     GROWL_NOTIFICATION_BUTTONTITLE_CANCEL, GrowlGNTPXNotificationButtonsCancel,
+                     GROWL_NOTIFICATION_CLICK_BUTTONUSED, GrowlGNTPXNotificationButtonWasClicked,
 								GROWL_NOTIFICATION_STICKY, GrowlGNTPNotificationSticky,
 								GROWL_NOTIFICATION_PRIORITY, GrowlGNTPNotificationPriority,
 								GROWL_NOTIFICATION_CALLBACK_URL_TARGET, GrowlGNTPNotificationCallbackTarget,
@@ -322,7 +325,7 @@
 }
 +(id)convertedObjectFromGNTPObject:(id)obj forGrowlKey:(NSString*)growlKey {
 	id convertedObj = obj;
-	if([growlKey isEqualToString:GROWL_NOTIFICATION_STICKY] || [growlKey isEqualToString:GROWL_NOTIFICATION_ALREADY_SHOWN]){
+	if([growlKey isEqualToString:GROWL_NOTIFICATION_STICKY] || [growlKey isEqualToString:GROWL_NOTIFICATION_ALREADY_SHOWN] || [growlKey isEqualToString:GROWL_NOTIFICATION_CLICK_BUTTONUSED]){
 		if([obj caseInsensitiveCompare:@"Yes"] == NSOrderedSame || 
 			[obj caseInsensitiveCompare:@"True"] == NSOrderedSame)
 		{
@@ -369,7 +372,10 @@
 								GrowlGNTPNotificationName, GROWL_NOTIFICATION_NAME,
 								GrowlGNTPNotificationTitle, GROWL_NOTIFICATION_TITLE,
 								GrowlGNTPNotificationText, GROWL_NOTIFICATION_DESCRIPTION,
-                        GrowlGNTPXNotificationAlreadyShown, GROWL_NOTIFICATION_ALREADY_SHOWN,
+                     GrowlGNTPXNotificationAlreadyShown, GROWL_NOTIFICATION_ALREADY_SHOWN,
+                     GrowlGNTPXNotificationButtonsAction, GROWL_NOTIFICATION_BUTTONTITLE_ACTION,
+                     GrowlGNTPXNotificationButtonsCancel, GROWL_NOTIFICATION_BUTTONTITLE_CANCEL,
+                     GrowlGNTPXNotificationButtonWasClicked, GROWL_NOTIFICATION_CLICK_BUTTONUSED,
 								GrowlGNTPNotificationSticky, GROWL_NOTIFICATION_STICKY,
 								GrowlGNTPNotificationPriority, GROWL_NOTIFICATION_PRIORITY,
 								GrowlGNTPNotificationCallbackTarget, GROWL_NOTIFICATION_CALLBACK_URL_TARGET,

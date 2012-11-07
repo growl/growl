@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<style type="text/css">
+			h4, h3, body { font-family: sans-serif };
+			</style>
+		<body>
+			<h3>New to Growl 2</h3>
+			<h4>General</h4>
+			<ul>
+				<li>Adds support for OS X notification center on 10.8.</li>
+				<li>Adds in support for Prowl and Boxcar services as action displays.</li>
+				<li>Rollup has better idle detection.</li>
+				<li>Growl is now sandboxed.</li>
+			</ul>
+			<h4>Preferences</h4>
+			<ul>
+				<li>The ON/OFF switch throughout Growl should be easier to understand now.</li>
+			</ul>
+			<h4>Displays</h4>
+			<ul>
+				<li>Speech now introduces greater control.</li>
+				<li>Separates Action displays from Visual displays.</li>
+				<li>Music Video can now left and right justify text.</li>
+				<li>Fixes height problems for multi line notifications in Music Video.</li>
+				<li>Nano can now display in multiple locations, left, center and right.</li>
+				<li>Added an SoundAction display.</li>
+				<li>Added a way to not have any visual notifications.</li>
+			</ul>
+			<h4>Bug fixes</h4>
+			<ul>
+				<li>Resolves the high CPU issue.</li>
+				<li>Resolves multiple crashes.</li>
+				<li>Shortcuts can now be unset.</li>
+			</ul>
+			<h3>Growl 1.4 changes</h3>
+			<h4>General</h4>
+			<ul>
+				<li>Applications Tab Redesign! This is a major overhaul, and should be much easier to use.</li>
+				<li>Moved Rollup controls to separate tab.</li>
+				<li>Major improvements to networking.</li>
+			</ul>
+			<h4>Preference Pane overhaul</h4>
+			<ul>
+				<li>New slider switch for on/off switches</li>
+				<li>Added keyboard support to position picker.</li>
+				<li>General Tab Relayout.</li>
+				<li>Networking tab - Add support for subscription</li>
+				<li>History Tab, contextual menu for history table to jump to the app/notification settings</li>
+				<li>Rollup tab is the new home of controls related to the Rollup window.</li>
+				<li>Adding a new display should not require a restart of Growl now.</li>
+			</ul>
+			<h4>Networking</h4>
+			<ul>
+				<li>Support for Notification-Callback-Target, a URL field in GNTP. Upon click, Growl lets OSX figure out how to open the URL (such as the default browser for an http:// url)</li>
+				<li>Subscription support, subscribe to all applications on a remote machine.</li>
+				<li>General improvements to networking authentication, removed requirement for, and use of password headers if the password field is blank</li>
+				<li>Fix networking crash related to address data resolution.</li>
+				<li>Bind to local socket only if not listening for incoming notifications.</li>
+				<li>Address data caching, and observation of network changes to clear caches</li>
+			</ul>
+			<h4>Applescript</h4>
+			<ul>
+				<li>URL click feedback support, same as Notification-Callback-Target in GNTP</li>
+			</ul>
+			<h4>Bug fixes</h4>
+			<ul>
+				<li>Resolved a crash with webkit plugin bridge on creation.</li>
+				<li>Resolved a crash with forwarding.</li>
+				<li>Resolved an issue where the Speech display waits for previous message to complete causing a CPU drain</li>
+				<li>Resolved a crash with CFErrorGetDomain for WebKit Display Styles.</li>
+				<li>Fixed duplicate listings of display plugins on reinstall.</li>
+				<li>Notification-Callback-Target is now respected, and used, even without the method header.</li>
+				<li>Worked around problems with corrupt history databases.</li>
+				<li>Fixed a sorting problem when deleting a single entry in the history list.</li>
+			</ul>
+		</body>
+	</head>
+</html>
+

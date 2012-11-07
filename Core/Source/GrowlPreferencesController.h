@@ -195,6 +195,16 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 - (NSString*) GNTPSubscriberID;
 - (void) setGNTPSubscriberID:(NSString*)newID;
 
+#pragma mark Rules
+
+-(BOOL)hasShownWarningForRules;
+-(void)setHasShownWarningForRules:(BOOL)flag;
+-(BOOL)allowsRules;
+-(void)setAllowsRules:(BOOL)flag;
+
+-(BOOL)rulesLoggingEnabled;
+-(void)setRulesLoggingEnabled:(BOOL)flag;
+
 @end
 
 #endif

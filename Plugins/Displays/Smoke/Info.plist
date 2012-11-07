@@ -28,5 +28,9 @@
 	<string>Dark translucent notifications</string>
 	<key>GrowlPluginsFrameworkVersion</key>
 	<string>1.0</string>
+	<key>GrowlCloseButtonXOrigin</key>
+	<real>2</real>
+	<key>GrowlCloseButtonYOrigin</key>
+	<integer>3</integer>
 </dict>
 </plist>

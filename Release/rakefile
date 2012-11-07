@@ -35,7 +35,7 @@ $last_growlversion_metadata = File.
     read("#{$src_root}/GrowlVersion.h").
     match($version_define_regex) || []
 
-$growl_version = env_default(:VERSION, '2.0a1') { $last_growlversion_metadata[1] }
+$growl_version = env_default(:VERSION, '2.1a1') { $last_growlversion_metadata[1] }
 $toolchain     = env_default(:TOOLCHAIN, '/Developer') { `xcode-select -print-path 2>/dev/null` }
 $configuration = env_default(:CONFIGURATION, 'Release')
 $xcodebuild    = env_default(:XCODEBUILD, "#{$toolchain}/usr/bin/xcodebuild") { `xcrun -find xcodebuild` }

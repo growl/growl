@@ -26,6 +26,8 @@
 	NSRect				closeButtonRect;
 }
 
+@property (nonatomic, retain) NSBundle *styleBundle;
+
 - (void) sizeToFit;
 
 - (id) target;

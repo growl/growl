@@ -9,6 +9,12 @@
 #import <Cocoa/Cocoa.h>
 #import <GrowlPlugins/GrowlPlugin.h>
 
+@protocol GrowlCloseButtonCustomizationProtocol <NSObject>
+-(NSString*)buttonKey;
+-(NSImage*)buttonImage;
+-(NSImage*)pressedButtonImage;
+@end
+
 @class GrowlNotification;
 @class GrowlDisplayWindowController;
 
@@ -20,7 +26,7 @@ extern NSString *GrowlDisplayPluginInfoKeyWindowNibName;
  * @class GrowlDisplayPlugin
  * @abstract Base class for all display plugins.
  */
-@interface GrowlDisplayPlugin : GrowlPlugin <GrowlDispatchNotificationProtocol> {
+@interface GrowlDisplayPlugin : GrowlPlugin <GrowlDispatchNotificationProtocol, GrowlCloseButtonCustomizationProtocol> {
 	Class          windowControllerClass;
 	
 	//for all displays

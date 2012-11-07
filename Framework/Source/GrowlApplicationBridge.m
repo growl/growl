@@ -120,6 +120,7 @@ static dispatch_queue_t notificationQueue_Queue;
 
 static struct {
     unsigned int growlNotificationWasClicked : 1;
+    unsigned int growlNotificationActionButtonClicked : 1;
     unsigned int growlNotificationTimedOut : 1;
     unsigned int registrationDictionaryForGrowl : 1;
     unsigned int applicationNameForGrowl : 1;
@@ -146,10 +147,22 @@ static struct {
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
 {
    AUTORELEASEPOOL_START
-   // Toss the click context back to the hosting app.
    id clickContext = [[notification userInfo] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-   if(clickContext && [[GrowlApplicationBridge growlDelegate] respondsToSelector:@selector(growlNotificationWasClicked:)])
-      [[GrowlApplicationBridge growlDelegate] growlNotificationWasClicked:clickContext];
+   
+   if(notification.activationType == NSUserNotificationActivationTypeActionButtonClicked) {
+      if(clickContext && [[GrowlApplicationBridge growlDelegate] respondsToSelector:@selector(growlNotificationActionButtonClicked:)])
+         [[GrowlApplicationBridge growlDelegate] growlNotificationActionButtonClicked:clickContext];
+      else if(clickContext && [[GrowlApplicationBridge growlDelegate] respondsToSelector:@selector(growlNotificationWasClicked:)])
+         [[GrowlApplicationBridge growlDelegate] growlNotificationWasClicked:clickContext];
+   }
+   else if (notification.activationType == NSUserNotificationActivationTypeContentsClicked) {
+      if(clickContext && [[GrowlApplicationBridge growlDelegate] respondsToSelector:@selector(growlNotificationWasClicked:)])
+         [[GrowlApplicationBridge growlDelegate] growlNotificationWasClicked:clickContext];
+   }
+   else {
+      if(clickContext && [[GrowlApplicationBridge growlDelegate] respondsToSelector:@selector(growlNotificationTimedOut:)])
+         [[GrowlApplicationBridge growlDelegate] growlNotificationTimedOut:clickContext];
+   }
    // Remove the notification, so it doesn't sit around forever.
    [center removeDeliveredNotification:notification];
    AUTORELEASEPOOL_END
@@ -249,6 +262,7 @@ static struct {
 	} 
     
     _delegateRespondsTo.growlNotificationWasClicked = [delegate respondsToSelector:@selector(growlNotificationWasClicked:)];
+    _delegateRespondsTo.growlNotificationActionButtonClicked = [delegate respondsToSelector:@selector(growlNotificationActionButtonClicked:)];
     _delegateRespondsTo.growlNotificationTimedOut = [delegate respondsToSelector:@selector(growlNotificationTimedOut:)];
     _delegateRespondsTo.registrationDictionaryForGrowl = [delegate respondsToSelector:@selector(registrationDictionaryForGrowl)];
     _delegateRespondsTo.applicationNameForGrowl = [delegate respondsToSelector:@selector(applicationNameForGrowl)];
@@ -298,6 +312,7 @@ static struct {
 	int pid = [[NSProcessInfo processInfo] processIdentifier];
 	NSString *growlNotificationClickedName = [[NSString alloc] initWithFormat:@"%@-%d-%@",
 		appName, pid, GROWL_DISTRIBUTED_NOTIFICATION_CLICKED_SUFFIX];
+   
 	if (_delegateRespondsTo.growlNotificationWasClicked)
 		[NSDNC addObserver:self
 				  selector:@selector(growlNotificationWasClicked:)
@@ -382,8 +397,59 @@ static struct {
 								   iconData:iconData
 								   priority:priority
 								   isSticky:isSticky
+               actionButtonTitle:nil
+               cancelButtonTitle:nil
 							   clickContext:clickContext
 								 identifier:nil];
+}
+
++ (void) notifyWithTitle:(NSString *)title
+             description:(NSString *)description
+        notificationName:(NSString *)notifName
+                iconData:(NSData *)iconData
+                priority:(int)priority
+                isSticky:(BOOL)isSticky
+       actionButtonTitle:(NSString *)actionTitle
+       cancelButtonTitle:(NSString *)cancelTitle
+            clickContext:(id)clickContext
+{
+	[GrowlApplicationBridge notifyWithTitle:title
+                               description:description
+                          notificationName:notifName
+                                  iconData:iconData
+                                  priority:priority
+                                  isSticky:isSticky
+                         actionButtonTitle:actionTitle
+                         cancelButtonTitle:cancelTitle
+                              clickContext:clickContext
+                                identifier:nil];
+}
+
+
+/* Send a notification to Growl for display.
+ * title, description, and notifName are required.
+ * All other id parameters may be nil to accept defaults.
+ * priority is 0 by default; isSticky is NO by default.
+ */
++ (void) notifyWithTitle:(NSString *)title
+             description:(NSString *)description
+        notificationName:(NSString *)notifName
+                iconData:(NSData *)iconData
+                priority:(int)priority
+                isSticky:(BOOL)isSticky
+            clickContext:(id)clickContext
+              identifier:(NSString *)identifier
+{
+   [GrowlApplicationBridge notifyWithTitle:title
+                               description:description
+                          notificationName:notifName
+                                  iconData:iconData
+                                  priority:priority
+                                  isSticky:isSticky
+                         actionButtonTitle:nil
+                         cancelButtonTitle:nil
+                              clickContext:clickContext
+                                identifier:identifier];
 }
 
 /* Send a notification to Growl for display.
@@ -397,6 +463,8 @@ static struct {
 				iconData:(NSData *)iconData
 				priority:(int)priority
 				isSticky:(BOOL)isSticky
+   actionButtonTitle:(NSString *)actionTitle
+   cancelButtonTitle:(NSString *)cancelTitle
 			clickContext:(id)clickContext
 			  identifier:(NSString *)identifier
 {
@@ -416,6 +484,9 @@ static struct {
 	if (isSticky)		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];
 	if (identifier)   [noteDict setObject:identifier forKey:GROWL_NOTIFICATION_IDENTIFIER];
 
+   if (actionTitle)  [noteDict setObject:actionTitle forKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION];
+   if (cancelTitle)  [noteDict setObject:cancelTitle forKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
+   
    BOOL useNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
    
    // Do we have notification center disabled?
@@ -626,8 +697,16 @@ static struct {
    appleNotification.title = [growlDict objectForKey:GROWL_NOTIFICATION_TITLE];
    appleNotification.informativeText = [growlDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
    appleNotification.userInfo = notificationDict;
+   appleNotification.hasActionButton = NO;
    
-   // If we ever add support for action buttons in Growl (please), we'll want to add those here.
+   if ([growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION]) {
+      appleNotification.hasActionButton = YES;
+      appleNotification.actionButtonTitle = [growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION];
+   }
+   
+   if ([growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL])
+      appleNotification.otherButtonTitle = [growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
+
    if (!appleNotificationDelegate) {
       appleNotificationDelegate = [[GrowlAppleNotificationDelegate alloc] init];
    }
@@ -937,8 +1016,14 @@ static struct {
  */
 + (void) growlNotificationWasClicked:(NSNotification *)notification {
     AUTORELEASEPOOL_START
-        [delegate growlNotificationWasClicked:
-         [[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
+        NSDictionary *userInfo = [notification userInfo];
+        if ([[userInfo objectForKey:GROWL_NOTIFICATION_CLICK_BUTTONUSED] boolValue]) {
+           [delegate growlNotificationActionButtonClicked:[userInfo objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
+        }
+        else {
+           [delegate growlNotificationWasClicked:
+             [[notification userInfo] objectForKey:GROWL_KEY_CLICKED_CONTEXT]];
+        }
     AUTORELEASEPOOL_END
 }
 + (void) growlNotificationTimedOut:(NSNotification *)notification {
