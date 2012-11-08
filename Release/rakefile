@@ -11,6 +11,7 @@
 # it'd be fairly abnormal to install rake without RubyGems... but you never know, do you?
 require 'rubygems' unless defined?(Gem)
 require File.expand_path('../scripts/resign-binaries.rb')
+require File.expand_path('../scripts/validate-code-signatures.rb')
 
 def env_default(name, fallback=nil)
   value = ENV[name.to_s]
@@ -185,7 +186,11 @@ namespace "package" do
     curdir   = FileUtils.pwd()
     absolute = File.expand_path("#{$product_root}")
     FileUtils.mkdir_p(absolute)
-    Rake::Task["codesign_growl"].execute
+	failure = resign(File.expand_path("#{$build_root}/growl/#{$configuration}/Growl.app"), $csi)
+	if not failure
+		failure = validate(File.expand_path("#{$build_root}/growl/#{$configuration}/Growl.app"), $csi)
+		exit(failure) if failure
+	end
     FileUtils.cd("#{$build_root}/growl/#{$configuration}")
     if !$beta
       system "productbuild --component Growl.app /Applications --sign \"#{$csi_installer}\" Growl.pkg && cp -Rp Growl.pkg #{absolute}/"
@@ -202,7 +207,11 @@ namespace "package" do
     curdir = FileUtils.pwd()
     absolute = File.expand_path("#{$product_root}")
     FileUtils.mkdir_p(absolute)
-	Rake::Task["codesign_hwg"].execute
+	failure = resign(File.expand_path("#{$build_root}/hardwaregrowler/#{$configuration}/HardwareGrowler.app"), $csi)
+	if not failure
+		failure = validate(File.expand_path("#{$build_root}/hardwaregrowler/#{$configuration}/HardwareGrowler.app"), $csi)
+		exit(failure) if failure
+	end
     FileUtils.cd("#{$build_root}/hardwaregrowler/#{$configuration}")
     if !$beta
       system "productbuild --component HardwareGrowler.app /Applications --sign \"#{$csi_installer}\" HardwareGrowler.pkg && cp -Rp HardwareGrowler.pkg #{$product_root}"
@@ -244,6 +253,12 @@ namespace "package" do
     curdir = FileUtils.pwd()
     absolute = File.expand_path("#{$product_root}")
     FileUtils.mkdir_p(absolute)
+	failure = resign(File.expand_path("#{$build_root}/growltunes/#{$configuration}/GrowlTunes.app"), $csi)
+	if not failure
+		failure = validate(File.expand_path("#{$build_root}/growltunes/#{$configuration}/GrowlTunes.app"), $csi)
+		exit(failure) if failure
+	end
+	
     FileUtils.cd("#{$build_root}/growltunes/#{$configuration}")
     if !$beta
       system "productbuild --component GrowlTunes.app /Applications --sign \"#{$csi_installer}\" GrowlTunes.pkg && cp -Rp GrowlTunes.pkg #{$product_root}"
@@ -305,34 +320,7 @@ namespace "package" do
     system "zip -r -y #{$product_root}/Growl-#{$growl_version}-SDK.zip Growl-#{$growl_version}-SDK/"
 
   end
-  
-
 end
-
-
-desc "codesign HWG"
-task :codesign_hwg do
-	resign(File.expand_path("#{$build_root}/hardwaregrowler/#{$configuration}/HardwareGrowler.app"), $csi)
-end
-
-
-desc "codesign Growl"
-task :codesign_growl do
-	resign(File.expand_path("#{$build_root}/growl/#{$configuration}/Growl.app"), $csi)
-end
-
-desc "codesign GrowlTunes"
-task :codesign_gt do
-	resign(File.expand_path("#{$build_root}/growltunes/#{$configuration}/GrowlTunes.app"), $csi)
-end
-
-
-
-
-
-
-
-
 
 
 
