@@ -3663,7 +3663,6 @@
 				BC29B29D14D12E4800C72855 /* Copy Launcher */,
 				93A042C6138215C400C46F0A /* Copy QuickLook Plugin */,
 				BC8FD39715B0CC6E0007CC12 /* Copy XPC */,
-				BCCAB95F151684C000E83EBB /* Resign/Validate */,
 			);
 			buildRules = (
 			);
@@ -4317,20 +4316,6 @@
 			shellPath = /bin/sh;
 			shellScript = "genstrings -o ./Plugins/PluginFramework/en.lproj ./Plugins/Displays/GrowlPluginPreferenceStrings.h ";
 			showEnvVarsInLog = 0;
-		};
-		BCCAB95F151684C000E83EBB /* Resign/Validate */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Resign/Validate;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" != \"Debug\" ]; then \necho \"Resigning\"\nruby $SRCROOT/scripts/resign-binaries.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\nruby $SRCROOT/scripts/validate-code-signatures.rb $BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
