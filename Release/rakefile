@@ -10,7 +10,8 @@
 
 # it'd be fairly abnormal to install rake without RubyGems... but you never know, do you?
 require 'rubygems' unless defined?(Gem)
-
+require File.expand_path('../scripts/resign-binaries.rb')
+require File.expand_path('../scripts/validate-code-signatures.rb')
 
 def env_default(name, fallback=nil)
   value = ENV[name.to_s]
@@ -50,7 +51,9 @@ end
 $destdir       = env_default(:DESTDIR, File.join($release_dir, 'distribution'))
 $build_root    = File.join($destdir, "build")
 $product_root  = File.join($destdir, "product")
-$csi           = env_default(:CODE_SIGN_IDENTITY, "3rd Party Mac Developer Installer: The Growl Project, LLC")
+$csi           = env_default(:CODE_SIGN_IDENTITY, "3rd Party Mac Developer Application: The Growl Project, LLC")
+$csi_installer = $csi.gsub("Application", "Installer")
+$csi_sdk       = env_default(:CODE_SIGN_IDENTITY_SDK, "Developer ID Application: The Growl Project, LLC")
 $beta          = false
 
 task :default => "package_everything"
@@ -183,9 +186,14 @@ namespace "package" do
     curdir   = FileUtils.pwd()
     absolute = File.expand_path("#{$product_root}")
     FileUtils.mkdir_p(absolute)
+	failure = resign(File.expand_path("#{$build_root}/growl/#{$configuration}/Growl.app"), $csi)
+	if not failure
+		failure = validate(File.expand_path("#{$build_root}/growl/#{$configuration}/Growl.app"), $csi)
+		exit(failure) if failure
+	end
     FileUtils.cd("#{$build_root}/growl/#{$configuration}")
     if !$beta
-      system "productbuild --component Growl.app /Applications --sign \"#{$csi}\" Growl.pkg && cp -Rp Growl.pkg #{absolute}/"
+      system "productbuild --component Growl.app /Applications --sign \"#{$csi_installer}\" Growl.pkg && cp -Rp Growl.pkg #{absolute}/"
     else
       system "zip -r #{absolute}/Growl-#{$growl_version}.zip Growl.app/"
     end
@@ -199,9 +207,14 @@ namespace "package" do
     curdir = FileUtils.pwd()
     absolute = File.expand_path("#{$product_root}")
     FileUtils.mkdir_p(absolute)
+	failure = resign(File.expand_path("#{$build_root}/hardwaregrowler/#{$configuration}/HardwareGrowler.app"), $csi)
+	if not failure
+		failure = validate(File.expand_path("#{$build_root}/hardwaregrowler/#{$configuration}/HardwareGrowler.app"), $csi)
+		exit(failure) if failure
+	end
     FileUtils.cd("#{$build_root}/hardwaregrowler/#{$configuration}")
     if !$beta
-      system "productbuild --component HardwareGrowler.app /Applications --sign \"#{$csi}\" HardwareGrowler.pkg && cp -Rp HardwareGrowler.pkg #{$product_root}"
+      system "productbuild --component HardwareGrowler.app /Applications --sign \"#{$csi_installer}\" HardwareGrowler.pkg && cp -Rp HardwareGrowler.pkg #{$product_root}"
     else
       system "zip -r -y #{$product_root}/HardwareGrowler-#{$growl_version}.zip HardwareGrowler.app/"
     end
@@ -214,7 +227,7 @@ namespace "package" do
     curdir = FileUtils.pwd()
     FileUtils.cd("#{$build_root}/growlcal/#{$configuration}")
     if !$beta
-      system "productbuild --component GrowlCal.app /Applications --sign \"#{$csi}\" GrowlCal.pkg && cp -Rp GrowlCal.pkg #{$product_root}"
+      system "productbuild --component GrowlCal.app /Applications --sign \"#{$csi_installer}\" GrowlCal.pkg && cp -Rp GrowlCal.pkg #{$product_root}"
     else
       system "zip -r -y #{$product_root}/GrowlCal-#{$growl_version}.zip GrowlCal.app/"
     end
@@ -227,7 +240,7 @@ namespace "package" do
     curdir = FileUtils.pwd()
     FileUtils.cd("#{$build_root}/capster/#{$configuration}")
     if !$beta
-      system "productbuild --component Capster.app /Applications --sign \"#{$csi}\" Capster.pkg && cp -Rp Capster.pkg #{$product_root}"
+      system "productbuild --component Capster.app /Applications --sign \"#{$csi_installer}\" Capster.pkg && cp -Rp Capster.pkg #{$product_root}"
     else
       system "zip -r -y #{$product_root}/Capster-#{$growl_version}.zip Capster.app/"
     end
@@ -240,9 +253,15 @@ namespace "package" do
     curdir = FileUtils.pwd()
     absolute = File.expand_path("#{$product_root}")
     FileUtils.mkdir_p(absolute)
+	failure = resign(File.expand_path("#{$build_root}/growltunes/#{$configuration}/GrowlTunes.app"), $csi)
+	if not failure
+		failure = validate(File.expand_path("#{$build_root}/growltunes/#{$configuration}/GrowlTunes.app"), $csi)
+		exit(failure) if failure
+	end
+	
     FileUtils.cd("#{$build_root}/growltunes/#{$configuration}")
     if !$beta
-      system "productbuild --component GrowlTunes.app /Applications --sign \"#{$csi}\" GrowlTunes.pkg && cp -Rp GrowlTunes.pkg #{$product_root}"
+      system "productbuild --component GrowlTunes.app /Applications --sign \"#{$csi_installer}\" GrowlTunes.pkg && cp -Rp GrowlTunes.pkg #{$product_root}"
     else
       system "zip -r -y #{$product_root}/GrowlTunes-#{$growl_version}.zip GrowlTunes.app/"
     end
@@ -292,88 +311,17 @@ namespace "package" do
     FileUtils.cp_r("#{$build_root}/pluginframework/#{$configuration}/GrowlPlugins.framework", "Plugin Development", :remove_destination => true)
     FileUtils.ln_s("../GrowlPlugins.framework", "Plugin Development/GrowlView.xctemplate/GrowlPlugins.framework")
 
-    #codesign the sdk for developer id
+    #codesign the sdk
 
-    #system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v #{$destdir}/Growl-#{$growl_version}-SDK/Developer\ Tools/BeepHammer.app/"
+    #resign(File.expand_path("#{$destdir}/Growl-#{$growl_version}-SDK/Developer\ Tools/BeepHammer.app/"), $sdk_csi)
 
     
     FileUtils.cd("..")
     system "zip -r -y #{$product_root}/Growl-#{$growl_version}-SDK.zip Growl-#{$growl_version}-SDK/"
 
   end
-  
-
-end
-
-
-desc "developer id codesign HWG"
-task :codesign_hwg do
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Library/LoginItems/HardwareGrowlerLauncher.app/"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Library/LoginItems/HardwareGrowlerLauncher.app/Conents/MacOS/HardwareGrowlerLauncher"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/BluetoothMonitor.hwgrowlmonitor/Contents/MacOS/BluetoothMonitor"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/FirewireMonitor.hwgrowlmonitor/Contents/MacOS/FirewireMonitor"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/KeyboardMonitor.hwgrowlmonitor/Contents/MacOS/KeyboardMonitor"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/NetworkMonitor.hwgrowlmonitor/Contents/MacOS/NetworkMonitor"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/PowerMonitor.hwgrowlmonitor/Contents/MacOS/PowerMonitor"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/USBMonitor.hwgrowlmonitor/Contents/MacOS/USBMonitor"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Plugins/VolumeMonitor.hwgrowlmonitor/Contents/MacOS/VolumeMonitor"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/XPCServices/com.growl.HardwareGrowler.GNTPClientService.xpc/"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/XPCServices/com.growl.HardwareGrowler.GNTPClientService.xpc/Contents/MacOS/com.growl.HardwareGrowler.GNTPClientService"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/HardwareGrowler.app/Contents/Frameworks/Growl.framework/"
 end
 
 
 
 
-
-
-
-
-
-
-desc "developer id codesign GrowlTunes"
-task :codesign_gt do
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/GrowlTunes.app/"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/GrowlTunes.app/Contents/Library/LoginItems/GrowlTunesLauncher.app/"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/GrowlTunes.app/Contents/Library/LoginItems/GrowlTunesLauncher.app/Contents/MacOS/GrowlTunesLauncher"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/GrowlTunes.app/Contents/XPCServices/com.growl.GrowlTunes.GNTPClientService.xpc/"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/GrowlTunes.app/Contents/XPCServices/com.growl.GrowlTunes.GNTPClientService.xpc/Contents/MacOS/com.growl.GrowlTunes.GNTPClientService"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/GrowlTunes.app/Contents/Frameworks/Growl.framework/"
-end
-
-
-
-
-
-
-
-
-
-
-
-
-desc "developer id codesign Growl"
-task :codesign_growl do
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/PlugIns/Speech.growlView/Contents/MacOS/Speech"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/PlugIns/SoundAction.growlView/Contents/MacOS/SoundAction"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/PlugIns/SMS.growlView/Contents/MacOS/SMS"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/PlugIns/Smoke.growlView/Contents/MacOS/Smoke"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/PlugIns/Prowl.growlView/Contents/MacOS/Prowl"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/PlugIns/Nano.growlView/Contents/MacOS/Nano"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/PlugIns/MusicVideo.growlView/Contents/MacOS/MusicVideo"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/PlugIns/MailMe.growlView/Contents/MacOS/MailMe"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/PlugIns/iCal.growlView/Contents/MacOS/iCal"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/PlugIns/Bubbles.growlView/Contents/MacOS/Bubbles"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/PlugIns/Brushed.growlView/Contents/MacOS/Brushed"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/PlugIns/Boxcar.growlView/Contents/MacOS/Boxcar"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/PlugIns/Bezel.growlView/Contents/MacOS/Bezel"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/Frameworks/GrowlPlugins.framework/Versions/A/GrowlPlugins" 
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v \"distribution/product/Growl.app/Contents/Library/Automator/Show Growl Notification.action\""
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/Frameworks/ShortcutRecorder.framework/Versions/A/ShortcutRecorder"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/Library/LoginItems/GrowlLauncher.app/"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/Library/LoginItems/GrowlLauncher.app/Contents/MacOS/GrowlLauncher"
- system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v distribution/product/Growl.app/Contents/MacOS/Growl"
-
-end
