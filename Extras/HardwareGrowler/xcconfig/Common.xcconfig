@@ -8,5 +8,5 @@
 
 #include "../../xcconfig/Common.xcconfig"
 
-HWG_VERSION = 2.0b7
+HWG_VERSION = 2.0b9
 COPYRIGHT = Copyright © 2012 The Growl Project, LLC. All rights reserved.
