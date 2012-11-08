@@ -195,7 +195,11 @@ static dispatch_queue_t bufferQueue = NULL;
 				[[blockSelf scheduledReads] removeObject:obj];
 				//NSLog(@"Passing read data to delegate:\n%@", [[[NSString alloc] initWithData:readData encoding:NSUTF8StringEncoding] autorelease]);
 				if([[blockSelf delegate] respondsToSelector:@selector(socket:didReadData:withTag:)]){
-					[[blockSelf delegate] socket:(GCDAsyncSocket*)blockSelf didReadData:readData withTag:[obj tag]];
+					dispatch_async([[blockSelf socket] delegateQueue], ^{
+						@autoreleasepool {
+							[[blockSelf delegate] socket:(GCDAsyncSocket*)blockSelf didReadData:readData withTag:[obj tag]];
+						}
+					});
 				}
 			}
 		}
@@ -477,21 +481,27 @@ static dispatch_queue_t bufferQueue = NULL;
 	}
 }
 - (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag {
-	[_delegate socket:sock didWriteDataWithTag:tag];
+	if([_delegate respondsToSelector:@selector(socket:didWriteDataWithTag:)]){
+		[_delegate socket:sock didWriteDataWithTag:tag];
+	}
 }
 - (NSTimeInterval)socket:(GCDAsyncSocket *)sock
 shouldTimeoutReadWithTag:(long)tag
 					  elapsed:(NSTimeInterval)elapsed
 					bytesDone:(NSUInteger)length
 {
-	return [_delegate socket:sock shouldTimeoutReadWithTag:tag elapsed:elapsed bytesDone:length];
+	if([_delegate respondsToSelector:@selector(socket:shouldTimeoutReadWithTag:elapsed:bytesDone:)])
+		return [_delegate socket:sock shouldTimeoutReadWithTag:tag elapsed:elapsed bytesDone:length];
+	return -1.0;
 }
 - (NSTimeInterval)socket:(GCDAsyncSocket *)sock
 shouldTimeoutWriteWithTag:(long)tag
 					  elapsed:(NSTimeInterval)elapsed
 					bytesDone:(NSUInteger)length
 {
-	return [_delegate socket:sock shouldTimeoutWriteWithTag:tag elapsed:elapsed bytesDone:length];
+	if([_delegate respondsToSelector:@selector(socket:shouldTimeoutWriteWithTag:elapsed:bytesDone:)])
+		return [_delegate socket:sock shouldTimeoutWriteWithTag:tag elapsed:elapsed bytesDone:length];
+	return -1.0;
 }
 - (void)socketDidCloseReadStream:(GCDAsyncSocket *)sock {
 	//We might want to know about this
@@ -500,7 +510,8 @@ shouldTimeoutWriteWithTag:(long)tag
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock
 						withError:(NSError *)err
 {
-	[_delegate socketDidDisconnect:sock withError:err];
+	if([_delegate respondsToSelector:@selector(socketDidDisconnect:withError:)])
+		[_delegate socketDidDisconnect:sock withError:err];
 }
 
 @end
