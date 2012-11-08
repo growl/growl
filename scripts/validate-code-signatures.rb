@@ -24,12 +24,8 @@ Find.find(ARGV.shift) do |path|
 		break
 	end
 	fileCheck = %x{/usr/bin/file -h "#{path}"}
-	if fileCheck.include? "Mach-O universal binary"  or 
-        fileCheck.include? "Mach-O 64-bit bundle" or
-        fileCheck.include? "Mach-O 64-bit dynamically linked shared library"
-        
+	if fileCheck.include? "Mach-O"         
 		#we found a binary now lets call codesign on it and see if it has the right signer
-		
 		codesign_command = IO.popen("codesign -dvvv \"#{path}\" 2>&1")
 		candidate_lines = codesign_command.readlines
 		lines = candidate_lines.select {|v| v =~ /Authority=/}
