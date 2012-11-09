@@ -8,6 +8,6 @@
 
 #include "../../xcconfig/Common.xcconfig"
 
-HWG_VERSION = 2.0b9
+HWG_VERSION = 2.0b10
 COPYRIGHT = Copyright © 2012 The Growl Project, LLC. All rights reserved.
 MACOSX_DEPLOYMENT_TARGET = 10.7
