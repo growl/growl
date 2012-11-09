@@ -1384,7 +1384,7 @@
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{500, 230}</string>
 				<object class="NSView" key="NSWindowView" id="439893737">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSTabView" id="2869596">
@@ -1392,8 +1392,6 @@
 							<int key="NSvFlags">18</int>
 							<string key="NSFrameSize">{500, 231}</string>
 							<reference key="NSSuperview" ref="439893737"/>
-							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="550899564"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<array class="NSMutableArray" key="NSTabViewItems">
 								<object class="NSTabViewItem" id="107040842">
@@ -1408,7 +1406,6 @@
 												<array class="NSMutableArray" key="NSSubviews"/>
 												<string key="NSFrame">{{205, 158}, {93, 28}}</string>
 												<reference key="NSSuperview" ref="550899564"/>
-												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="46816451"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<string key="NSClassName">GrowlOnSwitch</string>
@@ -1418,7 +1415,6 @@
 												<int key="NSvFlags">266</int>
 												<string key="NSFrame">{{17, 194}, {466, 17}}</string>
 												<reference key="NSSuperview" ref="550899564"/>
-												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="509407633"/>
 												<string key="NSReuseIdentifierKey">_NS:1505</string>
 												<bool key="NSEnabled">YES</bool>
@@ -1459,7 +1455,6 @@
 												<int key="NSvFlags">268</int>
 												<string key="NSFrame">{{17, 99}, {213, 26}}</string>
 												<reference key="NSSuperview" ref="550899564"/>
-												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="48118041"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="NSEnabled">YES</bool>
@@ -1540,7 +1535,6 @@
 												<int key="NSvFlags">268</int>
 												<string key="NSFrame">{{17, 131}, {416, 17}}</string>
 												<reference key="NSSuperview" ref="550899564"/>
-												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="934404380"/>
 												<string key="NSReuseIdentifierKey">_NS:1505</string>
 												<bool key="NSEnabled">YES</bool>
@@ -1561,7 +1555,6 @@
 												<int key="NSvFlags">266</int>
 												<string key="NSFrame">{{18, 66}, {414, 18}}</string>
 												<reference key="NSSuperview" ref="550899564"/>
-												<reference key="NSWindow"/>
 												<string key="NSReuseIdentifierKey">_NS:9</string>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSButtonCell" key="NSCell" id="51660978">
@@ -1592,7 +1585,6 @@
 												<int key="NSvFlags">267</int>
 												<string key="NSFrame">{{303, 161}, {180, 22}}</string>
 												<reference key="NSSuperview" ref="550899564"/>
-												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="344794784"/>
 												<string key="NSReuseIdentifierKey">_NS:1535</string>
 												<bool key="NSEnabled">YES</bool>
@@ -1617,7 +1609,6 @@
 												<int key="NSvFlags">270</int>
 												<string key="NSFrame">{{17, 161}, {180, 22}}</string>
 												<reference key="NSSuperview" ref="550899564"/>
-												<reference key="NSWindow"/>
 												<reference key="NSNextKeyView" ref="166661152"/>
 												<string key="NSReuseIdentifierKey">_NS:1535</string>
 												<bool key="NSEnabled">YES</bool>
@@ -1636,7 +1627,6 @@
 										</array>
 										<string key="NSFrameSize">{500, 231}</string>
 										<reference key="NSSuperview" ref="2869596"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="86066140"/>
 										<string key="NSReuseIdentifierKey">_NS:11</string>
 									</object>
@@ -1899,8 +1889,6 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{500, 231}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="2869596"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
@@ -1949,7 +1937,7 @@
 				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
 			</object>
 			<object class="NSCustomView" id="190147470">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSTextField" id="725970683">
@@ -1957,7 +1945,6 @@
 						<int key="NSvFlags">314</int>
 						<string key="NSFrame">{{-3, 36}, {188, 17}}</string>
 						<reference key="NSSuperview" ref="190147470"/>
-						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:1505</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="354748910">
@@ -1979,8 +1966,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{182, 89}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="725970683"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<string key="NSClassName">NSView</string>
@@ -4648,25 +4633,6 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">AppDelegate</string>
 					<string key="superclassName">NSObject</string>
-					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="moduleCheckbox:">id</string>
-						<string key="selectTab:">id</string>
-						<string key="showPreferences:">id</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="moduleCheckbox:">
-							<string key="name">moduleCheckbox:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="selectTab:">
-							<string key="name">selectTab:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="showPreferences:">
-							<string key="name">showPreferences:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="containerView">NSView</string>
 						<string key="currentView">NSView</string>
@@ -4844,7 +4810,7 @@
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<integer value="1070" key="NS.object.0"/>
+			<real value="1070" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
