@@ -83,7 +83,10 @@ static void GNTP_event_handler(xpc_connection_t peer)
 
 int main(int argc, const char *argv[])
 {
-	notifier = [[GrowlNotifier alloc] init];
-	xpc_main(GNTP_event_handler);
+	@autoreleasepool
+    {
+        notifier = [[GrowlNotifier alloc] init];
+        xpc_main(GNTP_event_handler);
+    }
 	return 0;
 }

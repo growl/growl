@@ -49,6 +49,19 @@
 	}
 }
 
+- (void)setConnection:(xpc_connection_t)newConnection
+{
+    if(newConnection)
+    {
+        if(connection)
+        {
+            xpc_release(connection);
+            connection = nil;
+        }
+        connection = xpc_retain(newConnection);
+    }
+}
+
 - (NSString *)purpose
 {
 	return @"erehwon";

@@ -79,6 +79,19 @@ enum {
 	[super dealloc];
 }
 
+- (void)setConnection:(xpc_connection_t)newConnection
+{
+    if(newConnection)
+    {
+        if(connection)
+        {
+            xpc_release(connection);
+            connection = nil;
+        }
+        connection = xpc_retain(newConnection);
+    }
+}
+
 -(NSData*)outgoingData {
 	NSAssert1(NO, @"Subclass dropped the ball: Communication attempt %@  does not know how to create a GNTP packet", self);
 	return nil;
