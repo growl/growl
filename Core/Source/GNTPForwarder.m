@@ -143,20 +143,19 @@
 }
 
 - (void)removeEntryAtIndex:(NSUInteger)index {
-   if(index >= [destinations count])
-      return;
+    if(index >= [destinations count])
+        return;
    
-   GrowlBrowserEntry *toRemove = [destinations objectAtIndex:index];
-   [self willChangeValueForKey:@"destinations"];
-   [destinations removeObjectAtIndex:index];
-   [self didChangeValueForKey:@"destinations"];
-   [self writeForwardDestinations];
-   
-   if(![toRemove password])
-      return;
-   
-   if(![GrowlKeychainUtilities removePasswordForService:GrowlOutgoingNetworkPassword accountName:[toRemove uuid]])
-      NSLog(@"Error removing password from keychain for %@", [toRemove computerName]);
+    GrowlBrowserEntry *toRemove = [destinations objectAtIndex:index];
+    
+    if([toRemove password])
+        if(![GrowlKeychainUtilities removePasswordForService:GrowlOutgoingNetworkPassword accountName:[toRemove uuid]])
+            NSLog(@"Error removing password from keychain for %@", [toRemove computerName]);
+
+    [self willChangeValueForKey:@"destinations"];
+    [destinations removeObjectAtIndex:index];
+    [self didChangeValueForKey:@"destinations"];
+    [self writeForwardDestinations];
 }
 
 - (void)writeForwardDestinations {
