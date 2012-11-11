@@ -45,7 +45,6 @@
 // they only will go away if removed by the user.  Default is 120 seconds.
 #define GROWL_FRAMEWORK_NOTIFICATIONCENTER_DURATION @"com.growl.growlframework.nsusernotification.lifetime"
 
-// This may not be the best solution. Rather not use __has_feature(arc). 
 #ifdef __clang_major__ 
 #if __clang_major__ > 2
 #define AUTORELEASEPOOL_START @autoreleasepool {
