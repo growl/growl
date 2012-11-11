@@ -29,10 +29,10 @@ static BOOL awoken = NO;
 + (void)load
 {
    if (self == [GrowlHostNameTransformer class]) {
-      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-      [self setValueTransformer:[[[self alloc] init] autorelease]
-                        forName:@"GrowlHostNameTransformer"];
-      [pool release];
+       @autoreleasepool {
+           [self setValueTransformer:[[[self alloc] init] autorelease]
+                             forName:@"GrowlHostNameTransformer"];
+       }
    }
 }
 
