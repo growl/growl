@@ -11,14 +11,11 @@
 		BC0D52A916238EB50027B326 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0D52A816238EB50027B326 /* AppKit.framework */; };
 		BC0D52AB16238EB50027B326 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0D52AA16238EB50027B326 /* Foundation.framework */; };
 		BC0D52B116238EB50027B326 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC0D52AF16238EB50027B326 /* InfoPlist.strings */; };
-		BC0D52B516238EB50027B326 /* ScriptActionPrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC0D52B316238EB50027B326 /* ScriptActionPrefPane.xib */; };
 		BC0D52BA16238EB50027B326 /* GrowlScriptActionPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0D52B916238EB50027B326 /* GrowlScriptActionPreferencePane.m */; };
 		BC0D52BD16238EB50027B326 /* GrowlScriptAction.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0D52BC16238EB50027B326 /* GrowlScriptAction.m */; };
 		BC0D52F616238F350027B326 /* GrowlPlugins.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0D52DD16238EC50027B326 /* GrowlPlugins.framework */; };
-		BCA377461624458D003ABCD2 /* Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCA377421624458D003ABCD2 /* Common.xcconfig */; };
-		BCA377471624458D003ABCD2 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCA377431624458D003ABCD2 /* Debug.xcconfig */; };
-		BCA377481624458D003ABCD2 /* Localization.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCA377441624458D003ABCD2 /* Localization.xcconfig */; };
-		BCA377491624458D003ABCD2 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = BCA377451624458D003ABCD2 /* Release.xcconfig */; };
+		BC5B5CA21650A34700A278FD /* ScriptActionPrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5B5CA11650A34700A278FD /* ScriptActionPrefPane.xib */; };
+		BC5B5CA51650A35000A278FD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC5B5CA31650A35000A278FD /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,7 +134,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		93A042EB1382169500C46F0A /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../../xcconfig/Release.xcconfig; sourceTree = SOURCE_ROOT; };
 		BC0D52A316238EB50027B326 /* ScriptAction.growlView */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScriptAction.growlView; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC0D52A616238EB50027B326 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BC0D52A816238EB50027B326 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -145,12 +141,13 @@
 		BC0D52AE16238EB50027B326 /* ScriptAction-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ScriptAction-Info.plist"; sourceTree = "<group>"; };
 		BC0D52B016238EB50027B326 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BC0D52B216238EB50027B326 /* ScriptAction-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ScriptAction-Prefix.pch"; sourceTree = "<group>"; };
-		BC0D52B416238EB50027B326 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ScriptActionPrefPane.xib; sourceTree = "<group>"; };
 		BC0D52B816238EB50027B326 /* GrowlScriptActionPreferencePane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlScriptActionPreferencePane.h; sourceTree = "<group>"; };
 		BC0D52B916238EB50027B326 /* GrowlScriptActionPreferencePane.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlScriptActionPreferencePane.m; sourceTree = "<group>"; };
 		BC0D52BB16238EB50027B326 /* GrowlScriptAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlScriptAction.h; sourceTree = "<group>"; };
 		BC0D52BC16238EB50027B326 /* GrowlScriptAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GrowlScriptAction.m; sourceTree = "<group>"; };
 		BC0D52C316238EC50027B326 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../../../Growl.xcodeproj; sourceTree = "<group>"; };
+		BC5B5CA11650A34700A278FD /* ScriptActionPrefPane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScriptActionPrefPane.xib; sourceTree = "<group>"; };
+		BC5B5CA41650A35000A278FD /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCA377421624458D003ABCD2 /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../../xcconfig/Common.xcconfig; sourceTree = "<group>"; };
 		BCA377431624458D003ABCD2 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../../xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
 		BCA377441624458D003ABCD2 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../../xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
@@ -216,7 +213,8 @@
 			isa = PBXGroup;
 			children = (
 				BC0D52C316238EC50027B326 /* Growl.xcodeproj */,
-				BC0D52B316238EB50027B326 /* ScriptActionPrefPane.xib */,
+				BC5B5CA31650A35000A278FD /* Localizable.strings */,
+				BC5B5CA11650A34700A278FD /* ScriptActionPrefPane.xib */,
 				BC0D52AE16238EB50027B326 /* ScriptAction-Info.plist */,
 				BC0D52AF16238EB50027B326 /* InfoPlist.strings */,
 				BC0D52B216238EB50027B326 /* ScriptAction-Prefix.pch */,
@@ -425,11 +423,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC0D52B116238EB50027B326 /* InfoPlist.strings in Resources */,
-				BC0D52B516238EB50027B326 /* ScriptActionPrefPane.xib in Resources */,
-				BCA377461624458D003ABCD2 /* Common.xcconfig in Resources */,
-				BCA377471624458D003ABCD2 /* Debug.xcconfig in Resources */,
-				BCA377481624458D003ABCD2 /* Localization.xcconfig in Resources */,
-				BCA377491624458D003ABCD2 /* Release.xcconfig in Resources */,
+				BC5B5CA21650A34700A278FD /* ScriptActionPrefPane.xib in Resources */,
+				BC5B5CA51650A35000A278FD /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,12 +479,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		BC0D52B316238EB50027B326 /* ScriptActionPrefPane.xib */ = {
+		BC5B5CA31650A35000A278FD /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				BC0D52B416238EB50027B326 /* en */,
+				BC5B5CA41650A35000A278FD /* en */,
 			);
-			name = ScriptActionPrefPane.xib;
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -531,7 +526,6 @@
 		};
 		BC0D52BF16238EB50027B326 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93A042EB1382169500C46F0A /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -574,7 +568,6 @@
 		};
 		BC0D52C216238EB50027B326 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93A042EB1382169500C46F0A /* Release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

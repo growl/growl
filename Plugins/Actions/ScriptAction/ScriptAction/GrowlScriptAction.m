@@ -80,15 +80,24 @@
 	return result;
 }
 
+-(NSArray*)defaultArgumentsArray {
+	static NSArray *_arguments = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_arguments = [@[@"GNTP Notification Sent-By",
+						  GROWL_APP_NAME,
+						  GROWL_NOTIFICATION_NAME,
+						  GROWL_NOTIFICATION_TITLE,
+						  GROWL_NOTIFICATION_DESCRIPTION,
+						  GROWL_NOTIFICATION_PRIORITY,
+						  GROWL_NOTIFICATION_STICKY,
+						  GROWL_NOTIFICATION_ICON_DATA] retain];
+	});
+	return _arguments;
+}
+
 -(NSArray*)unixArgumentsForDictionary:(NSDictionary*)dict {
-	return [self unixArgumentsForDictionary:dict withOrderedKeys:[NSArray arrayWithObjects:@"GNTP Notification Sent-By",
-																					  GROWL_APP_NAME,
-																					  GROWL_NOTIFICATION_NAME,
-																					  GROWL_NOTIFICATION_TITLE,
-																					  GROWL_NOTIFICATION_DESCRIPTION,
-																					  GROWL_NOTIFICATION_PRIORITY,
-																					  GROWL_NOTIFICATION_STICKY,
-																					  GROWL_NOTIFICATION_ICON_DATA, nil]];
+	return [self unixArgumentsForDictionary:dict withOrderedKeys:[self defaultArgumentsArray]];
 }
 
 
@@ -123,7 +132,7 @@
          [(NSUserUnixTask*)scriptTask setStandardInput:[NSFileHandle fileHandleWithStandardInput]];
          [(NSUserUnixTask*)scriptTask setStandardOutput:[NSFileHandle fileHandleWithStandardOutput]];
          [(NSUserUnixTask*)scriptTask setStandardError:[NSFileHandle fileHandleWithStandardError]];
-			NSArray *argumentKeys = [configuration valueForKey:@"ScriptActionUnixArgumentOrder"];
+			NSArray *argumentKeys = [configuration valueForKey:@"ScriptActionUnixArguments"];
 			NSArray *arguments = nil;
 			if(argumentKeys)
 				arguments = [self unixArgumentsForDictionary:notification withOrderedKeys:argumentKeys];
