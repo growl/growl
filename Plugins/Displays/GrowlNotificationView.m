@@ -21,6 +21,21 @@
 	return self;
 }
 
+- (id) initWithFrame:(NSRect)frameRect {
+	if((self = [super initWithFrame:frameRect])){
+		NSDictionary *bundleDict = [[NSBundle bundleForClass:[self class]] infoDictionary];
+		CGFloat xOrig = 0;
+		CGFloat yOrig = 0;
+		if([bundleDict objectForKey:@"GrowlCloseButtonXOrigin"])
+			xOrig = [[bundleDict objectForKey:@"GrowlCloseButtonXOrigin"] floatValue];
+		if([bundleDict objectForKey:@"GrowlCloseButtonYOrigin"])
+			yOrig = [[bundleDict objectForKey:@"GrowlCloseButtonYOrigin"] floatValue];
+		
+		closeBoxOrigin = NSMakePoint(xOrig,yOrig);
+	}
+	return self;
+}
+
 #pragma mark -
 
 - (BOOL) shouldDelayWindowOrderingForEvent:(NSEvent *)theEvent {
@@ -79,18 +94,55 @@
     [self clickedCloseBox:self];
 }
 
-static NSButton *gCloseButton;
+static NSMutableDictionary *buttonDict = nil;
+static NSButton *gCloseButton = nil;
++ (void)initialize {
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		buttonDict = [[NSMutableDictionary alloc] init];
+		gCloseButton = [[NSButton alloc] initWithFrame:NSMakeRect(0,0,30,30)];
+		[gCloseButton setBezelStyle:NSRegularSquareBezelStyle];
+		[gCloseButton setBordered:NO];
+		[gCloseButton setButtonType:NSMomentaryChangeButton];
+		[gCloseButton setImagePosition:NSImageOnly];
+		[gCloseButton setImage:[NSImage imageNamed:@"closebox"]];
+		[gCloseButton setAlternateImage:[NSImage imageNamed:@"closebox_pressed"]];
+	});
+}
+
 + (NSButton *) closeButton {
-	if (!gCloseButton) {
-	    gCloseButton = [[NSButton alloc] initWithFrame:NSMakeRect(0,0,30,30)];
-	    [gCloseButton setBezelStyle:NSRegularSquareBezelStyle];
-	    [gCloseButton setBordered:NO];
-	    [gCloseButton setButtonType:NSMomentaryChangeButton];
-	    [gCloseButton setImagePosition:NSImageOnly];
-	    [gCloseButton setImage:[NSImage imageNamed:@"closebox"]];
-	    [gCloseButton setAlternateImage:[NSImage imageNamed:@"closebox_pressed"]];
-	}
 	return gCloseButton;
+}
+
++ (NSButton *) closeButtonForKey:(NSString*)key {
+	NSButton *result = nil;
+	if(key && buttonDict){
+		result = [buttonDict valueForKey:key];
+	}
+	if(!result){
+		result = gCloseButton;
+	}
+	return result;
+}
+
++ (void)makeButtonWithImage:(NSImage*)image pressedImage:(NSImage*)pressed forKey:(NSString*)key {
+	if(key && (image || pressed)){
+		NSButton *button = [[NSButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 30.0)];
+		[button setBezelStyle:NSRegularSquareBezelStyle];
+		[button setBordered:NO];
+		[button setButtonType:NSMomentaryChangeButton];
+		[button setImagePosition:NSImageOnly];
+		[button setImage:image ? image : [NSImage imageNamed:@"closebox"]];
+		[button setAlternateImage:pressed ? pressed : [NSImage imageNamed:@"closebox_pressed"]];
+		[self setButton:button forKey:key];
+		[button release];
+	}
+}
+
++ (void)setButton:(NSButton*)button forKey:(NSString*)key {
+	if(key && button){
+		[buttonDict setObject:button forKey:key];
+	}
 }
 
 - (BOOL) showsCloseBox {
@@ -118,14 +170,14 @@ static NSButton *gCloseButton;
 
 - (void) setCloseBoxVisible:(BOOL)yorn {
 	if ([self showsCloseBox]) {
-		[GrowlNotificationView closeButton];
-		[gCloseButton setTarget:self];
-		[gCloseButton setAction:@selector(clickedCloseBox:)];
-		[gCloseButton setFrameOrigin:closeBoxOrigin];
+		NSButton *button = [GrowlNotificationView closeButtonForKey:[self buttonKey]];
+		[button setTarget:self];
+		[button setAction:@selector(clickedCloseBox:)];
+		[button setFrameOrigin:closeBoxOrigin];
 		if(yorn)
-			[self addSubview:gCloseButton];
+			[self addSubview:button];
 		else 
-			[gCloseButton removeFromSuperview];
+			[button removeFromSuperview];
 	}
 }
 
@@ -158,6 +210,10 @@ static NSButton *gCloseButton;
 	if([[[self window] windowController] respondsToSelector:@selector(configurationDict)])
 		return [[[self window] windowController] configurationDict];
 	return nil;
+}
+
+-(NSString*)buttonKey {
+	return [[NSBundle bundleForClass:[self class]] bundleIdentifier];
 }
 
 @end

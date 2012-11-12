@@ -30,6 +30,8 @@
 @property (nonatomic, retain) NSString *defaultStartingPositionLabel;
 @property (nonatomic, retain) NSArray *iconMenuOptionsList;
 
+@property (nonatomic, assign) BOOL showRulesUI;
+
 -(IBAction)startGrowlAtLogin:(id)sender;
 -(IBAction)useAppleNotificationCenter:(id)sender;
 

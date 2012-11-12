@@ -91,4 +91,10 @@
 	return color;
 }
 
+/* Private internal method for certain actions */
+-(void)_setDisplayName:(NSString*)displayName {
+   if(self.pluginConfiguration)
+      [self.pluginConfiguration setValue:displayName forKey:@"displayName"];
+}
+
 @end

@@ -7,11 +7,13 @@
 //
 
 #import "GrowlPrefsViewController.h"
+#import <WebKit/WebKit.h>
 
 @interface GrowlAboutViewController : GrowlPrefsViewController
 
 @property (nonatomic, assign) IBOutlet NSTextField *aboutVersionString;
-@property (nonatomic, assign) IBOutlet NSTextView *aboutBoxTextView;
+//@property (nonatomic, assign) IBOutlet NSTextView *aboutBoxTextView;
+@property (nonatomic, assign) IBOutlet WebView *aboutWebView;
 
 @property (nonatomic, retain) NSString *bugSubmissionLabel;
 @property (nonatomic, retain) NSString *growlWebsiteLabel;
