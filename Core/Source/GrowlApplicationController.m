@@ -842,8 +842,11 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                     }
                                  
                                  }else{
-                                    if(logRuleResult){
-                                       NSLog(@"Unrecognized rule return type, sending to the default system");
+												if(logRuleResult){
+													if(result && [result descriptorType] == typeNull)
+														NSLog(@"Returned nothing, sending to the default system");
+													else
+														NSLog(@"Unrecognized rule return type, sending to the default system");
                                     }
                                     [blockSelf dispatchByClassicWithFilledInDict:copyDict];
                                  }
