@@ -1,0 +1,191 @@
+/* LCD Growl Display Style                      */
+/* © 2012 George Lambrou, The Growl Project LLC */
+
+/* Style rules for everything; it's all '!important' because NONE OF IT SHOULD BE OVERRIDDEN. */
+* {
+
+	/* Makes it so 'width' and 'height' properties aren't affected by padding.
+		Turns out, this one line of CSS is basically magic. */
+	box-sizing: border-box !important;
+
+	/* Make the WebKit view behave like native controls. */
+	-webkit-user-select: none !important;
+	cursor: default !important;
+
+	/* Global Font Rules */
+	font-family: "Lucida Grande" !important;
+	font-size: 11px !important;
+}
+
+
+/* Notification Box */
+#notification {
+	display: block;
+	position: relative;
+
+	border-radius: 8px;
+	width: 250px;
+	min-height: 46px;
+
+	/* Backgrounds */
+	background-color: rgba(255,255,255, 0.925);
+	background-image:	-webkit-linear-gradient(rgba(255,255,255, 0.75),
+												rgba(255,255,255, 0.1875) 24px,
+												rgba(255,255,255, 0) 24px),
+	
+						-webkit-radial-gradient(50% 100%,
+												65% 100%,
+												rgba(207, 210, 210, 0.75),
+												rgba(159, 162, 162, 0.25)),
+						
+						url('noise@2x.png');
+						
+	background-size: auto, auto, 320px 160px;
+	
+	/* Inner Shadows */
+	box-shadow:         0px 1px 1px rgba(255,255,255,0.75) inset,		/* White Inset Shadow (Bevel Highlight) */
+						0px 0px 1px rgba(255,255,255,0.50) inset,		/* White Inner Glow */
+						20px 0px 15px -12px rgba(0,0,0, 0.075) inset,	/* Black Left Inner Glow */
+						-20px 0px 15px -12px rgba(0,0,0, 0.075) inset;	/* Black Right Inner Glow */
+	
+	/* Just a couple notes on the shadows, the left and right inner glows may
+		SEEM redundant at first, but they're actually really nice little
+		touches that help give the style a bit more of a 3D feel. */
+	
+	/* Padding; the shorthand is for top and bottom values, which should be even. */
+	padding: 6px;
+	padding-left: 60px;
+	padding-right: 10px;
+	
+	/* Clip everything outside of the border box. */
+	background-clip: border-box;
+}
+
+/* Gloss Overlay */
+#gloss {
+	position: absolute;
+	
+	border-radius: 8px 8px 0px 0px;
+	
+	display: none;
+
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	
+	height: 23px;
+	
+	background-image: -webkit-linear-gradient(	#ffffff,
+												rgba(255,255,255,0.25));
+	
+	opacity: 0.75;
+	
+	z-index: 0;
+}
+
+#closeButton {
+
+	/* Location and size; the div is a lot bigger than it looks to provide a
+		large click target for users. */
+	display: block;
+	position: absolute;
+	top: -5px;
+	left: -5px;
+	width: 30px;
+	height: 29px;
+	
+	/* Background image and its properties; the @2x version is used because it
+		looks fine scaled down, and I can't rely on retina CSS. */
+	background-image: url('closeButton@2x.png');
+	background-size: 20px 19px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	
+	z-index: 3;
+	
+	/* The close button becomes more visible when the notification is hovered
+		over; we don't need to distract users with it unless they start
+		interacting with the banner. */
+	opacity: 0.375;
+	-webkit-transition: opacity 0.25s ease-in-out;
+}
+
+#notification:hover #closeButton {
+	opacity: 1;
+}
+
+#closeButton:active {
+	background-image: url('closeButton-Pressed@2x.png');
+}
+
+img#icon {
+	display: block;
+	
+	z-index: 1;
+	
+	border-radius: 2px;
+	
+	position: absolute;
+	
+	/* I swear, this was in no way intentional, it just sorta… happened.
+		That's not to say that I'm not happy about it, though. */
+	top: 7px;
+	left: 21px;
+
+	width: 32px;
+	height: 32px;
+	
+	-webkit-filter: drop-shadow(0px 0px 1px rgba(0,0,0, 0.25))
+					drop-shadow(0px 1px 3px rgba(0,0,0, 0.25));
+}
+
+img#icon {
+	display: block;
+	
+	z-index: 1;
+	
+	border-radius: 2px;
+	
+	position: absolute;
+	
+	/* I swear, this was in no way intentional, it just sorta… happened.
+		That's not to say that I'm not happy about it, though. */
+	top: 7px;
+	left: 21px;
+
+	width: 32px;
+	height: 32px;
+	
+	-webkit-filter: drop-shadow(0px 0px 1px rgba(0,0,0, 0.25))
+					drop-shadow(0px 1px 3px rgba(0,0,0, 0.25));
+}
+
+
+h1, p {
+	text-shadow:	0px 0px 1px rgba(255,255,255, 0.5),
+					0px 1px 4px rgba(0,0,0, 0.5);
+
+	font-size: 11px;
+	
+	margin: 2px;
+	margin-left: 0px;
+	margin-right: 0px;
+	
+	z-index: 4;
+}
+
+h1 {
+	display: inline-block;
+	
+	color: rgba(14,15,14, 1);
+
+	-webkit-mask-image: -webkit-linear-gradient(	rgba(14,15,14, 0.4),
+													rgba(14,15,14, 0.7));
+	
+	font-weight: bold;
+}
+
+p {
+	color: rgba(14,15,14, 0.50);
+	text-shadow:	0px 1px 4px rgba(0,0,0, 0.3);
+}

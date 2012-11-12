@@ -354,6 +354,7 @@
 		BC86961B15114B050034963A /* GrowlKeychainUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCFBF101475768500348DA9 /* GrowlKeychainUtilities.m */; };
 		BC86961C15114B090034963A /* GrowlKeychainUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = BCCFBF0F1475768500348DA9 /* GrowlKeychainUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC86961F15114B560034963A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95E678F307511471002BF4E6 /* Security.framework */; };
+		BC89B5F91651AA3500155298 /* LCD.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = BC89B5F81651AA1D00155298 /* LCD.growlStyle */; };
 		BC8F616815F00AFE00DEC0A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A33014D704C000B055FE /* Localizable.strings */; };
 		BC8F617315F00C2E00DEC0A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A32A14D6F9D300B055FE /* Localizable.strings */; };
 		BC8F617C15F00CCA00DEC0A8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC80A32D14D7049A00B055FE /* Localizable.strings */; };
@@ -844,6 +845,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				BC89B5F91651AA3500155298 /* LCD.growlStyle in Copy Growl Styles */,
 				BCA3774C162446BE003ABCD2 /* ScriptAction.growlView in Copy Growl Styles */,
 				BCCB23E115372D310064FD1D /* MailMe.growlView in Copy Growl Styles */,
 				113EA428152BEEC20070C235 /* Prowl.growlView in Copy Growl Styles */,
@@ -1516,6 +1518,7 @@
 		BC8696011510E9150034963A /* GrowlIdleStatusObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlIdleStatusObserver.m; path = Plugins/PluginFramework/GrowlIdleStatusObserver.m; sourceTree = "<group>"; };
 		BC88FEA915F38DD7008C5849 /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC88FEAA15F38E02008C5849 /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BC89B5F81651AA1D00155298 /* LCD.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = LCD.growlStyle; path = Core/Resources/LCD.growlStyle; sourceTree = "<group>"; };
 		BC8F616015F00A5200DEC0A8 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F616215F00A7F00DEC0A8 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC8F616415F00A9C00DEC0A8 /* th */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -2461,6 +2464,7 @@
 				95D8C60E083D552B003601C3 /* Candybars.growlStyle */,
 				95D8C61A083D552B003601C3 /* Crystal.growlStyle */,
 				9554979A081125A60062E27B /* Plain.growlStyle */,
+				BC89B5F81651AA1D00155298 /* LCD.growlStyle */,
 			);
 			name = styles;
 			sourceTree = "<group>";
