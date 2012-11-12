@@ -130,7 +130,7 @@
       <event name="perform action" description="Perform an action based on the notification passed" code="GrAcScPe">
          <parameter name="with" code="NtPa" type="GrowlNotification" description="The notification to perform the action with"/>
       </event>
-      <record-type name="GrowlNotification" description="A growl notification" code="GrNt">
+      <class name="GrowlNotification" description="A growl notification" code="GrNt">
          <property name="host" description="The computer from which the note came, localhost for the local machine" code="NtHs" type="text"/>
          <property name="app name" description="The application name" code="ApNm" type="text"/>
          <property name="note type" description="The underlying note type" code="NtTp" type="text"/>
@@ -139,7 +139,7 @@
          <property name="note icon" description="The icon the note will display with" code="Icon" type="Image"/>
          <property name="sticky" description="Whether the notification will be sticky" code="Stic" type="boolean"/>
 			<property name="priority" description="The priority of the notification" code="Prio" type="GrowlPriority"/>
-      </record-type>
+      </class>
       <enumeration name="GrowlPriority" description="A list of possible priorities" code="GrPr">
          <enumerator name="very low" code="PrVL"/>
          <enumerator name="moderate" code="PrMo"/>
@@ -153,7 +153,7 @@
          <parameter name="with" code="NtPa" type="GrowlNotification" description="The notification to evaluate"/>
          <result type="RuleResult" description="The actions to take upon completion"/>
       </event>
-      <record-type name="RuleResult" description="Return value from evaluating a notification" code="GrRs">
+      <class name="RuleResult" description="Return value from evaluating a notification" code="GrRs">
          <property name="enabled" code="GrEN" description="Whether to fire the note at all" type="boolean" optional="yes"/>
          <property name="display" description="Display to use, send 'notification-center' for explicitly sending to Notification Center" code="GrDs" optional="yes">
             <type type="text"/>
@@ -175,7 +175,7 @@
          <property name="history log" description="Whether to log in the network" code="GrHL" type="boolean" optional="yes"/>
          <property name="notification return" description="The updated notification to display, only modifiable fields are title, description, icon, sticky, and priority" type="GrowlNotification" code="NtRt" optional="yes"/>
          <property name="position" description="What position to display at" type="GrowlPositionOrigin" code="Orig" optional="yes"/>
-      </record-type>
+      </class>
       <enumeration name="GrowlPositionOrigin" description="A list of possible origins, including the default or 'no origin'" code="GrOr">
          <enumerator name="no origin" code="PoNO"/>
          <enumerator name="top left" code="PoTL"/>

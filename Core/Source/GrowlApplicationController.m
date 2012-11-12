@@ -427,8 +427,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                               if(!completionError){
                                  if(result && [result descriptorType] == typeAERecord)
                                  {
-                                    if([result descriptorForKeyword:'GrEn']){
-                                       if(![[result descriptorForKeyword:'GrEn'] booleanValue]){
+                                    if([result descriptorForKeyword:'GrEN']){
+                                       if(![[result descriptorForKeyword:'GrEN'] booleanValue]){
                                           if(logRuleResult){
                                              [ruleLogString appendFormat:@"\nRule result returned enabled set to no"];
                                              NSLog(ruleLogString);
@@ -492,7 +492,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        if((title && ![title isEqualToString:@""]) ||
                                           (description && ![description isEqualToString:@""]) ||
                                           (iconData && [iconData length] != 0) ||
-                                          (sticky && [sticky descriptorType] == typeBoolean) ||
+                                          (sticky && [GrowlUserScriptTaskUtilities isAppleEventDescriptorBoolean:sticky]) ||
 														priority != GrowlPriorityUnset)
                                        {
                                           if(title && ![title isEqualToString:[copyDict valueForKey:GROWL_NOTIFICATION_TITLE]]){
@@ -509,7 +509,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                                 [ruleLogString appendFormat:@"\nModified description to: %@", description];
                                              }
                                           }
-                                          if(iconData && ![iconData isEqualToData:[copyDict valueForKey:GROWL_NOTIFICATION_APP_ICON_DATA]]){
+                                          if(iconData && ![iconData isEqualToData:[copyDict valueForKey:GROWL_NOTIFICATION_ICON_DATA]]){
                                              NSImage *imageFromData = [[[NSImage alloc] initWithData:iconData] autorelease];
                                              if(imageFromData != nil){
                                                 [mutableCopy setObject:iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
@@ -525,7 +525,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                              [mutableCopy setObject:[NSNumber numberWithBool:[sticky booleanValue]] forKey:GROWL_NOTIFICATION_STICKY];
                                              changed = YES;
                                              if(logRuleResult){
-                                                [ruleLogString appendFormat:@"\nModified sticky to: %@", sticky ? @"yes" : @"no"];
+                                                [ruleLogString appendFormat:@"\nModified sticky to: %@", sticky ? @"YES" : @"NO"];
                                              }
                                           }
 														if(priority != GrowlPriorityUnset && priority != [[copyDict valueForKey:GROWL_NOTIFICATION_PRIORITY] integerValue]){
@@ -731,7 +731,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                     BOOL useDefaultForward = YES;
                                     if([result descriptorForKeyword:'GrNF']){
                                        NSAppleEventDescriptor *forward = [result descriptorForKeyword:'GrNF'];
-                                       if([forward descriptorType] == typeBoolean){
+                                       if([GrowlUserScriptTaskUtilities isAppleEventDescriptorBoolean:forward]){
                                           if([forward booleanValue]){
                                              if(logRuleResult){
                                                 [ruleLogString appendFormat:@"\nForwarding to UI selected entries"];
@@ -777,7 +777,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                     BOOL useDefaultSubscription = YES;
                                     if([result descriptorForKeyword:'GrNS']){
                                        NSAppleEventDescriptor *subscribe = [result descriptorForKeyword:'GrNS'];
-                                       if([subscribe descriptorType] == typeBoolean){
+                                       if([GrowlUserScriptTaskUtilities isAppleEventDescriptorBoolean:subscribe]){
                                           if([subscribe booleanValue]){
                                              //This bypasses the checks on is subscription allowed, however we still will only send
                                              //to active subscribers, so kind of a chicken and the egg thing

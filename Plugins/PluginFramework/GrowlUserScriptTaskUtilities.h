@@ -17,5 +17,6 @@
 +(NSUserScriptTask*)scriptTaskForFile:(NSString*)fileName;
 +(NSUserAppleScriptTask*)rulesScriptTask;
 +(NSAppleEventDescriptor*)appleEventDescriptorForNotification:(NSDictionary*)dict;
++(BOOL)isAppleEventDescriptorBoolean:(NSAppleEventDescriptor*)event;
 
 @end
