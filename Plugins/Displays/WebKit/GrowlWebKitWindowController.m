@@ -334,9 +334,7 @@ static dispatch_queue_t __imageCacheQueue;
 	[webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.cursor='default';"];
 }
 - (id)invokeUndefinedMethodFromWebScript:(NSString *)name withArguments:(NSArray *)args
-{
-	NSLog(@"name %@", name);
-	
+{	
 	if([name isEqualToString:@"closeNote"])
 	{
 		if([self respondsToSelector:@selector(clickedClose)])
