@@ -209,7 +209,7 @@ static dispatch_queue_t __imageCacheQueue;
 	}
 	
 	[panel release];
-
+		
 	return self;
 }
 
@@ -329,14 +329,20 @@ static dispatch_queue_t __imageCacheQueue;
 
 - (void)webView:(WebView *)webView windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
 	[windowScriptObject setValue:self forKey:@"NotificationWindowController"];
-	
+	// Disable user text selection
+	[webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitUserSelect='none';"];
+	[webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.cursor='default';"];
 }
 - (id)invokeUndefinedMethodFromWebScript:(NSString *)name withArguments:(NSArray *)args
 {
+	NSLog(@"name %@", name);
+	
 	if([name isEqualToString:@"closeNote"])
 	{
 		if([self respondsToSelector:@selector(clickedClose)])
 			[self performSelector:@selector(clickedClose)];
+		GrowlWebKitWindowView *webView = [[self window] contentView];
+		[webView stringByEvaluatingJavaScriptFromString:@"if (!e) var e = window.event; e.stopPropagation();"];
 	}else if([name isEqualToString:@"clickNote"]){
 		[self notificationClicked:nil];
 	}
