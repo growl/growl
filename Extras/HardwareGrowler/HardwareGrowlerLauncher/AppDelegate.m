@@ -12,7 +12,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-   NSArray *growlInstances = [NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.growl.HardwareGrowler"];
+   NSArray *growlInstances = [NSRunningApplication runningApplicationsWithBundleIdentifier:@"com.growl.hardwaregrowler"];
    if(!growlInstances.count)
    {
       NSURL* appURL = [[[[NSBundle mainBundle] bundleURL] URLByAppendingPathComponent:@"../../../../Contents/MacOS/HardwareGrowler" isDirectory:NO] URLByResolvingSymlinksInPath];

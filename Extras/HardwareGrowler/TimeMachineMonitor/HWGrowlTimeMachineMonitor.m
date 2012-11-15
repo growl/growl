@@ -37,7 +37,7 @@
 	if((self = [super init])){
 		parsing = NO;
 		
-		self.tmQueue = dispatch_queue_create("com.growl.HardwareGrowler.tmmonitorqueue", DISPATCH_QUEUE_SERIAL);
+		self.tmQueue = dispatch_queue_create("com.growl.hardwaregrowler.tmmonitorqueue", DISPATCH_QUEUE_SERIAL);
 	}
 	return self;
 }
