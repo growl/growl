@@ -2,23 +2,23 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11D50</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.32</string>
-		<string key="IBDocument.HIToolboxVersion">568.00</string>
+		<string key="IBDocument.SystemVersion">12C60</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
+		<string key="IBDocument.AppKitVersion">1187.34</string>
+		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1938</string>
+			<string key="NS.object.0">2844</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
+			<string>NSCustomObject</string>
+			<string>NSLevelIndicator</string>
+			<string>NSLevelIndicatorCell</string>
 			<string>NSMenu</string>
 			<string>NSMenuItem</string>
-			<string>NSSliderCell</string>
-			<string>NSLevelIndicatorCell</string>
 			<string>NSSlider</string>
+			<string>NSSliderCell</string>
 			<string>NSUserDefaultsController</string>
-			<string>NSLevelIndicator</string>
-			<string>NSCustomObject</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -249,7 +249,7 @@
 					</object>
 					<object class="NSMenuItem" id="958702569">
 						<reference key="NSMenu" ref="154069724"/>
-						<string key="NSTitle">Configure Formatting</string>
+						<string key="NSTitle">Preferences</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="1046102276"/>
@@ -277,7 +277,7 @@
 				<string key="NSReuseIdentifierKey">_NS:2200</string>
 				<bool key="NSEnabled">YES</bool>
 				<object class="NSLevelIndicatorCell" key="NSCell" id="785474649">
-					<int key="NSCellFlags">406453824</int>
+					<int key="NSCellFlags">406323264</int>
 					<int key="NSCellFlags2">34048</int>
 					<string key="NSCellIdentifier">_NS:2200</string>
 					<reference key="NSControlView" ref="927031288"/>
@@ -287,6 +287,7 @@
 					<double key="NSCriticalValue">5</double>
 					<int key="NSIndicatorStyle">3</int>
 				</object>
+				<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 			</object>
 			<object class="NSSlider" id="883374320">
 				<nil key="NSNextResponder"/>
@@ -295,7 +296,7 @@
 				<string key="NSReuseIdentifierKey">_NS:779</string>
 				<bool key="NSEnabled">YES</bool>
 				<object class="NSSliderCell" key="NSCell" id="979485101">
-					<int key="NSCellFlags">-2079981824</int>
+					<int key="NSCellFlags">-2080112384</int>
 					<int key="NSCellFlags2">32768</int>
 					<string key="NSContents"/>
 					<string key="NSCellIdentifier">_NS:779</string>
@@ -309,6 +310,7 @@
 					<bool key="NSAllowsTickMarkValuesOnly">NO</bool>
 					<bool key="NSVertical">NO</bool>
 				</object>
+				<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -400,26 +402,6 @@
 						</object>
 					</object>
 					<int key="connectionID">413</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: values.enableFormattingConfiguration</string>
-						<reference key="source" ref="958702569"/>
-						<reference key="destination" ref="412292238"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="958702569"/>
-							<reference key="NSDestination" ref="412292238"/>
-							<string key="NSLabel">hidden: values.enableFormattingConfiguration</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">values.enableFormattingConfiguration</string>
-							<dictionary key="NSOptions">
-								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
-								<string key="NSValueTransformerName">NSNegateBoolean</string>
-							</dictionary>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">91</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">

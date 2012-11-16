@@ -19,6 +19,7 @@
     NSMutableDictionary* _musicVideo;
     NSMutableDictionary* _music;
     NSUserDefaults* _defaults;
+   NSMutableArray* _dictionaries;
 }
 
 @property(readonly, STRONG, atomic) NSMutableDictionary* podcast;
