@@ -37,7 +37,7 @@
 	<key>NSMainNibFile</key>
 	<string>GrowlTunes</string>
 	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
+	<string>GrowlTunesController</string>
 	<key>CompiledByUser</key>
 	<string>COMPILED_BY_USER</string>
 	<key>CompilerVersion</key>

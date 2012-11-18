@@ -8,6 +8,8 @@
 
 #import "defines.h"
 #import "GrowlTunesController.h"
+#import "GrowlTunesFormattingController.h"
+#import "GrowlTunesPreferencesWindowController.h"
 #import "iTunes+iTunesAdditions.h"
 #import "ITunesConductor.h"
 #import "FormattedItemViewController.h"
@@ -95,6 +97,15 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
                                         forName:@"TrackRatingLevelIndicatorValueTransformer"];
         RELEASE(trackRatingTransformer);
     }
+}
+
+-(id)init {
+   if((self = [super init])){
+      _formatController = [[GrowlTunesFormattingController alloc] init];
+      [NSApp setDelegate:self];
+      //self.conductor = AUTORELEASE([[ITunesConductor alloc] init]);
+   }
+   return self;
 }
 
 // NSMenuItem just doesn't seem to understand. bind title and suddenly no means yes. not cool, NSMenuItem.
@@ -438,7 +449,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 {
 #pragma unused(sender)
     if (!_formatwc) {
-        _formatwc = [[NSWindowController alloc] initWithWindowNibName:@"FormattingPreferences"];
+        _formatwc = [[GrowlTunesPreferencesWindowController alloc] initWithWindowNibName:@"GrowlTunesPrefs"];
     }
     [NSApp activateIgnoringOtherApps:YES];
     [_formatwc showWindow:self];

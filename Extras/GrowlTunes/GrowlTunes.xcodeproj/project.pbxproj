@@ -52,9 +52,8 @@
 		6A63483814CC00B7005BB87F /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A63483114CC00B7005BB87F /* DispatchQueueLogFormatter.m */; };
 		6A695F021476E76D002B0278 /* iTunes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A695F011476E76D002B0278 /* iTunes.m */; };
 		6A89594F1447D46E009D09FC /* Growl.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 6A8959301447D221009D09FC /* Growl.framework */; };
-		6A8EB5C2147C59520075A826 /* FormattingPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EB5C1147C59520075A826 /* FormattingPreferences.xib */; };
+		6A8EB5C2147C59520075A826 /* GrowlTunesPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EB5C1147C59520075A826 /* GrowlTunesPrefs.xib */; };
 		6A8EB5CB147F02B80075A826 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EB5CA147F02B80075A826 /* defaults.plist */; };
-		6A8EB5CE147F1B0E0075A826 /* FormattingPreferencesHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8EB5CD147F1B0E0075A826 /* FormattingPreferencesHelper.m */; };
 		6A90E79114872495009AF3CF /* GTLevelIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A90E79014872495009AF3CF /* GTLevelIndicator.m */; };
 		6A9ED38F1447D04F002A0537 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6A9ED38D1447D04F002A0537 /* InfoPlist.strings */; };
 		6A9ED3911447D04F002A0537 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A9ED3901447D04F002A0537 /* main.m */; };
@@ -79,6 +78,8 @@
 		BC11E34616567DBD00B96422 /* GrowlOnSwitchLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC11E34416567DBD00B96422 /* GrowlOnSwitchLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BC11E34916567DD100B96422 /* TMSliderControl.m in Sources */ = {isa = PBXBuildFile; fileRef = BC11E34816567DD100B96422 /* TMSliderControl.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BC11E34C1656871600B96422 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC11E34A165686FA00B96422 /* QuartzCore.framework */; };
+		BC2D024816591436009D1964 /* GrowlTunesFormattingController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2D024716591436009D1964 /* GrowlTunesFormattingController.m */; };
+		BC671F1B165928AC00F826FE /* GrowlTunesPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC671F1A165928AC00F826FE /* GrowlTunesPreferencesWindowController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -278,32 +279,32 @@
 		6A4BE4071464F82900A48B46 /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 		6A4BE42C1465F6F700A48B46 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		6A5152CB14D515F400E48670 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6A5152CC14D515F400E48670 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6A5152CC14D515F400E48670 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A5152CD14D515F400E48670 /* es-AR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-AR"; path = "es-AR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		6A5152CE14D515F400E48670 /* es-AR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-AR"; path = "es-AR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6A5152CF14D515F400E48670 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A5152D014D515F400E48670 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6A5152D114D515F400E48670 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6A5152D114D515F400E48670 /* he */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A5152D214D515F400E48670 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6A5152D314D515F400E48670 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6A5152D314D515F400E48670 /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A5152D414D515F400E48670 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6A5152D514D515F400E48670 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6A5152D514D515F400E48670 /* ko */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A5152D614D515F400E48670 /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6A5152D714D515F400E48670 /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6A5152D714D515F400E48670 /* lv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A5152D814D515F400E48670 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6A5152D914D515F400E48670 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6A5152D914D515F400E48670 /* pl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A5152DA14D515F400E48670 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6A5152DB14D515F400E48670 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6A5152DB14D515F400E48670 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A5152DC14D515F400E48670 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6A5152DD14D515F500E48670 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6A5152DD14D515F500E48670 /* ro */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A5152DE14D515F500E48670 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6A5152DF14D515F500E48670 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6A5152DF14D515F500E48670 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A5152E014D5179000E48670 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6A5152E114D5179000E48670 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6A5152E114D5179000E48670 /* nb */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A5152E214D5179000E48670 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		6A5152E314D5179000E48670 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6A5152E314D5179000E48670 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6A5152E414D5179100E48670 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		6A5152E514D5179100E48670 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6A5152E514D5179100E48670 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6A5405C01486FFB000BA2FBB /* TrackRatingLevelIndicatorValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackRatingLevelIndicatorValueTransformer.h; sourceTree = "<group>"; };
 		6A5405C11486FFB000BA2FBB /* TrackRatingLevelIndicatorValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackRatingLevelIndicatorValueTransformer.m; sourceTree = "<group>"; };
 		6A56766614CB70B200E97962 /* GrowlTunes-Template.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "GrowlTunes-Template.pdf"; sourceTree = "<group>"; };
@@ -324,10 +325,8 @@
 		6A695F011476E76D002B0278 /* iTunes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iTunes.m; sourceTree = "<group>"; };
 		6A7FA16214C29DD200A912B4 /* GrowlTunes-Info.plist-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GrowlTunes-Info.plist-Prefix.pch"; sourceTree = "<group>"; };
 		6A89591B1447D221009D09FC /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../Growl.xcodeproj; sourceTree = "<group>"; };
-		6A8EB5C1147C59520075A826 /* FormattingPreferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormattingPreferences.xib; sourceTree = "<group>"; };
+		6A8EB5C1147C59520075A826 /* GrowlTunesPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GrowlTunesPrefs.xib; sourceTree = "<group>"; };
 		6A8EB5CA147F02B80075A826 /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.bplist; path = defaults.plist; sourceTree = "<group>"; };
-		6A8EB5CC147F1B0E0075A826 /* FormattingPreferencesHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormattingPreferencesHelper.h; sourceTree = "<group>"; };
-		6A8EB5CD147F1B0E0075A826 /* FormattingPreferencesHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormattingPreferencesHelper.m; sourceTree = "<group>"; usesTabs = 1; };
 		6A90E79014872495009AF3CF /* GTLevelIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTLevelIndicator.m; sourceTree = "<group>"; };
 		6A90E79214872784009AF3CF /* GTLevelIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTLevelIndicator.h; sourceTree = "<group>"; };
 		6A9ED3801447D04F002A0537 /* GrowlTunes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowlTunes.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -378,6 +377,10 @@
 		BC11E34716567DD100B96422 /* TMSliderControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TMSliderControl.h; path = ../../../external_dependencies/tmslidercontrol/TMSliderControl.h; sourceTree = "<group>"; };
 		BC11E34816567DD100B96422 /* TMSliderControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TMSliderControl.m; path = ../../../external_dependencies/tmslidercontrol/TMSliderControl.m; sourceTree = "<group>"; };
 		BC11E34A165686FA00B96422 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		BC2D024616591436009D1964 /* GrowlTunesFormattingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlTunesFormattingController.h; sourceTree = "<group>"; };
+		BC2D024716591436009D1964 /* GrowlTunesFormattingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlTunesFormattingController.m; sourceTree = "<group>"; usesTabs = 1; };
+		BC671F19165928AC00F826FE /* GrowlTunesPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlTunesPreferencesWindowController.h; sourceTree = "<group>"; };
+		BC671F1A165928AC00F826FE /* GrowlTunesPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlTunesPreferencesWindowController.m; sourceTree = "<group>"; usesTabs = 1; };
 		BC8F61DB15F05CF400DEC0A8 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F61ED15F05DFA00DEC0A8 /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F61EE15F05E6500DEC0A8 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -473,7 +476,7 @@
 			children = (
 				6A8EB5CA147F02B80075A826 /* defaults.plist */,
 				6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */,
-				6A8EB5C1147C59520075A826 /* FormattingPreferences.xib */,
+				6A8EB5C1147C59520075A826 /* GrowlTunesPrefs.xib */,
 				6A56766614CB70B200E97962 /* GrowlTunes-Template.pdf */,
 				6AADA30F1448B43E0089AB08 /* GrowlTunes.icns */,
 				6AADA3351448C1F50089AB08 /* GrowlTunes.xib */,
@@ -510,7 +513,8 @@
 				6A636284149C43E600C1ED44 /* GrowlTunes-Release.xcconfig */,
 				6A636285149C43E600C1ED44 /* GrowlTunes.xcconfig */,
 			);
-			path = xcconfig;
+			name = xcconfig;
+			path = ../xcconfig;
 			sourceTree = "<group>";
 		};
 		6A89591C1447D221009D09FC /* Products */ = {
@@ -539,7 +543,6 @@
 			isa = PBXGroup;
 			children = (
 				6AD07C33149FF6C400BFFF52 /* additions */,
-				6A63627F149C43E500C1ED44 /* xcconfig */,
 				6A9ED38A1447D04F002A0537 /* GrowlTunes */,
 				6AAE995414DAE740004848EC /* GrowlTunesLauncher */,
 				6A9ED3831447D04F002A0537 /* Frameworks */,
@@ -592,9 +595,8 @@
 				6A56765D14CB70B200E97962 /* Resources */,
 				6A9ED38B1447D04F002A0537 /* Supporting Files */,
 				BC11E33F16567D3500B96422 /* PreferencesWindow */,
+				BC671F18165926FD00F826FE /* Formatting */,
 				6A107EDF14806629009C4B9D /* defines.h */,
-				6A318B6C1496820F00779055 /* FormattedItemViewController.h */,
-				6A318B6D1496820F00779055 /* FormattedItemViewController.m */,
 				6A1E355E146ABC0700877A2F /* GrowlTunesController.h */,
 				6A1E355F146ABC0700877A2F /* GrowlTunesController.m */,
 				6A90E79214872784009AF3CF /* GTLevelIndicator.h */,
@@ -666,6 +668,7 @@
 				6A34E62014A03147001CFA45 /* NSObject+DRYDescription.m */,
 				6AAE994814DADA39004848EC /* StartAtLoginController.h */,
 				6AAE994914DADA39004848EC /* StartAtLoginController.m */,
+				6A63627F149C43E500C1ED44 /* xcconfig */,
 			);
 			path = additions;
 			sourceTree = "<group>";
@@ -673,10 +676,8 @@
 		BC11E33F16567D3500B96422 /* PreferencesWindow */ = {
 			isa = PBXGroup;
 			children = (
-				6A8EB5CC147F1B0E0075A826 /* FormattingPreferencesHelper.h */,
-				6A8EB5CD147F1B0E0075A826 /* FormattingPreferencesHelper.m */,
-				6A61FE241482B2FD00544675 /* FormattingToken.h */,
-				6A61FE251482B2FD00544675 /* FormattingToken.m */,
+				BC671F19165928AC00F826FE /* GrowlTunesPreferencesWindowController.h */,
+				BC671F1A165928AC00F826FE /* GrowlTunesPreferencesWindowController.m */,
 				BC11E34116567DBD00B96422 /* GrowlOnSwitch.h */,
 				BC11E34716567DD100B96422 /* TMSliderControl.h */,
 				BC11E34816567DD100B96422 /* TMSliderControl.m */,
@@ -685,6 +686,19 @@
 				BC11E34416567DBD00B96422 /* GrowlOnSwitchLabel.m */,
 			);
 			name = PreferencesWindow;
+			sourceTree = "<group>";
+		};
+		BC671F18165926FD00F826FE /* Formatting */ = {
+			isa = PBXGroup;
+			children = (
+				BC2D024616591436009D1964 /* GrowlTunesFormattingController.h */,
+				BC2D024716591436009D1964 /* GrowlTunesFormattingController.m */,
+				6A61FE241482B2FD00544675 /* FormattingToken.h */,
+				6A61FE251482B2FD00544675 /* FormattingToken.m */,
+				6A318B6C1496820F00779055 /* FormattedItemViewController.h */,
+				6A318B6D1496820F00779055 /* FormattedItemViewController.m */,
+			);
+			name = Formatting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -951,7 +965,7 @@
 				6AADA30D1448AF570089AB08 /* Localizable.strings in Resources */,
 				6AADA3121448B43E0089AB08 /* GrowlTunes.icns in Resources */,
 				6AADA3361448C1F50089AB08 /* GrowlTunes.xib in Resources */,
-				6A8EB5C2147C59520075A826 /* FormattingPreferences.xib in Resources */,
+				6A8EB5C2147C59520075A826 /* GrowlTunesPrefs.xib in Resources */,
 				6A8EB5CB147F02B80075A826 /* defaults.plist in Resources */,
 				6ACCD3DC148E6E8C00D6804D /* FormattedItem.xib in Resources */,
 				6A56767314CB70B200E97962 /* GrowlTunes-Template.pdf in Resources */,
@@ -1013,7 +1027,6 @@
 				6A1E35431469A77000877A2F /* ITunesConductor.m in Sources */,
 				6A1E3560146ABC0800877A2F /* GrowlTunesController.m in Sources */,
 				6A695F021476E76D002B0278 /* iTunes.m in Sources */,
-				6A8EB5CE147F1B0E0075A826 /* FormattingPreferencesHelper.m in Sources */,
 				6A107EDE14805F92009C4B9D /* TrackMetadata.m in Sources */,
 				6AD776F914817C2800A1592B /* iTunes+iTunesAdditions.m in Sources */,
 				6A61FE261482B2FD00544675 /* FormattingToken.m in Sources */,
@@ -1023,6 +1036,8 @@
 				BC11E34516567DBD00B96422 /* GrowlOnSwitch.m in Sources */,
 				BC11E34616567DBD00B96422 /* GrowlOnSwitchLabel.m in Sources */,
 				BC11E34916567DD100B96422 /* TMSliderControl.m in Sources */,
+				BC2D024816591436009D1964 /* GrowlTunesFormattingController.m in Sources */,
+				BC671F1B165928AC00F826FE /* GrowlTunesPreferencesWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

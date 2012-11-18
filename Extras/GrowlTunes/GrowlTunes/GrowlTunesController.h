@@ -11,9 +11,9 @@
 #import <Growl/Growl.h>
 #import "macros.h"
 
-@class ITunesConductor, FormattedItemViewController, StartAtLoginController;
+@class ITunesConductor, FormattedItemViewController, StartAtLoginController, GrowlTunesFormattingController;
 
-@interface GrowlTunesController : NSObject <GrowlApplicationBridgeDelegate, NSApplicationDelegate> {
+@interface GrowlTunesController : NSApplication <GrowlApplicationBridgeDelegate, NSApplicationDelegate> {
     ITunesConductor* _iTunesConductor;
     NSMenu* _statusItemMenu;
     NSMenuItem* _currentTrackMenuItem;
@@ -31,6 +31,7 @@
 @property(readwrite, STRONG, nonatomic) IBOutlet NSMenuItem* currentTrackMenuItem;
 @property(readwrite, STRONG, nonatomic) IBOutlet FormattedItemViewController* currentTrackController;
 @property(readwrite, STRONG, nonatomic) IBOutlet NSMenu* loggingMenu;
+@property(readonly, STRONG, nonatomic) GrowlTunesFormattingController *formatController;
 
 - (IBAction)configureFormatting:(id)sender;
 - (IBAction)quitGrowlTunes:(id)sender;

@@ -10,8 +10,8 @@
 #import "TrackMetadata.h"
 #import "iTunes+iTunesAdditions.h"
 #import "FormattingToken.h"
-#import "FormattingPreferencesHelper.h"
-
+#import "GrowlTunesFormattingController.h"
+#import "GrowlTunesController.h"
 
 @interface TrackMetadata ()
 
@@ -533,7 +533,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
     }
     
     NSArray* attributes = $array(formattingAttributes);
-    FormattingPreferencesHelper* helper = AUTORELEASE([[FormattingPreferencesHelper alloc] init]);
+    GrowlTunesFormattingController *helper = [(GrowlTunesController*)NSApp formatController];
     
     NSMutableArray* descriptionArray = [NSMutableArray arrayWithCapacity:3];
     

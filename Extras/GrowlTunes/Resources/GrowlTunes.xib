@@ -35,9 +35,6 @@
 				<string key="NSClassName">FirstResponder</string>
 			</object>
 			<object class="NSCustomObject" id="1004">
-				<string key="NSClassName">NSApplication</string>
-			</object>
-			<object class="NSCustomObject" id="456576518">
 				<string key="NSClassName">GrowlTunesController</string>
 			</object>
 			<object class="NSCustomObject" id="461929346">
@@ -316,108 +313,68 @@
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="1004"/>
-						<reference key="destination" ref="456576518"/>
-					</object>
-					<int key="connectionID">2</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">quitGrowlTunes:</string>
-						<reference key="source" ref="456576518"/>
-						<reference key="destination" ref="251643716"/>
-					</object>
-					<int key="connectionID">36</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">statusItemMenu</string>
-						<reference key="source" ref="456576518"/>
-						<reference key="destination" ref="154069724"/>
-					</object>
-					<int key="connectionID">41</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">configureFormatting:</string>
-						<reference key="source" ref="456576518"/>
+						<reference key="source" ref="1004"/>
 						<reference key="destination" ref="958702569"/>
 					</object>
-					<int key="connectionID">62</int>
+					<int key="connectionID">473</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">conductor</string>
-						<reference key="source" ref="456576518"/>
+						<reference key="source" ref="1004"/>
 						<reference key="destination" ref="461929346"/>
 					</object>
-					<int key="connectionID">200</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">quitGrowlTunesAndITunes:</string>
-						<reference key="source" ref="456576518"/>
-						<reference key="destination" ref="195040871"/>
-					</object>
-					<int key="connectionID">274</int>
+					<int key="connectionID">474</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">currentTrackMenuItem</string>
-						<reference key="source" ref="456576518"/>
+						<reference key="source" ref="1004"/>
 						<reference key="destination" ref="412116810"/>
 					</object>
-					<int key="connectionID">368</int>
+					<int key="connectionID">475</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">loggingMenu</string>
-						<reference key="source" ref="456576518"/>
+						<reference key="source" ref="1004"/>
 						<reference key="destination" ref="497001373"/>
 					</object>
-					<int key="connectionID">444</int>
+					<int key="connectionID">476</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">statusItemMenu</string>
+						<reference key="source" ref="1004"/>
+						<reference key="destination" ref="154069724"/>
+					</object>
+					<int key="connectionID">477</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">quitGrowlTunesAndITunes:</string>
+						<reference key="source" ref="1004"/>
+						<reference key="destination" ref="195040871"/>
+					</object>
+					<int key="connectionID">478</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">quitGrowlTunes:</string>
+						<reference key="source" ref="1004"/>
+						<reference key="destination" ref="251643716"/>
+					</object>
+					<int key="connectionID">479</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="154069724"/>
-						<reference key="destination" ref="456576518"/>
+						<reference key="destination" ref="1004"/>
 					</object>
-					<int key="connectionID">35</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.stringQuitGrowlTunes</string>
-						<reference key="source" ref="251643716"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="251643716"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.stringQuitGrowlTunes</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.stringQuitGrowlTunes</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">413</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.stringConfigureFormatting</string>
-						<reference key="source" ref="958702569"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="958702569"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.stringConfigureFormatting</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.stringConfigureFormatting</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">417</int>
+					<int key="connectionID">480</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -573,22 +530,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.stringRating</string>
-						<reference key="source" ref="811089115"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="811089115"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.stringRating</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.stringRating</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">421</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">hidden2: self.currentTrack.isStream</string>
 						<reference key="source" ref="811089115"/>
 						<reference key="destination" ref="461929346"/>
@@ -613,47 +554,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: noMeansNo</string>
-						<reference key="source" ref="412116810"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector" id="241963018">
-							<reference key="NSSource" ref="412116810"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">enabled: noMeansNo</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">noMeansNo</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSRaisesForNotApplicableKeys</string>
-								<boolean value="NO" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">163</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isPlaying</string>
-						<reference key="source" ref="412116810"/>
-						<reference key="destination" ref="461929346"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="412116810"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isPlaying</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isPlaying</string>
-							<dictionary key="NSOptions">
-								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
-								<string key="NSValueTransformerName">NSNegateBoolean</string>
-							</dictionary>
-							<reference key="NSPreviousConnector" ref="241963018"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">216</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">title: currentTrack.name</string>
 						<reference key="source" ref="412116810"/>
 						<reference key="destination" ref="461929346"/>
@@ -671,6 +571,26 @@
 						</object>
 					</object>
 					<int key="connectionID">218</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isPlaying</string>
+						<reference key="source" ref="412116810"/>
+						<reference key="destination" ref="461929346"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="412116810"/>
+							<reference key="NSDestination" ref="461929346"/>
+							<string key="NSLabel">hidden: isPlaying</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isPlaying</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">481</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -713,14 +633,6 @@
 					<int key="connectionID">273</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">activate:</string>
-						<reference key="source" ref="461929346"/>
-						<reference key="destination" ref="64021113"/>
-					</object>
-					<int key="connectionID">310</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">hidden: isRunning</string>
 						<reference key="source" ref="978221467"/>
@@ -739,22 +651,6 @@
 						</object>
 					</object>
 					<int key="connectionID">278</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.stringPlayPause</string>
-						<reference key="source" ref="978221467"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="978221467"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.stringPlayPause</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.stringPlayPause</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">398</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -798,22 +694,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.stringNextTrack</string>
-						<reference key="source" ref="11909680"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="11909680"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.stringNextTrack</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.stringNextTrack</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">400</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">hidden: isRunning</string>
 						<reference key="source" ref="135633956"/>
 						<reference key="destination" ref="461929346"/>
@@ -831,22 +711,6 @@
 						</object>
 					</object>
 					<int key="connectionID">287</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.stringPreviousTrack</string>
-						<reference key="source" ref="135633956"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="135633956"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.stringPreviousTrack</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.stringPreviousTrack</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">402</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -870,22 +734,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.stringQuitITunes</string>
-						<reference key="source" ref="233668226"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="233668226"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.stringQuitITunes</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.stringQuitITunes</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">411</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">hidden: isRunning</string>
 						<reference key="source" ref="195040871"/>
 						<reference key="destination" ref="461929346"/>
@@ -906,22 +754,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.stringQuitBoth</string>
-						<reference key="source" ref="195040871"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="195040871"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.stringQuitBoth</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.stringQuitBoth</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">408</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">hidden: isRunning</string>
 						<reference key="source" ref="886883638"/>
 						<reference key="destination" ref="461929346"/>
@@ -939,22 +771,6 @@
 						</object>
 					</object>
 					<int key="connectionID">299</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.stringStartITunes</string>
-						<reference key="source" ref="886883638"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="886883638"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.stringStartITunes</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.stringStartITunes</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">406</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -998,22 +814,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.stringBringITunesToFront</string>
-						<reference key="source" ref="64021113"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="64021113"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.stringBringITunesToFront</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.stringBringITunesToFront</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">404</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">hidden: isRunning</string>
 						<reference key="source" ref="635452151"/>
 						<reference key="destination" ref="461929346"/>
@@ -1031,22 +831,6 @@
 						</object>
 					</object>
 					<int key="connectionID">336</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.stringVolume</string>
-						<reference key="source" ref="635452151"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="635452151"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.stringVolume</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.stringVolume</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">423</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1160,22 +944,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.stringNotifyWithITunesActive</string>
-						<reference key="source" ref="711512972"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="711512972"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.stringNotifyWithITunesActive</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.stringNotifyWithITunesActive</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">415</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">hidden: values.enableLoggingConfiguration</string>
 						<reference key="source" ref="146429450"/>
 						<reference key="destination" ref="412292238"/>
@@ -1194,42 +962,6 @@
 						</object>
 					</object>
 					<int key="connectionID">443</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: self.stringStartAtLogin</string>
-						<reference key="source" ref="607217587"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="607217587"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">title: self.stringStartAtLogin</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">self.stringStartAtLogin</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">447</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: self.loginController.enabled</string>
-						<reference key="source" ref="607217587"/>
-						<reference key="destination" ref="456576518"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="607217587"/>
-							<reference key="NSDestination" ref="456576518"/>
-							<string key="NSLabel">value: self.loginController.enabled</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">self.loginController.enabled</string>
-							<dictionary key="NSOptions">
-								<boolean value="NO" key="NSAllowsEditingMultipleValuesSelection"/>
-								<boolean value="NO" key="NSConditionallySetsEnabled"/>
-							</dictionary>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">469</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1257,12 +989,6 @@
 						<reference key="object" ref="1004"/>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Application</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1</int>
-						<reference key="object" ref="456576518"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">GrowlTunesController</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">3</int>
@@ -1480,7 +1206,6 @@
 				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="109.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="110.CustomClassName">GTLevelIndicator</string>
 				<string key="110.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1536,7 +1261,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">469</int>
+			<int key="maxID">481</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1605,7 +1330,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">GrowlTunesController</string>
-					<string key="superclassName">NSObject</string>
+					<string key="superclassName">NSApplication</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="configureFormatting:">id</string>
 						<string key="quitGrowlTunes:">id</string>
