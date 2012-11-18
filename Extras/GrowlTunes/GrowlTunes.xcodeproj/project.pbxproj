@@ -22,8 +22,6 @@
 		6A34E61A14A00B33001CFA45 /* LoggerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60C14A00B33001CFA45 /* LoggerClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A34E61B14A00B33001CFA45 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E60D14A00B33001CFA45 /* LoggerClient.m */; };
 		6A34E61C14A00B33001CFA45 /* LoggerCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60E14A00B33001CFA45 /* LoggerCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A34E61D14A00B33001CFA45 /* SPLowVerbosity.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E61014A00B33001CFA45 /* SPLowVerbosity.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A34E61E14A00B33001CFA45 /* SPLowVerbosity.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E61114A00B33001CFA45 /* SPLowVerbosity.m */; };
 		6A34E62114A03147001CFA45 /* NSObject+DRYDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E61F14A03147001CFA45 /* NSObject+DRYDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6A34E62214A03147001CFA45 /* NSObject+DRYDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E62014A03147001CFA45 /* NSObject+DRYDescription.m */; };
 		6A34E62314A032AA001CFA45 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0492D21463C45F00F1FF9B /* CoreFoundation.framework */; };
@@ -247,7 +245,7 @@
 		6A0492D01463C43800F1FF9B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6A0492D21463C45F00F1FF9B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		6A107EDC14805F92009C4B9D /* TrackMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackMetadata.h; sourceTree = "<group>"; };
-		6A107EDD14805F92009C4B9D /* TrackMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackMetadata.m; sourceTree = "<group>"; };
+		6A107EDD14805F92009C4B9D /* TrackMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackMetadata.m; sourceTree = "<group>"; usesTabs = 1; };
 		6A107EDF14806629009C4B9D /* defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defines.h; sourceTree = "<group>"; };
 		6A1E35411469A77000877A2F /* ITunesConductor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITunesConductor.h; sourceTree = "<group>"; };
 		6A1E35421469A77000877A2F /* ITunesConductor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITunesConductor.m; sourceTree = "<group>"; };
@@ -266,8 +264,6 @@
 		6A34E60C14A00B33001CFA45 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerClient.h; sourceTree = "<group>"; };
 		6A34E60D14A00B33001CFA45 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerClient.m; sourceTree = "<group>"; };
 		6A34E60E14A00B33001CFA45 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerCommon.h; sourceTree = "<group>"; };
-		6A34E61014A00B33001CFA45 /* SPLowVerbosity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPLowVerbosity.h; sourceTree = "<group>"; };
-		6A34E61114A00B33001CFA45 /* SPLowVerbosity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SPLowVerbosity.m; sourceTree = "<group>"; };
 		6A34E61F14A03147001CFA45 /* NSObject+DRYDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DRYDescription.h"; sourceTree = "<group>"; };
 		6A34E62014A03147001CFA45 /* NSObject+DRYDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DRYDescription.m"; sourceTree = "<group>"; };
 		6A34E62B14A04472001CFA45 /* DDNSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNSLogger.h; sourceTree = "<group>"; };
@@ -462,15 +458,6 @@
 			path = NSLogger;
 			sourceTree = "<group>";
 		};
-		6A34E60F14A00B33001CFA45 /* SPSuccinct */ = {
-			isa = PBXGroup;
-			children = (
-				6A34E61014A00B33001CFA45 /* SPLowVerbosity.h */,
-				6A34E61114A00B33001CFA45 /* SPLowVerbosity.m */,
-			);
-			path = SPSuccinct;
-			sourceTree = "<group>";
-		};
 		6A56765D14CB70B200E97962 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -549,7 +536,7 @@
 				6A9ED3811447D04F002A0537 /* Products */,
 			);
 			sourceTree = "<group>";
-			usesTabs = 0;
+			usesTabs = 1;
 		};
 		6A9ED3811447D04F002A0537 /* Products */ = {
 			isa = PBXGroup;
@@ -658,7 +645,6 @@
 			children = (
 				6A34E60214A00B33001CFA45 /* Lumberjack */,
 				6A34E60B14A00B33001CFA45 /* NSLogger */,
-				6A34E60F14A00B33001CFA45 /* SPSuccinct */,
 				6AD07C36149FF6C400BFFF52 /* additions.h */,
 				6A48D19F14DD506000C8C999 /* CodeSignConveniences.h */,
 				6A34E62B14A04472001CFA45 /* DDNSLogger.h */,
@@ -713,7 +699,6 @@
 				6A34E61814A00B33001CFA45 /* DDTTYLogger.h in Headers */,
 				6A34E61614A00B33001CFA45 /* DDLog.h in Headers */,
 				6A34E61C14A00B33001CFA45 /* LoggerCommon.h in Headers */,
-				6A34E61D14A00B33001CFA45 /* SPLowVerbosity.h in Headers */,
 				6A34E62114A03147001CFA45 /* NSObject+DRYDescription.h in Headers */,
 				6A34E61A14A00B33001CFA45 /* LoggerClient.h in Headers */,
 				6A34E61214A00B33001CFA45 /* DDASLLogger.h in Headers */,
@@ -1059,7 +1044,6 @@
 				6A34E61714A00B33001CFA45 /* DDLog.m in Sources */,
 				6A34E61914A00B33001CFA45 /* DDTTYLogger.m in Sources */,
 				6A34E61B14A00B33001CFA45 /* LoggerClient.m in Sources */,
-				6A34E61E14A00B33001CFA45 /* SPLowVerbosity.m in Sources */,
 				6A34E62214A03147001CFA45 /* NSObject+DRYDescription.m in Sources */,
 				6A34E62E14A04472001CFA45 /* DDNSLogger.m in Sources */,
 				6A63483414CC00B7005BB87F /* DDAbstractDatabaseLogger.m in Sources */,

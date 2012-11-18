@@ -94,7 +94,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     if (self.isRunning && self.isPlaying) {
         LogVerbose(@"iTunes already running and playing; sending fake 'playerInfo' notification");
         [self playerInfo:[NSNotification notificationWithName:PLAYER_INFO_ID 
-                                                       object:$dict(@"source", @"init")]];
+                                                       object:@{@"source" : @"init"}]];
     }
         
     [[NSDistributedNotificationCenter defaultCenter] addObserver:self

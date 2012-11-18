@@ -322,13 +322,12 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     NSMenu* loggingMenu = self.loggingMenu;
     [loggingMenu removeAllItems];
     
-    NSArray* logLevelNumbers = [NSArray arrayWithObjects:
-                                $num(DDNS_LOG_LEVEL_ERROR),
-                                $num(DDNS_LOG_LEVEL_WARN),
-                                $num(DDNS_LOG_LEVEL_INFO),
-                                $num(DDNS_LOG_LEVEL_VERBOSE),
-                                $num(DDNS_LOG_LEVEL_DEBUG),
-                                nil];
+   NSArray* logLevelNumbers = @[@DDNS_LOG_LEVEL_ERROR,
+                              @DDNS_LOG_LEVEL_WARN,
+                              @DDNS_LOG_LEVEL_INFO,
+                              @DDNS_LOG_LEVEL_VERBOSE,
+                              @DDNS_LOG_LEVEL_DEBUG];
+   
     NSArray* logLevelNames = [NSArray arrayWithObjects: @"Error", @"Warning", @"Info", @"Verbose", @"Debug", nil];
     NSDictionary* logLevels = [NSDictionary dictionaryWithObjects:logLevelNumbers forKeys:logLevelNames];
     id menuTarget = self;
@@ -339,7 +338,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
             if (!className) className = @"All";
             id class = [className isEqualToString:@"All"] ? nil : NSClassFromString(className);
 
-            NSNumber* currentLogLevel = class ? $num([DDLog logLevelForClass:class]) : $num(-1);
+            NSNumber* currentLogLevel = class ? @([DDLog logLevelForClass:class]) : @-1;
             
             for (NSString* levelName in logLevelNames) {
                 NSMenuItem* levelItem = [[NSMenuItem alloc] initWithTitle:levelName 
