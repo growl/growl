@@ -37,9 +37,6 @@
 			<object class="NSCustomObject" id="1004">
 				<string key="NSClassName">GrowlTunesController</string>
 			</object>
-			<object class="NSCustomObject" id="461929346">
-				<string key="NSClassName">ITunesConductor</string>
-			</object>
 			<object class="NSUserDefaultsController" id="412292238">
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
@@ -217,33 +214,6 @@
 						<reference key="NSOnImage" ref="1046102276"/>
 						<reference key="NSMixedImage" ref="241691520"/>
 					</object>
-					<object class="NSMenuItem" id="711512972">
-						<reference key="NSMenu" ref="154069724"/>
-						<string key="NSTitle">Notify when iTunes is active</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<int key="NSState">1</int>
-						<reference key="NSOnImage" ref="1046102276"/>
-						<reference key="NSMixedImage" ref="241691520"/>
-					</object>
-					<object class="NSMenuItem" id="607217587">
-						<reference key="NSMenu" ref="154069724"/>
-						<string key="NSTitle">Start at login</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="1046102276"/>
-						<reference key="NSMixedImage" ref="241691520"/>
-					</object>
-					<object class="NSMenuItem" id="960405232">
-						<reference key="NSMenu" ref="154069724"/>
-						<bool key="NSIsDisabled">YES</bool>
-						<bool key="NSIsSeparator">YES</bool>
-						<string key="NSTitle"/>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSOnImage" ref="1046102276"/>
-						<reference key="NSMixedImage" ref="241691520"/>
-					</object>
 					<object class="NSMenuItem" id="958702569">
 						<reference key="NSMenu" ref="154069724"/>
 						<string key="NSTitle">Preferences</string>
@@ -268,9 +238,12 @@
 				</array>
 			</object>
 			<object class="NSLevelIndicator" id="927031288">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">300</int>
 				<string key="NSFrameSize">{65, 13}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView"/>
 				<string key="NSReuseIdentifierKey">_NS:2200</string>
 				<bool key="NSEnabled">YES</bool>
 				<object class="NSLevelIndicatorCell" key="NSCell" id="785474649">
@@ -287,9 +260,12 @@
 				<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 			</object>
 			<object class="NSSlider" id="883374320">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">270</int>
 				<string key="NSFrameSize">{104, 21}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView"/>
 				<string key="NSReuseIdentifierKey">_NS:779</string>
 				<bool key="NSEnabled">YES</bool>
 				<object class="NSSliderCell" key="NSCell" id="979485101">
@@ -319,14 +295,6 @@
 						<reference key="destination" ref="958702569"/>
 					</object>
 					<int key="connectionID">473</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">conductor</string>
-						<reference key="source" ref="1004"/>
-						<reference key="destination" ref="461929346"/>
-					</object>
-					<int key="connectionID">474</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -369,6 +337,46 @@
 					<int key="connectionID">479</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">quitItunes:</string>
+						<reference key="source" ref="1004"/>
+						<reference key="destination" ref="233668226"/>
+					</object>
+					<int key="connectionID">482</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">runiTunes:</string>
+						<reference key="source" ref="1004"/>
+						<reference key="destination" ref="886883638"/>
+					</object>
+					<int key="connectionID">484</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">playPause:</string>
+						<reference key="source" ref="1004"/>
+						<reference key="destination" ref="978221467"/>
+					</object>
+					<int key="connectionID">485</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">nextTrack:</string>
+						<reference key="source" ref="1004"/>
+						<reference key="destination" ref="11909680"/>
+					</object>
+					<int key="connectionID">486</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">previousTrack:</string>
+						<reference key="source" ref="1004"/>
+						<reference key="destination" ref="135633956"/>
+					</object>
+					<int key="connectionID">487</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="154069724"/>
@@ -378,15 +386,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isRunning</string>
+						<string key="label">hidden: self.conductor.isRunning</string>
 						<reference key="source" ref="577532816"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="577532816"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isRunning</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isRunning</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isRunning</string>
+							<string key="NSKeyPath">self.conductor.isRunning</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -394,7 +402,7 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">343</int>
+					<int key="connectionID">542</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -406,15 +414,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: isPlaying</string>
+						<string key="label">enabled: self.conductor.isPlaying</string>
 						<reference key="source" ref="964064586"/>
-						<reference key="destination" ref="461929346"/>
-						<object class="NSNibBindingConnector" key="connector" id="692397669">
+						<reference key="destination" ref="1004"/>
+						<object class="NSNibBindingConnector" key="connector" id="568833802">
 							<reference key="NSSource" ref="964064586"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">enabled: isPlaying</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">enabled: self.conductor.isPlaying</string>
 							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">isPlaying</string>
+							<string key="NSKeyPath">self.conductor.isPlaying</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSRaisesForNotApplicableKeys</string>
 								<boolean value="NO" key="NS.object.0"/>
@@ -422,40 +430,40 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">225</int>
+					<int key="connectionID">535</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isPlaying</string>
+						<string key="label">hidden: self.conductor.isPlaying</string>
 						<reference key="source" ref="964064586"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="964064586"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isPlaying</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isPlaying</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isPlaying</string>
+							<string key="NSKeyPath">self.conductor.isPlaying</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
 							</dictionary>
-							<reference key="NSPreviousConnector" ref="692397669"/>
+							<reference key="NSPreviousConnector" ref="568833802"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">226</int>
+					<int key="connectionID">538</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: isPlaying</string>
+						<string key="label">enabled: self.conductor.isPlaying</string>
 						<reference key="source" ref="927031288"/>
-						<reference key="destination" ref="461929346"/>
-						<object class="NSNibBindingConnector" key="connector" id="19727330">
+						<reference key="destination" ref="1004"/>
+						<object class="NSNibBindingConnector" key="connector" id="1066401540">
 							<reference key="NSSource" ref="927031288"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">enabled: isPlaying</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">enabled: self.conductor.isPlaying</string>
 							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">isPlaying</string>
+							<string key="NSKeyPath">self.conductor.isPlaying</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSRaisesForNotApplicableKeys</string>
 								<boolean value="NO" key="NS.object.0"/>
@@ -463,40 +471,40 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">233</int>
+					<int key="connectionID">545</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isPlaying</string>
+						<string key="label">hidden: self.conductor.isPlaying</string>
 						<reference key="source" ref="927031288"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="927031288"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isPlaying</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isPlaying</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isPlaying</string>
+							<string key="NSKeyPath">self.conductor.isPlaying</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
 							</dictionary>
-							<reference key="NSPreviousConnector" ref="19727330"/>
+							<reference key="NSPreviousConnector" ref="1066401540"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">234</int>
+					<int key="connectionID">548</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: currentTrack.rating</string>
+						<string key="label">value: self.conductor.currentTrack.rating</string>
 						<reference key="source" ref="927031288"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="927031288"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">value: currentTrack.rating</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">value: self.conductor.currentTrack.rating</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">currentTrack.rating</string>
+							<string key="NSKeyPath">self.conductor.currentTrack.rating</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSAllowsEditingMultipleValuesSelection"/>
 								<boolean value="NO" key="NSConditionallySetsEnabled"/>
@@ -506,19 +514,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">237</int>
+					<int key="connectionID">556</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isPlaying</string>
+						<string key="label">hidden: self.conductor.isPlaying</string>
 						<reference key="source" ref="811089115"/>
-						<reference key="destination" ref="461929346"/>
-						<object class="NSNibBindingConnector" key="connector" id="491838567">
+						<reference key="destination" ref="1004"/>
+						<object class="NSNibBindingConnector" key="connector" id="501693945">
 							<reference key="NSSource" ref="811089115"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isPlaying</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isPlaying</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isPlaying</string>
+							<string key="NSKeyPath">self.conductor.isPlaying</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -526,19 +534,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">220</int>
+					<int key="connectionID">524</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden2: self.currentTrack.isStream</string>
+						<string key="label">hidden2: self.conductor.currentTrack.isStream</string>
 						<reference key="source" ref="811089115"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="811089115"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden2: self.currentTrack.isStream</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden2: self.conductor.currentTrack.isStream</string>
 							<string key="NSBinding">hidden2</string>
-							<string key="NSKeyPath">self.currentTrack.isStream</string>
+							<string key="NSKeyPath">self.conductor.currentTrack.isStream</string>
 							<dictionary key="NSOptions">
 								<integer value="-1" key="NSMultipleValuesPlaceholder"/>
 								<integer value="-1" key="NSNoSelectionPlaceholder"/>
@@ -546,43 +554,23 @@
 								<integer value="-1" key="NSNullPlaceholder"/>
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 							</dictionary>
-							<reference key="NSPreviousConnector" ref="491838567"/>
+							<reference key="NSPreviousConnector" ref="501693945"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">428</int>
+					<int key="connectionID">560</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: currentTrack.name</string>
+						<string key="label">hidden: self.conductor.isPlaying</string>
 						<reference key="source" ref="412116810"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="412116810"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">title: currentTrack.name</string>
-							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">currentTrack.name</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSRaisesForNotApplicableKeys</string>
-								<boolean value="NO" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">218</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isPlaying</string>
-						<reference key="source" ref="412116810"/>
-						<reference key="destination" ref="461929346"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="412116810"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isPlaying</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isPlaying</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isPlaying</string>
+							<string key="NSKeyPath">self.conductor.isPlaying</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -590,59 +578,39 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">481</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">playPause:</string>
-						<reference key="source" ref="461929346"/>
-						<reference key="destination" ref="978221467"/>
-					</object>
-					<int key="connectionID">261</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">previousTrack:</string>
-						<reference key="source" ref="461929346"/>
-						<reference key="destination" ref="135633956"/>
-					</object>
-					<int key="connectionID">262</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">nextTrack:</string>
-						<reference key="source" ref="461929346"/>
-						<reference key="destination" ref="11909680"/>
-					</object>
-					<int key="connectionID">263</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">quit:</string>
-						<reference key="source" ref="461929346"/>
-						<reference key="destination" ref="233668226"/>
-					</object>
-					<int key="connectionID">272</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">run:</string>
-						<reference key="source" ref="461929346"/>
-						<reference key="destination" ref="886883638"/>
-					</object>
-					<int key="connectionID">273</int>
+					<int key="connectionID">515</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isRunning</string>
+						<string key="label">title: self.conductor.currentTrack.name</string>
+						<reference key="source" ref="412116810"/>
+						<reference key="destination" ref="1004"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="412116810"/>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">title: self.conductor.currentTrack.name</string>
+							<string key="NSBinding">title</string>
+							<string key="NSKeyPath">self.conductor.currentTrack.name</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSRaisesForNotApplicableKeys</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">519</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: self.conductor.isRunning</string>
 						<reference key="source" ref="978221467"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="978221467"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isRunning</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isRunning</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isRunning</string>
+							<string key="NSKeyPath">self.conductor.isRunning</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -650,19 +618,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">278</int>
+					<int key="connectionID">503</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isRunning</string>
+						<string key="label">hidden: self.conductor.isRunning</string>
 						<reference key="source" ref="510808420"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="510808420"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isRunning</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isRunning</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isRunning</string>
+							<string key="NSKeyPath">self.conductor.isRunning</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -670,19 +638,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">291</int>
+					<int key="connectionID">496</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isRunning</string>
+						<string key="label">hidden: self.conductor.isRunning</string>
 						<reference key="source" ref="11909680"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="11909680"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isRunning</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isRunning</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isRunning</string>
+							<string key="NSKeyPath">self.conductor.isRunning</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -690,19 +658,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">282</int>
+					<int key="connectionID">500</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isRunning</string>
+						<string key="label">hidden: self.conductor.isRunning</string>
 						<reference key="source" ref="135633956"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="135633956"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isRunning</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isRunning</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isRunning</string>
+							<string key="NSKeyPath">self.conductor.isRunning</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -710,19 +678,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">287</int>
+					<int key="connectionID">492</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isRunning</string>
+						<string key="label">hidden: self.conductor.isRunning</string>
 						<reference key="source" ref="233668226"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="233668226"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isRunning</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isRunning</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isRunning</string>
+							<string key="NSKeyPath">self.conductor.isRunning</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -730,19 +698,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">295</int>
+					<int key="connectionID">512</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isRunning</string>
+						<string key="label">hidden: self.conductor.isRunning</string>
 						<reference key="source" ref="195040871"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="195040871"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isRunning</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isRunning</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isRunning</string>
+							<string key="NSKeyPath">self.conductor.isRunning</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -750,19 +718,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">304</int>
+					<int key="connectionID">507</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isRunning</string>
+						<string key="label">hidden: self.conductor.isRunning</string>
 						<reference key="source" ref="886883638"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="886883638"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isRunning</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isRunning</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isRunning</string>
+							<string key="NSKeyPath">self.conductor.isRunning</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSRaisesForNotApplicableKeys</string>
 								<boolean value="NO" key="NS.object.0"/>
@@ -770,39 +738,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">299</int>
+					<int key="connectionID">510</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: values.enableFormattingConfiguration</string>
-						<reference key="source" ref="960405232"/>
-						<reference key="destination" ref="412292238"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="960405232"/>
-							<reference key="NSDestination" ref="412292238"/>
-							<string key="NSLabel">hidden: values.enableFormattingConfiguration</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">values.enableFormattingConfiguration</string>
-							<dictionary key="NSOptions">
-								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
-								<string key="NSValueTransformerName">NSNegateBoolean</string>
-							</dictionary>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">271</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isRunning</string>
+						<string key="label">hidden: self.conductor.isRunning</string>
 						<reference key="source" ref="64021113"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="64021113"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isRunning</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isRunning</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isRunning</string>
+							<string key="NSKeyPath">self.conductor.isRunning</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -810,19 +758,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">309</int>
+					<int key="connectionID">505</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isRunning</string>
+						<string key="label">hidden: self.conductor.isRunning</string>
 						<reference key="source" ref="635452151"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="635452151"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isRunning</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isRunning</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isRunning</string>
+							<string key="NSKeyPath">self.conductor.isRunning</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -830,27 +778,7 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">336</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isRunning</string>
-						<reference key="source" ref="901100865"/>
-						<reference key="destination" ref="461929346"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="901100865"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isRunning</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isRunning</string>
-							<dictionary key="NSOptions">
-								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
-								<string key="NSValueTransformerName">NSNegateBoolean</string>
-							</dictionary>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">341</int>
+					<int key="connectionID">563</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -862,15 +790,35 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: volume</string>
+						<string key="label">hidden: self.conductor.isRunning</string>
+						<reference key="source" ref="901100865"/>
+						<reference key="destination" ref="1004"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="901100865"/>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isRunning</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">self.conductor.isRunning</string>
+							<dictionary key="NSOptions">
+								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
+								<string key="NSValueTransformerName">NSNegateBoolean</string>
+							</dictionary>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">540</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: self.conductor.volume</string>
 						<reference key="source" ref="883374320"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="883374320"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">value: volume</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">value: self.conductor.volume</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">volume</string>
+							<string key="NSKeyPath">self.conductor.volume</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSAllowsEditingMultipleValuesSelection"/>
 								<boolean value="NO" key="NSConditionallySetsEnabled"/>
@@ -879,19 +827,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">321</int>
+					<int key="connectionID">551</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: isRunning</string>
+						<string key="label">hidden: self.conductor.isRunning</string>
 						<reference key="source" ref="883374320"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="883374320"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: isRunning</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isRunning</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">isRunning</string>
+							<string key="NSKeyPath">self.conductor.isRunning</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -899,19 +847,19 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">344</int>
+					<int key="connectionID">566</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: self.isPlaying</string>
+						<string key="label">hidden: self.conductor.isPlaying</string>
 						<reference key="source" ref="1041304298"/>
-						<reference key="destination" ref="461929346"/>
+						<reference key="destination" ref="1004"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="1041304298"/>
-							<reference key="NSDestination" ref="461929346"/>
-							<string key="NSLabel">hidden: self.isPlaying</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">hidden: self.conductor.isPlaying</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">self.isPlaying</string>
+							<string key="NSKeyPath">self.conductor.isPlaying</string>
 							<dictionary key="NSOptions">
 								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
 								<string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -919,28 +867,7 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">387</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.notifyWhenITunesIsFrontmost</string>
-						<reference key="source" ref="711512972"/>
-						<reference key="destination" ref="412292238"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="711512972"/>
-							<reference key="NSDestination" ref="412292238"/>
-							<string key="NSLabel">value: values.notifyWhenITunesIsFrontmost</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.notifyWhenITunesIsFrontmost</string>
-							<dictionary key="NSOptions">
-								<boolean value="NO" key="NSAllowsEditingMultipleValuesSelection"/>
-								<boolean value="NO" key="NSConditionallySetsEnabled"/>
-								<boolean value="NO" key="NSRaisesForNotApplicableKeys"/>
-							</dictionary>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">396</int>
+					<int key="connectionID">521</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1004,16 +931,13 @@
 							<reference ref="11909680"/>
 							<reference ref="135633956"/>
 							<reference ref="510808420"/>
-							<reference ref="960405232"/>
 							<reference ref="233668226"/>
 							<reference ref="64021113"/>
 							<reference ref="635452151"/>
 							<reference ref="195040871"/>
 							<reference ref="1041304298"/>
-							<reference ref="711512972"/>
 							<reference ref="846954912"/>
 							<reference ref="146429450"/>
-							<reference ref="607217587"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">GrowlTunes Menu</string>
@@ -1080,12 +1004,6 @@
 						<reference key="parent" ref="154069724"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">199</int>
-						<reference key="object" ref="461929346"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">iTunes Conductor</string>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">257</int>
 						<reference key="object" ref="978221467"/>
 						<reference key="parent" ref="154069724"/>
@@ -1118,11 +1036,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">266</int>
 						<reference key="object" ref="886883638"/>
-						<reference key="parent" ref="154069724"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">267</int>
-						<reference key="object" ref="960405232"/>
 						<reference key="parent" ref="154069724"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -1172,11 +1085,6 @@
 						<reference key="parent" ref="154069724"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">388</int>
-						<reference key="object" ref="711512972"/>
-						<reference key="parent" ref="154069724"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">389</int>
 						<reference key="object" ref="846954912"/>
 						<reference key="parent" ref="154069724"/>
@@ -1195,11 +1103,6 @@
 						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="146429450"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">445</int>
-						<reference key="object" ref="607217587"/>
-						<reference key="parent" ref="154069724"/>
-					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1214,7 +1117,6 @@
 				<string key="144.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="145.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="154.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="199.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="257.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="258.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="259.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1222,7 +1124,6 @@
 				<string key="264.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="265.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="266.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="267.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<object class="NSMutableDictionary" key="3.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">AccessibilityDescription</string>
 					<object class="IBAccessibilityAttribute" key="NS.object.0">
@@ -1239,7 +1140,6 @@
 				<string key="315.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="316.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="383.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="388.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="389.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<object class="NSMutableDictionary" key="4.IBAttributePlaceholdersKey">
 					<string key="NS.key.0">ToolTip</string>
@@ -1252,7 +1152,6 @@
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="435.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="436.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="445.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="61.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="63.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="82.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1261,7 +1160,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">481</int>
+			<int key="maxID">566</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1393,7 +1292,7 @@
 						<string key="playPause:">id</string>
 						<string key="previousTrack:">id</string>
 						<string key="quit:">id</string>
-						<string key="run:">id</string>
+						<string key="runiTunes:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="activate:">
@@ -1416,8 +1315,8 @@
 							<string key="name">quit:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="run:">
-							<string key="name">run:</string>
+						<object class="IBActionInfo" key="runiTunes:">
+							<string key="name">runiTunes:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

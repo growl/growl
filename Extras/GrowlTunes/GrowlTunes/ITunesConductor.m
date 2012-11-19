@@ -369,7 +369,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     if (_running) [[ITunesApplication sharedInstance] previousTrack];
 }
 
-- (IBAction)run:(id)sender
+- (IBAction)runiTunes:(id)sender
 {
     [[ITunesApplication sharedInstance] run];
     self.isRunning = [[ITunesApplication sharedInstance] isRunning];

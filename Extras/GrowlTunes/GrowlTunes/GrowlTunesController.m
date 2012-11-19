@@ -103,7 +103,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
    if((self = [super init])){
       _formatController = [[GrowlTunesFormattingController alloc] init];
       [NSApp setDelegate:self];
-      //self.conductor = AUTORELEASE([[ITunesConductor alloc] init]);
+      self.conductor = AUTORELEASE([[ITunesConductor alloc] init]);
    }
    return self;
 }
@@ -468,6 +468,23 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     [NSApp terminate:self];
 }
 
+
+#pragma mark Pass through from UI to conductor
+- (IBAction)quitItunes:(id)sender {
+	[self.conductor quit:sender];
+}
+- (IBAction)runiTunes:(id)sender {
+	[self.conductor runiTunes:sender];
+}
+- (IBAction)playPause:(id)sender {
+	[self.conductor playPause:sender];
+}
+- (IBAction)nextTrack:(id)sender {
+	[self.conductor nextTrack:sender];
+}
+- (IBAction)previousTrack:(id)sender {
+	[self.conductor previousTrack:sender];
+}
 
 #if defined(BETA)
 - (NSCalendarDate *)dateWithString:(NSString *)str {

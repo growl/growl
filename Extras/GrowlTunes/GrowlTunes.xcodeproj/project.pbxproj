@@ -665,9 +665,9 @@
 				BC671F19165928AC00F826FE /* GrowlTunesPreferencesWindowController.h */,
 				BC671F1A165928AC00F826FE /* GrowlTunesPreferencesWindowController.m */,
 				BC11E34116567DBD00B96422 /* GrowlOnSwitch.h */,
+				BC11E34216567DBD00B96422 /* GrowlOnSwitch.m */,
 				BC11E34716567DD100B96422 /* TMSliderControl.h */,
 				BC11E34816567DD100B96422 /* TMSliderControl.m */,
-				BC11E34216567DBD00B96422 /* GrowlOnSwitch.m */,
 				BC11E34316567DBD00B96422 /* GrowlOnSwitchLabel.h */,
 				BC11E34416567DBD00B96422 /* GrowlOnSwitchLabel.m */,
 			);

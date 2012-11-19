@@ -42,7 +42,7 @@
 - (IBAction)nextTrack:(id)sender;
 - (IBAction)previousTrack:(id)sender;
 
-- (IBAction)run:(id)sender;
+- (IBAction)runiTunes:(id)sender;
 - (IBAction)quit:(id)sender;
 
 - (IBAction)activate:(id)sender;
