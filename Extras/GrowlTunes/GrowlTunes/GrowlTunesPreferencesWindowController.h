@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface GrowlTunesPreferencesWindowController : NSWindowController <NSTokenFieldDelegate>
+@interface GrowlTunesPreferencesWindowController : NSWindowController <NSTokenFieldDelegate, NSToolbarDelegate, NSWindowDelegate>
 
 @end

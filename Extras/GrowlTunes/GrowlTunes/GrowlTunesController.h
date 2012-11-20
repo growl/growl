@@ -11,6 +11,13 @@
 #import <Growl/Growl.h>
 #import "macros.h"
 
+typedef enum : NSInteger {
+	kShowIconInMenu = 0,
+	kShowIconInDock = 1,
+	kShowIconInBoth = 2,
+	kDontShowIcon = 3
+} GrowlTunesIconState;
+
 @class ITunesConductor, FormattedItemViewController, StartAtLoginController, GrowlTunesFormattingController;
 
 @interface GrowlTunesController : NSApplication <GrowlApplicationBridgeDelegate, NSApplicationDelegate> {
@@ -37,5 +44,6 @@
 - (IBAction)quitGrowlTunes:(id)sender;
 - (IBAction)quitGrowlTunesAndITunes:(id)sender;
 - (void)createStatusItem;
+- (void)destroyStatusItem;
 
 @end

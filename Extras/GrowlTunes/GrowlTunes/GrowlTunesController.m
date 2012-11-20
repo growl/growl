@@ -275,9 +275,16 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 #if defined(BETA)
     [self expiryCheck];
 #endif
-    
-    [self createStatusItem];
-    
+	
+	NSNumber *visibility = [[NSUserDefaults standardUserDefaults] objectForKey:@"Visibility"];
+	if(visibility == nil || [visibility integerValue] == kShowIconInDock || [visibility integerValue] == kShowIconInBoth){
+		[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+	}
+	
+	if(visibility == nil || [visibility integerValue] == kShowIconInMenu || [visibility integerValue] == kShowIconInBoth){
+		[self createStatusItem];
+	}
+	    
     if (!_iTunesConductor) { self.conductor = AUTORELEASE([[ITunesConductor alloc] init]); }
     [self.conductor addObserver:self forKeyPath:@"currentTrack" options:NSKeyValueObservingOptionInitial context:nil];
 }
@@ -421,6 +428,15 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 //            [_statusItem setMenu:self.statusItemMenu];
         }
     }
+}
+
+- (void)destroyStatusItem
+{
+	if(_statusItem) {
+		[[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
+		RELEASE(_statusItem);
+		_statusItem = nil;
+	}
 }
 
 - (void)openMenu:(id)sender

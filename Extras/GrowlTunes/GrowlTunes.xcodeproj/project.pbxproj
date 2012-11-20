@@ -77,7 +77,16 @@
 		BC11E34916567DD100B96422 /* TMSliderControl.m in Sources */ = {isa = PBXBuildFile; fileRef = BC11E34816567DD100B96422 /* TMSliderControl.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BC11E34C1656871600B96422 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC11E34A165686FA00B96422 /* QuartzCore.framework */; };
 		BC2D024816591436009D1964 /* GrowlTunesFormattingController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC2D024716591436009D1964 /* GrowlTunesFormattingController.m */; };
+		BC5FF51F165BDE7900D97FDE /* OverlayMask.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5FF517165BDE7800D97FDE /* OverlayMask.png */; };
+		BC5FF520165BDE7900D97FDE /* OverlayMask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5FF518165BDE7800D97FDE /* OverlayMask@2x.png */; };
+		BC5FF521165BDE7900D97FDE /* SliderHandle.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5FF519165BDE7800D97FDE /* SliderHandle.png */; };
+		BC5FF522165BDE7900D97FDE /* SliderHandle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5FF51A165BDE7800D97FDE /* SliderHandle@2x.png */; };
+		BC5FF523165BDE7900D97FDE /* SliderHandleDown.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5FF51B165BDE7800D97FDE /* SliderHandleDown.png */; };
+		BC5FF524165BDE7900D97FDE /* SliderHandleDown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5FF51C165BDE7900D97FDE /* SliderHandleDown@2x.png */; };
+		BC5FF525165BDE7900D97FDE /* SliderWell.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5FF51D165BDE7900D97FDE /* SliderWell.png */; };
+		BC5FF526165BDE7900D97FDE /* SliderWell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5FF51E165BDE7900D97FDE /* SliderWell@2x.png */; };
 		BC671F1B165928AC00F826FE /* GrowlTunesPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC671F1A165928AC00F826FE /* GrowlTunesPreferencesWindowController.m */; };
+		BCAFA05E165BCE25007E5E5A /* GrowlProcessTransofmation.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAFA05D165BCE25007E5E5A /* GrowlProcessTransofmation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -375,6 +384,14 @@
 		BC11E34A165686FA00B96422 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		BC2D024616591436009D1964 /* GrowlTunesFormattingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlTunesFormattingController.h; sourceTree = "<group>"; };
 		BC2D024716591436009D1964 /* GrowlTunesFormattingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlTunesFormattingController.m; sourceTree = "<group>"; usesTabs = 1; };
+		BC5FF517165BDE7800D97FDE /* OverlayMask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = OverlayMask.png; path = ../../../external_dependencies/tmslidercontrol/OverlayMask.png; sourceTree = "<group>"; };
+		BC5FF518165BDE7800D97FDE /* OverlayMask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "OverlayMask@2x.png"; path = "../../../external_dependencies/tmslidercontrol/OverlayMask@2x.png"; sourceTree = "<group>"; };
+		BC5FF519165BDE7800D97FDE /* SliderHandle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SliderHandle.png; path = ../../../external_dependencies/tmslidercontrol/SliderHandle.png; sourceTree = "<group>"; };
+		BC5FF51A165BDE7800D97FDE /* SliderHandle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SliderHandle@2x.png"; path = "../../../external_dependencies/tmslidercontrol/SliderHandle@2x.png"; sourceTree = "<group>"; };
+		BC5FF51B165BDE7800D97FDE /* SliderHandleDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SliderHandleDown.png; path = ../../../external_dependencies/tmslidercontrol/SliderHandleDown.png; sourceTree = "<group>"; };
+		BC5FF51C165BDE7900D97FDE /* SliderHandleDown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SliderHandleDown@2x.png"; path = "../../../external_dependencies/tmslidercontrol/SliderHandleDown@2x.png"; sourceTree = "<group>"; };
+		BC5FF51D165BDE7900D97FDE /* SliderWell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SliderWell.png; path = ../../../external_dependencies/tmslidercontrol/SliderWell.png; sourceTree = "<group>"; };
+		BC5FF51E165BDE7900D97FDE /* SliderWell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SliderWell@2x.png"; path = "../../../external_dependencies/tmslidercontrol/SliderWell@2x.png"; sourceTree = "<group>"; };
 		BC671F19165928AC00F826FE /* GrowlTunesPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlTunesPreferencesWindowController.h; sourceTree = "<group>"; };
 		BC671F1A165928AC00F826FE /* GrowlTunesPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlTunesPreferencesWindowController.m; sourceTree = "<group>"; usesTabs = 1; };
 		BC8F61DB15F05CF400DEC0A8 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -387,6 +404,8 @@
 		BC8F61F315F05F7200DEC0A8 /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC8F61F415F05FBC00DEC0A8 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F61F515F0601E00DEC0A8 /* th */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BCAFA05C165BCE25007E5E5A /* GrowlProcessTransofmation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlProcessTransofmation.h; path = ../../../Common/Source/GrowlProcessTransofmation.h; sourceTree = "<group>"; };
+		BCAFA05D165BCE25007E5E5A /* GrowlProcessTransofmation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlProcessTransofmation.m; path = ../../../Common/Source/GrowlProcessTransofmation.m; sourceTree = "<group>"; };
 		D603AFF4246FD5744B2B837F /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -461,6 +480,7 @@
 		6A56765D14CB70B200E97962 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BC5FF527165BDE8300D97FDE /* OnSwitch */,
 				6A8EB5CA147F02B80075A826 /* defaults.plist */,
 				6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */,
 				6A8EB5C1147C59520075A826 /* GrowlTunesPrefs.xib */,
@@ -662,16 +682,41 @@
 		BC11E33F16567D3500B96422 /* PreferencesWindow */ = {
 			isa = PBXGroup;
 			children = (
+				BC5FF516165BDE2800D97FDE /* OnSwitch */,
 				BC671F19165928AC00F826FE /* GrowlTunesPreferencesWindowController.h */,
 				BC671F1A165928AC00F826FE /* GrowlTunesPreferencesWindowController.m */,
-				BC11E34116567DBD00B96422 /* GrowlOnSwitch.h */,
-				BC11E34216567DBD00B96422 /* GrowlOnSwitch.m */,
+				BCAFA05C165BCE25007E5E5A /* GrowlProcessTransofmation.h */,
+				BCAFA05D165BCE25007E5E5A /* GrowlProcessTransofmation.m */,
+			);
+			name = PreferencesWindow;
+			sourceTree = "<group>";
+		};
+		BC5FF516165BDE2800D97FDE /* OnSwitch */ = {
+			isa = PBXGroup;
+			children = (
 				BC11E34716567DD100B96422 /* TMSliderControl.h */,
 				BC11E34816567DD100B96422 /* TMSliderControl.m */,
+				BC11E34116567DBD00B96422 /* GrowlOnSwitch.h */,
+				BC11E34216567DBD00B96422 /* GrowlOnSwitch.m */,
 				BC11E34316567DBD00B96422 /* GrowlOnSwitchLabel.h */,
 				BC11E34416567DBD00B96422 /* GrowlOnSwitchLabel.m */,
 			);
-			name = PreferencesWindow;
+			name = OnSwitch;
+			sourceTree = "<group>";
+		};
+		BC5FF527165BDE8300D97FDE /* OnSwitch */ = {
+			isa = PBXGroup;
+			children = (
+				BC5FF517165BDE7800D97FDE /* OverlayMask.png */,
+				BC5FF518165BDE7800D97FDE /* OverlayMask@2x.png */,
+				BC5FF519165BDE7800D97FDE /* SliderHandle.png */,
+				BC5FF51A165BDE7800D97FDE /* SliderHandle@2x.png */,
+				BC5FF51B165BDE7800D97FDE /* SliderHandleDown.png */,
+				BC5FF51C165BDE7900D97FDE /* SliderHandleDown@2x.png */,
+				BC5FF51D165BDE7900D97FDE /* SliderWell.png */,
+				BC5FF51E165BDE7900D97FDE /* SliderWell@2x.png */,
+			);
+			name = OnSwitch;
 			sourceTree = "<group>";
 		};
 		BC671F18165926FD00F826FE /* Formatting */ = {
@@ -780,7 +825,7 @@
 		6A9ED3771447D04F002A0537 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "The Growl Project";
 			};
 			buildConfigurationList = 6A9ED37A1447D04F002A0537 /* Build configuration list for PBXProject "GrowlTunes" */;
@@ -955,6 +1000,14 @@
 				6ACCD3DC148E6E8C00D6804D /* FormattedItem.xib in Resources */,
 				6A56767314CB70B200E97962 /* GrowlTunes-Template.pdf in Resources */,
 				6A5152E714D5179100E48670 /* GrowlTunes.entitlements in Resources */,
+				BC5FF51F165BDE7900D97FDE /* OverlayMask.png in Resources */,
+				BC5FF520165BDE7900D97FDE /* OverlayMask@2x.png in Resources */,
+				BC5FF521165BDE7900D97FDE /* SliderHandle.png in Resources */,
+				BC5FF522165BDE7900D97FDE /* SliderHandle@2x.png in Resources */,
+				BC5FF523165BDE7900D97FDE /* SliderHandleDown.png in Resources */,
+				BC5FF524165BDE7900D97FDE /* SliderHandleDown@2x.png in Resources */,
+				BC5FF525165BDE7900D97FDE /* SliderWell.png in Resources */,
+				BC5FF526165BDE7900D97FDE /* SliderWell@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1023,6 +1076,7 @@
 				BC11E34916567DD100B96422 /* TMSliderControl.m in Sources */,
 				BC2D024816591436009D1964 /* GrowlTunesFormattingController.m in Sources */,
 				BC671F1B165928AC00F826FE /* GrowlTunesPreferencesWindowController.m in Sources */,
+				BCAFA05E165BCE25007E5E5A /* GrowlProcessTransofmation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1165,6 +1219,7 @@
 			baseConfigurationReference = 6A636283149C43E600C1ED44 /* GrowlTunes-Debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -1173,6 +1228,7 @@
 			baseConfigurationReference = 6A636284149C43E600C1ED44 /* GrowlTunes-Release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -1181,6 +1237,7 @@
 			baseConfigurationReference = 6A636283149C43E600C1ED44 /* GrowlTunes-Debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -1189,6 +1246,7 @@
 			baseConfigurationReference = 6A636284149C43E600C1ED44 /* GrowlTunes-Release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
@@ -1197,6 +1255,7 @@
 			baseConfigurationReference = 6ACCBED214C289C5000F3151 /* GrowlTunes-Localization.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Localization;
 		};
@@ -1212,6 +1271,7 @@
 			baseConfigurationReference = 6ACCBED214C289C5000F3151 /* GrowlTunes-Localization.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
+				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Localization;
 		};
@@ -1219,6 +1279,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ACCBED614C28C08000F3151 /* additions-Localization.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Localization;
 		};
@@ -1226,6 +1287,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ACCBED514C28C08000F3151 /* additions-Debug.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Debug;
 		};
@@ -1233,6 +1295,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ACCBED714C28C08000F3151 /* additions-Release.xcconfig */;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 			};
 			name = Release;
 		};
