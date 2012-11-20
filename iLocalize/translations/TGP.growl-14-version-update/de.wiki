@@ -1,3 +1,8 @@
+Growl 2.0.1 Änderungen
+
+- Behebt ein Problem mit der Positionierung, das in Version 2.0 aufgetreten ist. Vielen Dank für die Rückmeldungen!
+- Verschiedene Absturzursachen behoben.
+
 Änderungen in Growl 2
 
 Allgemein

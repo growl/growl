@@ -1,3 +1,7 @@
+Growl 2.0.1 Endringer
+
+Adresserer posisjoneringproblemet som dukket opp i 2.0, takk for tilbakemeldingene!  - Adresserer flere kræsj rapporter. 
+
 Growl 2 forandringer
 
 Generelt - Nå kompatibelt med OSX notifikasjons senter på 10.8 - Nå kompatibilitet med Prowl og Boxcar tjenester som handlings-vinduer. - Rollup har nå bedre inaktivitets oppdagelse. - Growl kjører nå i "Sandbox" .
