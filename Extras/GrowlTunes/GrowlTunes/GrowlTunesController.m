@@ -155,32 +155,25 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 { return @"GrowlTunes"; }
 
 - (NSDictionary*)registrationDictionaryForGrowl
-{    
-    NSDictionary* notifications = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   NotifierChangedTracksReadable,   NotifierChangedTracks,
-                                   NotifierPausedReadable,          NotifierPaused,
-                                   NotifierStoppedReadable,         NotifierStopped,
-                                   NotifierStartedReadable,         NotifierStarted,
-                                   nil];
-    LogInfo(@"%@", notifications);
-    
-    NSArray* allNotifications = [notifications allKeys];
-    
-    NSURL* iconURL = [[NSBundle mainBundle] URLForImageResource:@"GrowlTunes"];
-    NSImage* icon = [[NSImage alloc] initByReferencingURL:iconURL];
-    
-    NSDictionary* regDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                             @"GrowlTunes",             GROWL_APP_NAME,
-                             @"com.growl.growltunes",   GROWL_APP_ID,
-                             allNotifications,          GROWL_NOTIFICATIONS_ALL,
-                             allNotifications,          GROWL_NOTIFICATIONS_DEFAULT,
-                             notifications,             GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
-                             icon,                      GROWL_APP_ICON_DATA,
-                             nil];
-    
-    RELEASE(icon);
-    
-    return regDict;
+{
+	NSDictionary* notifications = @{NotifierChangedTracks: NotifierChangedTracksReadable};
+	LogInfo(@"%@", notifications);
+	
+	NSArray* allNotifications = [notifications allKeys];
+	
+	NSURL* iconURL = [[NSBundle mainBundle] URLForImageResource:@"GrowlTunes"];
+	NSData *iconData = [NSData dataWithContentsOfURL:iconURL];
+	
+	NSDictionary* regDict = [NSDictionary dictionaryWithObjectsAndKeys:
+									 @"GrowlTunes",				GROWL_APP_NAME,
+									 @"com.growl.growltunes",	GROWL_APP_ID,
+									 allNotifications,			GROWL_NOTIFICATIONS_ALL,
+									 allNotifications,			GROWL_NOTIFICATIONS_DEFAULT,
+									 notifications,				GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
+									 iconData,						GROWL_APP_ICON_DATA,
+									 nil];
+		
+	return regDict;
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
