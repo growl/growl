@@ -243,7 +243,6 @@
 				<string key="NSFrameSize">{65, 13}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSReuseIdentifierKey">_NS:2200</string>
 				<bool key="NSEnabled">YES</bool>
 				<object class="NSLevelIndicatorCell" key="NSCell" id="785474649">
@@ -265,7 +264,6 @@
 				<string key="NSFrameSize">{104, 21}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
 				<string key="NSReuseIdentifierKey">_NS:779</string>
 				<bool key="NSEnabled">YES</bool>
 				<object class="NSSliderCell" key="NSCell" id="979485101">
@@ -375,6 +373,14 @@
 						<reference key="destination" ref="135633956"/>
 					</object>
 					<int key="connectionID">487</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">activateItunes:</string>
+						<reference key="source" ref="1004"/>
+						<reference key="destination" ref="64021113"/>
+					</object>
+					<int key="connectionID">567</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1160,7 +1166,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">566</int>
+			<int key="maxID">567</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

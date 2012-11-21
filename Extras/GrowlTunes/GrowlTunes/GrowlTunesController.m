@@ -494,6 +494,9 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 - (IBAction)previousTrack:(id)sender {
 	[self.conductor previousTrack:sender];
 }
+- (IBAction)activateItunes:(id)sender {
+	[self.conductor activate:sender];
+}
 
 #if defined(BETA)
 - (NSCalendarDate *)dateWithString:(NSString *)str {
