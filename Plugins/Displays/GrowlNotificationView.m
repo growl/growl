@@ -127,15 +127,18 @@ static NSButton *gCloseButton = nil;
 
 + (void)makeButtonWithImage:(NSImage*)image pressedImage:(NSImage*)pressed forKey:(NSString*)key {
 	if(key && (image || pressed)){
-		NSButton *button = [[NSButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 30.0)];
-		[button setBezelStyle:NSRegularSquareBezelStyle];
-		[button setBordered:NO];
-		[button setButtonType:NSMomentaryChangeButton];
-		[button setImagePosition:NSImageOnly];
-		[button setImage:image ? image : [NSImage imageNamed:@"closebox"]];
-		[button setAlternateImage:pressed ? pressed : [NSImage imageNamed:@"closebox_pressed"]];
-		[self setButton:button forKey:key];
-		[button release];
+		//If the button is equal to the global close button, it means we don't have a custom one for that key yet
+		if([self closeButtonForKey:key] == gCloseButton){
+			NSButton *button = [[NSButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 30.0, 30.0)];
+			[button setBezelStyle:NSRegularSquareBezelStyle];
+			[button setBordered:NO];
+			[button setButtonType:NSMomentaryChangeButton];
+			[button setImagePosition:NSImageOnly];
+			[button setImage:image ? image : [NSImage imageNamed:@"closebox"]];
+			[button setAlternateImage:pressed ? pressed : [NSImage imageNamed:@"closebox_pressed"]];
+			[self setButton:button forKey:key];
+			[button release];
+		}
 	}
 }
 
