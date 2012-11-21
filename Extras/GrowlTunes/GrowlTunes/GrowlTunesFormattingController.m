@@ -58,7 +58,9 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	dispatch_once(&onceToken, ^{
 		NSMutableArray *buildArray = [NSMutableArray array];
 		[[[FormattingToken tokenMap] allKeys] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-			[buildArray addObject:[NSString stringWithFormat:@"[%@]", obj]];
+			NSString *editString = [NSString stringWithFormat:@"[%@]", obj];
+			FormattingToken *token = [FormattingToken tokenWithEditingString:editString];
+			[buildArray addObject:token];
 		}];
 		_tokenCloud = [buildArray copy];
 	});

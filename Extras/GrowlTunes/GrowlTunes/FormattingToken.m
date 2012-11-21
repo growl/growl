@@ -68,11 +68,16 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
    return tokenMap;
 }
 
++(FormattingToken*)tokenWithEditingString:(NSString*)token {
+	return AUTORELEASE([[FormattingToken alloc] initWithEditingString:token]);
+}
+
 -(id)initWithEditingString:(NSString *)editingString
 {
-    self = [super init];
-    self.editingString = editingString;
-    return self;
+	if((self = [super init])){
+		self.editingString = editingString;
+	}
+	return self;
 }
 
 -(void)encodeWithCoder:(NSCoder *)encoder
