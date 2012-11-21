@@ -601,7 +601,6 @@
 							<int key="NSTokenStyle">0</int>
 						</object>
 						<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-						<bool key="NSControlAutosetMaxLayoutWidth">YES</bool>
 						<int key="NSTokenFieldVersion">2</int>
 					</object>
 					<object class="NSTokenField" id="561510823">
@@ -1163,19 +1162,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: objectValue.formatType</string>
+						<string key="label">value: objectValue.formatTypeReadable</string>
 						<reference key="source" ref="1059916258"/>
 						<reference key="destination" ref="373263110"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="1059916258"/>
 							<reference key="NSDestination" ref="373263110"/>
-							<string key="NSLabel">value: objectValue.formatType</string>
+							<string key="NSLabel">value: objectValue.formatTypeReadable</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">objectValue.formatType</string>
+							<string key="NSKeyPath">objectValue.formatTypeReadable</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1364</int>
+					<int key="connectionID">1446</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -3047,7 +3046,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1445</int>
+			<int key="maxID">1446</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

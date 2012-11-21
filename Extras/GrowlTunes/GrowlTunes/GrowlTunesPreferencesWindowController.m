@@ -272,6 +272,23 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 
 #pragma mark NSTokenField Delegate methods
 
+- (NSArray*)tokenField:(NSTokenField *)tokenField
+completionsForSubstring:(NSString *)substring
+			 indexOfToken:(NSInteger)tokenIndex
+	indexOfSelectedItem:(NSInteger *)selectedIndex
+{
+	NSMutableArray *buildArray = [NSMutableArray array];
+	[[[self formatController] tokenCloud] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if([[obj displayString] rangeOfString:substring options:NSCaseInsensitiveSearch|NSAnchoredSearch].location != NSNotFound ||
+			[[obj editingString] rangeOfString:substring options:NSCaseInsensitiveSearch|NSAnchoredSearch].location != NSNotFound)
+		{
+			[buildArray addObject:[obj editingString]];
+		}
+	}];
+	*selectedIndex = -1;
+	return [buildArray sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+}
+
 - (NSString *)tokenField:(NSTokenField *)tokenField displayStringForRepresentedObject:(id)representedObject
 {
 	if ([representedObject respondsToSelector:@selector(displayString)]) {

@@ -68,7 +68,9 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 }
 
 -(NSArray*)allTokenDicts {
-	return [_tokenDicts allValues];
+	return [[_tokenDicts allValues] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		return [[obj1 valueForKey:@"formatTypeReadable"] caseInsensitiveCompare:[obj2 valueForKey:@"formatTypeReadable"]];
+	}];
 }
 
 -(NSArray*)tokensForType:(NSString*)type andAttribute:(NSString*)attribute {
@@ -83,6 +85,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	if (!format) format = [NSDictionary dictionary];
 	
 	NSArray *types = @[formattingTypes];
+	NSDictionary *readableDict = [NSDictionary dictionaryWithObjects:@[formattingTypesReadable] forKeys:types];
 	NSArray *attributes = @[formattingAttributes];
 	
 	NSMutableDictionary *dictBuild = [NSMutableDictionary dictionaryWithCapacity:[types count]];
@@ -116,6 +119,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 		
 		//Replace with localized type
 		[mutableValue setObject:type forKey:@"formatType"];
+		[mutableValue setObject:[readableDict valueForKey:type] forKey:@"formatTypeReadable"];
 		[dictBuild setObject:mutableValue forKey:type];
 	}];
 	self.tokenDicts = dictBuild;
