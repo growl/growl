@@ -1,3 +1,8 @@
+Cambiamenti in Growl 2.0.1
+
+Sistemato il problema di posizionamento mostrato in 2.0, grazie per le segnalazioni. 
+Sistemati crash multipli. 
+
 Cambiamenti in Growl 2
 
 Generali

@@ -1,3 +1,8 @@
+Novidades no Growl 2.0.1
+
+- Resolve o problema de posicionamento que apareceu no 2.0 - obrigado pelo feedback!
+- Resolve diversos relatórios de travamentos.
+
 Novidades no Growl 2
 
 Geral

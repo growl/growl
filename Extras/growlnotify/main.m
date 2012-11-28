@@ -309,6 +309,15 @@ int main(int argc, const char **argv) {
    NSString *clickURL = nil;
    if(url)
       clickURL = [NSString stringWithUTF8String:url];
+	
+	if(clickURL && [NSURL URLWithString:clickURL] == nil){
+		NSLog(@"Click URL %@ does not conform to RFC 2396\n\
+				Click URL must contain a scheme (such as http)\n\
+				The separator ://\n\
+				And a valid path, including %% escapes for any characters such as spaces which need it.\n\
+				Not sending click url to Growl via GNTP.", clickURL);
+		clickURL = nil;
+	}
       
       
 	// Register with Growl

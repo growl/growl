@@ -96,7 +96,7 @@
 -(void)fwDeviceName:(NSString*)deviceName added:(BOOL)added {
 	NSString *title = added ? NSLocalizedString(@"Firewire Connection", @"") : NSLocalizedString(@"Firewire Disconnection", @"");
 	
-    NSString *imageName = (added ? @"FireWire-On" : @"FireWire-Off");
+    NSString *imageName = (added ? @"Firewire-On" : @"Firewire-Off");
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
     NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
     

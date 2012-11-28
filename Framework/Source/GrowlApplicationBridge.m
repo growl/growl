@@ -83,6 +83,7 @@
 @end
 
 @class GrowlAppleNotificationDelegate;
+@class GrowlRunningAppObserver;
 
 static NSDictionary *cachedRegistrationDictionary = nil;
 static NSString	*appName = nil;
@@ -95,6 +96,8 @@ static GrowlMiniDispatch *miniDispatch = nil;
 #if !GROWLHELPERAPP && defined(MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_8
 static GrowlAppleNotificationDelegate *appleNotificationDelegate = nil;
 #endif
+
+static GrowlRunningAppObserver *_runningAppObserver = nil;
 
 static id<GrowlApplicationBridgeDelegate> delegate = nil;
 static BOOL		growlLaunched = NO;
@@ -210,6 +213,47 @@ static struct {
 
 @end
 
+@interface GrowlRunningAppObserver : NSObject{
+	BOOL growlIsRunning;
+}
+@property BOOL growlIsRunning;
+@end
+
+@implementation GrowlRunningAppObserver
+
+@synthesize growlIsRunning;
+
+-(id)init {
+	if((self = [super init])){
+		//Register
+		growlIsRunning = [GrowlApplicationBridge isGrowlRunning];
+		[[NSWorkspace sharedWorkspace] addObserver:self
+												  forKeyPath:@"runningApplications"
+													  options:NSKeyValueObservingOptionNew
+													  context:nil];
+	}
+	return self;
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if(object == [NSWorkspace sharedWorkspace] && [keyPath isEqualToString:@"runningApplications"]){
+		BOOL newRunning = [GrowlApplicationBridge isGrowlRunning];
+		if(growlIsRunning && !newRunning){
+			[GrowlXPCCommunicationAttempt shutdownXPC];
+			growlIsRunning = NO;
+		}else if(newRunning){
+			growlIsRunning = YES;
+		}
+	}
+}
+
+-(void)dealloc {
+	[[NSWorkspace sharedWorkspace] removeObserver:self forKeyPath:@"runningApplications"];
+	[super dealloc];
+}
+
+@end
+
 #endif // MAC_OS_X_VERSION_10_8
 
 #pragma mark -
@@ -288,7 +332,20 @@ static struct {
              selector:@selector(_growlNotificationCenterOff:)
                  name:GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_OFF
                object:nil];
-   
+	
+	if([GrowlXPCCommunicationAttempt canCreateConnection]){
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			_runningAppObserver = [[GrowlRunningAppObserver alloc] init];
+			[[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationWillTerminateNotification
+																			  object:nil
+																				queue:[NSOperationQueue mainQueue]
+																		 usingBlock:^(NSNotification *note) {
+																			 //Shutdown the XPC
+																			 [GrowlXPCCommunicationAttempt shutdownXPC];
+																		 }];
+		});
+   }
 	/* Watch for notification clicks if our delegate responds to the
 	 * growlNotificationWasClicked: selector. Notifications will come in on a
 	 * unique notification name based on our app name, pid and
