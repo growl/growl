@@ -19,6 +19,8 @@
 @synthesize responseDict;
 @synthesize connection;
 
+static BOOL xpcInUse = NO;
+
 + (NSString*)XPCBundleID
 {
 	return [NSString stringWithFormat:@"%@.GNTPClientService", [[NSBundle mainBundle] bundleIdentifier]];
@@ -46,6 +48,35 @@
 	}
 	else {
 		return NO;
+	}
+}
+
++ (void)shutdownXPC {
+	NSLog(@"shutting down the XPC");
+	if(![self canCreateConnection])
+		return;
+	
+	if(xpcInUse){
+		xpcInUse = NO;
+		xpc_connection_t shutdownConnection = xpc_connection_create([[self XPCBundleID] UTF8String],
+																						dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+		
+		xpc_connection_set_event_handler(shutdownConnection, ^(xpc_object_t object) {
+			xpc_type_t type = xpc_get_type(object);
+			if (type == XPC_TYPE_ERROR) {
+				NSLog(@"error with connection shutting down XPC");
+			} else {
+				NSLog(@"Unexpected reply from XPC during shutdown");
+			}
+		});
+		
+		xpc_connection_resume(shutdownConnection);
+		xpc_object_t message = [[NSDictionary dictionaryWithObject:@"shutdown" forKey:@"GrowlDictType"] newXPCObject];
+		xpc_connection_send_message(shutdownConnection, message);
+		xpc_release(message);
+		xpc_release(shutdownConnection);
+	}else{
+		//NSLog(@"endpoint doesn't exist, xpc not running");
 	}
 }
 
@@ -111,6 +142,9 @@
 	connection = xpc_connection_create([[GrowlXPCCommunicationAttempt XPCBundleID] UTF8String], dispatch_get_main_queue());
 	if (!connection)
 		return NO;
+	if(!xpcInUse)
+		xpcInUse = YES;
+	
 	xpc_connection_set_event_handler(connection, ^(xpc_object_t object) {
 		xpc_type_t type = xpc_get_type(object);
 		
