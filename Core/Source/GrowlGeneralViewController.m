@@ -14,6 +14,7 @@
 #import <ShortcutRecorder/ShortcutRecorder.h>
 #import <GrowlPlugins/SGHotKey.h>
 #import <GrowlPlugins/SGKeyCombo.h>
+#import <GrowlPlugins/GrowlUserScriptTaskUtilities.h>
 
 #import "GrowlDefines.h"
 
@@ -35,6 +36,8 @@
 @synthesize closeAllNotificationsTitle;
 @synthesize useAppleNotificationCenterLabel;
 @synthesize appleNotificationCenterExplanation;
+
+@synthesize showRulesUI;
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil forPrefPane:(GrowlPreferencePane *)aPrefPane {
    if((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil forPrefPane:aPrefPane])){
@@ -89,6 +92,11 @@
                                             selector:@selector(updatePosition:) 
                                                 name:GrowlPositionPickerChangedSelectionNotification 
                                               object:globalPositionPicker];
+	[self setShowRulesUI:[GrowlUserScriptTaskUtilities hasRulesScript]];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+														  selector:@selector(updateRulesState:)
+																name:@"GrowlRuleScriptStatusChange"
+															 object:nil];
 
     KeyCombo combo = {SRCarbonToCocoaFlags([GrowlPreferencesController sharedController].closeAllCombo.modifiers), [GrowlPreferencesController sharedController].closeAllCombo.keyCode};
     [self.recorderControl setKeyCombo:combo];
@@ -99,6 +107,7 @@
 }
 
 - (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [startAtLoginSwitch removeObserver:self forKeyPath:@"state"];
     [additionalDownloadsButtonTitle release];
     [startGrowlAtLoginLabel release];
@@ -121,6 +130,10 @@
 		[self.preferencesController setInteger:[globalPositionPicker selectedPosition] 
                                       forKey:GROWL_POSITION_PREFERENCE_KEY];
 	}
+}
+
+- (void)updateRulesState:(NSNotification*)notification {
+	[self setShowRulesUI:[[[notification userInfo] valueForKey:@"hasRules"] boolValue]];
 }
 
 -(IBAction)startGrowlAtLogin:(id)sender{

@@ -12,6 +12,7 @@
 #import "NSStringAdditions.h"
 #import "GrowlDefines.h"
 #import <GrowlPlugins/GrowlNotification.h>
+#import <GrowlPlugins/GrowlNotificationView.h>
 
 NSString *GrowlDisplayPluginInfoKeyUsesQueue = @"GrowlDisplayUsesQueue";
 NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
@@ -24,6 +25,14 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 		 *	notification is already being displayed.
 		 */
 		windowControllerClass    = nil;
+		
+		if(![self fullCustomButton]){
+			NSImage *image = [self buttonImage];
+			NSImage *pressed = [self pressedButtonImage];
+			if([self buttonKey] && (image || pressed)){
+				[GrowlNotificationView makeButtonWithImage:image pressedImage:pressed forKey:[self buttonKey]];
+			}
+		}
 	}
 	return self;
 }
@@ -32,6 +41,31 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 	[coalescableWindows release];
 	
 	[super dealloc];
+}
+
+-(BOOL)fullCustomButton {
+	return NO;
+}
+-(NSString*)buttonKey {
+	return [[self bundle] bundleIdentifier];
+}
+-(NSImage*)buttonImage {
+	NSString *imageName = [[[self bundle] infoDictionary] objectForKey:@"GrowlCloseButtonImage"];
+	if(!imageName)
+		return nil;
+	
+	NSString *path = [[self bundle] pathForImageResource:imageName];
+	NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
+	return [image autorelease];
+}
+-(NSImage*)pressedButtonImage {
+	NSString *imageName = [[[self bundle] infoDictionary] objectForKey:@"GrowlCloseButtonPressedImage"];
+	if(!imageName)
+		return nil;
+	
+	NSString *path = [[self bundle] pathForImageResource:imageName];
+	NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
+	return [image autorelease];
 }
 
 #pragma mark -
