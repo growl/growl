@@ -30,10 +30,10 @@
 + (void)load
 {
    if (self == [GrowlPluginTypeLabelTransformer class]) {
-      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-      [self setValueTransformer:[[[self alloc] init] autorelease]
-                        forName:@"GrowlPluginTypeLabelTransformer"];
-      [pool release];
+       @autoreleasepool {
+           [self setValueTransformer:[[[self alloc] init] autorelease]
+                             forName:@"GrowlPluginTypeLabelTransformer"];
+       }
    }
 }
 
@@ -68,10 +68,10 @@
 + (void)load
 {
    if (self == [GrowlPluginNameTransformer class]) {
-      NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-      [self setValueTransformer:[[[self alloc] init] autorelease]
-                        forName:@"GrowlPluginNameTransformer"];
-      [pool release];
+       @autoreleasepool {
+           [self setValueTransformer:[[[self alloc] init] autorelease]
+                             forName:@"GrowlPluginNameTransformer"];
+       }
    }
 }
 

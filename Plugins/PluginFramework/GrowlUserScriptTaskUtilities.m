@@ -138,4 +138,21 @@
    return noteDesc;
 }
 
++(BOOL)isAppleEventDescriptorBoolean:(NSAppleEventDescriptor*)event {
+	BOOL result = NO;
+	DescType type = [event descriptorType];
+	if(type == typeBoolean ||
+		type == typeFalse ||
+		type == typeTrue)
+	{
+		result = YES;
+	}else if(type == typeEnumerated){
+		OSType enumValue = [event enumCodeValue];
+		if(enumValue == kAENo || enumValue == kAEYes){
+			result = YES;
+		}
+	}
+	return result;
+}
+
 @end

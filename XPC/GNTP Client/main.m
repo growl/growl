@@ -18,12 +18,12 @@
 static GrowlNotifier *notifier = nil;
 static BOOL keepAlive = NO;
 
-static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event) 
+static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
 {
-   if(!keepAlive){
-      xpc_transaction_begin();
-      keepAlive = YES;
-   }
+	if(!keepAlive){
+		xpc_transaction_begin();
+		keepAlive = YES;
+	}
 	
 	xpc_type_t type = xpc_get_type(event);
 	if (type == XPC_TYPE_ERROR) {
@@ -39,19 +39,13 @@ static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
 	} else {
 		assert(type == XPC_TYPE_DICTIONARY);
 		
-		/*
-		 xpc_connection_t remote = xpc_dictionary_get_remote_connection(event);
-		 
-		 xpc_object_t reply = xpc_dictionary_create_reply(event); */
-		
-		
 		// Here we unpack our dictionary.
 		NSDictionary *dict = [NSObject xpcObjectToNSObject:event];
 		NSString *purpose = [dict valueForKey:@"GrowlDictType"];
 		NSDictionary *growlDict = [dict objectForKey:@"GrowlDict"];
 		
 		NSData *address = [dict objectForKey:@"GNTPAddressData"];
-		NSString *host = [dict valueForKey:@"GNTPHost"];
+		NSString *host = [dict valueForKey :@"GNTPHost"];
 		NSString *pass = [dict valueForKey:@"GNTPPassword"];
 		
 		GrowlGNTPCommunicationAttempt *attempt = nil;
@@ -60,22 +54,27 @@ static void GNTP_peer_event_handler(xpc_connection_t peer, xpc_object_t event)
 			
 		}else if ([purpose caseInsensitiveCompare:@"notification"] == NSOrderedSame) {
 			attempt = [[[GrowlGNTPNotificationAttempt alloc] initWithDictionary:growlDict] autorelease];
-		}/*else if ([purpose caseInsensitiveCompare:@"subscribe"] == NSOrderedSame){
-			attempt = [[[GrowlGNTPSubscriptionAttempt alloc] initWithDictionary:growlDict] autorelease];
-		}*/
+		}else if ([purpose caseInsensitiveCompare:@"shutdown"] == NSOrderedSame){
+			if(keepAlive){
+				NSLog(@"Shutting down GNTP Client XPC");
+				xpc_transaction_end();
+				keepAlive = NO;
+				exit(0);
+			}
+		}
 		if(attempt){
 			attempt.delegate = (id <GrowlCommunicationAttemptDelegate>)notifier;
 			attempt.host = host;
 			attempt.addressData = address;
 			attempt.password = pass;
 			attempt.connection = peer;
-
+			
 			[notifier sendCommunicationAttempt:attempt];
 		}
 	}
 }
 
-static void GNTP_event_handler(xpc_connection_t peer) 
+static void GNTP_event_handler(xpc_connection_t peer)
 {
 	// By defaults, new connections will target the default dispatch
 	// concurrent queue.
@@ -91,7 +90,10 @@ static void GNTP_event_handler(xpc_connection_t peer)
 
 int main(int argc, const char *argv[])
 {
-    notifier = [[GrowlNotifier alloc] init];
-	xpc_main(GNTP_event_handler);
+	@autoreleasepool
+    {
+        notifier = [[GrowlNotifier alloc] init];
+        xpc_main(GNTP_event_handler);
+    }
 	return 0;
 }

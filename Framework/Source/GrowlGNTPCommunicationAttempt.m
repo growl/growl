@@ -71,7 +71,25 @@ enum {
 	self.addressData = nil;
 	self.password = nil;
 	
+    if(connection)
+    {
+        xpc_release(connection);
+        connection = nil;
+    }
 	[super dealloc];
+}
+
+- (void)setConnection:(xpc_connection_t)newConnection
+{
+    if(newConnection)
+    {
+        if(connection)
+        {
+            xpc_release(connection);
+            connection = nil;
+        }
+        connection = xpc_retain(newConnection);
+    }
 }
 
 -(NSData*)outgoingData {

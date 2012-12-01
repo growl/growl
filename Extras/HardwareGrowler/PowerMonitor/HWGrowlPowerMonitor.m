@@ -13,6 +13,153 @@
 
 @interface HWGrowlPowerMonitor ()
 
++(NSInteger)batteryPercentageForPowerSourceDescription:(CFDictionaryRef)description;
+
+@end
+
+@interface GrowlPowerSourceDescription : NSObject
+
+@property (nonatomic, assign) BOOL charging;
+@property (nonatomic, assign) BOOL charged;
+@property (nonatomic, assign) BOOL finishingCharge;
+@property (nonatomic, assign) NSInteger percentage;
+@property (nonatomic, assign) HGPowerSource powerType;
+@property (nonatomic, assign) NSInteger remainingTime;
+
+@property (nonatomic, retain) NSString *typeString;
+
+-(id)initWithPowerSourceDescription:(CFDictionaryRef)description;
+
+@end
+
+@implementation GrowlPowerSourceDescription
+
++(GrowlPowerSourceDescription*)descriptionWithDescription:(CFDictionaryRef)description {
+	return [[[GrowlPowerSourceDescription alloc] initWithPowerSourceDescription:description] autorelease];
+}
+
+-(id)initWithPowerSourceDescription:(CFDictionaryRef)description {
+	if((self = [super init])){
+		CFStringRef powerType = CFDictionaryGetValue(description, CFSTR(kIOPSTransportTypeKey));
+		if (CFStringCompare(powerType, CFSTR(kIOPSInternalType), 0) == kCFCompareEqualTo)
+		{
+			_powerType = HGBatteryPower;
+			self.typeString = NSLocalizedString(@"Battery", @"Internal battery");
+		}
+		else if (CFStringCompare(powerType, CFSTR(kIOPSSerialTransportType), 0) == kCFCompareEqualTo ||
+					CFStringCompare(powerType, CFSTR(kIOPSUSBTransportType), 0) == kCFCompareEqualTo ||
+					CFStringCompare(powerType, CFSTR(kIOPSNetworkTransportType), 0) == kCFCompareEqualTo )
+		{
+			_powerType = HGUPSPower;
+			self.typeString = NSLocalizedString(@"UPS", @"Uninteruptable Power supply");
+		}
+		else
+		{
+			_powerType = HGUnknownPower;
+			self.typeString = NSLocalizedString(@"Unknown", @"Unknown power supply type");
+		}
+		
+		if (CFDictionaryGetValue(description, CFSTR(kIOPSIsChargingKey)) == kCFBooleanTrue)
+			_charging = YES;
+		else
+			_charging = NO;
+		
+		if (CFDictionaryGetValue(description, CFSTR(kIOPSIsChargedKey)) == kCFBooleanTrue)
+			_charged = YES;
+		else
+			_charged = NO;
+		
+		CFTypeRef finishingValue = CFDictionaryGetValue(description, CFSTR(kIOPSIsFinishingChargeKey));
+		if(finishingValue && finishingValue == kCFBooleanTrue)
+			_finishingCharge = YES;
+		else
+			_finishingCharge = NO;
+		
+		_percentage = [HWGrowlPowerMonitor batteryPercentageForPowerSourceDescription:description];
+
+		CFNumberRef timeToFullOrEmpty = NULL;
+		if(_charging){
+			timeToFullOrEmpty = CFDictionaryGetValue(description, CFSTR(kIOPSTimeToFullChargeKey));
+		}else if(!_charging){ 
+			timeToFullOrEmpty = CFDictionaryGetValue(description, CFSTR(kIOPSTimeToEmptyKey));
+		}
+		
+		if(timeToFullOrEmpty){
+			int64_t timeToChargeOrDrain;
+			int64_t batteryTime = -1;
+						
+			if(CFNumberGetType(timeToFullOrEmpty) != kCFNumberSInt64Type)
+				NSLog(@"GAH");
+			
+			if (CFNumberGetValue(timeToFullOrEmpty, kCFNumberSInt64Type, &timeToChargeOrDrain))
+				batteryTime = timeToChargeOrDrain;
+			
+			if(batteryTime >= 0.0)
+				_remainingTime = (NSInteger)batteryTime;
+			else
+				_remainingTime = kIOPSTimeRemainingUnknown;
+		}else{
+			_remainingTime = kIOPSTimeRemainingUnknown;
+		}
+	}
+	return self;
+}
+
+-(void)dealloc {
+	[_typeString release];
+	_typeString = nil;
+	[super dealloc];
+}
+
+-(NSString*)notificationDescriptionForCurrentSource:(HGPowerSource)currentSource {
+	NSMutableString *description = nil;
+	
+	NSString *state = nil;
+	NSString *time = nil;
+	NSString *percentage = nil;
+	
+	if(_charging)
+		state = NSLocalizedString(@"Charging", @"");
+	else if(_finishingCharge)
+		state = NSLocalizedString(@"Finishing", @"");
+	else if (_charged)
+		state = NSLocalizedString(@"Charged", @"");
+	
+	if(_percentage >= 0.0)
+		percentage = [NSString stringWithFormat:@"%ld%%", _percentage];
+	
+	if(_remainingTime > 0.0){
+		NSString *format = (currentSource == HGACPower) ? NSLocalizedString(@"Time to charge: %ld minutes", @"") : NSLocalizedString(@"Time remaining: %ld minutes", @"");
+		time = [NSString stringWithFormat:format, _remainingTime];
+	}
+	
+	if(state || time || percentage){
+		description = [NSMutableString string];
+		
+		[description appendFormat:@"%@: ", [self typeString]];
+		if(state){
+			[description appendFormat:@"%@", state];
+			if(percentage)
+				[description appendString:@" "];
+			else if(time)
+				[description appendString:@"\n"];
+		}
+		if(percentage){
+			[description appendFormat:NSLocalizedString(@"at %@\%", @"at battery percentage"), percentage];
+			if(time)
+				[description appendString:@"\n"];
+		}
+		if(time){
+			[description appendFormat:@"%@", time];
+		}
+	}
+	return description;
+}
+
+@end
+
+@interface HWGrowlPowerMonitor ()
+
 @property (nonatomic, assign) id<HWGrowlPluginControllerProtocol> delegate;
 @property (nonatomic, assign)	CFRunLoopSourceRef notificationRunLoopSource;
 
@@ -147,6 +294,8 @@
 														  userInfo:nil
 															repeats:YES];
 	[[NSRunLoop mainRunLoop] addTimer:refireTimer forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop mainRunLoop] addTimer:refireTimer forMode:NSEventTrackingRunLoopMode];
+    [[NSRunLoop mainRunLoop] addTimer:refireTimer forMode:NSModalPanelRunLoopMode];
 }
 
 -(void)stopTimer {
@@ -164,210 +313,190 @@
 
 -(void)powerSourceChanged:(BOOL)force {
 	BOOL changedType = NO;
+	BOOL hasBattery = NO;
+	BOOL chargingOrFinishing = NO;
+	NSInteger percentage = -1;
+	
 	CFTypeRef sourcesBlob = IOPSCopyPowerSourcesInfo();
-    if(sourcesBlob)
-    {
-        NSString *source = (NSString*)IOPSGetProvidingPowerSourceType(sourcesBlob);
-        
-        HGPowerSource currentSource;
-        if([source compare:@"AC Power"] == NSOrderedSame) {
-            currentSource = HGACPower;
-        } else if ([source compare:@"Battery Power"] == NSOrderedSame) {
-            currentSource = HGBatteryPower;
-        } else if ([source compare:@"UPS Power"] == NSOrderedSame) {
-            currentSource = HGUPSPower;
-        } else {
-            currentSource = HGUnknownPower;
-        }
-        
-        if(currentSource != lastPowerSource)
-            changedType = YES;
+	if(sourcesBlob)
+	{
+		NSString *source = (NSString*)IOPSGetProvidingPowerSourceType(sourcesBlob);
 		
-        CFTimeInterval remaining = kIOPSTimeRemainingUnknown;
-        switch (currentSource) {
-            case HGACPower:
-            {
-                //Get our time to full
-                CFArrayRef	powerSourcesList = IOPSCopyPowerSourcesList(sourcesBlob);
-                if(powerSourcesList)
-                {
-                    CFIndex	count = CFArrayGetCount(powerSourcesList);
-                    for (CFIndex i = 0; i < count; ++i) {
-                        CFTypeRef		powerSource;
-                        CFDictionaryRef description;
-                        
-                        CFIndex			batteryTime = -1;
-                        
-                        powerSource = CFArrayGetValueAtIndex(powerSourcesList, i);
-                        description = IOPSGetPowerSourceDescription(sourcesBlob, powerSource);
-                        
-                        //Don't display anything for power sources that aren't present (i.e. an absent second battery in a 2-battery machine)
-                        if (CFDictionaryGetValue(description, CFSTR(kIOPSIsPresentKey)) == kCFBooleanFalse)
-                            continue;
-                        
-                        if (CFStringCompare(CFDictionaryGetValue(description, CFSTR(kIOPSTransportTypeKey)),
-                                            CFSTR(kIOPSInternalType),
-                                            0) == kCFCompareEqualTo)
-                        {
-                            if (CFDictionaryGetValue(description, CFSTR(kIOPSIsChargingKey)) == kCFBooleanTrue)
-                            {
-                                CFNumberRef timeToChargeNum = CFDictionaryGetValue(description, CFSTR(kIOPSTimeToFullChargeKey));
-                                CFIndex timeToCharge;
-                                
-                                if (CFNumberGetValue(timeToChargeNum, kCFNumberCFIndexType, &timeToCharge))
-                                    batteryTime = timeToCharge;
-                                
-                                if((CFTimeInterval)batteryTime > 0.0 && (CFTimeInterval)batteryTime > remaining)
-                                    remaining = (CFTimeInterval)(batteryTime * 60);
-                            }
-                        }
-                    }
-                    CFRelease(powerSourcesList);
-                }
-            }
-                break;
-            case HGUPSPower:
-            case HGBatteryPower:
-                //Get our time to empty
-                remaining = IOPSGetTimeRemainingEstimate();
-                break;
-            case HGUnknownPower:
-            default:
-                break;
-        }
-        BOOL sendTime = NO;
-        if(remaining != kIOPSTimeRemainingUnknown && (changedType || (remaining == kIOPSTimeRemainingUnknown) != (lastKnownTime == kIOPSTimeRemainingUnknown)))
-            sendTime = YES;
-        
-        BOOL havePercent = NO;
-        NSInteger percentage = [self batteryPercentageForSourceInfo:sourcesBlob];
-        if(percentage >= 0)
-            havePercent = YES;
-        
-        BOOL warnBattery = NO;
-        IOPSLowBatteryWarningLevel warnLevel = IOPSGetBatteryWarningLevel();
-        if(warnLevel != kIOPSLowBatteryWarningNone)
-            warnBattery = YES;
-        
-        if(lastWarnState && warnBattery)
-            warnBattery = NO;
-        else if(!lastWarnState && warnBattery)
-            lastWarnState = YES;
-        else if(lastWarnState && !warnBattery)
-            lastWarnState = NO;
-        
-        if(changedType || sendTime || warnBattery || force){
-            NSString *title = nil;
-            NSString *name = nil;
-            NSString *localizedSource = [self localizedNameForSource:currentSource];
-            NSMutableString *description = nil;
-            if(!warnBattery){
-                name = @"PowerChange";
-                title = [NSString stringWithFormat:NSLocalizedString(@"On %@", @"Format string for On <power type>"), localizedSource];
-                if(remaining == kIOPSTimeRemainingUnknown) {
-                    description = (currentSource == HGACPower) ? [NSMutableString stringWithString:NSLocalizedString(@"Battery charging", @"")] : nil;
-                } else {
-                    NSUInteger minutesRemaining = (NSUInteger)(remaining / 60.0f);
-                    NSString *format = (currentSource == HGACPower) ? NSLocalizedString(@"Time to charge: %lu minutes", @"") : NSLocalizedString(@"Time remaining: %lu minutes", @"");
-                    description = [NSMutableString stringWithFormat:format, minutesRemaining];
-                }
+		HGPowerSource currentSource;
+		if([source compare:@"AC Power"] == NSOrderedSame) {
+			currentSource = HGACPower;
+		} else if ([source compare:@"Battery Power"] == NSOrderedSame) {
+			currentSource = HGBatteryPower;
+		} else if ([source compare:@"UPS Power"] == NSOrderedSame) {
+			currentSource = HGUPSPower;
+		} else {
+			currentSource = HGUnknownPower;
+		}
+		
+		if(currentSource != lastPowerSource)
+			changedType = YES;
+		
+		NSMutableArray *powerSourceDescriptions = [NSMutableArray array];
+		CFArrayRef	powerSourcesList = IOPSCopyPowerSourcesList(sourcesBlob);
+		if(powerSourcesList)
+		{
+			CFIndex	count = CFArrayGetCount(powerSourcesList);
+			for (CFIndex i = 0; i < count; ++i) {
+				CFTypeRef		powerSource;
+				CFDictionaryRef description;
 				
-            } else {
-                name = @"PowerWarning";
-                title	= NSLocalizedString(@"Battery Low!", @"");
-                description = [NSMutableString stringWithString:NSLocalizedString(@"Battery Low, Please plug the computer in now", @"")];
-            }
-            
-            if(description && havePercent)
-                [description appendString:@"\n"];
-            if(havePercent){
-                if(description) [description appendFormat:NSLocalizedString(@"Current Level: %ld%%", @""), percentage];
-                else description = [NSMutableString stringWithFormat:NSLocalizedString(@"Current Level: %ld%%", @""), percentage];
-            }
-            
-            NSString *imageName = nil;
-            switch (currentSource) {
-                case HGACPower:
-                    if(remaining != kIOPSTimeRemainingUnknown || (havePercent && percentage < 95))
-                        imageName = @"Power-Charging";
-                    else
-                        imageName = @"Power-Plugged";
-                    break;
-                case HGBatteryPower:
-                case HGUPSPower:
-                    if(havePercent){
-                        NSInteger adjusted = (NSInteger)roundf((CGFloat)percentage / 10.0f);
-                        imageName = [NSString stringWithFormat:@"Power-%ld0", adjusted];
-                        if(adjusted == 0)
-                            imageName = @"Power-0";
-                    }
-                    else
-                    {
-                        imageName = @"Power-NoBattery";
-                    }
-                    break;
-                case HGUnknownPower:
-                default:
-                    //Shouldn't get to either of these
-                    imageName = @"Power-BatteryFailure";
-                    break;
-            }
-            
-            @autoreleasepool
-            {
-                NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
+				powerSource = CFArrayGetValueAtIndex(powerSourcesList, i);
+				description = IOPSGetPowerSourceDescription(sourcesBlob, powerSource);
+				
+				if(!description)
+					continue;
+				
+				hasBattery = YES;
+				GrowlPowerSourceDescription *growlDescription = [GrowlPowerSourceDescription descriptionWithDescription:description];
+				[powerSourceDescriptions addObject:growlDescription];
+				
+				if([growlDescription charging] || [growlDescription finishingCharge])
+					chargingOrFinishing = YES;
+				
+				if([growlDescription percentage] > percentage)
+					percentage = [growlDescription percentage];
+			}
+			CFRelease(powerSourcesList);
+		}
+		
+		__block CFTimeInterval remaining = kIOPSTimeRemainingUnknown;
+		if(currentSource == HGACPower){
+			//enumerate them and find greatest
+			[powerSourceDescriptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+				if([obj remainingTime] > remaining)
+					remaining = [obj remainingTime];
+			}];
+		}else if(currentSource == HGUPSPower || currentSource == HGBatteryPower){
+			remaining = IOPSGetTimeRemainingEstimate();
+			if(remaining >= 0.0f)
+				remaining /= 60.0f;
+		}
+		
+
+		BOOL sendTime = NO;
+		if(remaining != kIOPSTimeRemainingUnknown && (changedType || (remaining == kIOPSTimeRemainingUnknown) != (lastKnownTime == kIOPSTimeRemainingUnknown)))
+			sendTime = YES;
+				
+		BOOL warnBattery = NO;
+		IOPSLowBatteryWarningLevel warnLevel = IOPSGetBatteryWarningLevel();
+		if(warnLevel != kIOPSLowBatteryWarningNone)
+			warnBattery = YES;
+		
+		if(lastWarnState && warnBattery)
+			warnBattery = NO;
+		else if(!lastWarnState && warnBattery)
+			lastWarnState = YES;
+		else if(lastWarnState && !warnBattery)
+			lastWarnState = NO;
+		
+		if(changedType || sendTime || warnBattery || force){
+			NSString *title = nil;
+			NSString *name = nil;
+			NSString *localizedSource = [self localizedNameForSource:currentSource];
+			NSString *description = nil;
+			NSString *powerDescription = [self chargingDescriptionForPowerSources:powerSourceDescriptions
+																					  currentSource:currentSource];
+			if(!warnBattery){
+				name = @"PowerChange";
+				title = [NSString stringWithFormat:NSLocalizedString(@"On %@", @"Format string for On <power type>"), localizedSource];
+				description = hasBattery ? powerDescription : @"";
+			} else {
+				name = @"PowerWarning";
+				title	= NSLocalizedString(@"Battery Low!", @"");
+				description = NSLocalizedString(@"Battery Low, Please plug the computer in now", @"");
+				if(powerDescription)
+					description = [description stringByAppendingFormat:@"\n%@", powerDescription];
+			}
+			
+			if(!description)
+				description = [NSMutableString string];
+						
+			NSString *imageName = nil;
+			switch (currentSource) {
+				case HGACPower:
+					if(chargingOrFinishing)
+						imageName = @"Power-Charging";
+					else
+						imageName = @"Power-Plugged";
+					break;
+				case HGBatteryPower:
+				case HGUPSPower:
+					if(percentage >= 0){
+						NSInteger adjusted = (NSInteger)roundf((CGFloat)percentage / 10.0f);
+						imageName = [NSString stringWithFormat:@"Power-%ld0", adjusted];
+						if(adjusted == 0)
+							imageName = @"Power-0";
+					}
+					else
+					{
+						imageName = @"Power-NoBattery";
+					}
+					break;
+				case HGUnknownPower:
+				default:
+					//Shouldn't get to either of these
+					imageName = @"Power-BatteryFailure";
+					break;
+			}
+			
+			@autoreleasepool
+			{
+				NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"tif"];
             NSData *iconData = [NSData dataWithContentsOfFile:imagePath];
             
             [delegate notifyWithName:name
                                title:title
-						 description:description
+								 description:description
                                 icon:iconData
                     identifierString:name
                        contextString:nil
                               plugin:self];
-            }
-            lastPowerSource = currentSource;
-            lastKnownTime = remaining;
-        }
-        
-        CFRelease(sourcesBlob);
-    }
+			}
+			lastPowerSource = currentSource;
+			lastKnownTime = remaining;
+		}
+		
+		CFRelease(sourcesBlob);
+	}
 }
 
--(NSInteger)batteryPercentageForSourceInfo:(CFTypeRef)sourcesBlob {
-	NSInteger percentageCapacity = -1;
-	CFArrayRef	powerSourcesList = IOPSCopyPowerSourcesList(sourcesBlob);
-	CFIndex	count = CFArrayGetCount(powerSourcesList);
-	for (CFIndex i = 0; i < count; ++i) {
-		CFTypeRef		powerSource;
-		CFDictionaryRef description;
-		
-
-		powerSource = CFArrayGetValueAtIndex(powerSourcesList, i);
-		description = IOPSGetPowerSourceDescription(sourcesBlob, powerSource);
-		
-		//Don't display anything for power sources that aren't present (i.e. an absent second battery in a 2-battery machine)
-		if (CFDictionaryGetValue(description, CFSTR(kIOPSIsPresentKey)) == kCFBooleanFalse)
-			continue;
-		
-		if (CFStringCompare(CFDictionaryGetValue(description, CFSTR(kIOPSTransportTypeKey)), 
-								  CFSTR(kIOPSInternalType), 
-								  0) == kCFCompareEqualTo)
-		{
-			CFNumberRef currentCapacityNum = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
-			CFNumberRef maxCapacityNum = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
-			
-			CFIndex currentCapacity, maxCapacity, sourceCapacity = -1;
-			
-			if (CFNumberGetValue(currentCapacityNum, kCFNumberCFIndexType, &currentCapacity) &&
-				 CFNumberGetValue(maxCapacityNum, kCFNumberCFIndexType, &maxCapacity))
-				sourceCapacity = roundf((currentCapacity / (float)maxCapacity) * 100.0f);
-			
-			if(sourceCapacity > percentageCapacity)
-				percentageCapacity = sourceCapacity;
+-(NSMutableString*)chargingDescriptionForPowerSources:(NSArray*)sources currentSource:(HGPowerSource)currentSource {
+	__block NSMutableString *description = nil;
+	[sources enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {		
+		NSString *sourceString = [obj notificationDescriptionForCurrentSource:currentSource];
+		if(sourceString){
+			if(!description)
+				description = [[NSMutableString string] retain];
+			else
+				[description appendString:@"\n"];
+			[description appendString:sourceString];
 		}
+	}];
+	return [description autorelease];
+}
+
++(NSInteger)batteryPercentageForPowerSourceDescription:(CFDictionaryRef)description {
+	NSInteger percentageCapacity = -1;
+	
+	if(description && CFDictionaryGetValue(description, CFSTR(kIOPSIsPresentKey)) == kCFBooleanTrue){		
+		CFNumberRef currentCapacityNum = CFDictionaryGetValue(description, CFSTR(kIOPSCurrentCapacityKey));
+		CFNumberRef maxCapacityNum = CFDictionaryGetValue(description, CFSTR(kIOPSMaxCapacityKey));
+		
+		CFIndex currentCapacity, maxCapacity, sourceCapacity = -1;
+		
+		if (CFNumberGetValue(currentCapacityNum, kCFNumberCFIndexType, &currentCapacity) &&
+			 CFNumberGetValue(maxCapacityNum, kCFNumberCFIndexType, &maxCapacity))
+			sourceCapacity = roundf((currentCapacity / (float)maxCapacity) * 100.0f);
+		
+		if(sourceCapacity > percentageCapacity)
+			percentageCapacity = sourceCapacity;
 	}
-	CFRelease(powerSourcesList);
+	
 	return percentageCapacity;
 }
 

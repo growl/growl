@@ -56,7 +56,7 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 	
 	NSString *path = [[self bundle] pathForImageResource:imageName];
 	NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
-	return image;
+	return [image autorelease];
 }
 -(NSImage*)pressedButtonImage {
 	NSString *imageName = [[[self bundle] infoDictionary] objectForKey:@"GrowlCloseButtonPressedImage"];
@@ -65,7 +65,7 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 	
 	NSString *path = [[self bundle] pathForImageResource:imageName];
 	NSImage *image = [[NSImage alloc] initWithContentsOfFile:path];
-	return image;
+	return [image autorelease];
 }
 
 #pragma mark -

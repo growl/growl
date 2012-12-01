@@ -1,3 +1,8 @@
+Growl 2.0.1 wijzigingen
+
+- Lost het positioneringsprobleem op uit 2.0, dank voor de feedback!
+- Meerdere crashmeldingen opgelost.
+
 Growl 2 wijzigingen
 
 Algemeen

@@ -1,3 +1,8 @@
+Zmiany w Growl 2.0.1
+
+- Rozwiązanie problemu związanego z pozycją powiadomień w wersji 2.0. Dziękujemy za Wasz odzew!
+- Rozwiązanie problemów pochodzących z wielu raportów o błędach.
+
 Zmiany w Growl 2
 
 Ogólne

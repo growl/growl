@@ -1,3 +1,8 @@
+Změny v Growl 2.0.1
+
+- Opraveny problémy se zobrezením, které se objevily ve verzi 2.0, díky všem za odezvy!
+- Opraveno několik příčin pádů aplikace.
+
 Změny v Growl 2
 
 Hlavní změny

@@ -8,13 +8,6 @@
 
 #import "HWGrowlKeyboardMonitor.h"
 
-typedef enum {
-	capslockKey = 0,
-	numlockKey,
-	fnKeyKey,
-	shiftKey
-} HWGMonitoredKeyType;
-
 @interface HWGrowlKeyboardMonitor ()
 
 @property (nonatomic, assign) id<HWGrowlPluginControllerProtocol> delegate;
@@ -22,12 +15,10 @@ typedef enum {
 
 @property (nonatomic, retain) NSString *notifyForLabel;
 @property (nonatomic, retain) NSString *capsLockLabel;
-@property (nonatomic, retain) NSString *numLockLabel;
 @property (nonatomic, retain) NSString *fnKeyLabel;
 @property (nonatomic, retain) NSString *shifyKeyLabel;
 
 @property (nonatomic) BOOL capsFlag;
-@property (nonatomic) BOOL numlockFlag;
 @property (nonatomic) BOOL fnFlag;
 @property (nonatomic) BOOL shiftFlag;
 
@@ -40,12 +31,10 @@ typedef enum {
 
 @synthesize notifyForLabel;
 @synthesize capsLockLabel;
-@synthesize numLockLabel;
 @synthesize fnKeyLabel;
 @synthesize shifyKeyLabel;
 
 @synthesize capsFlag;
-@synthesize numlockFlag;
 @synthesize fnFlag;
 @synthesize shiftFlag;
 
@@ -55,9 +44,8 @@ typedef enum {
 		//Bleh, not happy with this really, but eh
 		NSDictionary *enabledDict = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"hwgkeyboardkeysenabled"];
 		if(!enabledDict){
-			//Our default keys are caps and numlock, with fn and shift being disabled by default
+			//Our default keys are caps, with fn and shift being disabled by default
 			NSDictionary *defaultKeys = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES], @"capslock",
-												  [NSNumber numberWithBool:YES], @"numlock",
 												  [NSNumber numberWithBool:NO], @"fnkey",
 												  [NSNumber numberWithBool:NO], @"shiftkey", nil];
 			[[NSUserDefaults standardUserDefaults] setObject:defaultKeys 
@@ -67,7 +55,6 @@ typedef enum {
 		
 		self.notifyForLabel = NSLocalizedString(@"Notify For:", @"Label over list of checkboxes for notifying for certain keys");
 		self.capsLockLabel = NSLocalizedString(@"Caps Lock", @"");
-		self.numLockLabel = NSLocalizedString(@"Num Lock", @"");
 		self.fnKeyLabel = NSLocalizedString(@"FN Key", @"");
 		self.shifyKeyLabel = NSLocalizedString(@"Shift Key", @"");
 	}
@@ -80,9 +67,6 @@ typedef enum {
     
     [capsLockLabel release];
     capsLockLabel = nil;
-
-    [numLockLabel release];
-    numLockLabel = nil;
 
     [fnKeyLabel release];
     fnKeyLabel = nil;
@@ -111,12 +95,10 @@ self.NAME ## Flag = NAME;
 		NSUInteger flags = [NSEvent modifierFlags];
 		BOOL caps = flags & NSAlphaShiftKeyMask ? YES : NO;
 		BOOL fn = flags & NSFunctionKeyMask ? YES : NO;
-		//BOOL numlock = flags & NSNumericPadKeyMask ? YES : NO;
 		BOOL shift = flags & NSShiftKeyMask ? YES : NO;
 		
 		CHECK_FLAG(caps);
 		CHECK_FLAG(fn);
-		//CHECK_FLAG(numlock);
 		CHECK_FLAG(shift)
 		
 		return event;
@@ -147,13 +129,7 @@ self.NAME ## Flag = NAME;
 		title = newState ? NSLocalizedString(@"Caps Lock On", @"") : NSLocalizedString(@"Caps Lock Off", @"");
 		identifier = @"HWGrowlCaps";
 		imageName = newState ? @"Capster-CapsLock-On" : @"Capster-CapsLock-Off";
-	}/*else if ([type isEqualToString:@"numlock"]){
-		enabledKey = @"numlock";
-		name = newState ? @"NumLockOn" : @"NumLockOff";
-		title = newState ? NSLocalizedString(@"Num Lock On", @"") : NSLocalizedString(@"Num Lock Off", @"");
-		identifier = @"HWGrowlNumLock";
-		imageName = newState ? @"Capster-NumLock-On" : @"Capster-NumLock-Off";
-	}*/else if ([type isEqualToString:@"fn"]){
+	}else if ([type isEqualToString:@"fn"]){
 		enabledKey = @"fnkey";
 		name = newState ? @"FNPressed" : @"FNReleased";
 		title = newState ? NSLocalizedString(@"FN Key Pressed", @"") : NSLocalizedString(@"FN Key Released", @"");
@@ -188,7 +164,6 @@ self.NAME ## Flag = NAME;
 -(void) initFlags
 {
 	NSUInteger flags = [NSEvent modifierFlags];
-	//numlockFlag = flags & NSNumericPadKeyMask ? YES : NO;
 	capsFlag = flags & NSAlphaShiftKeyMask ? YES : NO;
 	fnFlag = flags & NSFunctionKeyMask ? YES : NO;
 	shiftFlag = flags & NSShiftKeyMask ? YES : NO;
@@ -203,7 +178,7 @@ self.NAME ## Flag = NAME;
 	return delegate;
 }
 -(NSString*)pluginDisplayName{
-	return NSLocalizedString(@"Capster", @"");
+	return NSLocalizedString(@"Keyboard Monitor", @"");
 }
 -(NSImage*)preferenceIcon {
 	static NSImage *_icon = nil;
@@ -227,13 +202,11 @@ self.NAME ## Flag = NAME;
 #pragma mark HWGrowlPluginNotifierProtocol
 
 -(NSArray*)noteNames {
-	return [NSArray arrayWithObjects:@"CapsLockOn", @"CapsLockOff", /*@"NumLockOn", @"NumLockOff",*/ @"FNPressed", @"FNReleased", @"ShiftPressed", @"ShiftReleased", nil];
+	return [NSArray arrayWithObjects:@"CapsLockOn", @"CapsLockOff", @"FNPressed", @"FNReleased", @"ShiftPressed", @"ShiftReleased", nil];
 }
 -(NSDictionary*)localizedNames {
 	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Caps Lock On", @""), @"CapsLockOn",
 			  NSLocalizedString(@"Caps Lock Off", @""), @"CapsLockOff",
-			  //NSLocalizedString(@"Num Lock On", @""), @"NumLockOn",
-			  //NSLocalizedString(@"Num Lock Off", @""), @"NumLockOff",
 			  NSLocalizedString(@"FN Key Pressed", @""), @"FNPressed",
 			  NSLocalizedString(@"FN Key Released", @""), @"FNReleased",
 			  NSLocalizedString(@"Shift Key Pressed", @""), @"ShiftPressed",
@@ -242,15 +215,13 @@ self.NAME ## Flag = NAME;
 -(NSDictionary*)noteDescriptions {
 	return [NSDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"Caps Lock On", @""), @"CapsLockOn",
 			  NSLocalizedString(@"Caps Lock Off", @""), @"CapsLockOff",
-			  //NSLocalizedString(@"Num Lock On", @""), @"NumLockOn",
-			  //NSLocalizedString(@"Num Lock Off", @""), @"NumLockOff",
 			  NSLocalizedString(@"FN Key Pressed", @""), @"FNPressed",
 			  NSLocalizedString(@"FN Key Released", @""), @"FNReleased",
 			  NSLocalizedString(@"Shift Key Pressed", @""), @"ShiftPressed",
 			  NSLocalizedString(@"Shift Key Released", @""), @"ShiftReleased", nil];
 }
 -(NSArray*)defaultNotifications {
-	return [NSArray arrayWithObjects:@"CapsLockOn", @"CapsLockOff", /*@"NumLockOn", @"NumLockOff",*/ @"FNPressed", @"FNReleased", @"ShiftPressed", @"ShiftReleased", nil];
+	return [NSArray arrayWithObjects:@"CapsLockOn", @"CapsLockOff", @"FNPressed", @"FNReleased", @"ShiftPressed", @"ShiftReleased", nil];
 }
 
 @end

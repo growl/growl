@@ -32,7 +32,7 @@
 
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSString *password;
-@property (nonatomic) xpc_connection_t connection NS_AVAILABLE(10_7, 5_0);
+@property (nonatomic, retain) xpc_connection_t connection NS_AVAILABLE(10_7, 5_0) __attribute__((NSObject));
 @property (nonatomic, retain) NSMutableDictionary *callbackHeaderItems;
 @property (nonatomic, retain) GNTPKey *key;
 @property (nonatomic, retain) NSData *addressData;
