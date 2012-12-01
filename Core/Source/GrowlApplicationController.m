@@ -322,39 +322,48 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    if ([[growlDict objectForKey:GROWL_NOTIFICATION_ALREADY_SHOWN] boolValue])
       return;
 
-   // We want to preserve all the notification state, but we can't pass the icon
-   // data in, or OS X will whine about the userinfo being too large.
-   NSMutableDictionary *notificationDict = [[growlDict mutableCopy] autorelease];
-	[notificationDict removeObjectForKey:GROWL_APP_ICON_DATA];
-   [notificationDict removeObjectForKey:GROWL_NOTIFICATION_APP_ICON_DATA];
-   [notificationDict removeObjectForKey:GROWL_NOTIFICATION_ICON_DATA];
-   
-   NSUserNotification *appleNotification = [[NSUserNotification alloc] init];
-   appleNotification.title = [growlDict objectForKey:GROWL_APP_NAME];
-   appleNotification.subtitle = [growlDict objectForKey:GROWL_NOTIFICATION_TITLE];
-   appleNotification.informativeText = [growlDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
-	
-	NSString *noteKey = [[NSProcessInfo processInfo] globallyUniqueString];
-	appleNotification.userInfo = [NSDictionary dictionaryWithObject:noteKey forKey:@"AppleNotificationID"];
-   appleNotification.hasActionButton = NO;
-	
-   if ([growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION]) {
-      appleNotification.hasActionButton = YES;
-      appleNotification.actionButtonTitle = [growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION];
-   }
-   
-   if ([growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL])
-      appleNotification.otherButtonTitle = [growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
-   
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		appleNotificationDelegate = [[GrowlApplicationNotificationCenterDelegate alloc] init];
-	});
-	[appleNotificationDelegate.growlDicts setObject:notificationDict forKey:noteKey];
-	
-	[[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:appleNotificationDelegate];
-	[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
-   [appleNotification release];
+	//Here we have a choice to make, use Bark, or our own NC implementation. Bark is better due to icon thing
+	BOOL dispatchedToBark = NO;
+	GrowlTicketDatabasePlugin *barkPluginConfig = [[GrowlTicketDatabase sharedInstance] pluginConfigForBundleID:@"us.pandamonia.Bark"];
+	if(barkPluginConfig && [barkPluginConfig pluginInstanceForConfiguration]){
+		[self dispatchNotification:growlDict toActions:[NSSet setWithObject:barkPluginConfig]];
+		dispatchedToBark = YES;
+	}
+	if(!dispatchedToBark){
+		// We want to preserve all the notification state, but we can't pass the icon
+		// data in, or OS X will whine about the userinfo being too large.
+		NSMutableDictionary *notificationDict = [[growlDict mutableCopy] autorelease];
+		[notificationDict removeObjectForKey:GROWL_APP_ICON_DATA];
+		[notificationDict removeObjectForKey:GROWL_NOTIFICATION_APP_ICON_DATA];
+		[notificationDict removeObjectForKey:GROWL_NOTIFICATION_ICON_DATA];
+		
+		NSUserNotification *appleNotification = [[NSUserNotification alloc] init];
+		appleNotification.title = [growlDict objectForKey:GROWL_APP_NAME];
+		appleNotification.subtitle = [growlDict objectForKey:GROWL_NOTIFICATION_TITLE];
+		appleNotification.informativeText = [growlDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+		
+		NSString *noteKey = [[NSProcessInfo processInfo] globallyUniqueString];
+		appleNotification.userInfo = [NSDictionary dictionaryWithObject:noteKey forKey:@"AppleNotificationID"];
+		appleNotification.hasActionButton = NO;
+		
+		if ([growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION]) {
+			appleNotification.hasActionButton = YES;
+			appleNotification.actionButtonTitle = [growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION];
+		}
+		
+		if ([growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL])
+			appleNotification.otherButtonTitle = [growlDict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
+		
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			appleNotificationDelegate = [[GrowlApplicationNotificationCenterDelegate alloc] init];
+		});
+		[appleNotificationDelegate.growlDicts setObject:notificationDict forKey:noteKey];
+		
+		[[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:appleNotificationDelegate];
+		[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
+		[appleNotification release];
+	}
 #endif
 }
 
