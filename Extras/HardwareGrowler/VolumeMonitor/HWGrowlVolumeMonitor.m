@@ -56,7 +56,6 @@
             NSBitmapImageRep *bitmapRep = [[[NSBitmapImageRep alloc] initWithCGImage:iconRef] autorelease];
 			self.iconData = [bitmapRep representationUsingType: NSPNGFileType
                                                       properties: nil];
-;
 		} else {
 			self.iconData = [VolumeInfo mountIconData];
 		}
