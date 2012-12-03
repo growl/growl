@@ -48,6 +48,9 @@
 	});
 	[response appendFormat:@"Notification-Callback-Timestamp: %@\r\n", [_dateFormatter stringFromDate:[NSDate date]]];
 	
+	//Append where this came from
+	[response appendString:[GNTPPacket originString]];
+	
 	NSString *contextType = [dictionary valueForKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
 	id context = [dictionary valueForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 	NSString *contextString = nil;

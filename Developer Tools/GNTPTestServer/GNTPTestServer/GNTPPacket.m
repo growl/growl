@@ -340,10 +340,10 @@
 								GrowlGNTPNotificationName, GROWL_NOTIFICATION_NAME,
 								GrowlGNTPNotificationTitle, GROWL_NOTIFICATION_TITLE,
 								GrowlGNTPNotificationText, GROWL_NOTIFICATION_DESCRIPTION,
-                     GrowlGNTPXNotificationAlreadyShown, GROWL_NOTIFICATION_ALREADY_SHOWN,
-                     GrowlGNTPXNotificationButtonsAction, GROWL_NOTIFICATION_BUTTONTITLE_ACTION,
-                     GrowlGNTPXNotificationButtonsCancel, GROWL_NOTIFICATION_BUTTONTITLE_CANCEL,
-                     GrowlGNTPXNotificationButtonWasClicked, GROWL_NOTIFICATION_CLICK_BUTTONUSED,
+								GrowlGNTPXNotificationAlreadyShown, GROWL_NOTIFICATION_ALREADY_SHOWN,
+								GrowlGNTPXNotificationButtonsAction, GROWL_NOTIFICATION_BUTTONTITLE_ACTION,
+								GrowlGNTPXNotificationButtonsCancel, GROWL_NOTIFICATION_BUTTONTITLE_CANCEL,
+								GrowlGNTPXNotificationButtonWasClicked, GROWL_NOTIFICATION_CLICK_BUTTONUSED,
 								GrowlGNTPNotificationSticky, GROWL_NOTIFICATION_STICKY,
 								GrowlGNTPNotificationPriority, GROWL_NOTIFICATION_PRIORITY,
 								GrowlGNTPNotificationCallbackTarget, GROWL_NOTIFICATION_CALLBACK_URL_TARGET,
@@ -427,61 +427,84 @@
 
 	if (![dictCopy objectForKey:GROWL_GNTP_ORIGIN_MACHINE]) {
 		/* No origin machine --> We are the origin */
-		static BOOL determinedMachineInfo = NO;
-		static NSString *growlName = nil;
-		static NSString *growlVersion = nil;
-		static NSString *platformVersion = nil;
-		
-		if (!determinedMachineInfo) {
-			NSUInteger major, minor, bugFix;
-			GrowlGetSystemVersion(&major, &minor, &bugFix);
-			
-			platformVersion = [[NSString stringWithFormat:@"%lu.%lu.%lu", (unsigned long)major, (unsigned long)minor, (unsigned long)bugFix] retain];
-			NSBundle *thisBundle = [NSBundle bundleForClass:[self class]];
-         NSString *bundleID = [thisBundle bundleIdentifier];
-			if ([bundleID isEqualToString:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] ||
-             [bundleID isEqualToString:@"com.Growl.GrowlHelperApp.GNTPClientService"])
-         {
-				//This bundle *is* Growl!
-				growlName = [@"Growl" copy];
-			} else if([bundleID caseInsensitiveCompare:@"com.growl.growlframework"] == NSOrderedSame ||
-                   [bundleID hasSuffix:@"GNTPClientService"])
-         {
-				//This bundle is the Growl framework or its XPC.
-				growlName = [@"Growl.framework" copy];
-			} else if ([[NSBundle mainBundle] bundleIdentifier] &&
-                    [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:bundleID])
-         {
-            //This has a bundle id, it isn't one of our bundles or our XPC
-            //They must have compiled us in
-            growlName = [bundleID copy];
-         } else {
-            //This bundle is either GrowlNotify, or something else weird happened
-#if GROWLNOTIFY
-            growlName = [@"GrowlNotify" copy];
-#else
-            growlName = [@"Unkown Growl Derived GNTP Implementation" copy];
-#endif
-         }
-			
-			growlVersion = [[[thisBundle infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey] retain];
-         if(!growlVersion){
-#ifdef GROWL_VERSION_STRING
-            growlVersion = [[NSString stringWithCString:GROWL_VERSION_STRING encoding:NSUTF8StringEncoding] retain];
-#else
-            growlVersion = [@"Unknown Version" copy];
-#endif
-         }
-			determinedMachineInfo = YES;
-		}
-		
-		[dictCopy setObject:hostName forKey:GROWL_GNTP_ORIGIN_MACHINE];
-		[dictCopy setObject:growlName forKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME];
-		[dictCopy setObject:growlVersion forKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION];
-		[dictCopy setObject:@"Mac OS X" forKey:GROWL_GNTP_ORIGIN_PLATFORM_NAME];
-		[dictCopy setObject:platformVersion forKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION];
+		[dictCopy addEntriesFromDictionary:[self originDictionary]];
 	}
 	return dictCopy;
+}
++(NSDictionary*)originDictionary {	
+	static NSDictionary *originDict = nil;
+	
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSMutableDictionary *buildDict = [NSMutableDictionary dictionary];
+		NSString *growlName = nil;
+		NSString *growlVersion = nil;
+		NSString *platformVersion = nil;
+		NSUInteger major, minor, bugFix;
+		GrowlGetSystemVersion(&major, &minor, &bugFix);
+		
+		platformVersion = [[NSString stringWithFormat:@"%lu.%lu.%lu", (unsigned long)major, (unsigned long)minor, (unsigned long)bugFix] retain];
+		NSBundle *thisBundle = [NSBundle bundleForClass:[self class]];
+		NSString *bundleID = [thisBundle bundleIdentifier];
+		if ([bundleID isEqualToString:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] ||
+			 [bundleID isEqualToString:@"com.Growl.GrowlHelperApp.GNTPClientService"])
+		{
+			//This bundle *is* Growl!
+			growlName = @"Growl";
+		} else if([bundleID caseInsensitiveCompare:@"com.growl.growlframework"] == NSOrderedSame ||
+					 [bundleID hasSuffix:@"GNTPClientService"])
+		{
+			//This bundle is the Growl framework or its XPC.
+			growlName = @"Growl.framework";
+		} else if ([[NSBundle mainBundle] bundleIdentifier] &&
+					  [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:bundleID])
+		{
+			//This has a bundle id, it isn't one of our bundles or our XPC
+			//They must have compiled us in
+			growlName = bundleID;
+		} else {
+			//This bundle is either GrowlNotify, or something else weird happened
+#if GROWLNOTIFY
+			growlName = @"GrowlNotify";
+#else
+			growlName = @"Unkown Growl Derived GNTP Implementation";
+#endif
+		}
+		
+		growlVersion = [[thisBundle infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+		if(!growlVersion){
+#ifdef GROWL_VERSION_STRING
+			growlVersion = [[NSString stringWithCString:GROWL_VERSION_STRING encoding:NSUTF8StringEncoding] retain];
+#else
+			growlVersion = @"Unknown Version";
+#endif
+		}
+		
+		//Sent/Reived headers
+		NSString *hostName = [GrowlNetworkUtilities localHostName];
+		[buildDict setObject:hostName forKey:GROWL_GNTP_ORIGIN_MACHINE];
+		[buildDict setObject:growlName forKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME];
+		[buildDict setObject:growlVersion forKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION];
+		[buildDict setObject:@"Mac OS X" forKey:GROWL_GNTP_ORIGIN_PLATFORM_NAME];
+		[buildDict setObject:platformVersion forKey:GROWL_GNTP_ORIGIN_PLATFORM_VERSION];
+		
+		originDict = [buildDict copy];
+	});
+	
+	return originDict;
+}
++(NSString*)originString {
+	static NSString *originString = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSMutableString *buildString = [NSMutableString string];
+		NSDictionary *originDict = [self originDictionary];
+		[originDict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+			[buildString appendFormat:@"%@: %@\r\n", [[self growlToGNTPMatchingDict] valueForKey:key], obj];
+		}];
+		originString = [buildString copy];
+	});
+	return originString;
 }
 +(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary*)growlDict {
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
@@ -570,7 +593,7 @@
 	return packetData;
 }
 
-+ (NSString *)identifierForBinaryData:(NSData *)data
++(NSString*)identifierForBinaryData:(NSData *)data
 {
 	unsigned char *digest = malloc(sizeof(unsigned char)*CC_MD5_DIGEST_LENGTH);
 	CC_MD5([data bytes], (unsigned int)[data length], digest);
@@ -828,7 +851,7 @@
 	return ![self hasBeenReceivedPreviously];
 }
 -(NSString*)responseString {
-	return [NSString stringWithFormat:@"GNTP/1.0 -OK NONE\r\nResponse-Action: %@\r\n", self.action];
+	return [NSString stringWithFormat:@"GNTP/1.0 -OK NONE\r\nResponse-Action: %@\r\n%@", self.action, [GNTPPacket originString]];
 }
 -(NSData*)responseData {
 	NSString *responseString = [[self responseString] stringByAppendingString:@"\r\n\r\n"];

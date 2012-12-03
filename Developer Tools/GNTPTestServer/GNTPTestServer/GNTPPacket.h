@@ -64,12 +64,13 @@
 
 #pragma mark Packet Building
 
++(NSString*)originString;
 +(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary*)dict;
 +(NSString*)headersForGNTPDictionary:(NSDictionary*)dict;
 +(NSData*)gntpDataFromGrowlDictionary:(NSDictionary*)dict 
 										 ofType:(NSString*)type
 										withKey:(GNTPKey*)encryptionKey;
-+ (NSString *)identifierForBinaryData:(NSData *)data;
++(NSString*)identifierForBinaryData:(NSData *)data;
 
 #pragma mark Packet
 -(NSInteger)parsePossiblyEncryptedDataBlock:(NSData*)data;

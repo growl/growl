@@ -154,7 +154,7 @@
 	  withErrorCode:(GrowlGNTPErrorCode)code
   errorDescription:(NSString*)description
 {
-	NSMutableString *errorString = [NSMutableString stringWithFormat:@"GNTP/1.0 -ERROR NONE\r\nError-Code: %ld\r\nError-Description: %@\r\n", code, description];
+	NSMutableString *errorString = [NSMutableString stringWithFormat:@"GNTP/1.0 -ERROR NONE\r\nError-Code: %ld\r\nError-Description: %@\r\n%@", code, description, [GNTPPacket originString]];
 	if(action)
 		[errorString appendFormat:@"Response-Action: %@\r\n", action];
 	[errorString appendString:@"\r\n\r\n"];
