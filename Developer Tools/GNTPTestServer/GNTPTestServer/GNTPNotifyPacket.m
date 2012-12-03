@@ -58,7 +58,7 @@
 		//Go ahead and set it regardless
 		contextString = context;
 	}else{
-		if([contextType caseInsensitiveCompare:@"PLIST"] == NSOrderedSame){
+/*		if([contextType caseInsensitiveCompare:@"PLIST"] == NSOrderedSame){
 			if([NSPropertyListSerialization propertyList:context isValidForFormat:kCFPropertyListXMLFormat_v1_0]){
 				NSData *propertyListData = [NSPropertyListSerialization dataWithPropertyList:context
 																											 format:kCFPropertyListXMLFormat_v1_0
@@ -71,7 +71,7 @@
 			if(!contextString){
 				NSLog(@"Error generating context string from supposed plist: %@\r\n", context);
 			}
-		}
+		}*/
 	}
 	if(contextString){
 		//If we can't get a context formed into a string, this isn't worth sending
@@ -115,7 +115,7 @@
 +(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary *)dict {
 	NSMutableDictionary *converted = [super gntpDictFromGrowlDict:dict];
 	
-	//We wont bother checking the context type we stored unless its a string
+	//We wont bother checking the context type we stored unless the context is not stored as a string
 	NSString *contextType = nil;
 	id context = [dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
 	NSString *contextString = nil;
@@ -127,12 +127,15 @@
 			else
 				contextType = @"String";
 		}else if([NSPropertyListSerialization propertyList:context isValidForFormat:kCFPropertyListXMLFormat_v1_0]){
+			NSError *error = nil;
 			NSData *plistData = [NSPropertyListSerialization dataWithPropertyList:context
                                                                         format:kCFPropertyListXMLFormat_v1_0
                                                                        options:0
-                                                                         error:NULL];
+                                                                         error:&error];
 			if(plistData){
 				contextString = [[[NSString alloc] initWithData:plistData encoding:NSUTF8StringEncoding] autorelease];
+			}else{
+				NSLog(@"There was an error: %@ generating serialized property list from context: %@", error, context);
 			}
 			contextType = @"Plist";
 		}else if([context isKindOfClass:[NSURL class]]){
@@ -142,6 +145,8 @@
 		if(contextString && contextType){
 			[converted setObject:contextType forKey:GrowlGNTPNotificationCallbackContextType];
 			[converted setObject:contextString forKey:GrowlGNTPNotificationCallbackContext];
+		}else{
+			NSLog(@"Context %@ was not converted to a string, and was not sent, check that it is an NSString, NSURL or is seriazable to XML PList with NSPropertyListSerialization", context);
 		}
 	}
 	

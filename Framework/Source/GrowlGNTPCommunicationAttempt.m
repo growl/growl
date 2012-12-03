@@ -394,12 +394,15 @@ enum {
    
    id clickContext = nil;
    
-   if([contextType caseInsensitiveCompare:@"PList"] == NSOrderedSame)
+   if([contextType caseInsensitiveCompare:@"PList"] == NSOrderedSame){
+		NSError *serializeError = nil;
       clickContext = [NSPropertyListSerialization propertyListWithData:[context dataUsingEncoding:NSUTF8StringEncoding] 
                                                                options:0
                                                                 format:NULL
-                                                                 error:NULL];
-   else
+                                                                 error:&serializeError];
+		if(serializeError)
+			NSLog(@"There was an error: %@ deserlializing the plist: %@", serializeError, context);
+	}else
       clickContext = context;
 	
    switch (resultValue) {
