@@ -541,19 +541,34 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 		NSArray* tokens = [helper tokensForType:type andAttribute:attribute];
 		NSMutableArray* resolved = [NSMutableArray arrayWithCapacity:[tokens count]];
 		
-		for (id token in tokens) {
+		[tokens enumerateObjectsUsingBlock:^(id token, NSUInteger idx, BOOL *stop) {
 			if ([token isKindOfClass:[NSString class]]) {
 				[resolved addObject:token];
 			} else if ([token isKindOfClass:[FormattingToken class]]) {
 				FormattingToken* ftoken = (FormattingToken*)token;
 				if ([ftoken isDynamic]) {
-					id value = [self valueForKey:[ftoken lookupKey]];
-					[resolved addObject:[NSString stringWithFormat:@"%@", value]];
+					NSString *lookupKey = [ftoken lookupKey];
+					id value = [self valueForKey:lookupKey];
+					if ([lookupKey isEqualToString:@"rating"]){
+						NSMutableString *ratingBuilder = [NSMutableString string];
+						NSInteger rating = (NSInteger)([value floatValue] / 20.0f);
+						for(NSInteger i = 0; i < 5; i++) {
+							if(i < rating)
+								[ratingBuilder appendString:@"★"];
+							else
+								[ratingBuilder appendString:@"·"];
+							
+							if(i < 4)
+								[ratingBuilder appendString:@" "];
+						}
+						[resolved addObject:ratingBuilder];
+					}else
+						[resolved addObject:[NSString stringWithFormat:@"%@", value]];
 				} else {
 					[resolved addObject:[token displayString]];
 				}
 			}
-		}
+		}];
 		
 		NSString* resolvedString = [resolved componentsJoinedByString:@" "];
 		[dict setValue:resolvedString forKey:attribute];

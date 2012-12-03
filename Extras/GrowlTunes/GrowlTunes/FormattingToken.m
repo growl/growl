@@ -46,25 +46,26 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
    static __STRONG NSDictionary* tokenMap;
    static dispatch_once_t onceToken;
    dispatch_once(&onceToken, ^{
-      tokenMap = @{TokenAlbum:         TokenAlbumReadable,
-                  TokenAlbumArtist:    TokenAlbumArtistReadable,
-                  TokenArtist:         TokenArtistReadable,
-                  TokenBestArtist:     TokenBestArtistReadable,
-                  TokenBestDescription:TokenBestDescriptionReadable,
-                  TokenComment:        TokenCommentReadable,
-                  TokenDescription:    TokenDescriptionReadable,
-                  TokenEpisodeID:      TokenEpisodeIDReadable,
-                  TokenEpisodeNumber:  TokenEpisodeNumberReadable,
-                  TokenLongDescription:TokenLongDescriptionReadable,
-                  TokenName:           TokenNameReadable,
-                  TokenSeasonNumber:   TokenSeasonNumberReadable,
-                  TokenShow:           TokenShowReadable,
-                  TokenStreamTitle:    TokenStreamTitleReadable,
-                  TokenTrackCount:     TokenTrackCountReadable,
-                  TokenTrackNumber:    TokenTrackNumberReadable,
-                  TokenTime:           TokenTimeReadable,
-                  TokenVideoKindName:  TokenVideoKindNameReadable};
-                  });
+      tokenMap = @{TokenAlbum:				TokenAlbumReadable,
+							TokenAlbumArtist:		TokenAlbumArtistReadable,
+							TokenArtist:			TokenArtistReadable,
+							TokenBestArtist:		TokenBestArtistReadable,
+							TokenBestDescription:TokenBestDescriptionReadable,
+							TokenComment:			TokenCommentReadable,
+							TokenDescription:		TokenDescriptionReadable,
+							TokenEpisodeID:		TokenEpisodeIDReadable,
+							TokenEpisodeNumber:	TokenEpisodeNumberReadable,
+							TokenLongDescription:TokenLongDescriptionReadable,
+							TokenName:				TokenNameReadable,
+							TokenSeasonNumber:	TokenSeasonNumberReadable,
+							TokenShow:				TokenShowReadable,
+							TokenStreamTitle:		TokenStreamTitleReadable,
+							TokenTrackCount:		TokenTrackCountReadable,
+							TokenTrackNumber:		TokenTrackNumberReadable,
+							TokenTime:				TokenTimeReadable,
+							TokenVideoKindName:	TokenVideoKindNameReadable,
+							TokenRating:			TokenRatingReadable};
+	});
    return tokenMap;
 }
 

@@ -282,6 +282,10 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     [self.conductor addObserver:self forKeyPath:@"currentTrack" options:NSKeyValueObservingOptionInitial context:nil];
 }
 
+- (void)applicationWillTerminate:(NSNotification *)notification {
+	[self.formatController saveTokens];
+}
+
 -(void)dealloc
 {
     [self.conductor removeObserver:self forKeyPath:@"currentTrack"];

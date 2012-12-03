@@ -68,6 +68,7 @@
 #define TokenTrackNumber                @"trackNumber"
 #define TokenTime                       @"time"
 #define TokenVideoKindName              @"videoKindName"
+#define TokenRating							 @"rating"
 
 #pragma mark formatting token text
 #define TokenAlbumReadable              NSLocalizedString(@"Album", nil)
@@ -88,6 +89,7 @@
 #define TokenTrackNumberReadable        NSLocalizedString(@"Track Number", nil)
 #define TokenTimeReadable               NSLocalizedString(@"Play Time", nil)
 #define TokenVideoKindNameReadable      NSLocalizedString(@"Video Kind", nil)
+#define TokenRatingReadable				 NSLocalizedString(@"Rating", nil)
 
 #pragma mark menu entries
 #define MenuPlayPause                   NSLocalizedString(@"▶ Play/Pause", nil)

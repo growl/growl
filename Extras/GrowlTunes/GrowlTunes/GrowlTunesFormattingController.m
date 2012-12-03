@@ -62,6 +62,9 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 			FormattingToken *token = [FormattingToken tokenWithEditingString:editString];
 			[buildArray addObject:token];
 		}];
+		[buildArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+			return [[obj1 displayString] caseInsensitiveCompare:[obj2 displayString]];
+		}];
 		_tokenCloud = [buildArray copy];
 	});
 	return _tokenCloud;
