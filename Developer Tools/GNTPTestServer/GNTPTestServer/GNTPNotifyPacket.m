@@ -181,7 +181,7 @@
 		id convertedContext = nil;
 		if(self.callbackType){
 			//We can easily add support here for other types
-			if([self.callbackType caseInsensitiveCompare:@"PLIST"] == NSOrderedSame){
+/*			if([self.callbackType caseInsensitiveCompare:@"PLIST"] == NSOrderedSame){
 				//Convert to a plist and check
 				convertedContext = [NSPropertyListSerialization propertyListWithData:[self.callbackString dataUsingEncoding:NSUTF8StringEncoding]
 																								 options:0
@@ -189,7 +189,7 @@
 																									error:nil];
 			}else if([self.callbackType caseInsensitiveCompare:@"URL"] == NSOrderedSame){
 				convertedContext = [NSURL URLWithString:self.callbackString];
-			}
+			}*/
 		}
 		
 		//We dont really know the type, or couldn't convert it, just the stuff the string back in
