@@ -151,16 +151,17 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 - (NSString*)stringStartAtLogin
 { return MenuStartAtLogin; }
 
-- (NSString*)applicationNameForGrowl
+- (NSString*)applicationNameForGrow
 { return @"GrowlTunes"; }
 
 - (NSDictionary*)registrationDictionaryForGrowl
 {
-	NSDictionary* notifications = @{NotifierChangedTracks: NotifierChangedTracksReadable};
+	NSDictionary* notifications = @{NotifierChangedTracks: NotifierChangedTracksReadable,
+											NotifierPaused: NotifierPausedReadable};
 	LogInfo(@"%@", notifications);
 	
-	NSArray* allNotifications = [notifications allKeys];
-	
+	NSArray *allNotifications = [notifications allKeys];
+	NSArray *defaultNotes = @[NotifierChangedTracks];
 	NSURL* iconURL = [[NSBundle mainBundle] URLForImageResource:@"GrowlTunes"];
 	NSData *iconData = [NSData dataWithContentsOfURL:iconURL];
 	
@@ -168,7 +169,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 									 @"GrowlTunes",				GROWL_APP_NAME,
 									 @"com.growl.growltunes",	GROWL_APP_ID,
 									 allNotifications,			GROWL_NOTIFICATIONS_ALL,
-									 allNotifications,			GROWL_NOTIFICATIONS_DEFAULT,
+									 defaultNotes,			GROWL_NOTIFICATIONS_DEFAULT,
 									 notifications,				GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
 									 iconData,						GROWL_APP_ICON_DATA,
 									 nil];
@@ -196,7 +197,10 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         NSData* iconData = [formatted valueForKey:@"icon"];
         
         [self notifyWithTitle:title description:description name:NotifierChangedTracks icon:iconData];
-    }
+    }else if([keyPath isEqualToString:@"isPaused"]){
+		 if([self.conductor isPaused])
+			 [self notifyWithTitle:NotifierPausedReadable description:@"" name:NotifierPaused icon:nil];
+	 }
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification*)aNotification
@@ -280,6 +284,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	    
     if (!_iTunesConductor) { self.conductor = AUTORELEASE([[ITunesConductor alloc] init]); }
     [self.conductor addObserver:self forKeyPath:@"currentTrack" options:NSKeyValueObservingOptionInitial context:nil];
+	[self.conductor addObserver:self forKeyPath:@"isPaused" options:NSKeyValueObservingOptionInitial context:nil];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
@@ -289,6 +294,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 -(void)dealloc
 {
     [self.conductor removeObserver:self forKeyPath:@"currentTrack"];
+	[self.conductor removeObserver:self forKeyPath:@"isPaused"];
     RELEASE(_iTunesConductor);
     RELEASE(_statusItemMenu);
     RELEASE(_currentTrackMenuItem);
