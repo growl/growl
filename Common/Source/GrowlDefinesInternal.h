@@ -118,18 +118,6 @@
 #define GROWL_GNTP_ORIGIN_PLATFORM_NAME					@"GNTP Origin-Platform-Name"
 #define GROWL_GNTP_ORIGIN_PLATFORM_VERSION				@"GNTP Origin-Platform-Versin"
 
-/*!	@defined	GROWL_SCREENSHOT_MODE
- *	@abstract	Preference and notification key controlling whether to save a screenshot of the notification.
- *	@discussion	This is for GHA's private usage. If your application puts this
- *	 key into a notification dictionary, GHA will clobber it. This key is only
- *	 allowed in the notification dictionaries GHA passes to displays.
- *
- *	 If this key contains an object whose boolValue is not NO, the display is
- *	 asked to save a screenshot of the notification to
- *	 ~/Library/Application\ Support/Growl/Screenshots.
- */
-#define GROWL_SCREENSHOT_MODE			XSTR("ScreenshotMode")
-
 /*!	@defined	GROWL_CLICK_HANDLER_ENABLED
  *	@abstract	An NSNumber boolean indicating whether click notifications should be sent to the originating application
  */

@@ -48,7 +48,6 @@ typedef enum {
 	
 	NSTimeInterval		             displayDuration;
 	NSUInteger			             screenNumber;
-	BOOL                             screenshotModeEnabled;
 
 	BOOL							 userRequestedClose;
 
@@ -63,8 +62,6 @@ typedef enum {
 + (void) registerInstance:(id)instance withIdentifier:(NSString *)ident;
 + (void) unregisterInstanceWithIdentifier:(NSString *)ident;
 + (id) instanceWithIdentifier:(NSString *)ident;
-
-- (void) takeScreenshot;
 
 - (void) foundSpaceToStart;
 - (void) startDisplay;
@@ -149,7 +146,6 @@ typedef enum {
 @property (nonatomic, assign) BOOL ignoresOtherNotifications;
 @property (nonatomic, assign) SEL action;
 @property (nonatomic, retain) id target;
-@property (nonatomic, assign) BOOL screenshotModeEnabled;
 @property (nonatomic, assign) CFTimeInterval displayDuration;
 @property (nonatomic, assign) CFTimeInterval transitionDuration;
 @property (nonatomic, assign) GrowlDisplayPlugin *plugin;

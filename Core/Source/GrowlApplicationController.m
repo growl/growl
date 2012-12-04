@@ -1010,8 +1010,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    if (sticky >= 0)
       [aDict setObject:[NSNumber numberWithBool:sticky] forKey:GROWL_NOTIFICATION_STICKY];
    
-   BOOL saveScreenshot = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_SCREENSHOT_MODE];
-   [aDict setObject:[NSNumber numberWithBool:saveScreenshot] forKey:GROWL_SCREENSHOT_MODE];
    [aDict setObject:[NSNumber numberWithBool:YES] forKey:GROWL_CLICK_HANDLER_ENABLED];
    
    /* Set a unique ID which we can use globally to identify this particular notification if it doesn't have one */

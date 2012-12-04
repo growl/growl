@@ -36,7 +36,6 @@ static NSMutableDictionary *existingInstances;
 
 @synthesize finished;
 @synthesize ignoresOtherNotifications;
-@synthesize screenshotModeEnabled;
 @synthesize action;
 @synthesize target;
 @synthesize displayDuration;
@@ -132,15 +131,6 @@ static NSMutableDictionary *existingInstances;
 	[notification        release];
 
 	[super dealloc];
-}
-
-#pragma mark -
-#pragma mark Screenshot mode
-
-- (void) takeScreenshot {
-	//NSView *view = [[self window] contentView];
-	//NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"png"];
-	//[[view dataWithPNGInsideRect:[view frame]] writeToFile:path atomically:NO];
 }
 
 #pragma mark -
@@ -279,9 +269,6 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) didDisplayNotification {
-	if (screenshotModeEnabled)
-		[self takeScreenshot];
-
 	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerDidDisplayWindowNotification
 														object:self];
 }
@@ -510,7 +497,6 @@ static NSMutableDictionary *existingInstances;
 	
 	NSDictionary *noteDict = [theNotification dictionaryRepresentation];
 	
-	[self setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
 	[self setClickHandlerEnabled:[noteDict objectForKey:GROWL_CLICK_HANDLER_ENABLED]];	
 	
 	NSView *view = [[self window] contentView];
