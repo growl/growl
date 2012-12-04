@@ -1000,7 +1000,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    if (priority == GrowlPriorityUnset) {
       value = [dict objectForKey:GROWL_NOTIFICATION_PRIORITY];
       if (!value)
-         value = [NSNumber numberWithInt:0];
+         value = [NSNumber numberWithInt:GrowlPriorityNormal];
    } else
       value = [NSNumber numberWithInt:priority];
    [aDict setObject:value forKey:GROWL_NOTIFICATION_PRIORITY];

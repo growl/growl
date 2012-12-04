@@ -144,7 +144,6 @@
 		93A60E5F13C549BC00514EF8 /* GrowlPositionPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 7471F9B70A066E2B000D13BF /* GrowlPositionPicker.m */; };
 		93A60E6013C549C000514EF8 /* RRTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 936FAB02074482BF00A7D430 /* RRTableView.m */; };
 		93A60E6213C549CF00514EF8 /* GrowlAppNameClickNotificationTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */; };
-		93A60E6313C549D200514EF8 /* PriorityTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 342157BE0C2AE377004003BB /* PriorityTransformer.m */; };
 		93BC3798095A662B0002B365 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		93BC3799095A662B0002B365 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
 		93BC379A095A662B0002B365 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83282746073A6C110044A959 /* PreferencePanes.framework */; };
@@ -1023,8 +1022,6 @@
 		31E1863D1084B7500011C78B /* TestVersionComparisonBetweenStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestVersionComparisonBetweenStrings.h; sourceTree = "<group>"; };
 		31E1863E1084B7500011C78B /* TestVersionComparisonBetweenStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestVersionComparisonBetweenStrings.m; sourceTree = "<group>"; };
 		32DBCFA20370C41700C91783 /* Growl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Growl_Prefix.pch; path = Core/Source/Growl_Prefix.pch; sourceTree = "<group>"; };
-		342157BD0C2AE377004003BB /* PriorityTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PriorityTransformer.h; path = Core/Source/PriorityTransformer.h; sourceTree = "<group>"; };
-		342157BE0C2AE377004003BB /* PriorityTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PriorityTransformer.m; path = Core/Source/PriorityTransformer.m; sourceTree = "<group>"; };
 		343354C10792F96300C84B15 /* GrowlFramework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlFramework_Prefix.pch; path = Framework/Source/GrowlFramework_Prefix.pch; sourceTree = "<group>"; };
 		34422F6F0BF3ED2E001DA9ED /* GrowlApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplication.h; path = Core/Source/GrowlApplication.h; sourceTree = "<group>"; };
 		34422F700BF3ED2E001DA9ED /* GrowlApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlApplication.m; path = Core/Source/GrowlApplication.m; sourceTree = "<group>"; };
@@ -2129,8 +2126,6 @@
 				936FAB02074482BF00A7D430 /* RRTableView.m */,
 				347262850C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.h */,
 				347262860C0725D800499F50 /* GrowlAppNameClickNotificationTransformer.m */,
-				342157BD0C2AE377004003BB /* PriorityTransformer.h */,
-				342157BE0C2AE377004003BB /* PriorityTransformer.m */,
 				93BD8B8B15C59974004A2E7D /* GrowlOnSwitchLabel.h */,
 				93BD8B8C15C59974004A2E7D /* GrowlOnSwitchLabel.m */,
 				BC6BD66014CA1669000D0B0D /* GrowlOnSwitch.h */,
@@ -4484,7 +4479,6 @@
 				BC62F8321236ADD3007C0BF4 /* GrowlNotificationHistoryWindow.m in Sources */,
 				BC28C123124B8B0500DB83D4 /* GrowlAbstractDatabase.m in Sources */,
 				BC9AE9731255952700759016 /* GrowlImageCache.m in Sources */,
-				93A60E6313C549D200514EF8 /* PriorityTransformer.m in Sources */,
 				93A60E6213C549CF00514EF8 /* GrowlAppNameClickNotificationTransformer.m in Sources */,
 				93A60E5F13C549BC00514EF8 /* GrowlPositionPicker.m in Sources */,
 				93A60E6013C549C000514EF8 /* RRTableView.m in Sources */,
