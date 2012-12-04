@@ -35,7 +35,7 @@
 -(BOOL)removeLocalSubscriptionAtIndex:(NSUInteger)index;
 
 #pragma mark Forwarding
--(void)forwardDictionary:(NSDictionary*)dict isRegistration:(BOOL)registration toEntryIDs:(NSArray*)entryIDs;
+-(void)forwardDictionary:(NSDictionary*)dict isRegistration:(BOOL)registration toSubscriberIDs:(NSArray*)entryIDs;
 -(void)forwardNotification:(NSDictionary*)noteDict;
 
 #pragma mark Bindings accessor

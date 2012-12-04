@@ -245,7 +245,7 @@
    [remoteSubscriptions enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
       if([[obj validTime] compare:[NSDate date]] == NSOrderedAscending)
          return;
-      if([entryIDs containsObject:[obj uuid]]){
+      if([entryIDs containsObject:[obj subscriberID]]){
          [entriesArray addObject:obj];
       }
    }];
@@ -269,7 +269,7 @@
    return hostResults;
 }
 
-- (void)forwardDictionary:(NSDictionary*)dict isRegistration:(BOOL)registration toEntryIDs:(NSArray*)entryIDs {
+-(void)forwardDictionary:(NSDictionary*)dict isRegistration:(BOOL)registration toSubscriberIDs:(NSArray*)entryIDs {
    __block GNTPSubscriptionController *blockSubscriber = self;
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       NSArray *sendingDetails = nil;
@@ -300,7 +300,7 @@
 - (void)forwardNotification:(NSDictionary *)dict
 {
    if([preferences isSubscriptionAllowed])
-      [self forwardDictionary:dict isRegistration:NO toEntryIDs:nil];
+      [self forwardDictionary:dict isRegistration:NO toSubscriberIDs:nil];
 }
 
 - (void)appRegistered:(NSNotification*)dict
@@ -312,7 +312,7 @@
 - (void)forwardRegistration:(NSDictionary *)dict
 {
    if([preferences isSubscriptionAllowed])
-      [self forwardDictionary:dict isRegistration:YES toEntryIDs:nil];
+      [self forwardDictionary:dict isRegistration:YES toSubscriberIDs:nil];
 }
 
 #pragma mark Table bindings accessor
