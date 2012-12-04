@@ -1,34 +1,67 @@
-General
-- Applications Tab Redesign! This is a major overhaul, and should be much easier to use.
-- Moved Rollup controls to separate tab.
-- Major improvements to networking.
+Το Growl 2.0.1 αλλάζει
 
-Preference Pane overhaul
-- New slider switch for on/off switches
-- Added keyboard support to position picker.
-- General Tab Relayout.
-- Networking tab - Add support for subscription
-- History Tab, contextual menu for history table to jump to the app/notification settings
-- Rollup tab is the new home of controls related to the Rollup window.
-- Adding a new display should not require a restart of Growl now.
+- Διορθώνει το πρόβλημα τοποθεσίας που εμφανίστηκε στην έκδοση 2.0, ευχαριστούμε για την πληροφόρηση!
+- Διορθώνει διάφορες αναφορές κολλημάτων.
 
-Networking
-- Support for Notification-Callback-Target, a URL field in GNTP. Upon click, Growl lets OSX figure out how to open the URL (such as the default browser for an http:// url)
-- Subscription support, subscribe to all applications on a remote machine.
-- General improvements to networking authentication, removed requirement for, and use of password headers if the password field is blank
-- Fix networking crash related to address data resolution.
-- Bind to local socket only if not listening for incoming notifications.
-- Address data caching, and observation of network changes to clear caches
+Το Growl 2 αλλάζει
 
-Applescript
-- URL click feedback support, same as Notification-Callback-Target in GNTP
+Γενικά
+ - Προσθέτει υποστήριξη για το OS X notification center στην 10.8
+ - Προσθέτει υποστήριξη για τις υπηρεσίες Prowl και Boxcar.
+ - Το Rollup έχει καλύτερη αναγνώριση αδράνειας.
+ Το Growl είναι πλέον στο sandbox..
 
-Bug fixes
-- Resolved a crash with webkit plugin bridge on creation.
-- Resolved a crash with forwarding.
-- Resolved an issue where the Speech display waits for previous message to complete causing a CPU drain
-- Resolved a crash with CFErrorGetDomain for WebKit Display Styles.
-- Fixed duplicate listings of display plugins on reinstall.
-- Notification-Callback-Target is now respected, and used, even without the method header.
-- Worked around problems with corrupt history databases.
-- Fixed a sorting problem when deleting a single entry in the history list.
+Επιλογές
+ - Ο διακόπτης ON/OFF στο Growl θα πρέπει να είναι πιο κατανοητός τώρα.
+
+Ενδείξεις
+ - Το Speech τώρα επιτρέπει μεγαλύτερο έλεγχο.
+ - Διαχωρισμός ενδείξεων Δράσης από ενδείξεις Εμφάνισης.
+ - Το Music Video μπορεί να κάνει τετραγωνίσει κείμενο αριστερά και δεξιά.
+ - Διορθώσεις σε προβλήματα ύψους για ειδοποιήσεις πολλαπλών γραμμών στο Music Video.
+ - Το Nano μπορεί πλέον να εμφανιστεί σε πολλαπλές τοποθεσίες, αριστερά, κέντρο και δεξιά.
+ - Προσθήκη ένδειξης SoundAction.
+ Προσθήκη ενός τρόπου να μην υπάρχουν ενδείξεις εμφάνισης.
+
+Διορθώσεις σφαλμάτων
+ - Επίλυση του προβλήματος υψηλής χρήσης του επεξεργαστή.
+ - Επίλυση πολλαπλών κολλημάτων.
+ - Οι συντομεύσεις μπορούν πλέον να απενεργοποιηθούν.
+
+
+Το Growl 1.4 αλλάζει
+
+Γενικές
+ - Επανασχεδιασμός της καρτέλας Εφαρμογών! Αυτή είναι μια μεγάλη αλλαγή, και θα πρέπει να είναι πολύ ευκολότερη στη χρήση.
+ - Μεταφορά των ρυθμίσεων του Rollup σε ξεχωριστή καρτέλα.
+ - Μεγάλες αλλαγές στην δικτύωση.
+
+Αλλαγή Πάνελ Προτιμήσεων
+ - Νέος διακόπτης για on/off
+ - Προσθήκη υποστήριξης πληκτρολογίου για τον επιλογέα θέσης.
+ - Γενικές Ανακατανωμές Καρτελών.
+ - Καρτέλα Δικτύωσης - Προσθήκη υποστήριξης για εγγραφές.
+ - Καρτέλα Ιστορικού, μενού στον πίνακα ιστορικού για μετάβαση σε ρυθμίσεις εφαρμογής/ειδοποίησης.
+ - Η καρτέλα Rollup είναι το νέο μέρος για τις ρυθμίσεις που σχετίζονται με το παράθυρο Rollup.
+Η προσθήκη μιας νέας ένδειξης δεν θα πρέπει να απαιτεί την επανεκκίνηση του Growl πλέον.
+
+Δικτύωση
+ - Υποστήριξη για Notification-Callback-Target, ένα πεδίο URL στο GNTP. Κατά το κλίκ, το Growl αφήνει το OSX να κατανοήσει πως να ανοίξει το URL (π.χ. με τον προεπιλεγμένο διακομιστή για ένα σύνδεσμο http://)
+ - Υποστήριξη εγγραφών, εγγραφείτε σε όλες τις εφαρμογές σε ένα απομακρυσμένο μηχάνημα.
+ - Γενικές βελτιώσεις στην δικτυακή πιστοποίηση, αφαίρεση απαίτησης για κωδικό
+ - Διόρθωση δικτυακού σφάλματος σχετιζόμενο με την ανάλυση διευθύνσεων.
+ - Δέσμευση τοπικών θυρών μόνο όταν το Growl ακούει για εισερχόμενες αιτήσεις.
+ Αποθήκευση δεδομένων διευθύσεων, και παρατήρηση αλλαγών δικτύων για καθάρισμα αποθηκευμένων δεδομένων.
+
+Applescript 
+ - Υποστήριξη URL κλικ, ίδιο με το Notification-Callback-Target στο GNTP
+
+Διόρθωση σφαλμάτων
+ - Διόρθωση ενός σφάλματος με το webkit plugin κατά την δημιουργία.
+ - Διόρθωση σφάλματος κατά την προώθηση.
+ - Διόρθωση προβλήματος στην ένδειξη Speech που περίμενε το προηγούμενο μήνυμα να ολοκληρωθεί και χρησιμοποιούσε επεξεργαστική ισχύ.
+ - Διόρθωση σφάλματος με το CFErrorGetDomain για ενδείξεις WebKit.
+ - Διόρθωση διπλής λίστας ενδείξεων κατά την επανεγκατάσταση.
+ - Το Notification-Callback-Target πλέον χρησιμοποιείται, ακόμα και χωρίς επικεφαλίδα μεθόδου.
+ - Αντιμετόπηση προβλημάτων με κατεστραμμένες βάσεις ιστορικού.
+ - Διόρθωση προβλήματος ταξινόμησης κατά την διαγραφή μιας εγγραφής από την λίστα ιστορικού.

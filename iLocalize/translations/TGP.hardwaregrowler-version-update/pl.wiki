@@ -1,3 +1,7 @@
+HardwareGrowler 2.0.1
+- Rozwiązano problem z brakiem powiadomień po zmianie stanu sieci.
+- Lepsze opisy powiadomień na temat zasilania.
+
 HardwareGrowler 2
 
 - HardwareGrowler został przepisany od podstaw.
