@@ -38,7 +38,6 @@
 	BOOL            changed;
 	BOOL			useDefaults;				// Flag for whether this ticket just uses default
 	BOOL			ticketEnabled;
-	BOOL			clickHandlersEnabled;		// Flag whether click handlers are enabled
 	
 	BOOL			synchronizeOnChanges;
    BOOL        isLocalHost;               //If we are local host, this is a faster way of checking than doing string checks
@@ -79,7 +78,6 @@
 @property (nonatomic, readonly) BOOL isLocalHost;
 
 @property (nonatomic, assign) BOOL ticketEnabled;
-@property (nonatomic, assign) BOOL clickHandlersEnabled;
 @property (nonatomic, assign) BOOL useDefaults;
 @property (nonatomic, assign) NSInteger positionType;
 @property (nonatomic, assign) NSInteger selectedPosition;

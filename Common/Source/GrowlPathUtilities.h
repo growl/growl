@@ -81,6 +81,52 @@ typedef NSSearchPathDomainMask GrowlSearchPathDomainMask; //consistency
  */
 + (NSString *) ticketsDirectory;
 
+/*!	@method	screenshotsDirectory
+ *	@abstract	Returns the directory where screenshots are to be stored.
+ *	@discussion	The default location of this directory is
+ *	 $HOME/Library/Application\ Support/Growl/Screenshots. This method creates
+ *	 the folder if it does not already exist.
+ *	@result	The absolute path to the screenshot directory.
+ *	@deprecated Deprecated in Growl 2.1. Returns nil.
+ */
++ (NSString *) screenshotsDirectory __attribute__((deprecated));
+#pragma mark Screenshot names
+
+/*!	@method	nextScreenshotName
+ *	@abstract	Returns the name you should use for the next screenshot.
+ *	@discussion	Names returned by this method are currently in the format
+ *	 'Screenshot N', where N starts at 1 and continues indefinitely. Note the
+ *	 lack of a filename extension: you append it yourself.
+ *
+ *	 The name returned by this method is guaranteed to not exist with any
+ *	 filename extension. This is intentional: it would be confusing for the
+ *	 user if the fifth screenshot were assigned the name 'Screenshot 1' simply
+ *	 because the previous four screenshots had a different filename extension.
+ *
+ *	 Calling this method is the same as calling
+ *	 <code>nextScreenshotNameInDirectory:</code> with a directory of
+ *	 <code>nil</code>.
+ *	@result	A valid, non-existing, serial filename for a screenshot.
+ *	@deprecated Deprecated in Growl 2.1. Returns nil.
+ */
++ (NSString *) nextScreenshotName __attribute__((deprecated));
+/*!	@method	nextScreenshotNameInDirectory:
+ *	@abstract	Returns the name you should use for the next screenshot in a directory.
+ *	@discussion	Names returned by this method are currently in the format
+ *	 'Screenshot N', where N starts at 1 and continues indefinitely. Note the
+ *	 lack of a filename extension: you append it yourself. Note also that the
+ *	 directory is not included as a prefix on the result.
+ *
+ *	 The name returned by this method is guaranteed to not exist in the given
+ *	 directory with any filename extension. This is intentional: it would be
+ *	 confusing for the user if the fifth screenshot were assigned the name
+ *	 'Screenshot 1' simply because the previous four screenshots had a
+ *	 different filename extension.
+ *	@result	A valid, non-existing, serial filename for a screenshot.
+ *	@deprecated Deprecated in Growl 2.1. Returns nil.
+ */
++ (NSString *) nextScreenshotNameInDirectory:(NSString *) dirName __attribute__((deprecated));
+
 #pragma mark Tickets
 
 /*!	@method	defaultSavePathForTicketWithApplicationName:

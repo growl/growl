@@ -1009,9 +1009,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    int sticky = [[notification sticky] intValue];
    if (sticky >= 0)
       [aDict setObject:[NSNumber numberWithBool:sticky] forKey:GROWL_NOTIFICATION_STICKY];
-   
-   [aDict setObject:[NSNumber numberWithBool:YES] forKey:GROWL_CLICK_HANDLER_ENABLED];
-   
+      
    /* Set a unique ID which we can use globally to identify this particular notification if it doesn't have one */
    if (![aDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]) {
       CFUUIDRef uuidRef = CFUUIDCreate(kCFAllocatorDefault);

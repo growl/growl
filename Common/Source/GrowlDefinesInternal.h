@@ -118,11 +118,6 @@
 #define GROWL_GNTP_ORIGIN_PLATFORM_NAME					@"GNTP Origin-Platform-Name"
 #define GROWL_GNTP_ORIGIN_PLATFORM_VERSION				@"GNTP Origin-Platform-Versin"
 
-/*!	@defined	GROWL_CLICK_HANDLER_ENABLED
- *	@abstract	An NSNumber boolean indicating whether click notifications should be sent to the originating application
- */
-#define GROWL_CLICK_HANDLER_ENABLED		XSTR("ClickHandlerEnabled")
-
 /*!	@defined	GROWL_APP_LOCATION
  *	@abstract	The location of this application.
  *	@discussion	Contains either the POSIX path to the application, or a file-data dictionary (as used by the Dock).

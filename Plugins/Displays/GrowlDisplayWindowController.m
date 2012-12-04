@@ -36,6 +36,7 @@ static NSMutableDictionary *existingInstances;
 
 @synthesize finished;
 @synthesize ignoresOtherNotifications;
+@synthesize screenshotModeEnabled;
 @synthesize action;
 @synthesize target;
 @synthesize displayDuration;
@@ -131,6 +132,13 @@ static NSMutableDictionary *existingInstances;
 	[notification        release];
 
 	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark Screenshot mode
+
+- (void) takeScreenshot {
+	//Deprecated no-op
 }
 
 #pragma mark -
@@ -496,9 +504,7 @@ static NSMutableDictionary *existingInstances;
 	}
 	
 	NSDictionary *noteDict = [theNotification dictionaryRepresentation];
-	
-	[self setClickHandlerEnabled:[noteDict objectForKey:GROWL_CLICK_HANDLER_ENABLED]];	
-	
+		
 	NSView *view = [[self window] contentView];
 	if ([view isKindOfClass:[GrowlNotificationView class]]) {
 		GrowlNotificationView *notificationView = (GrowlNotificationView *)view;
@@ -616,14 +622,11 @@ static NSMutableDictionary *existingInstances;
 #pragma mark -
 
 - (NSNumber *) clickHandlerEnabled {
-	return clickHandlerEnabled;
+	return @YES;
 }
 
 - (void) setClickHandlerEnabled:(NSNumber *)flag {
-	if (flag != clickHandlerEnabled) {
-		[clickHandlerEnabled release];
-		clickHandlerEnabled = [flag retain];
-	}
+	//deprecated no-op
 }
 
 #pragma mark -

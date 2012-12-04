@@ -148,6 +148,17 @@
 	}
 }
 
+/* Deprecated methods, return nil */
++ (NSString *) screenshotsDirectory {
+	return nil;
+}
++ (NSString *) nextScreenshotName {
+	return nil;
+}
++ (NSString *) nextScreenshotNameInDirectory:(NSString *) directory {
+	return nil;
+}
+
 #pragma mark -
 #pragma mark Tickets
 
