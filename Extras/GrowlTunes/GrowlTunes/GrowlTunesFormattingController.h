@@ -16,4 +16,6 @@
 -(NSArray*)tokensForType:(NSString*)type andAttribute:(NSString*)attribute;
 -(void)saveTokens;
 
+-(BOOL)isFormatTypeEnabled:(NSString*)type;
+
 @end

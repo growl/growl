@@ -131,9 +131,13 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 -(void)saveTokens {
 	NSMutableDictionary *saveDict = [NSMutableDictionary dictionaryWithCapacity:[[_tokenDicts allKeys] count]];
 	[_tokenDicts enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-		[saveDict setValue:[obj dictionaryWithValuesForKeys:@[formattingAttributes]] forKey:key];
+		[saveDict setValue:[obj dictionaryWithValuesForKeys:@[formattingAttributes, @"enabled"]] forKey:key];
 	}];
 	[[NSUserDefaults standardUserDefaults] setValue:saveDict forKey:@"format"];
+}
+
+-(BOOL)isFormatTypeEnabled:(NSString*)type {
+	return [[_tokenDicts valueForKey:@"enabled"] boolValue];
 }
 
 @end
