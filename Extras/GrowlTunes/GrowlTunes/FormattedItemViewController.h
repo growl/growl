@@ -12,18 +12,18 @@
 
 @interface FormattedItemViewController : NSViewController {
     @private
-    
-    NSImageView* _artworkView;
-    NSTextField* _titleField;
-    NSTextField* _detailsField;
-    
+        
     NSDictionary* _formattedDescription;
+	
+	NSImage *_icon;
+	NSString *_mediaTitle;
+	NSString *_details;
 }
 
-@property(readwrite, nonatomic, STRONG) IBOutlet NSDictionary* formattedDescription;
+@property(readwrite, nonatomic, STRONG) NSDictionary* formattedDescription;
 
-@property(readonly, nonatomic, STRONG) IBOutlet NSImage* icon;
-@property(readonly, nonatomic, STRONG) IBOutlet NSString* title;
-@property(readonly, nonatomic, STRONG) IBOutlet NSString* details;
+@property(nonatomic, STRONG) NSImage* icon;
+@property(nonatomic, STRONG) NSString* title;
+@property(nonatomic, STRONG) NSString* details;
 
 @end
