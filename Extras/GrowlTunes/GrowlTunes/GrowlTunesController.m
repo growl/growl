@@ -171,7 +171,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	NSArray *allNotifications = @[formattingTypes, NotifierPaused, NotifierStopped];
 	NSArray *allReadable = @[formattingTypesReadable, NotifierPausedReadable, NotifierStoppedReadable];
 	NSArray *readableDict = [NSDictionary dictionaryWithObjects:allReadable forKeys:allNotifications];
-	NSArray *defaultNotes = @[formattingTypes, NotifierPaused];
 	
 	LogInfo(@"%@", readableDict);
 	
@@ -181,7 +180,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	NSDictionary* regDict = @{GROWL_APP_NAME : @"GrowlTunes",
 										GROWL_APP_ID : @"com.growl.growltunes",
 										GROWL_NOTIFICATIONS_ALL : allNotifications,
-										GROWL_NOTIFICATIONS_DEFAULT : defaultNotes,
+										GROWL_NOTIFICATIONS_DEFAULT : allNotifications,
 										GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES : readableDict,
 										GROWL_APP_ICON_DATA : iconData};
 		
