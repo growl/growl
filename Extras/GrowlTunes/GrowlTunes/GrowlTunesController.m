@@ -168,9 +168,10 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 
 - (NSDictionary*)registrationDictionaryForGrowl
 {
-	NSArray *allNotifications = @[formattingTypes, NotifierPaused];
-	NSArray *allReadable = @[formattingTypesReadable, NotifierPausedReadable];
+	NSArray *allNotifications = @[formattingTypes, NotifierPaused, NotifierStopped];
+	NSArray *allReadable = @[formattingTypesReadable, NotifierPausedReadable, NotifierStoppedReadable];
 	NSArray *readableDict = [NSDictionary dictionaryWithObjects:allReadable forKeys:allNotifications];
+	NSArray *defaultNotes = @[formattingTypes, NotifierPaused];
 	
 	LogInfo(@"%@", readableDict);
 	
@@ -180,7 +181,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	NSDictionary* regDict = @{GROWL_APP_NAME : @"GrowlTunes",
 										GROWL_APP_ID : @"com.growl.growltunes",
 										GROWL_NOTIFICATIONS_ALL : allNotifications,
-										GROWL_NOTIFICATIONS_DEFAULT : allNotifications,
+										GROWL_NOTIFICATIONS_DEFAULT : defaultNotes,
 										GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES : readableDict,
 										GROWL_APP_ICON_DATA : iconData};
 		
@@ -211,6 +212,10 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	}else if([keyPath isEqualToString:@"isPaused"]){
 		if([self.conductor isPaused])
 			[self notifyWithTitle:NotifierPausedReadable description:@"" name:NotifierPaused icon:nil];
+	}else if ([keyPath isEqualToString:@"isStopped"]){
+		if([self.conductor isStopped]){
+			[self notifyWithTitle:NotifierStoppedReadable description:@"" name:NotifierStopped icon:nil];
+		}
 	}
 }
 
@@ -296,6 +301,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     if (!_iTunesConductor) { self.conductor = AUTORELEASE([[ITunesConductor alloc] init]); }
     [self.conductor addObserver:self forKeyPath:@"currentTrack" options:NSKeyValueObservingOptionInitial context:nil];
 	[self.conductor addObserver:self forKeyPath:@"isPaused" options:NSKeyValueObservingOptionInitial context:nil];
+	[self.conductor addObserver:self forKeyPath:@"isStopped" options:NSKeyValueObservingOptionInitial context:nil];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
@@ -306,6 +312,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 {
     [self.conductor removeObserver:self forKeyPath:@"currentTrack"];
 	[self.conductor removeObserver:self forKeyPath:@"isPaused"];
+	[self.conductor removeObserver:self forKeyPath:@"isStopped"];
     RELEASE(_iTunesConductor);
     RELEASE(_statusItemMenu);
     RELEASE(_currentTrackMenuItem);
@@ -328,14 +335,15 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 		return;
 	}
 	
-	BOOL enabled = YES;
+	BOOL enabled = NO;
 	if([name isEqualToString:NotifierPaused]){
 		enabled = [[NSUserDefaults standardUserDefaults] boolForKey:NOTIFY_ON_PAUSE];
+	}else if([name isEqualToString:NotifierStopped]){
+		enabled = [[NSUserDefaults standardUserDefaults] boolForKey:NOTIFY_ON_STOP];
+	}else if([name isEqualToString:@"error"]){
+		enabled = NO;
 	}else{
-		if([name isEqualToString:@"error"])
-			enabled = NO;
-		else
-			enabled = [_formatController isFormatTypeEnabled:name];
+		enabled = [_formatController isFormatTypeEnabled:name];
 	}
 	if(!enabled)
 		return;

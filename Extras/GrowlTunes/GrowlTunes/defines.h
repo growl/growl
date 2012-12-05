@@ -23,6 +23,7 @@
 #pragma mark defaults setting names
 #define NOTIFY_ITUNES_FRONTMOST         @"notifyWhenITunesIsFrontmost"
 #define NOTIFY_ON_PAUSE						@"notifyOnPause"
+#define NOTIFY_ON_STOP						@"notifyOnStop"
 
 #pragma mark bundle/notification IDs
 #define ITUNES_BUNDLE_ID                @"com.apple.iTunes"
