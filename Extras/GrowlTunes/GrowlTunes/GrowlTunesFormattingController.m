@@ -137,7 +137,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 }
 
 -(BOOL)isFormatTypeEnabled:(NSString*)type {
-	return [[_tokenDicts valueForKey:@"enabled"] boolValue];
+	return [[[_tokenDicts valueForKey:type] valueForKey:@"enabled"] boolValue];
 }
 
 @end
