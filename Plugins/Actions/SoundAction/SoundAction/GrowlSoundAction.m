@@ -63,7 +63,7 @@
 
 -(void)dispatchNotification:(NSDictionary *)notification withConfiguration:(NSDictionary *)configuration {
 	NSString *name = [configuration valueForKey:SelectedSoundPref];
-	if(name){
+	if(name && [name caseInsensitiveCompare:GrowlSystemDefaultSound] != NSOrderedSame){
 		NSSound *soundToPlay = [NSSound soundNamed:name];
 		if(!soundToPlay){
 			NSLog(@"No sound named %@", name);
@@ -89,6 +89,8 @@
 				[blockSelf.queuedSounds addObject:soundToPlay];
 			}
 		});
+	}else{
+		NSBeep();
 	}
 }
 
