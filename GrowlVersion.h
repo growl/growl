@@ -1,8 +1,8 @@
 #define COMMENT_1 DO NOT EDIT THE VERSION IN THIS FILE!
 #define COMMENT_2 In case you're wondering why we're using #define for comments: This header is #imported into both Objective-C code and XML Info.plist files.
 
-#define GROWL_VERSION 2.1a1
-#define GROWL_VERSION_STRING "2.1a1"
+#define GROWL_VERSION 2.1a2
+#define GROWL_VERSION_STRING "2.1a2"
 
 #include "VCSData.h"
 
