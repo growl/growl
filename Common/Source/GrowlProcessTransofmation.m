@@ -37,7 +37,7 @@ static id _changeObserver = nil;
 	return didSet;
 }
 
-+(BOOL)makeBackgroundApp {
++(BOOL)makeUIElementApp {
 	BOOL didSet = NO;
 	if((BOOL)isgreaterequal(NSFoundationVersionNumber, NSFoundationVersionNumber10_7)) {
 		didSet = YES;

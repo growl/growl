@@ -104,7 +104,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	NSNumber *value = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] valueForKey:@"Visibility"];
 	GrowlTunesIconState visibility = value != nil ? [value integerValue] : kShowIconInMenu;
 	if(visibility == kDontShowIcon || visibility == kShowIconInMenu){
-		[GrowlProcessTransofmation makeBackgroundApp];
+		[GrowlProcessTransofmation makeUIElementApp];
 	}
 }
 

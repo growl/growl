@@ -11,6 +11,6 @@
 @interface GrowlProcessTransofmation : NSObject
 
 +(BOOL)makeForgroundApp;
-+(BOOL)makeBackgroundApp;
++(BOOL)makeUIElementApp;
 
 @end
