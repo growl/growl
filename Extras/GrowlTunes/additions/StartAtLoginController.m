@@ -22,7 +22,7 @@
 // SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "StartAtLoginController.h"
-#import "CodeSignConveniences.h"
+#import <Growl/GrowlCodeSignUtilities.h>
 #import <ServiceManagement/ServiceManagement.h>
 
 
@@ -43,7 +43,7 @@ static BOOL sandboxed = NO;
 #endif
 
 + (void)initialize {
-    sandboxed = isSandboxed();
+    sandboxed = [GrowlCodeSignUtilities isSandboxed];
 }
 
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey {

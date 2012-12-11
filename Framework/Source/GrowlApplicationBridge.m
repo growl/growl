@@ -24,6 +24,8 @@
 #import "GrowlXPCRegistrationAttempt.h"
 #import "GrowlXPCNotificationAttempt.h"
 
+#import "GrowlCodeSignUtilities.h"
+
 #import <ApplicationServices/ApplicationServices.h>
 
 // Enable/disable Mist entirely
@@ -128,7 +130,6 @@ static struct {
     unsigned int applicationIconForGrowl : 1;
     unsigned int applicationIconDataForGrowl : 1;
     unsigned int growlIsReady : 1;
-    unsigned int hasNetworkClientEntitlement : 1;
 } _delegateRespondsTo;
 
 #pragma mark -
@@ -298,8 +299,7 @@ static struct {
     _delegateRespondsTo.applicationIconForGrowl = [delegate respondsToSelector:@selector(applicationIconForGrowl)];
     _delegateRespondsTo.applicationIconDataForGrowl = [delegate respondsToSelector:@selector(applicationIconDataForGrowl)];
     _delegateRespondsTo.growlIsReady = [delegate respondsToSelector:@selector(growlIsReady)];
-    _delegateRespondsTo.hasNetworkClientEntitlement = [delegate respondsToSelector:@selector(hasNetworkClientEntitlement)];
-    
+   
 	[cachedRegistrationDictionary release];
 	cachedRegistrationDictionary = [[self bestRegistrationDictionary] retain];
 
@@ -1127,27 +1127,9 @@ static struct {
       return;
    
    checked = YES;
-   
-   if(xpc_connection_create == NULL){
-      sandboxed = NO;
-      networkClient = NO; //Growl.app 1.3+ is required to be a network client, Growl.app 1.3+ requires 10.7+
-      return;
-   }
-
-   //This is a hacky way of detecting sandboxing, and whether we have network client on the main app is up to app developers
-   NSString *homeDirectory = NSHomeDirectory();
-   NSString *suffix = [NSString stringWithFormat:@"Containers/%@/Data", [[NSBundle mainBundle] bundleIdentifier]];
-   if([homeDirectory hasSuffix:suffix]){
-      sandboxed = YES;
-      if(delegate && _delegateRespondsTo.hasNetworkClientEntitlement)
-         networkClient = [delegate hasNetworkClientEntitlement];
-      else
-         networkClient = NO;
-   }else{
-      sandboxed = NO;
-      networkClient = YES;
-   }
-   
+	
+	sandboxed = [GrowlCodeSignUtilities isSandboxed];
+	networkClient = [GrowlCodeSignUtilities hasNetworkClientEntitlement];
       
    return;
 }

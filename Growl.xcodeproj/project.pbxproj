@@ -367,6 +367,8 @@
 		BC8FD3FD15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.h in Headers */ = {isa = PBXBuildFile; fileRef = BC8FD3FB15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.h */; };
 		BC8FD3FE15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3FC15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m */; };
 		BC8FD3FF15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8FD3FC15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m */; };
+		BC924FE11677699D00347C16 /* GrowlCodeSignUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = BC924FDE1677698D00347C16 /* GrowlCodeSignUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BC924FE2167769A900347C16 /* GrowlCodeSignUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC924FDF1677698D00347C16 /* GrowlCodeSignUtilities.m */; };
 		BC94845613FB21690036382B /* Growl_512x512.png in Resources */ = {isa = PBXBuildFile; fileRef = BC94845513FB21690036382B /* Growl_512x512.png */; };
 		BC949E5A15B3033300AD6489 /* NSObject+XPCHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1FA6001422380900F1C147 /* NSObject+XPCHelpers.m */; };
 		BC986FD514D0FE1F00CC5E57 /* FirstLaunchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC986FD414D0FE1F00CC5E57 /* FirstLaunchWindow.xib */; };
@@ -1649,6 +1651,8 @@
 		BC8FD3F215B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlGNTPSubscriptionAttempt.m; path = Framework/Source/GrowlGNTPSubscriptionAttempt.m; sourceTree = SOURCE_ROOT; };
 		BC8FD3FB15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlXPCSubscriptionAttempt.h; path = Framework/Source/GrowlXPCSubscriptionAttempt.h; sourceTree = "<group>"; };
 		BC8FD3FC15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlXPCSubscriptionAttempt.m; path = Framework/Source/GrowlXPCSubscriptionAttempt.m; sourceTree = "<group>"; };
+		BC924FDE1677698D00347C16 /* GrowlCodeSignUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlCodeSignUtilities.h; path = Common/Source/GrowlCodeSignUtilities.h; sourceTree = "<group>"; };
+		BC924FDF1677698D00347C16 /* GrowlCodeSignUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlCodeSignUtilities.m; path = Common/Source/GrowlCodeSignUtilities.m; sourceTree = "<group>"; };
 		BC94845513FB21690036382B /* Growl_512x512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Growl_512x512.png; path = Core/Resources/Growl_512x512.png; sourceTree = "<group>"; };
 		BC986F9C14D0787100CC5E57 /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = Core/Resources/cs.lproj/mainmenu.strings; sourceTree = "<group>"; };
 		BC986F9E14D0787C00CC5E57 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = Core/Resources/da.lproj/mainmenu.strings; sourceTree = "<group>"; };
@@ -2447,6 +2451,8 @@
 				95DBC07907C284F300DE4ACA /* Growl.framework-Info.plist */,
 				95812DB808118FB9004FF8F5 /* GrowlDelegate.h */,
 				95812DB908118FB9004FF8F5 /* GrowlDelegate.m */,
+				BC924FDE1677698D00347C16 /* GrowlCodeSignUtilities.h */,
+				BC924FDF1677698D00347C16 /* GrowlCodeSignUtilities.m */,
 				3112429213CBEA500055A2AD /* Communication implementations */,
 			);
 			name = Growl.framework;
@@ -3397,6 +3403,7 @@
 				BC1AF92915B05A4300CD47F9 /* GNTPUtilities.h in Headers */,
 				BC8FD3F315B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.h in Headers */,
 				BC8FD3FD15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.h in Headers */,
+				BC924FE11677699D00347C16 /* GrowlCodeSignUtilities.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4427,6 +4434,7 @@
 				BC1AF92B15B05A4300CD47F9 /* GNTPUtilities.m in Sources */,
 				BC8FD3C615B127620007CC12 /* NSStringAdditions.m in Sources */,
 				BC8FD3FF15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m in Sources */,
+				BC924FE2167769A900347C16 /* GrowlCodeSignUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

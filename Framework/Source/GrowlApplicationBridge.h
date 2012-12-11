@@ -557,8 +557,9 @@
  * @abstract Used only in sandboxed situations since we don't know whether the app has com.apple.security.network.client entitlement
  * @discussion GrowlDelegate calls to find out if we have the com.apple.security.network.client entitlement,
  *  since we can't find this out without hitting the sandbox.  We only call it if we detect that the application is sandboxed.
+ *	@deprecated In version 2.1, in favor of GrowlCodeSignUtilities' methods, will no longer be called.
  */
-- (BOOL) hasNetworkClientEntitlement;
+- (BOOL) hasNetworkClientEntitlement __attribute__((deprecated));
 
 @end
 
