@@ -83,7 +83,6 @@
 		BC5FF525165BDE7900D97FDE /* SliderWell.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5FF51D165BDE7900D97FDE /* SliderWell.png */; };
 		BC5FF526165BDE7900D97FDE /* SliderWell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5FF51E165BDE7900D97FDE /* SliderWell@2x.png */; };
 		BC671F1B165928AC00F826FE /* GrowlTunesPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC671F1A165928AC00F826FE /* GrowlTunesPreferencesWindowController.m */; };
-		BC924FCE1677666000347C16 /* GrowlCodeSignUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BC924FCC1677666000347C16 /* GrowlCodeSignUtilities.m */; };
 		BC924FE916776AA200347C16 /* StartAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AAE994914DADA39004848EC /* StartAtLoginController.m */; };
 		BCAFA05E165BCE25007E5E5A /* GrowlProcessTransofmation.m in Sources */ = {isa = PBXBuildFile; fileRef = BCAFA05D165BCE25007E5E5A /* GrowlProcessTransofmation.m */; };
 /* End PBXBuildFile section */
@@ -402,8 +401,6 @@
 		BC8F61F315F05F7200DEC0A8 /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		BC8F61F415F05FBC00DEC0A8 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC8F61F515F0601E00DEC0A8 /* th */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
-		BC924FCB1677666000347C16 /* GrowlCodeSignUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlCodeSignUtilities.h; path = ../../../Common/Source/GrowlCodeSignUtilities.h; sourceTree = "<group>"; };
-		BC924FCC1677666000347C16 /* GrowlCodeSignUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlCodeSignUtilities.m; path = ../../../Common/Source/GrowlCodeSignUtilities.m; sourceTree = "<group>"; };
 		BCAFA05C165BCE25007E5E5A /* GrowlProcessTransofmation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlProcessTransofmation.h; path = ../../../Common/Source/GrowlProcessTransofmation.h; sourceTree = "<group>"; };
 		BCAFA05D165BCE25007E5E5A /* GrowlProcessTransofmation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlProcessTransofmation.m; path = ../../../Common/Source/GrowlProcessTransofmation.m; sourceTree = "<group>"; };
 		D603AFF4246FD5744B2B837F /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -666,8 +663,6 @@
 				6A34E60214A00B33001CFA45 /* Lumberjack */,
 				6A34E60B14A00B33001CFA45 /* NSLogger */,
 				6AD07C36149FF6C400BFFF52 /* additions.h */,
-				BC924FCB1677666000347C16 /* GrowlCodeSignUtilities.h */,
-				BC924FCC1677666000347C16 /* GrowlCodeSignUtilities.m */,
 				6A34E62B14A04472001CFA45 /* DDNSLogger.h */,
 				6A34E62C14A04472001CFA45 /* DDNSLogger.m */,
 				6A34E62F14A14AB4001CFA45 /* DDNSLogging.h */,
@@ -1103,7 +1098,6 @@
 				6A63483414CC00B7005BB87F /* DDAbstractDatabaseLogger.m in Sources */,
 				6A63483614CC00B7005BB87F /* ContextFilterLogFormatter.m in Sources */,
 				6A63483814CC00B7005BB87F /* DispatchQueueLogFormatter.m in Sources */,
-				BC924FCE1677666000347C16 /* GrowlCodeSignUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
