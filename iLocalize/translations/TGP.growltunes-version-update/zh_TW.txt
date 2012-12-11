@@ -1,0 +1,5 @@
+GrowlTunes 2.1.1
+- 更新 Growl 架構以改善記憶體資源運用。
+
+GrowlTunes 2.1
+- 新增支援 OSX 10.8 的通知中心。

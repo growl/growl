@@ -1,0 +1,5 @@
+GrowlTunes 2.1.1
+-Forbedrer bruken av minneressurser ved å oppdatere til Growl Framework.
+
+GrowlTunes 2.1
+-Legger til støtte for OS X notifikasjonessenter på  10.8

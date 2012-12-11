@@ -136,3 +136,8 @@ file_filter = translations/TGP.growl-nano-display-plugin/<lang>.strings
 host = https://www.transifex.com
 source_lang = en
 
+[TGP.growltunes-version-update]
+file_filter = translations/TGP.growltunes-version-update/<lang>.txt
+host = https://www.transifex.com
+source_lang = en
+

@@ -1,0 +1,5 @@
+GrowlTunes 2.1.1
+- Verbetert geheugenverbruik door het Growl-framework bij te werken.
+
+GrowlTunes 2.1
+- Voegt ondersteuning toe voor OS X berichtencentrum toe onder 10.8.
