@@ -366,6 +366,7 @@
 		6AD776F714817C2800A1592B /* iTunes+iTunesAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iTunes+iTunesAdditions.h"; sourceTree = "<group>"; };
 		6AD776F814817C2800A1592B /* iTunes+iTunesAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTunes+iTunesAdditions.m"; sourceTree = "<group>"; };
 		6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormattedItem.xib; sourceTree = "<group>"; };
+		838E8B9E1677045C00D4DEA5 /* el */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
 		839B9CF314D8AFC00042C2A4 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		839B9CF414D8AFCC0042C2A4 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BC8F61DB15F05CF400DEC0A8 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -790,6 +791,7 @@
 				"pt-PT",
 				sk,
 				th,
+				el,
 			);
 			mainGroup = 6A9ED3751447D04F002A0537;
 			productRefGroup = 6A9ED3811447D04F002A0537 /* Products */;
@@ -1104,6 +1106,7 @@
 				BC8F61F315F05F7200DEC0A8 /* pt-PT */,
 				BC8F61F415F05FBC00DEC0A8 /* sk */,
 				BC8F61F515F0601E00DEC0A8 /* th */,
+				838E8B9E1677045C00D4DEA5 /* el */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

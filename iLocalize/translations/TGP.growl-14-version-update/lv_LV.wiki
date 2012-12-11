@@ -1,3 +1,8 @@
+Growl 2.0.1 izmaiņas
+
+- Izlabota izvietojuma problēma, kas parādījās versijā 2.0, paldies par kļūdu ziņojumiem!
+- Izlabotas vairākas avārijas.
+
 Growl 2 izmaiņas
 
 Vispārīgi⏎ - Pievienots OS X 10.8 versijas Notification Center atbalsts.⏎ - Pievienots Prowl un Boxcar servisu paziņojumu atbalsts⏎ - Uzlabots dīkstāves noteikšanas mehānisms kopsavilkumam.⏎ - Growl tagad darbojas Sandbox drošības režīmā.

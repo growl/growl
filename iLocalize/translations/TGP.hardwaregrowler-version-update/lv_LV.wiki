@@ -1,3 +1,7 @@
+HardwareGrowler 2.0.1
+- Izlabota problēma ar tīkla paziņojumiem, kas netika parādīti.
+- Labāks apraksts strāvas un barošanas paziņojumiem.
+
 HardwareGrowler 2
 
 - HardwareGrowler ir pārrakstīts no jauna.⏎ - Tagad dažādas HardwareGrowler iespējas var ieslēgt un izslēgt katru atsevišķi.⏎ - Pievienota iespēja ignorēt datu nesējus pēc nosaukuma.⏎ - Īpaši uzlabota tīklošanas paziņojumu daļa.⏎ - Pievienots IPv6 atbalsts.⏎ - Pievienots USB Ethernet adapteru atbalsts.⏎ - Pievienots 10.8 OS X versijas Notification Center atbalsts, ja Growl nav instalēts.⏎ - Pievienota Capster funkcionalitāte. Redzami Burtslēga, Ciparslēga, Fn un Pārslēgšanas taustiņa nospiešanas paziņojumi.⏎ - Barošanas paziņojumiem iespējams papildus kontrolēt, cik bieži rādīt paziņojumu.
