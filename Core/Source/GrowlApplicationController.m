@@ -437,15 +437,17 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                               if(!completionError){
                                  if(result && [result descriptorType] == typeAERecord)
                                  {
-                                    if([result descriptorForKeyword:'GrEN']){
-                                       if(![[result descriptorForKeyword:'GrEN'] booleanValue]){
-                                          if(logRuleResult){
-                                             [ruleLogString appendFormat:@"\nRule result returned enabled set to no"];
-                                             NSLog(ruleLogString);
-                                          }
-                                          [copyDict release];
-                                          return;
-                                       }
+												NSAppleEventDescriptor *enabled = [result descriptorForKeyword:'GrEN'];
+                                    if(enabled &&
+													[GrowlUserScriptTaskUtilities isAppleEventDescriptorBoolean:enabled] &&
+													![[result descriptorForKeyword:'GrEN'] booleanValue])
+												{
+													if(logRuleResult){
+														[ruleLogString appendFormat:@"\nRule result returned enabled set to no"];
+														NSLog(ruleLogString);
+													}
+													[copyDict release];
+													return;
                                     }else{
                                        //Check if it is enabled in the UI
                                        GrowlTicketDatabaseNotification *noteTicket = [self notificationTicketForDict:copyDict];
