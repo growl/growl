@@ -78,9 +78,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 
 -(NSArray*)tokensForType:(NSString*)type andAttribute:(NSString*)attribute {
 	NSDictionary *typeDict = [_tokenDicts valueForKey:type];
-	NSMutableData *arrayData = [typeDict valueForKey:attribute];
-	NSValueTransformer *transformer = [NSValueTransformer valueTransformerForName:NSKeyedUnarchiveFromDataTransformerName];
-	return [transformer transformedValue:arrayData];
+	return [typeDict valueForKey:attribute];
 }
 
 -(void)loadTokens {
@@ -103,21 +101,13 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 		}
 		
 		[attributes enumerateObjectsUsingBlock:^(id attribute, NSUInteger attributeIDX, BOOL *attributeStop) {
-			NSMutableData *mutableAttribute = nil;
-			NSData *immutableAttribute = [mutableValue objectForKey:attribute];
-			
-			if (immutableAttribute) {
-				mutableAttribute = AUTORELEASE([immutableAttribute mutableCopy]);
-			} else {
-				mutableAttribute = AUTORELEASE([[NSMutableData alloc] init]);
-				NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:mutableAttribute];
-				NSMutableArray *emptyArray = [NSMutableArray array];
-				[archiver encodeRootObject:emptyArray];
-				[archiver finishEncoding];
-				RELEASE(archiver);
-			}
-			
-			[mutableValue setValue:mutableAttribute forKey:attribute];
+			NSArray *attributeArray = [mutableValue objectForKey:attribute];
+			NSMutableArray *buildArray = [NSMutableArray arrayWithCapacity:[attributeArray count]];
+			[attributeArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+				FormattingToken *token = [FormattingToken tokenWithEditingString:obj];
+				[buildArray addObject:token];
+			}];
+			[mutableValue setValue:buildArray forKey:attribute];
 		}];
 		
 		//Replace with localized type
@@ -131,7 +121,17 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 -(void)saveTokens {
 	NSMutableDictionary *saveDict = [NSMutableDictionary dictionaryWithCapacity:[[_tokenDicts allKeys] count]];
 	[_tokenDicts enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-		[saveDict setValue:[obj dictionaryWithValuesForKeys:@[formattingAttributes, @"enabled"]] forKey:key];
+		NSMutableDictionary *typeDict = [NSMutableDictionary dictionary];
+		[typeDict setValue:[obj valueForKey:@"enabled"] forKey:@"enabled"];
+		[@[formattingAttributes] enumerateObjectsUsingBlock:^(id attribute, NSUInteger idx, BOOL *attributeStop) {
+			NSMutableArray *tokenArray = [obj valueForKey:attribute];
+			NSMutableArray *buildArray = [NSMutableArray arrayWithCapacity:[tokenArray count]];
+			[tokenArray enumerateObjectsUsingBlock:^(id token, NSUInteger tokenIdx, BOOL *tokenStop) {
+				[buildArray addObject:[token editingString]];
+			}];
+			[typeDict setObject:buildArray forKey:attribute];
+		}];
+		[saveDict setValue:typeDict forKey:key];
 	}];
 	[[NSUserDefaults standardUserDefaults] setValue:saveDict forKey:@"format"];
 }

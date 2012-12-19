@@ -1,5 +1,5 @@
 //
-//  GrowlProcessTransofmation.h
+//  GrowlProcessTransformation.h
 //  GrowlTunes
 //
 //  Created by Daniel Siemer on 11/20/12.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GrowlProcessTransofmation : NSObject
+@interface GrowlProcessTransformation : NSObject
 
 +(BOOL)makeForgroundApp;
 +(BOOL)makeUIElementApp;

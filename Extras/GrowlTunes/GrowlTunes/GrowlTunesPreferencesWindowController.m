@@ -11,7 +11,7 @@
 #import "GrowlTunesFormattingController.h"
 #import "FormattingToken.h"
 #import "GrowlOnSwitch.h"
-#import "GrowlProcessTransofmation.h"
+#import "GrowlProcessTransformation.h"
 #import "StartAtLoginController.h"
 
 @interface GrowlTunesPreferencesWindowController ()
@@ -96,7 +96,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 }
 
 -(void)showWindow:(id)sender {
-	[GrowlProcessTransofmation makeForgroundApp];
+	[GrowlProcessTransformation makeForgroundApp];
 	[super showWindow:sender];
 }
 
@@ -104,7 +104,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	NSNumber *value = [[[NSUserDefaultsController sharedUserDefaultsController] defaults] valueForKey:@"Visibility"];
 	GrowlTunesIconState visibility = value != nil ? [value integerValue] : kShowIconInMenu;
 	if(visibility == kDontShowIcon || visibility == kShowIconInMenu){
-		[GrowlProcessTransofmation makeUIElementApp];
+		[GrowlProcessTransformation makeUIElementApp];
 	}
 }
 

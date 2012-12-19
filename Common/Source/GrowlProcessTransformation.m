@@ -1,14 +1,14 @@
 //
-//  GrowlProcessTransofmation.m
+//  GrowlProcessTransformation.m
 //  GrowlTunes
 //
 //  Created by Daniel Siemer on 11/20/12.
 //  Copyright (c) 2012 The Growl Project. All rights reserved.
 //
 
-#import "GrowlProcessTransofmation.h"
+#import "GrowlProcessTransformation.h"
 
-@implementation GrowlProcessTransofmation
+@implementation GrowlProcessTransformation
 
 static ProcessSerialNumber _previousPSN;
 static id _changeObserver = nil;

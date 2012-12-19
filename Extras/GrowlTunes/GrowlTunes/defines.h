@@ -49,7 +49,7 @@
 #define musicReadable                   NSLocalizedString(@"Music", nil)
 #define formattingTypes                 @"podcast", @"stream", @"show", @"movie", @"musicVideo", @"music"
 #define formattingTypesReadable         podcastReadable, streamReadable, showReadable, movieReadable, musicVideoReadable, musicReadable
-#define formattingAttributes            @"title", @"line1", @"line2", @"line3"
+#define formattingAttributes            @"titleArray", @"descriptionArray"
 
 #pragma mark formatting token names
 #define TokenAlbum                      @"album"
