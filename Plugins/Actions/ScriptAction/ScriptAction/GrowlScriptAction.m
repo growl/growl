@@ -107,6 +107,8 @@
  */
 -(void)dispatchNotification:(NSDictionary *)notification withConfiguration:(NSDictionary *)configuration {
    NSString *fileName = [configuration valueForKey:@"ScriptActionFileName"];
+	if(!fileName || [fileName isEqualToString:@""])
+		NSLog(@"Error! Either file '%@' is null, or empty", fileName);
    NSUserScriptTask *scriptTask = [GrowlUserScriptTaskUtilities scriptTaskForFile:fileName];
 
    if(scriptTask){

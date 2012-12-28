@@ -67,6 +67,9 @@
 }
 
 +(NSUserScriptTask*)scriptTaskForFile:(NSString*)fileName {
+	if(!fileName)
+		return nil;
+	
    NSUserScriptTask* result = nil;
    if([self hasScriptTaskClass]){
       NSURL *baseURL = [self baseScriptDirectoryURL];
