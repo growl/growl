@@ -380,14 +380,6 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key)
 
 #pragma mark Logging
 
-- (BOOL) loggingEnabled {
-	return [self boolForKey:GrowlLoggingEnabledKey];
-}
-
-- (void) setLoggingEnabled:(BOOL)flag {
-	[self setBool:flag forKey:GrowlLoggingEnabledKey];
-}
-
 - (BOOL) isGrowlServerEnabled {
 	return [self boolForKey:GrowlStartServerKey];
 }

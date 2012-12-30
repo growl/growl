@@ -304,7 +304,6 @@
 		BC4B073315012C7A006151B3 /* GrowlActionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = BC4B072F15012C38006151B3 /* GrowlActionPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC4B073415012CEF006151B3 /* GrowlNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 07F9B7A208A49F6D00DF7F42 /* GrowlNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC4B073515012CFA006151B3 /* GrowlNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F9B7A308A49F6D00DF7F42 /* GrowlNotification.m */; };
-		BC4B073615012D19006151B3 /* GrowlLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 950568E40812C2960096EC5C /* GrowlLog.m */; };
 		BC4B07391501471F006151B3 /* GrowlTicketDatabaseAction.m in Sources */ = {isa = PBXBuildFile; fileRef = BC4B07381501471E006151B3 /* GrowlTicketDatabaseAction.m */; };
 		BC4B073C15014831006151B3 /* GrowlTicketDatabasePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = BC4B073B15014830006151B3 /* GrowlTicketDatabasePlugin.m */; };
 		BC4B073F1501489F006151B3 /* GrowlTicketDatabaseCompoundAction.m in Sources */ = {isa = PBXBuildFile; fileRef = BC4B073E1501489E006151B3 /* GrowlTicketDatabaseCompoundAction.m */; };
@@ -1249,8 +1248,6 @@
 		93F2172B15E5C43E00343EB1 /* SliderWell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "SliderWell@2x.png"; path = "external_dependencies/tmslidercontrol/SliderWell@2x.png"; sourceTree = "<group>"; };
 		93FB21A71391B524002E1F86 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDAsyncSocket.h; path = external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.h; sourceTree = "<group>"; };
 		93FB21A81391B524002E1F86 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDAsyncSocket.m; path = external_dependencies/cocoaasyncsocket/GCD/GCDAsyncSocket.m; sourceTree = "<group>"; };
-		950568E30812C2960096EC5C /* GrowlLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlLog.h; path = Core/Source/GrowlLog.h; sourceTree = "<group>"; };
-		950568E40812C2960096EC5C /* GrowlLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlLog.m; path = Core/Source/GrowlLog.m; sourceTree = "<group>"; };
 		950F7976080EED5C00CC5F62 /* GrowlWebKitDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlWebKitDefines.h; path = Plugins/Displays/WebKit/GrowlWebKitDefines.h; sourceTree = "<group>"; };
 		950F7977080EED5C00CC5F62 /* GrowlWebKitPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = GrowlWebKitPrefsController.h; path = Plugins/Displays/WebKit/GrowlWebKitPrefsController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		950F7978080EED5C00CC5F62 /* GrowlWebKitPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlWebKitPrefsController.m; path = Plugins/Displays/WebKit/GrowlWebKitPrefsController.m; sourceTree = "<group>"; };
@@ -1951,15 +1948,6 @@
 				CB5C312807925B53007CC0D0 /* GrowlNotificationTicket.m */,
 			);
 			name = Legacy;
-			sourceTree = "<group>";
-		};
-		070B86340A08814D0093150E /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				950568E30812C2960096EC5C /* GrowlLog.h */,
-				950568E40812C2960096EC5C /* GrowlLog.m */,
-			);
-			name = Utilities;
 			sourceTree = "<group>";
 		};
 		070C1AC00912D0EA00884E7D /* Global Sources */ = {
@@ -3160,7 +3148,6 @@
 				BC79CBD415ACE3AD0081DCBE /* GNTP */,
 				CB0EBFBA0790941300CA2157 /* Pathways */,
 				CB34BEC507E09557001D7D7C /* Notifications */,
-				070B86340A08814D0093150E /* Utilities */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -4531,7 +4518,6 @@
 				BC5EF66114F542AC003E4578 /* GrowlTicketDatabaseApplication.m in Sources */,
 				BC5EF66414F5458A003E4578 /* GrowlTicketDatabaseHost.m in Sources */,
 				BC5EF66714F55135003E4578 /* GrowlTicketDatabaseNotification.m in Sources */,
-				BC4B073615012D19006151B3 /* GrowlLog.m in Sources */,
 				BC4B07391501471F006151B3 /* GrowlTicketDatabaseAction.m in Sources */,
 				BC4B073C15014831006151B3 /* GrowlTicketDatabasePlugin.m in Sources */,
 				BC4B073F1501489F006151B3 /* GrowlTicketDatabaseCompoundAction.m in Sources */,

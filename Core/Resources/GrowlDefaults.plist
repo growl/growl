@@ -8,10 +8,6 @@
 	<false/>
 	<key>GrowlEnableForward</key>
 	<false/>
-	<key>GrowlLoggingEnabled</key>
-	<false/>
-	<key>GrowlLogType</key>
-	<integer>0</integer>
 	<key>GrowlMenuExtra</key>
 	<false/>
 	<key>IdleThreshold</key>

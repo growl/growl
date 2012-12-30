@@ -28,7 +28,6 @@
 #import "GrowlVersionUtilities.h"
 #import "GrowlMenu.h"
 #import "VCSData.h"
-#import "GrowlLog.h"
 #import "GrowlNotificationCenter.h"
 #import "GrowlImageAdditions.h"
 #import "GrowlFirstLaunchWindowController.h"
@@ -179,13 +178,13 @@ static BOOL isAnyDisplayCaptured(void) {
 	CGDisplayCount numDisplays;
 	CGDisplayErr err = CGGetActiveDisplayList(/*maxDisplays*/ 0U, /*activeDisplays*/ NULL, &numDisplays);
 	if (err != noErr)
-		[[GrowlLog sharedController] writeToLog:@"Checking for captured displays: Could not count displays: %li", (long)err];
+		NSLog(@"Checking for captured displays: Could not count displays: %li", (long)err);
 	else {
 		CGDirectDisplayID *displays = malloc(numDisplays * sizeof(CGDirectDisplayID));
 		CGGetActiveDisplayList(numDisplays, displays, /*numDisplays*/ NULL);
 
 		if (!displays)
-			[[GrowlLog sharedController] writeToLog:@"Checking for captured displays: Could not allocate list of displays: %s", strerror(errno)];
+			NSLog(writeToLog:@"Checking for captured displays: Could not allocate list of displays: %s", strerror(errno));
 		else {
 			for (CGDisplayCount i = 0U; i < numDisplays; ++i) {
 				if (CGDisplayIsCaptured(displays[i])) {
@@ -1099,8 +1098,6 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 }
 
 - (BOOL) registerApplicationWithDictionary:(NSDictionary *)userInfo {
-	[[GrowlLog sharedController] writeRegistrationDictionaryToLog:userInfo];
-
 	NSString *appName = [userInfo objectForKey:GROWL_APP_NAME];
    if(!appName){
       NSLog(@"Cannot register an application without a name!");
