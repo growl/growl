@@ -57,8 +57,8 @@
     if(requirement)
         CFRelease(requirement);
     
-#if !defined(NDEBUG)
-    NSLog(@"SecCodeCopySelf failed with status code: %ld", (long)status);
+    if(status != errSecSuccess)
+        NSLog(@"SecCodeCopySelf failed with status code: %ld", (long)status);
     if(errors)
     {
         CFDictionaryRef errDict = CFErrorCopyUserInfo(errors);
@@ -67,7 +67,6 @@
     }
     if(!result)
         NSLog(@"Entitlement NOT present: %@", entitlement);
-#endif
     return result;
 }
 
