@@ -11,29 +11,7 @@
 		6A1E35431469A77000877A2F /* ITunesConductor.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E35421469A77000877A2F /* ITunesConductor.m */; };
 		6A1E3560146ABC0800877A2F /* GrowlTunesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E355F146ABC0700877A2F /* GrowlTunesController.m */; };
 		6A318B6F1496821000779055 /* FormattedItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A318B6D1496820F00779055 /* FormattedItemViewController.m */; };
-		6A34E61214A00B33001CFA45 /* DDASLLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60314A00B33001CFA45 /* DDASLLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A34E61314A00B33001CFA45 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E60414A00B33001CFA45 /* DDASLLogger.m */; };
-		6A34E61414A00B33001CFA45 /* DDFileLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60514A00B33001CFA45 /* DDFileLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A34E61514A00B33001CFA45 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E60614A00B33001CFA45 /* DDFileLogger.m */; };
-		6A34E61614A00B33001CFA45 /* DDLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60714A00B33001CFA45 /* DDLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A34E61714A00B33001CFA45 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E60814A00B33001CFA45 /* DDLog.m */; };
-		6A34E61814A00B33001CFA45 /* DDTTYLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60914A00B33001CFA45 /* DDTTYLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A34E61914A00B33001CFA45 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E60A14A00B33001CFA45 /* DDTTYLogger.m */; };
-		6A34E61A14A00B33001CFA45 /* LoggerClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60C14A00B33001CFA45 /* LoggerClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A34E61B14A00B33001CFA45 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E60D14A00B33001CFA45 /* LoggerClient.m */; };
-		6A34E61C14A00B33001CFA45 /* LoggerCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E60E14A00B33001CFA45 /* LoggerCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A34E62114A03147001CFA45 /* NSObject+DRYDescription.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E61F14A03147001CFA45 /* NSObject+DRYDescription.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A34E62214A03147001CFA45 /* NSObject+DRYDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E62014A03147001CFA45 /* NSObject+DRYDescription.m */; };
-		6A34E62314A032AA001CFA45 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0492D21463C45F00F1FF9B /* CoreFoundation.framework */; };
-		6A34E62414A032CB001CFA45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0492D01463C43800F1FF9B /* SystemConfiguration.framework */; };
-		6A34E62514A03306001CFA45 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9ED3891447D04F002A0537 /* Foundation.framework */; };
-		6A34E62614A03340001CFA45 /* additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AD07C36149FF6C400BFFF52 /* additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A34E62714A03408001CFA45 /* libadditions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AD07C30149FF6C400BFFF52 /* libadditions.a */; };
 		6A34E62A14A039C5001CFA45 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0492D01463C43800F1FF9B /* SystemConfiguration.framework */; };
-		6A34E62D14A04472001CFA45 /* DDNSLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E62B14A04472001CFA45 /* DDNSLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A34E62E14A04472001CFA45 /* DDNSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A34E62C14A04472001CFA45 /* DDNSLogger.m */; };
-		6A34E63014A14AB4001CFA45 /* DDNSLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A34E62F14A14AB4001CFA45 /* DDNSLogging.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A34E65114A26A0E001CFA45 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9ED3871447D04F002A0537 /* AppKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		6A48D1A214DD5B1400C8C999 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A48D1A114DD5B1400C8C999 /* Security.framework */; };
 		6A4BE4341465F83400A48B46 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AADA337144902060089AB08 /* ScriptingBridge.framework */; };
 		6A4BE4361465F85800A48B46 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8959301447D221009D09FC /* Growl.framework */; };
@@ -41,12 +19,6 @@
 		6A5405C21486FFB000BA2FBB /* TrackRatingLevelIndicatorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A5405C11486FFB000BA2FBB /* TrackRatingLevelIndicatorValueTransformer.m */; };
 		6A56767314CB70B200E97962 /* GrowlTunes-Template.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 6A56766614CB70B200E97962 /* GrowlTunes-Template.pdf */; };
 		6A61FE261482B2FD00544675 /* FormattingToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A61FE251482B2FD00544675 /* FormattingToken.m */; };
-		6A63483314CC00B7005BB87F /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A63482B14CC00B7005BB87F /* DDAbstractDatabaseLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A63483414CC00B7005BB87F /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A63482C14CC00B7005BB87F /* DDAbstractDatabaseLogger.m */; };
-		6A63483514CC00B7005BB87F /* ContextFilterLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A63482E14CC00B7005BB87F /* ContextFilterLogFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A63483614CC00B7005BB87F /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A63482F14CC00B7005BB87F /* ContextFilterLogFormatter.m */; };
-		6A63483714CC00B7005BB87F /* DispatchQueueLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A63483014CC00B7005BB87F /* DispatchQueueLogFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6A63483814CC00B7005BB87F /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A63483114CC00B7005BB87F /* DispatchQueueLogFormatter.m */; };
 		6A695F021476E76D002B0278 /* iTunes.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A695F011476E76D002B0278 /* iTunes.m */; };
 		6A89594F1447D46E009D09FC /* Growl.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 6A8959301447D221009D09FC /* Growl.framework */; };
 		6A8EB5C2147C59520075A826 /* GrowlTunesPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8EB5C1147C59520075A826 /* GrowlTunesPrefs.xib */; };
@@ -88,13 +60,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6A34E62814A03572001CFA45 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6A9ED3771447D04F002A0537 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6AD07C2F149FF6C400BFFF52;
-			remoteInfo = additions;
-		};
 		6A87EE0C14F2044200CF7407 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6A89591B1447D221009D09FC /* Growl.xcodeproj */;
@@ -260,22 +225,8 @@
 		6A1E355F146ABC0700877A2F /* GrowlTunesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlTunesController.m; sourceTree = "<group>"; };
 		6A318B6C1496820F00779055 /* FormattedItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormattedItemViewController.h; sourceTree = "<group>"; };
 		6A318B6D1496820F00779055 /* FormattedItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormattedItemViewController.m; sourceTree = "<group>"; };
-		6A34E60314A00B33001CFA45 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
-		6A34E60414A00B33001CFA45 /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
-		6A34E60514A00B33001CFA45 /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
-		6A34E60614A00B33001CFA45 /* DDFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileLogger.m; sourceTree = "<group>"; };
-		6A34E60714A00B33001CFA45 /* DDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLog.h; sourceTree = "<group>"; };
-		6A34E60814A00B33001CFA45 /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
-		6A34E60914A00B33001CFA45 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
-		6A34E60A14A00B33001CFA45 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
-		6A34E60C14A00B33001CFA45 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerClient.h; sourceTree = "<group>"; };
-		6A34E60D14A00B33001CFA45 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerClient.m; sourceTree = "<group>"; };
-		6A34E60E14A00B33001CFA45 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerCommon.h; sourceTree = "<group>"; };
 		6A34E61F14A03147001CFA45 /* NSObject+DRYDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DRYDescription.h"; sourceTree = "<group>"; };
 		6A34E62014A03147001CFA45 /* NSObject+DRYDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DRYDescription.m"; sourceTree = "<group>"; };
-		6A34E62B14A04472001CFA45 /* DDNSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNSLogger.h; sourceTree = "<group>"; };
-		6A34E62C14A04472001CFA45 /* DDNSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDNSLogger.m; sourceTree = "<group>"; };
-		6A34E62F14A14AB4001CFA45 /* DDNSLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNSLogging.h; sourceTree = "<group>"; };
 		6A48D1A114DD5B1400C8C999 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6A4BE4051464F1F300A48B46 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		6A4BE4071464F82900A48B46 /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
@@ -312,12 +263,6 @@
 		6A56766614CB70B200E97962 /* GrowlTunes-Template.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "GrowlTunes-Template.pdf"; sourceTree = "<group>"; };
 		6A61FE241482B2FD00544675 /* FormattingToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormattingToken.h; sourceTree = "<group>"; };
 		6A61FE251482B2FD00544675 /* FormattingToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormattingToken.m; sourceTree = "<group>"; };
-		6A63482B14CC00B7005BB87F /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
-		6A63482C14CC00B7005BB87F /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
-		6A63482E14CC00B7005BB87F /* ContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextFilterLogFormatter.h; sourceTree = "<group>"; };
-		6A63482F14CC00B7005BB87F /* ContextFilterLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextFilterLogFormatter.m; sourceTree = "<group>"; };
-		6A63483014CC00B7005BB87F /* DispatchQueueLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DispatchQueueLogFormatter.h; sourceTree = "<group>"; };
-		6A63483114CC00B7005BB87F /* DispatchQueueLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DispatchQueueLogFormatter.m; sourceTree = "<group>"; };
 		6A636280149C43E500C1ED44 /* Global-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Global-Common.xcconfig"; sourceTree = "<group>"; };
 		6A636281149C43E500C1ED44 /* Global-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Global-Debug.xcconfig"; sourceTree = "<group>"; };
 		6A636282149C43E500C1ED44 /* Global-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Global-Release.xcconfig"; sourceTree = "<group>"; };
@@ -364,9 +309,7 @@
 		6ACCBED714C28C08000F3151 /* additions-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "additions-Release.xcconfig"; sourceTree = "<group>"; };
 		6ACCBED814C28C08000F3151 /* additions.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = additions.xcconfig; sourceTree = "<group>"; };
 		6AD07C2A149FF0E500BFFF52 /* ARC64-GC32.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "ARC64-GC32.xcconfig"; sourceTree = "<group>"; };
-		6AD07C30149FF6C400BFFF52 /* libadditions.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libadditions.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AD07C32149FF6C400BFFF52 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		6AD07C36149FF6C400BFFF52 /* additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = additions.h; sourceTree = "<group>"; };
 		6AD776F714817C2800A1592B /* iTunes+iTunesAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iTunes+iTunesAdditions.h"; sourceTree = "<group>"; };
 		6AD776F814817C2800A1592B /* iTunes+iTunesAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTunes+iTunesAdditions.m"; sourceTree = "<group>"; };
 		6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormattedItem.xib; sourceTree = "<group>"; };
@@ -421,7 +364,6 @@
 				6A4BE4341465F83400A48B46 /* ScriptingBridge.framework in Frameworks */,
 				6A4BE4361465F85800A48B46 /* Growl.framework in Frameworks */,
 				BC11E34C1656871600B96422 /* QuartzCore.framework in Frameworks */,
-				6A34E62714A03408001CFA45 /* libadditions.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,48 +375,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6AD07C2D149FF6C400BFFF52 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6A34E62314A032AA001CFA45 /* CoreFoundation.framework in Frameworks */,
-				6A34E62514A03306001CFA45 /* Foundation.framework in Frameworks */,
-				6A34E65114A26A0E001CFA45 /* AppKit.framework in Frameworks */,
-				6A34E62414A032CB001CFA45 /* SystemConfiguration.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6A34E60214A00B33001CFA45 /* Lumberjack */ = {
-			isa = PBXGroup;
-			children = (
-				6A63482D14CC00B7005BB87F /* Extensions */,
-				6A63482B14CC00B7005BB87F /* DDAbstractDatabaseLogger.h */,
-				6A63482C14CC00B7005BB87F /* DDAbstractDatabaseLogger.m */,
-				6A34E60314A00B33001CFA45 /* DDASLLogger.h */,
-				6A34E60414A00B33001CFA45 /* DDASLLogger.m */,
-				6A34E60514A00B33001CFA45 /* DDFileLogger.h */,
-				6A34E60614A00B33001CFA45 /* DDFileLogger.m */,
-				6A34E60714A00B33001CFA45 /* DDLog.h */,
-				6A34E60814A00B33001CFA45 /* DDLog.m */,
-				6A34E60914A00B33001CFA45 /* DDTTYLogger.h */,
-				6A34E60A14A00B33001CFA45 /* DDTTYLogger.m */,
-			);
-			path = Lumberjack;
-			sourceTree = "<group>";
-		};
-		6A34E60B14A00B33001CFA45 /* NSLogger */ = {
-			isa = PBXGroup;
-			children = (
-				6A34E60C14A00B33001CFA45 /* LoggerClient.h */,
-				6A34E60D14A00B33001CFA45 /* LoggerClient.m */,
-				6A34E60E14A00B33001CFA45 /* LoggerCommon.h */,
-			);
-			path = NSLogger;
-			sourceTree = "<group>";
-		};
 		6A56765D14CB70B200E97962 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -488,17 +391,6 @@
 			);
 			name = Resources;
 			path = ../Resources;
-			sourceTree = "<group>";
-		};
-		6A63482D14CC00B7005BB87F /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				6A63482E14CC00B7005BB87F /* ContextFilterLogFormatter.h */,
-				6A63482F14CC00B7005BB87F /* ContextFilterLogFormatter.m */,
-				6A63483014CC00B7005BB87F /* DispatchQueueLogFormatter.h */,
-				6A63483114CC00B7005BB87F /* DispatchQueueLogFormatter.m */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		6A63627F149C43E500C1ED44 /* xcconfig */ = {
@@ -560,7 +452,6 @@
 			isa = PBXGroup;
 			children = (
 				6A9ED3801447D04F002A0537 /* GrowlTunes.app */,
-				6AD07C30149FF6C400BFFF52 /* libadditions.a */,
 				6AAE995014DAE740004848EC /* GrowlTunesLauncher.app */,
 			);
 			name = Products;
@@ -662,12 +553,6 @@
 		6AD07C33149FF6C400BFFF52 /* additions */ = {
 			isa = PBXGroup;
 			children = (
-				6A34E60214A00B33001CFA45 /* Lumberjack */,
-				6A34E60B14A00B33001CFA45 /* NSLogger */,
-				6AD07C36149FF6C400BFFF52 /* additions.h */,
-				6A34E62B14A04472001CFA45 /* DDNSLogger.h */,
-				6A34E62C14A04472001CFA45 /* DDNSLogger.m */,
-				6A34E62F14A14AB4001CFA45 /* DDNSLogging.h */,
 				6A34E61F14A03147001CFA45 /* NSObject+DRYDescription.h */,
 				6A34E62014A03147001CFA45 /* NSObject+DRYDescription.m */,
 				6AAE994814DADA39004848EC /* StartAtLoginController.h */,
@@ -732,29 +617,6 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		6AD07C2E149FF6C400BFFF52 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6A34E62614A03340001CFA45 /* additions.h in Headers */,
-				6A34E61414A00B33001CFA45 /* DDFileLogger.h in Headers */,
-				6A34E61814A00B33001CFA45 /* DDTTYLogger.h in Headers */,
-				6A34E61614A00B33001CFA45 /* DDLog.h in Headers */,
-				6A34E61C14A00B33001CFA45 /* LoggerCommon.h in Headers */,
-				6A34E62114A03147001CFA45 /* NSObject+DRYDescription.h in Headers */,
-				6A34E61A14A00B33001CFA45 /* LoggerClient.h in Headers */,
-				6A34E61214A00B33001CFA45 /* DDASLLogger.h in Headers */,
-				6A34E62D14A04472001CFA45 /* DDNSLogger.h in Headers */,
-				6A34E63014A14AB4001CFA45 /* DDNSLogging.h in Headers */,
-				6A63483314CC00B7005BB87F /* DDAbstractDatabaseLogger.h in Headers */,
-				6A63483514CC00B7005BB87F /* ContextFilterLogFormatter.h in Headers */,
-				6A63483714CC00B7005BB87F /* DispatchQueueLogFormatter.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		6A9ED37F1447D04F002A0537 /* GrowlTunes */ = {
 			isa = PBXNativeTarget;
@@ -772,7 +634,6 @@
 			);
 			dependencies = (
 				6AAE996E14DAED81004848EC /* PBXTargetDependency */,
-				6A34E62914A03572001CFA45 /* PBXTargetDependency */,
 				6A89594A1447D242009D09FC /* PBXTargetDependency */,
 				6AAE997514DAF3C6004848EC /* PBXTargetDependency */,
 			);
@@ -797,23 +658,6 @@
 			productName = GrowlTunesLauncher;
 			productReference = 6AAE995014DAE740004848EC /* GrowlTunesLauncher.app */;
 			productType = "com.apple.product-type.application";
-		};
-		6AD07C2F149FF6C400BFFF52 /* additions */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6AD07C39149FF6C400BFFF52 /* Build configuration list for PBXNativeTarget "additions" */;
-			buildPhases = (
-				6AD07C2C149FF6C400BFFF52 /* Sources */,
-				6AD07C2D149FF6C400BFFF52 /* Frameworks */,
-				6AD07C2E149FF6C400BFFF52 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = additions;
-			productName = additions;
-			productReference = 6AD07C30149FF6C400BFFF52 /* libadditions.a */;
-			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -867,7 +711,6 @@
 			);
 			projectRoot = "";
 			targets = (
-				6AD07C2F149FF6C400BFFF52 /* additions */,
 				6A9ED37F1447D04F002A0537 /* GrowlTunes */,
 				6AAE994F14DAE740004848EC /* GrowlTunesLauncher */,
 			);
@@ -1086,31 +929,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6AD07C2C149FF6C400BFFF52 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6A34E61314A00B33001CFA45 /* DDASLLogger.m in Sources */,
-				6A34E61514A00B33001CFA45 /* DDFileLogger.m in Sources */,
-				6A34E61714A00B33001CFA45 /* DDLog.m in Sources */,
-				6A34E61914A00B33001CFA45 /* DDTTYLogger.m in Sources */,
-				6A34E61B14A00B33001CFA45 /* LoggerClient.m in Sources */,
-				6A34E62214A03147001CFA45 /* NSObject+DRYDescription.m in Sources */,
-				6A34E62E14A04472001CFA45 /* DDNSLogger.m in Sources */,
-				6A63483414CC00B7005BB87F /* DDAbstractDatabaseLogger.m in Sources */,
-				6A63483614CC00B7005BB87F /* ContextFilterLogFormatter.m in Sources */,
-				6A63483814CC00B7005BB87F /* DispatchQueueLogFormatter.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6A34E62914A03572001CFA45 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6AD07C2F149FF6C400BFFF52 /* additions */;
-			targetProxy = 6A34E62814A03572001CFA45 /* PBXContainerItemProxy */;
-		};
 		6A89594A1447D242009D09FC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Growl.framework;
@@ -1271,30 +1092,6 @@
 			};
 			name = Localization;
 		};
-		6ACCBED014C289A0000F3151 /* Localization */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ACCBED614C28C08000F3151 /* additions-Localization.xcconfig */;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-			};
-			name = Localization;
-		};
-		6AD07C3A149FF6C400BFFF52 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ACCBED514C28C08000F3151 /* additions-Debug.xcconfig */;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-			};
-			name = Debug;
-		};
-		6AD07C3B149FF6C400BFFF52 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6ACCBED714C28C08000F3151 /* additions-Release.xcconfig */;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1324,16 +1121,6 @@
 				6AAE996714DAE741004848EC /* Debug */,
 				6AAE996814DAE741004848EC /* Release */,
 				6AAE996914DAE741004848EC /* Localization */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		6AD07C39149FF6C400BFFF52 /* Build configuration list for PBXNativeTarget "additions" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6AD07C3A149FF6C400BFFF52 /* Debug */,
-				6AD07C3B149FF6C400BFFF52 /* Release */,
-				6ACCBED014C289A0000F3151 /* Localization */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

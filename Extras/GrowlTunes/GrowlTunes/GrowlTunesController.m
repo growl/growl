@@ -15,15 +15,11 @@
 #import "FormattedItemViewController.h"
 #import "TrackRatingLevelIndicatorValueTransformer.h"
 #import "StartAtLoginController.h"
-#import "DDTTYLogger.h"
-#import "DDASLLogger.h"
-#import "DispatchQueueLogFormatter.h"
 
 @interface GrowlTunesController ()
 
 @property(readwrite, STRONG, nonatomic) IBOutlet ITunesConductor* conductor;
 @property(readonly, assign, nonatomic) BOOL noMeansNo;
-@property(readwrite, STRONG, nonatomic) id <DDLogFormatter> formatter;
 @property(readwrite, STRONG, nonatomic) StartAtLoginController* loginController;
 
 @property(readonly, STRONG, nonatomic) NSString* stringPlayPause;
@@ -44,8 +40,6 @@
                    name:(NSString*)name
                    icon:(NSData*)icon;
 
-- (void)populateLoggingMenu;
-
 #if defined(BETA)
 - (NSCalendarDate *)dateWithString:(NSString *)str;
 - (BOOL)expired;
@@ -62,22 +56,8 @@
 @synthesize statusItemMenu = _statusItemMenu;
 @synthesize currentTrackMenuItem = _currentTrackMenuItem;
 @synthesize currentTrackController = _currentTrackController;
-@synthesize loggingMenu = _loggingMenu;
-@synthesize formatter = _formatter;
 @synthesize loginController = _loginController;
 
-
-static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
-
-+ (int)ddLogLevel
-{
-    return ddLogLevel;
-}
-
-+ (void)ddSetLogLevel:(int)logLevel
-{
-    ddLogLevel = logLevel;
-}
 
 + (void)initialize
 {
@@ -98,12 +78,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 			[helperAppDefaults setPersistentDomain:defaultDefaults forName:@"com.growl.GrowlTunes"];
 		}
 		[[NSUserDefaults standardUserDefaults] synchronize];
-		
-		NSNumber *logLevel = [[NSUserDefaults standardUserDefaults] objectForKey:
-									 [NSString stringWithFormat:@"%@LogLevel", [self class]]];
-		if (logLevel)
-			ddLogLevel = [logLevel intValue];
-		
+				
 		NSValueTransformer* trackRatingTransformer = [[TrackRatingLevelIndicatorValueTransformer alloc] init];
 		[NSValueTransformer setValueTransformer:trackRatingTransformer
 												  forName:@"TrackRatingLevelIndicatorValueTransformer"];
@@ -171,9 +146,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	NSArray *allNotifications = @[formattingTypes, NotifierPaused, NotifierStopped];
 	NSArray *allReadable = @[formattingTypesReadable, NotifierPausedReadable, NotifierStoppedReadable];
 	NSArray *readableDict = [NSDictionary dictionaryWithObjects:allReadable forKeys:allNotifications];
-	
-	LogInfo(@"%@", readableDict);
-	
+		
 	NSURL* iconURL = [[NSBundle mainBundle] URLForImageResource:@"GrowlTunes"];
 	NSData *iconData = [NSData dataWithContentsOfURL:iconURL];
 	
@@ -221,20 +194,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 - (void)applicationWillFinishLaunching:(NSNotification*)aNotification
 {
 #pragma unused(aNotification)
-   
-    self.formatter = [[DispatchQueueLogFormatter alloc] init];
-    
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
-    [[DDTTYLogger sharedInstance] setLogFormatter:self.formatter];
-#if !defined(DEBUG)
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
-    [[DDASLLogger sharedInstance] setLogFormatter:self.formatter];
-#endif
-#if defined(NSLOGGER)
-    [DDLog addLogger:[DDNSLogger sharedInstance]];
-    [[DDNSLogger sharedInstance] setLogFormatter:self.formatter];
-#endif
-    
+       
     [GrowlApplicationBridge setGrowlDelegate:self];
     [GrowlApplicationBridge setShouldUseBuiltInNotifications:YES];
     
@@ -249,7 +209,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         NSString* fscript = [frameworks stringByAppendingPathComponent:@"FScript.framework"];
         loaded = [[NSBundle bundleWithPath:fscript] load];
         if (loaded) {
-            LogVerbose(@"loaded FScript from framework at path: %@", fscript);
             *stop = loaded;
         }
     }];
@@ -281,9 +240,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification
 {
 #pragma unused(aNotification)
-    
-    LogVerbose(@"GrowlTunes launched");
-    
+        
 #if defined(BETA)
     [self expiryCheck];
 #endif
@@ -318,7 +275,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     RELEASE(_currentTrackController);
     RELEASE(_statusItem);
     RELEASE(_formatwc);
-    RELEASE(_formatter);
     SUPER_DEALLOC;
 }
 
@@ -330,7 +286,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	BOOL notifyWhenFrontmost = [[NSUserDefaults standardUserDefaults] boolForKey:NOTIFY_ITUNES_FRONTMOST];
 	
 	if (!notifyWhenFrontmost && [self.conductor isFrontmost]) {
-		LogInfo(@"Not growling: iTunes is frontmost");
 		return;
 	}
 	
@@ -355,96 +310,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 											 isSticky:FALSE
 										clickContext:nil
 										  identifier:name];
-}
-
-- (void)populateLoggingMenu
-{
-    NSMenu* loggingMenu = self.loggingMenu;
-    [loggingMenu removeAllItems];
-   
-   NSArray* logLevelNumbers = @[@DDNS_LOG_LEVEL_ERROR,
-                              @DDNS_LOG_LEVEL_WARN,
-                              @DDNS_LOG_LEVEL_INFO,
-                              @DDNS_LOG_LEVEL_VERBOSE,
-                              @DDNS_LOG_LEVEL_DEBUG];
-   
-    NSArray* logLevelNames = [NSArray arrayWithObjects: @"Error", @"Warning", @"Info", @"Verbose", @"Debug", nil];
-    NSDictionary* logLevels = [NSDictionary dictionaryWithObjects:logLevelNumbers forKeys:logLevelNames];
-    id menuTarget = self;
-    
-    void (^handleLogLevels)(NSString*, NSMenu*);
-    handleLogLevels = ^(NSString* className, NSMenu* classMenu) {        
-        @autoreleasepool {
-            if (!className) className = @"All";
-            id class = [className isEqualToString:@"All"] ? nil : NSClassFromString(className);
-
-            NSNumber* currentLogLevel = class ? @([DDLog logLevelForClass:class]) : @-1;
-            
-            for (NSString* levelName in logLevelNames) {
-                NSMenuItem* levelItem = [[NSMenuItem alloc] initWithTitle:levelName 
-                                                                   action:@selector(setLoggingLevel:) 
-                                                            keyEquivalent:@""];
-                [levelItem setTarget:menuTarget];
-                
-                NSNumber* levelNumber = [logLevels objectForKey:levelName];
-                BOOL enabled = [levelNumber isEqualToNumber:currentLogLevel];
-                [levelItem setState:enabled];
-                
-                NSDictionary* data = [NSDictionary dictionaryWithObjectsAndKeys:
-                                      (class ? class : [NSNull null]),  @"class",
-                                      levelName,                        @"levelName",
-                                      levelNumber,                      @"level",
-                                      nil];
-                [levelItem setRepresentedObject:data];
-                
-                [classMenu addItem:levelItem];
-                AUTORELEASE(levelItem);
-            }
-        }
-    };
-    
-    NSMutableArray* configurableClasses = [[DDLog registeredClasses] mutableCopy];
-    [configurableClasses insertObject:[NSNull null] atIndex:0];
-    AUTORELEASE(configurableClasses);
-    
-    for (Class configurableClass in configurableClasses) {
-        @autoreleasepool {
-            NSString* className = (configurableClass != [NSNull null]) ? NSStringFromClass(configurableClass) : @"All";
-            
-            NSMenuItem* classItem = [[NSMenuItem alloc] initWithTitle:className 
-                                                               action:NULL 
-                                                        keyEquivalent:@""];
-            [loggingMenu addItem:classItem];
-            AUTORELEASE(classItem);
-            
-            NSMenu* classMenu = [[NSMenu alloc] initWithTitle:className];
-            [classItem setSubmenu:classMenu];
-            AUTORELEASE(classMenu);
-            
-            handleLogLevels(className, classMenu);
-        }
-    }
-}
-
-- (void)setLoggingLevel:(id)sender
-{
-    NSDictionary* data = [(NSMenuItem*)sender representedObject];
-    if (!data) return;
-    
-    NSNumber* level = [data objectForKey:@"level"];
-    NSString* name = [data objectForKey:@"levelName"];
-    id class = [data objectForKey:@"class"];
-    
-    if (class == [NSNull null]) {
-        NSArray* classes = [DDLog registeredClasses];
-        for (Class _class in classes) {
-            [DDLog setLogLevel:[level intValue] forClass:_class];
-            LogInfo(@"Setting log level for class %@ to %@", NSStringFromClass(_class), name);
-        }
-    } else {
-        [DDLog setLogLevel:[level intValue] forClass:class];
-        LogInfo(@"Setting log level for class %@ to %@", NSStringFromClass(class), name);
-    }
 }
 
 - (void)createStatusItem
@@ -476,12 +341,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 {
 #pragma unused(sender)
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enableLoggingConfiguration"]) {
-        LogVerbose(@"populating logging menu");
-        [self populateLoggingMenu];
-    }
-    
-    LogVerbose(@"popUpStatusItemMenu:");
     [_statusItem popUpStatusItemMenu:self.statusItemMenu];
 }
 

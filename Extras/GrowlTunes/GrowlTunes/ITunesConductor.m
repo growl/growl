@@ -35,28 +35,6 @@
 @synthesize currentPlayerState = _currentPlayerState;
 @synthesize currentPersistentID = _currentPersistentID;
 
-static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
-
-+ (int)ddLogLevel
-{
-    return ddLogLevel;
-}
-
-+ (void)ddSetLogLevel:(int)logLevel
-{
-    ddLogLevel = logLevel;
-}
-
-+ (void)initialize
-{
-    if (self == [ITunesConductor class]) {
-        NSNumber *logLevel = [[NSUserDefaults standardUserDefaults] objectForKey:
-                              [NSString stringWithFormat:@"%@LogLevel", [self class]]];
-        if (logLevel)
-            ddLogLevel = [logLevel intValue];
-    }
-}
-
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
 {
     return NO;
@@ -92,8 +70,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     self.isRunning = ita.isRunning;
     
     if (self.isRunning && self.isPlaying) {
-        LogVerbose(@"iTunes already running and playing; sending fake 'playerInfo' notification");
-        [self playerInfo:[NSNotification notificationWithName:PLAYER_INFO_ID 
+        [self playerInfo:[NSNotification notificationWithName:PLAYER_INFO_ID
                                                        object:@{@"source" : @"init"}]];
     }
         
@@ -129,7 +106,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 {    
     Handle xx;
     AEPrintDescToHandle(event, &xx);
-    LogError(@"event: \n%s\nerror: %@", *xx, error);
     DisposeHandle(xx);
     
     return nil;
@@ -139,7 +115,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 {
     NSString* appID = [[note userInfo] valueForKey:@"NSApplicationBundleIdentifier"];
     if ([appID isEqualToString:ITUNES_BUNDLE_ID]) {
-        LogInfo(@"note: %@", note);
 
         NSString* noteType = [note name];
         if ([noteType isEqualToString:NSWorkspaceDidLaunchApplicationNotification]) {
@@ -156,9 +131,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 }
 
 - (void)updatePlayerState:(NSDictionary*)note
-{    
-    LogVerboseTag(LogTagState, @"updatePlayerState called");
-    
+{        
     BOOL updateState = NO;
     BOOL updateID = NO;
     BOOL updateTrack = NO;
@@ -175,32 +148,20 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     }
     
     if (!_running || newState == StateStopped) {
-        LogVerboseTag(LogTagState, @"iTunes is either not running or stopped (which may indicate shutdown is imminent)."
-                      " Empty id and description data will be used.");
         if (!newState) newState = StateStopped;
         newID = nil;
         typeDescription = @"none";
     } else {
-        LogVerboseTag(LogTagState, @"iTunes is running and not stopped."
-                      " Current state, id, and description data will be used.");
         newState = [[ITunesApplication sharedInstance] playerState];
         newID = [self.metaTrack persistentID];
         typeDescription = [self.metaTrack typeDescription];
     }
-    
-    LogVerboseTag(LogTagState, @"previous state: %x new state: %x \nprevious ID: %@ new ID: %@ \ntype: %@",
-                  _currentPlayerState, newState, _currentPersistentID, newID, typeDescription);
-    
+        
     if (newState != _currentPlayerState) { updateState = YES; }
     if (![newID isEqualToString:_currentPersistentID]) { updateID = YES; }
     if ((updateState || updateID || [typeDescription isEqualToString:@"stream"]) && 
         ![typeDescription isEqualToString:@"error"]) { updateTrack = YES; }
-    
-    LogVerboseTag(LogTagState, @"update state: %@ \nupdate ID: %@ \nupdate track: %@",
-                  updateState?@"YES":@"NO",
-                  updateID?@"YES":@"NO",
-                  updateTrack?@"YES":@"NO");
-    
+        
     if (updateState) {
         [self willChangeValueForKey:@"currentPlayerState"];
         [self willChangeValueForKey:@"isPlaying"];
@@ -224,11 +185,8 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
         [self willChangeValueForKey:@"currentTrack"];
         
         if (!_running || newState == StateStopped) {
-            LogVerboseTag(LogTagState, @"setting current track to nil. _running: %@ stopped: %@",
-                          _running?@"YES":@"NO", (newState == ITunesEPlSStopped)?@"YES":@"NO");
             RELEASE(_currentTrack);
         } else {
-            LogVerboseTag(LogTagState, @"setting current track to evaluated track");
             TrackMetadata* newTrack = [self.metaTrack evaluated];
             if (_currentTrack != newTrack) {
                 RELEASE(_currentTrack);
@@ -256,7 +214,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 
 - (void)playerInfo:(NSNotification*)note
 {
-    LogInfo(@"note: %@", note);
     [self updatePlayerState:note.userInfo];
 }
 
@@ -264,7 +221,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 // TODO: something useful
 - (void)sourceSaved:(NSNotification*)note
 {
-    LogVerbose(@"note: %@", note);
 }
 
 - (void)setIsRunning:(BOOL)running
@@ -287,8 +243,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     [wsnc removeObserver:self 
                     name:unWatchType 
                   object:nil];
-
-    LogInfo(@"iTunes %@ currently running, registering for %@", running?@"is":@"is not", watchType);
     
     [wsnc addObserver:self 
              selector:@selector(didLaunchOrTerminateNotification:) 

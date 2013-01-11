@@ -1,6 +1,6 @@
 // local defines
 COMMON_CFLAGS = -pipe -fconstant-cfstrings
-COMMON_GCC_PREPROCESSOR_DEFINITIONS = NS_BUILD_32_LIKE_64 DDNSLoggerDefaultBufferFilename="\"GrowlTunes.rawnsloggerdata"\"
+COMMON_GCC_PREPROCESSOR_DEFINITIONS = NS_BUILD_32_LIKE_64
 
 
 // architectures
@@ -56,7 +56,7 @@ APPLY_RULES_IN_COPY_FILES = YES
 
 
 // search paths
-FRAMEWORK_SEARCH_PATHS = $(value) $SRCROOT/../../build/${CONFIGURATION} $(SYSTEM_LIBRARY_DIR)/Frameworks $(LOCAL_LIBRARY_DIR)/Frameworks
+FRAMEWORK_SEARCH_PATHS = $(value) $BUILT_PRODUCTS_DIR $(SYSTEM_LIBRARY_DIR)/Frameworks $(LOCAL_LIBRARY_DIR)/Frameworks
 USER_HEADER_SEARCH_PATHS = $TARGET_BUILD_DIR/include/
 
 

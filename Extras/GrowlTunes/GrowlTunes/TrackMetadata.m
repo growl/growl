@@ -37,31 +37,15 @@
 
 static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 
-static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
-
-+ (int)ddLogLevel
-{
-	return ddLogLevel;
-}
-
-+ (void)ddSetLogLevel:(int)logLevel
-{
-	ddLogLevel = logLevel;
-}
-
 +(void)initialize
 {
 	if (self == [TrackMetadata class]) {
-		NSNumber *logLevel = [[NSUserDefaults standardUserDefaults] objectForKey:
-									 [NSString stringWithFormat:@"%@LogLevel", [self class]]];
-		if (logLevel)
-			ddLogLevel = [logLevel intValue];
 		
 		NSArray* props = [self propertiesForTrackClass:@"all"];
 		for (NSString* prop in props) {
 			BOOL success = class_addMethod(self, NSSelectorFromString(prop), (IMP)_propertyGetterFunc, "@@:");
 			if (!success) {
-				LogErrorTag(LogTagKVC, @"Unable to add property accessor for: %@", prop);
+				NSLog(@"Unable to add property accessor for: %@", prop);
 			}
 		}
 	}
@@ -174,11 +158,9 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 
 -(id)init
 {
-	LogInfoTag(LogTagInit, @"Initializing with lazy currentTrack object");
 	ITunesApplication* ita = [ITunesApplication sharedInstance];
 	
 	if (![ita isRunning]) {
-		LogError(@"iTunes isn't running; there is no 'current track'");
 		return nil;
 	}
 	
@@ -188,11 +170,9 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 
 -(id)initWithPersistentID:(NSString*)persistentID
 {
-	LogInfoTag(LogTagInit, @"Initializing with persistent ID: %@", persistentID);
 	ITunesApplication* ita = [ITunesApplication sharedInstance];
 	
 	if (![ita isRunning]) {
-		LogError(@"iTunes isn't running; unable to lookup track %@", persistentID);
 		return nil;
 	}
 	
@@ -217,9 +197,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	
 	NSString* specifier = [track performSelector:@selector(specifierDescription)];
 	BOOL evaluated = !([specifier rangeOfString:@"currentTrack"].location != NSNotFound);
-	
-	LogVerboseTag(LogTagInit, @"track: %@ isEvaluated: %@", track, (evaluated ? @"YES" : @"NO"));
-	
+		
 	if (evaluated) [self evaluate];
 	
 	return self;
@@ -238,9 +216,7 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 -(void)_updateStreamMetadata
 {
 	if (_isEvaluated) { return; }
-	
-	LogVerbose(@"updating stream metadata");
-	
+		
 	ITunesApplication* ita = [ITunesApplication sharedInstance];
 	[self.cache setValue:ita.currentStreamTitle forKey:@"streamTitle"];
 	[self.cache setValue:ita.currentStreamURL forKey:@"streamURL"];
@@ -252,7 +228,6 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	
 	NSArray* keys = [[self class] propertiesForTrackClass:[self trackClass]
 													 includingHelpers:NO];
-	LogVerbose(@"caching properties: %@", keys);
 	
 	NSDictionary* cacheDictionary = [self.trackObject dictionaryWithValuesForKeys:keys];
 	[self.cache addEntriesFromDictionary:cacheDictionary];
@@ -263,15 +238,11 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	if (_neverEvaluate) return;
 	
 	if (!_isEvaluated) {
-		LogInfo(@"evaluating lazy track object");
-		
 		if (![[ITunesApplication sharedInstance] isRunning]) {
-			LogError(@"iTunes isn't running");
 			return;
 		}
 		
 		self.trackObject = [self.trackObject get];
-		LogInfo(@"new track object: %@", self.trackObject);
 		[self _updateStreamMetadata];
 		[self _cacheAllProperties];
 		self.isEvaluated = YES;
@@ -295,37 +266,28 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 
 static inline id _safeTrackPropertyGetter(TrackMetadata* self, NSString* key) {
 	id value = nil;
-	
-	LogVerboseTag(LogTagKVC, @"_safeTrackPropertyGetter for key: %@", key);
-	
+		
 	if (![[ITunesApplication sharedInstance] isRunning]) {
-		LogWarnTag(LogTagKVC, @"iTunes isn't running, unable to retrieve value: %@", key);
 		return value;
 	}
 	
 	if (![self.trackObject exists]) {
-		LogWarnTag(LogTagKVC, @"track object doesn't exist, unable to retrieve value: %@", key);
 		return value;
 	}
 	
 	value = [self.trackObject valueForKey:key];
-	LogVerboseTag(LogTagKVC, @"retrieved value: %@", key);
 	
 	return value;
 }
 
 static inline id _cachingTrackPropertyGetter(TrackMetadata* self, NSString* key) {
 	id value = nil;
-	
-	LogVerboseTag(LogTagKVC, @"_cachingTrackPropertyGetter for key: %@", key);
-	
+		
 	value = [self.cache valueForKey:key];
-	LogVerboseTag(LogTagKVC, @"cached value: %@", value);
 	
 	if (!value) {
 		value = _safeTrackPropertyGetter(self, key);
 		if (value) {
-			LogVerboseTag(LogTagKVC, @"caching retrieved value");
 			[self.cache setValue:value forKey:key];
 		}
 	}
@@ -335,10 +297,8 @@ static inline id _cachingTrackPropertyGetter(TrackMetadata* self, NSString* key)
 
 static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 	NSString* key = NSStringFromSelector(_cmd);
-	LogVerboseTag(LogTagKVC, @"_propertyGetterFunc _cmd:%@", key);
 	
 	if (self.isEvaluated && ![key isEqualToString:@"exists"]) {
-		LogVerboseTag(LogTagKVC, @"is evaluated");
 		return _cachingTrackPropertyGetter(self, key);
 	}
 	
@@ -349,7 +309,6 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 
 -(id)valueForUndefinedKey:(NSString *)key
 {
-	LogVerboseTag(LogTagKVC, @"valueForUndefinedKey: %@", key);
 	return _propertyGetterFunc(self, NSSelectorFromString(key));
 }
 
@@ -375,7 +334,6 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 -(NSString*)typeDescription
 {
 	if (![[ITunesApplication sharedInstance] isRunning]) {
-		LogWarn(@"iTunes isn't running; this TrackMetadata object is invalid");
 		return @"error";
 	}
 	
@@ -384,7 +342,6 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 	// case 'exists' will throw an applescript error, return nil, and evaluate to NO.
 	BOOL exists = [[self valueForKey:@"exists"] boolValue];
 	if (!exists) {
-		LogWarn(@"this track doesn't exist");
 		return @"error";
 	}
 	
@@ -500,14 +457,12 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 -(NSData*)artworkData
 {
 	NSData* data = self.trackObject.artworkData;
-	LogData(data);
 	return data;
 }
 
 -(NSImage*)artworkImage
 {
 	NSImage* image = self.trackObject.artworkImage;
-	LogImage(image);
 	return image;
 }
 
@@ -528,7 +483,6 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 	NSString* type = [self typeDescription];
 	
 	if ([type isEqualToString:@"error"]) {
-		LogError(@"track returned type description of error: %@", self);
 		return nil;
 	}
 	

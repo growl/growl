@@ -27,8 +27,6 @@ typedef enum : NSInteger {
     FormattedItemViewController* _currentTrackController;
     NSStatusItem* _statusItem;
     NSWindowController* _formatwc;
-    NSMenu* _loggingMenu;
-    id <DDLogFormatter> _formatter;
     StartAtLoginController* _loginController;
 }
 
