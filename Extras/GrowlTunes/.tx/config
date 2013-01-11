@@ -1,0 +1,14 @@
+[main]
+host = https://www.transifex.com
+
+[growltunes.InfoPlistStrings]
+file_filter = GrowlTunes/<lang>.lproj/InfoPlist.strings
+source_file = GrowlTunes/en.lproj/InfoPlist.strings
+source_lang = en
+type = STRINGS
+
+[growltunes.LocalizableStrings]
+file_filter = GrowlTunes/<lang>.lproj/Localizable.strings
+source_file = GrowlTunes/en.lproj/Localizable.strings
+source_lang = en
+type = STRINGS
