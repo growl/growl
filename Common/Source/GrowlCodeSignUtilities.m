@@ -29,43 +29,46 @@
 	return (BOOL)(isgreaterequal(NSFoundationVersionNumber, NSFoundationVersionNumber10_7));
 }
 
-+ (BOOL) hasEntitlement:(NSString*)entitlement {
-	CFErrorRef errors = NULL;
++ (BOOL) hasEntitlement:(NSString*)entitlement
+{
+	BOOL result = NO;
+    CFErrorRef errors = NULL;
 	SecCodeRef code = NULL;
 	SecRequirementRef requirement = NULL;
 	OSStatus status = errSecSuccess;
 	
 	status = SecCodeCopySelf(kSecCSDefaultFlags, &code);
-	if (status != errSecSuccess) {
-		NSLog(@"SecCodeCopySelf failed with status code: %ld", (long)status);
-		return NO;
-	}
-	
+	if (status == errSecSuccess)
+    {    
+        NSString *requirementString = [NSString stringWithFormat:@"entitlement[\"%@\"] exists", entitlement];
+        status = SecRequirementCreateWithStringAndErrors((CFStringRef)requirementString, kSecCSDefaultFlags, &errors, &requirement);
+        if (status == errSecSuccess)
+        {
+            status = SecCodeCheckValidity(code, kSecCSDefaultFlags, requirement);
+            if (status == errSecSuccess)
+            {
+                result = YES;
+            }
+        }
+    }
+    
+    if(code)
+        CFRelease(code);
+    if(requirement)
+        CFRelease(requirement);
+    
 #if !defined(NDEBUG)
-	NSLog(@"Checking for entitlement: %@", entitlement);
+    NSLog(@"SecCodeCopySelf failed with status code: %ld", (long)status);
+    if(errors)
+    {
+        CFDictionaryRef errDict = CFErrorCopyUserInfo(errors);
+        NSLog(@"SecRequirementCreateWithStringAndErrors failure: %@", (NSDictionary*)CFBridgingRelease(errDict));
+        CFRelease(errors), errors = NULL;
+    }
+    if(!result)
+        NSLog(@"Entitlement NOT present: %@", entitlement);
 #endif
-	
-	NSString *requirementString = [NSString stringWithFormat:@"entitlement[\"%@\"] exists", entitlement];
-	status = SecRequirementCreateWithStringAndErrors((CFStringRef)requirementString, kSecCSDefaultFlags, &errors, &requirement);
-	if (status != errSecSuccess) {
-		CFDictionaryRef errDict = CFErrorCopyUserInfo(errors);
-		NSLog(@"SecRequirementCreateWithStringAndErrors failure: %@", (NSDictionary*)CFBridgingRelease(errDict));
-		CFRelease(errors), errors = NULL;
-		return NO;
-	}
-	
-	status = SecCodeCheckValidity(code, kSecCSDefaultFlags, requirement);
-	if (status == errSecSuccess) {
-#if !defined(NDEBUG)
-		NSLog(@"Entitlement present: %@", entitlement);
-#endif
-		return YES;
-	} else {
-#if !defined(NDEBUG)
-		NSLog(@"Entitlement NOT present: %@", entitlement);
-#endif
-		return NO;
-	}
+    return result;
 }
 
 + (BOOL) hasSandboxEntitlement {
