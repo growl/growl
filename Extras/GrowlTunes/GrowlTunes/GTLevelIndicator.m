@@ -37,6 +37,11 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
 	return [GTLevelIndicatorCell class];
 }
 
+- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent
+{
+	return YES;
+}
+
 @end
 
 

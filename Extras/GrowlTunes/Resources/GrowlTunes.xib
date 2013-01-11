@@ -608,7 +608,7 @@
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSLevelIndicatorCell" key="NSCell" id="785474649">
 							<int key="NSCellFlags">406323264</int>
-							<int key="NSCellFlags2">33588480</int>
+							<int key="NSCellFlags2">34048</int>
 							<string key="NSCellIdentifier">_NS:2200</string>
 							<reference key="NSControlView" ref="927031288"/>
 							<double key="NSValue">2</double>
@@ -2014,13 +2014,10 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="activateItunes:">id</string>
 						<string key="configureFormatting:">id</string>
-						<string key="nextTrack:">id</string>
-						<string key="playPause:">id</string>
 						<string key="previousTrack:">id</string>
 						<string key="quitGrowlTunes:">id</string>
 						<string key="quitGrowlTunesAndITunes:">id</string>
 						<string key="quitItunes:">id</string>
-						<string key="quitWithWarning:">id</string>
 						<string key="runiTunes:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -2030,14 +2027,6 @@
 						</object>
 						<object class="IBActionInfo" key="configureFormatting:">
 							<string key="name">configureFormatting:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="nextTrack:">
-							<string key="name">nextTrack:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="playPause:">
-							<string key="name">playPause:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="previousTrack:">
@@ -2054,10 +2043,6 @@
 						</object>
 						<object class="IBActionInfo" key="quitItunes:">
 							<string key="name">quitItunes:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="quitWithWarning:">
-							<string key="name">quitWithWarning:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="runiTunes:">
