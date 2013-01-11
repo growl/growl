@@ -3,5 +3,5 @@
     #import <Cocoa/Cocoa.h>
     #import <ScriptingBridge/ScriptingBridge.h>
     #import "NSObject+DRYDescription.h"
-
+	#import "GrowlToolChainSupport.h"
 #endif

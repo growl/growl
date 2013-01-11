@@ -372,6 +372,7 @@
 		6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormattedItem.xib; sourceTree = "<group>"; };
 		839B9CF314D8AFC00042C2A4 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		839B9CF414D8AFCC0042C2A4 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		93D17D8F169FB083003AE638 /* GrowlToolChainSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GrowlToolChainSupport.h; path = ../../../GrowlToolChainSupport.h; sourceTree = "<group>"; };
 		BC11E34116567DBD00B96422 /* GrowlOnSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitch.h; path = ../../../Core/Source/GrowlOnSwitch.h; sourceTree = "<group>"; };
 		BC11E34216567DBD00B96422 /* GrowlOnSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitch.m; path = ../../../Core/Source/GrowlOnSwitch.m; sourceTree = "<group>"; };
 		BC11E34316567DBD00B96422 /* GrowlOnSwitchLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitchLabel.h; path = ../../../Core/Source/GrowlOnSwitchLabel.h; sourceTree = "<group>"; };
@@ -623,6 +624,7 @@
 		6A9ED38B1447D04F002A0537 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				93D17D8F169FB083003AE638 /* GrowlToolChainSupport.h */,
 				6A9ED38C1447D04F002A0537 /* GrowlTunes-Info.plist */,
 				6A7FA16214C29DD200A912B4 /* GrowlTunes-Info.plist-Prefix.pch */,
 				6A9ED3921447D04F002A0537 /* GrowlTunes-Prefix.pch */,
