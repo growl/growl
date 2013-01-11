@@ -582,14 +582,11 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 		}
 	}
 	
-	NSCharacterSet* toTrim = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-	NSString* descriptionString = [[descriptionArray componentsJoinedByString:@"\n"]
-											 stringByTrimmingCharactersInSet:toTrim];
-	[dict setValue:descriptionString forKey:@"description"];
-
-	NSString *titleString = [[titleArray componentsJoinedByString:@"\n"]
-								   stringByTrimmingCharactersInSet:toTrim];
+	//set the title and descriptions from the arrays of tokens
+	NSString *titleString = [titleArray componentsJoinedByString:@""];
 	[dict setValue:titleString forKey:@"title"];
+	NSString* descriptionString = [descriptionArray componentsJoinedByString:@""];
+	[dict setValue:descriptionString forKey:@"description"];
 
 	NSDictionary* immutableDict = AUTORELEASE([dict copy]);
 	
