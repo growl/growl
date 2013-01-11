@@ -536,6 +536,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 	GrowlTunesFormattingController *helper = [(GrowlTunesController*)NSApp formatController];
 	
 	NSMutableArray* descriptionArray = [NSMutableArray arrayWithCapacity:3];
+	NSMutableArray *titleArray = [NSMutableArray array];
 	
 	for (NSString* attribute in attributes) {
 		NSArray* tokens = [helper tokensForType:type andAttribute:attribute];
@@ -576,13 +577,20 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 		if (![attribute isEqualToString:@"titleArray"]) {
 			[descriptionArray addObject:resolvedString];
 		}
+		else {
+			[titleArray addObject:resolvedString];
+		}
 	}
 	
 	NSCharacterSet* toTrim = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 	NSString* descriptionString = [[descriptionArray componentsJoinedByString:@"\n"]
 											 stringByTrimmingCharactersInSet:toTrim];
 	[dict setValue:descriptionString forKey:@"description"];
-	
+
+	NSString *titleString = [[titleArray componentsJoinedByString:@"\n"]
+								   stringByTrimmingCharactersInSet:toTrim];
+	[dict setValue:titleString forKey:@"title"];
+
 	NSDictionary* immutableDict = AUTORELEASE([dict copy]);
 	
 	if (_isEvaluated) {
