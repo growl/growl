@@ -510,6 +510,28 @@ static int ddLogLevel = DDNS_LOG_LEVEL_DEFAULT;
     [NSApp terminate:self];
 }
 
+- (IBAction)quitWithWarning:(id)sender
+{
+	if(![[NSUserDefaults standardUserDefaults] boolForKey:@"HideQuitWarning"])
+	{
+		NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Are you sure you want to quit?", nil)
+										 defaultButton:NSLocalizedString(@"Yes", nil)
+									   alternateButton:NSLocalizedString(@"No", nil)
+										   otherButton:nil
+							 informativeTextWithFormat:NSLocalizedString(@"If you quit GrowlTunes you will no longer receive iTunes notifications.", nil)];
+		[alert setShowsSuppressionButton:YES];
+		
+		NSInteger result = [alert runModal];
+		if(result == NSOKButton)
+		{
+			[[NSUserDefaults standardUserDefaults] setBool:(BOOL)[[alert suppressionButton] state] forKey:@"HideQuitWarning"];
+			[NSApp terminate:self];
+		}
+	}
+	else
+		[NSApp terminate:self];
+}
+
 - (IBAction)quitGrowlTunesAndITunes:(id)sender
 {
 #pragma unused(sender)
