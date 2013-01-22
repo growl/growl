@@ -1,13 +1,8 @@
 [main]
 host = https://www.transifex.com
+lang_map = pt_BR: pt-BR, pt_PT: pt-PT, zh_CN: zh-Hans, es_ES: es, es_MX: es-MX, th_TH:th
 
-[growltunes.InfoPlistStrings]
-file_filter = GrowlTunes/<lang>.lproj/InfoPlist.strings
-source_file = GrowlTunes/en.lproj/InfoPlist.strings
-source_lang = en
-type = STRINGS
-
-[growltunes.LocalizableStrings]
+[growltunes.localizablestrings]
 file_filter = GrowlTunes/<lang>.lproj/Localizable.strings
 source_file = GrowlTunes/en.lproj/Localizable.strings
 source_lang = en
