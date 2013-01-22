@@ -73,6 +73,7 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 	NSString *application = [notification valueForKey:GROWL_APP_NAME];
 	NSString *description = [notification objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
 	NSInteger priority = [[notification valueForKey:GROWL_NOTIFICATION_PRIORITY] intValue];
+	NSString *clickURL = [notification valueForKey:@"NotificationCallbackURLTarget"];  //This should maybe be defined in a public header
 	BOOL isPreview = ([application isEqualToString:@"Growl"] && [event isEqualToString:@"Preview"]);
 	
 	if(!isPreview) {
@@ -116,10 +117,11 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 													   timeoutInterval:300.0f];
 	request.HTTPMethod = @"POST";
 	request.HTTPBody = [self bodyWithApiKeys:apiKeys
-								 application:application
-									   event:event
-								 description:description
-									priority:priority];
+										  application:application
+												  event:event
+										  description:description
+											  priority:priority
+											  clickURL:clickURL];
 	
 	[NSURLConnection sendAsynchronousRequest:request
 									   queue:[NSOperationQueue mainQueue]
@@ -169,10 +171,11 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 }
 
 - (NSData *)bodyWithApiKeys:(NSString *)apiKeys
-				application:(NSString *)application
-					  event:(NSString *)event
-				description:(NSString *)description
-				   priority:(NSInteger)priority
+					 application:(NSString *)application
+							 event:(NSString *)event
+					 description:(NSString *)description
+						 priority:(NSInteger)priority
+						 clickURL:(NSString*)url
 {
 	NSMutableString *bodyString = [NSMutableString string];
 	[bodyString appendFormat:@"apikey=%@", [self encodedStringForString:apiKeys]];
@@ -180,6 +183,9 @@ NSString *const PRPreferenceKeyPrefixEnabled = @"PRPreferenceKeyPrefixEnabled";
 	[bodyString appendFormat:@"&event=%@", [self encodedStringForString:event]];
 	[bodyString appendFormat:@"&description=%@", [self encodedStringForString:description]];
 	[bodyString appendFormat:@"&priority=%ld", priority];
+	if(url){
+		[bodyString appendFormat:@"&url=%@", [self encodedStringForString:url]];
+	}
 	return [bodyString dataUsingEncoding:NSUTF8StringEncoding];
 }
 
