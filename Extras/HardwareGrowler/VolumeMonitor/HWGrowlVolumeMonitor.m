@@ -196,11 +196,24 @@
 	__block BOOL found = NO;
 	[exceptions enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		NSString *justAString = [obj valueForKey:@"justastring"];
-		if([justAString caseInsensitiveCompare:[volume path]] == NSOrderedSame ||
-			[justAString caseInsensitiveCompare:[volume name]] == NSOrderedSame)
-		{
-			found = YES;
-			*stop = YES;
+		NSString *path = [volume path];
+		NSString *name = [volume name];
+		BOOL hasWildCard = [justAString hasSuffix:@"*"];
+		if(!hasWildCard){
+			if([path caseInsensitiveCompare:justAString] == NSOrderedSame ||
+				[name caseInsensitiveCompare:justAString] == NSOrderedSame)
+			{
+				found = YES;
+				*stop = YES;
+			}
+		}else{
+			justAString = [justAString substringToIndex:[justAString length] - 1];
+			if([path rangeOfString:justAString options:(NSAnchoredSearch | NSCaseInsensitivePredicateOption)].location != NSNotFound ||
+				[name rangeOfString:justAString options:(NSAnchoredSearch | NSCaseInsensitivePredicateOption)].location != NSNotFound)
+			{
+				found = YES;
+				*stop = YES;
+			}
 		}
 	}];
 	if(found)
