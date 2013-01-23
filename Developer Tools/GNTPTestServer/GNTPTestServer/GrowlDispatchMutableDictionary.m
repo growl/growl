@@ -58,7 +58,7 @@
 }
 
 -(void)setObject:(id)anObject forKey:(NSString*)aKey {
-	dispatch_barrier_sync(self.dispatchQueue, ^{
+	dispatch_barrier_async(self.dispatchQueue, ^{
 		[self.dictionary setObject:anObject forKey:aKey];
 	});
 }
@@ -99,14 +99,14 @@
 
 -(void)removeObjectForKey:(id)aKey {
 	if(aKey){
-		dispatch_barrier_sync(self.dispatchQueue, ^{
+		dispatch_barrier_async(self.dispatchQueue, ^{
 			[self.dictionary removeObjectForKey:aKey];
 		});
 	}
 }
 
 -(void)removeAllObjects {
-	dispatch_barrier_sync(self.dispatchQueue, ^{
+	dispatch_barrier_async(self.dispatchQueue, ^{
 		[self.dictionary removeAllObjects];
 	});
 }

@@ -21,6 +21,9 @@
 
 #import "GrowlDispatchMutableDictionary.h"
 
+//#define MULTITHREADED_GNTP_SERVER
+#define GNTP_SOCKET_COUNT_LIMIT 200
+
 @interface GNTPServer ()
 
 @property (nonatomic, retain) GCDAsyncSocket *server;
@@ -29,6 +32,8 @@
 @property (nonatomic, retain) GrowlDispatchMutableDictionary *packetsByGUID;
 @property (nonatomic, retain) GrowlDispatchMutableDictionary *timeoutsByGUID;
 @property (nonatomic, assign) dispatch_source_t timeoutTimer;
+
+@property (nonatomic, assign) dispatch_queue_t parsingQueue;
 
 @end
 
@@ -44,8 +49,13 @@
 
 -(id)initWithInterface:(NSString *)interface {
 	if((self = [super init])){
-		NSString *dispatchQueueID = [NSString stringWithFormat:@"com.growl.GNTPServer.%@.dictionaryQueue", interface != nil ? interface : @"remote"];
-		dispatch_queue_t dispatchQueue = dispatch_queue_create([dispatchQueueID UTF8String], DISPATCH_QUEUE_CONCURRENT);
+		NSString *dispatchQueueID = [NSString stringWithFormat:@"com.growl.GNTPServer.%@.", interface != nil ? interface : @"remote"];
+		dispatch_queue_t dispatchQueue = dispatch_queue_create([[dispatchQueueID stringByAppendingString:@"dictionaryQueue"] UTF8String], DISPATCH_QUEUE_CONCURRENT);
+#ifdef MULTITHREADED_GNTP_SERVER
+		self.parsingQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+#else
+		self.parsingQueue = dispatch_queue_create([[dispatchQueueID stringByAppendingString:@"dictionaryQueue"] UTF8String], DISPATCH_QUEUE_SERIAL);
+#endif
 		self.socketsByGUID = [GrowlDispatchMutableDictionary dictionaryWithQueue:dispatchQueue];
 		self.packetsByGUID = [GrowlDispatchMutableDictionary dictionaryWithQueue:dispatchQueue];
 		self.timeoutsByGUID = [GrowlDispatchMutableDictionary dictionaryWithQueue:dispatchQueue];
@@ -57,9 +67,24 @@
 	return self;
 }
 
+-(void)dealloc {
+	[self stopServer];
+	[_socketsByGUID release]; _socketsByGUID = nil;
+	[_packetsByGUID release]; _socketsByGUID = nil;
+	[_timeoutsByGUID release]; _socketsByGUID = nil;
+	
+#ifndef MULTITHREADED_GNTP_SERVER
+	dispatch_release(_parsingQueue);
+	_parsingQueue = NULL;
+#endif
+	dispatch_source_cancel(self.timeoutTimer);
+	
+	[super dealloc];
+}
+
 -(void)startTimeoutTimer {
 	if(self.timeoutTimer == NULL){
-		self.timeoutTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+		self.timeoutTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, _parsingQueue);
 		
 		dispatch_source_set_event_handler(self.timeoutTimer, ^{ @autoreleasepool {
 			[self doTimeoutCheck];
@@ -84,7 +109,7 @@
 		return YES;
 	
 	self.server = [[[GCDAsyncSocket alloc] initWithDelegate:self 
-															delegateQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)] autorelease];
+															delegateQueue:_parsingQueue] autorelease];
 	NSError *error = nil;
 	if(![self.server acceptOnInterface:self.interfaceString
 														port:GROWL_TCP_PORT 
@@ -102,13 +127,15 @@
 	if(!self.server)
 		return;
 	
-	[self.server disconnect];
-	self.server = nil;
-	[self.packetsByGUID removeAllObjects];
-	[[self.socketsByGUID allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		[obj disconnect];
-	}];
-	[self.socketsByGUID removeAllObjects];
+	dispatch_async(_parsingQueue, ^{
+		[self.server disconnect];
+		self.server = nil;
+		[self.packetsByGUID removeAllObjects];
+		[[self.socketsByGUID allValues] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			[obj disconnect];
+		}];
+		[self.socketsByGUID removeAllObjects];
+	});
 }
 
 - (void)doTimeoutCheck {
@@ -192,10 +219,14 @@
 	}
 }
 -(void)notificationClicked:(NSDictionary*)dictionary {
-	[self sendFeedback:YES forDictionary:dictionary];
+	dispatch_async(_parsingQueue, ^{
+		[self sendFeedback:YES forDictionary:dictionary];
+	});
 }
 -(void)notificationTimedOut:(NSDictionary*)dictionary {
-	[self sendFeedback:NO forDictionary:dictionary];
+	dispatch_async(_parsingQueue, ^{
+		[self sendFeedback:NO forDictionary:dictionary];
+	});
 }
 
 #pragma mark GCDAsyncSocketDelegate
@@ -203,9 +234,9 @@
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket {
 	BOOL accept = NO;
 	if([self.delegate respondsToSelector:@selector(totalSocketCount)]){
-		if([self.delegate totalSocketCount] < 200)
+		if([self.delegate totalSocketCount] < GNTP_SOCKET_COUNT_LIMIT)
 			accept = YES;
-	}else if([self socketCount] < 200){
+	}else if([self socketCount] < GNTP_SOCKET_COUNT_LIMIT){
 		accept = YES;
 	}
 	if(accept)
@@ -216,7 +247,7 @@
 		[self.socketsByGUID setObject:newSocket forKey:guid];
 		[newSocket readDataToLength:4
 							 withTimeout:5.0f
-										tag:0];		
+										tag:0];
 	}else{
 		[newSocket disconnect];
 		static dispatch_once_t onceToken;
@@ -493,7 +524,7 @@
 	if(tag == -2){
 		double delayInSeconds = 2.0;
 		dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-		dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+		dispatch_after(popTime, _parsingQueue, ^(void){
 			[self dumpSocket:sock fromDisconnect:NO];
 		});
 	}
