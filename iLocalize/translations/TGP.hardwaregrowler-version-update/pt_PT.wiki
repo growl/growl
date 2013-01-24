@@ -1,3 +1,7 @@
+HardwareGrowler 2.0.1
+- Resolvido um problema em que as notificações não eram accionadas para alterações na rede.
+- As notificações de energia agora têm melhores descrições.
+
 HardwareGrowler 2
 
 - O HardwareGrowler foi completamente reeescrito.

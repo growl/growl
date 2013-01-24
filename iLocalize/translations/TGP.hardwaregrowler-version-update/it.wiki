@@ -1,3 +1,7 @@
+HardwareGrowler 2.0.1
+- Risolve un problema dove le notifiche non venivano aggiornate nei cambiamenti della rete.
+- La notifiche sull'alimentazione ora hanno una migliore descrizione.
+
 HardwareGrowler 2
 
 -HardwareGrowler è stato riscritto da capo.

@@ -1,0 +1,5 @@
+GrowlTunes 2.1.1
+- 使用 Growl 框架提高内存使用效率。
+
+GrowlTunes 2.1
+- 增加对 10.8 OS X 通知中心的支持。

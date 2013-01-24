@@ -95,6 +95,7 @@ typedef enum {
 	if((self = [super init])){
 		self.previousIPCombined = nil;
 		self.networkInterfaceStates = [NSMutableDictionary dictionary];
+        
 		[self startObserving];
 	}
 	return self;
@@ -116,7 +117,7 @@ typedef enum {
 }
 
 -(void)fireOnLaunchNotes {
-	[self networkChanged];
+	[self interateInterfaces];
 }
 
 -(void)setupDynamicStore
@@ -143,57 +144,15 @@ typedef enum {
 {
    [self setupDynamicStore];
 	
-   const CFStringRef keys[1] = {
-		CFSTR("State:/Network/Interface/*"),
-	};
-	CFArrayRef watchedKeys = CFArrayCreate(kCFAllocatorDefault,
-                                          (const void **)keys,
-                                          1,
-                                          &kCFTypeArrayCallBacks);
+    NSArray *watchedKeys = [NSArray arrayWithObjects:@"State:/Network/Interface/.*/Link", @"State:/Network/Interface/.*/AirPort", @"State:/Network/Global/IPv4", @"State:/Network/Global/IPv6", nil];
 	if (!SCDynamicStoreSetNotificationKeys(dynStore,
                                           NULL,
-                                          watchedKeys)) 
+                                          (CFArrayRef)watchedKeys))
    {
 		NSLog(@"SCDynamicStoreSetNotificationKeys() failed: %s", SCErrorString(SCError()));
 		CFRelease(dynStore);
 		dynStore = NULL;
 	}
-	CFRelease(watchedKeys);
-}
-
--(void)networkChanged {
-	[self updateInterfaces];
-	[self updateIP];
-}
-
--(void)updateInterfaces {
-	CFDictionaryRef interfaces = SCDynamicStoreCopyValue(dynStore, CFSTR("State:/Network/Interface"));
-	NSArray *interfaceNames = [(NSDictionary*)interfaces objectForKey:@"Interfaces"];
-	[interfaceNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		if (![obj hasPrefix:@"en"] || [obj length] < 3 || !isdigit([obj characterAtIndex:2])) {
-			return;
-		}
-		
-		//Check against airport first
-		NSString *key = [NSString stringWithFormat:@"State:/Network/Interface/%@/AirPort", obj];
-		CFDictionaryRef status = SCDynamicStoreCopyValue(dynStore, (CFStringRef)key);
-		if(status) {
-			//NSLog(@"%@ is an AirPort link", obj);
-			[self updateInterface:obj forType:HWGAirPortInterface withStatus:(NSDictionary*)status];			
-			CFRelease(status);
-			return;
-		}
-		
-		key = [NSString stringWithFormat:@"State:/Network/Interface/%@/Link", obj];
-		status = SCDynamicStoreCopyValue(dynStore, (CFStringRef)key);
-		if(status) {
-			//NSLog(@"%@ is an Ethernet link", obj);
-			[self updateInterface:obj forType:HWGEthernetInterface withStatus:(NSDictionary*)status];			
-			CFRelease(status);
-			return;
-		}
-	}];
-	CFRelease(interfaces);
 }
 
 -(void)updateInterface:(NSString*)interface forType:(NetworkInterfaceType)type withStatus:(NSDictionary*)status {
@@ -238,7 +197,8 @@ typedef enum {
 				networkName = [existing objectForKey:@"SSID_STR"];
 				if (!networkName)
 					networkName = [existing objectForKey:@"SSID"];
-				[self airportDisconnected:networkName];
+				if(networkName)
+                    [self airportDisconnected:networkName];
 			} else {
 				networkName = [newValue objectForKey:@"SSID_STR"];
 				if (!networkName)
@@ -401,9 +361,9 @@ typedef enum {
 -(void)updateIP {
 	NSArray *routable = [GrowlNetworkUtilities routableIPAddresses];
 	NSString *combined = [routable componentsJoinedByString:@"\n"];
-	if([combined isEqualToString:previousIPCombined])
+	if([combined isEqualTo:previousIPCombined])
 		return;
-		
+    
 	NSString *imageName = nil;
 	if([combined isEqualToString:@""]) {
 		combined = nil;
@@ -425,15 +385,87 @@ typedef enum {
 	self.previousIPCombined = combined;
 }
 
-static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
-	HWGrowlNetworkMonitor *observer = info;
-	CFIndex count = CFArrayGetCount(changedKeys);
-	for (CFIndex i=0; i<count; ++i) {
-		CFStringRef key = CFArrayGetValueAtIndex(changedKeys, i);
-      if (CFStringCompare(key, CFSTR("State:/Network/Interface"), 0) == kCFCompareEqualTo) {
-			[observer networkChanged];
+- (void) interateInterfaces
+{
+    __block NSMutableArray *keys = [NSMutableArray array];
+    //process the currently standing interfaces and fire off notifications for those
+    CFDictionaryRef interfaces = SCDynamicStoreCopyValue(dynStore, CFSTR("State:/Network/Interface"));
+    NSArray *interfaceNames = [(NSDictionary*)interfaces objectForKey:@"Interfaces"];
+
+    [interfaceNames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if (![obj hasPrefix:@"en"] || [obj length] < 3 || !isdigit([obj characterAtIndex:2])) {
+			return;
 		}
-	}
+		
+		//Check against airport first
+		NSString *key = [NSString stringWithFormat:@"State:/Network/Interface/%@/AirPort", obj];
+		CFDictionaryRef status = SCDynamicStoreCopyValue(dynStore, (CFStringRef)key);
+        if(status)
+        {
+            [keys addObject:key];
+            CFRelease(status);
+        }
+        else
+        {
+            key = [NSString stringWithFormat:@"State:/Network/Interface/%@/Link", obj];
+            status = SCDynamicStoreCopyValue(dynStore, (CFStringRef)key);
+            if(status)
+            {
+                [keys addObject:key];
+                CFRelease(status);
+            }
+        }
+    }];
+    if(interfaces)
+        CFRelease(interfaces);
+
+    //fire off IPv4 and IPv6 notifications
+    [keys addObject:@"State:/Network/Global/IPv4"];
+    [keys addObject:@"State:/Network/Global/IPv6"];
+
+    scCallback(dynStore, (CFArrayRef)keys, self);
+}
+
+static void scCallback(SCDynamicStoreRef store, CFArrayRef changedKeys, void *info) {
+	@autoreleasepool {
+        HWGrowlNetworkMonitor *observer = info;
+        
+        [(NSArray*)changedKeys enumerateObjectsUsingBlock:^(NSString *key, NSUInteger idx, BOOL *stop) {
+            if([key hasPrefix:@"State:/Network/Global"])
+                [observer updateIP];
+            else if([key hasPrefix:@"State:/Network/Interface"])
+            {
+                NSArray *notification = [key componentsSeparatedByString:@"/"];
+                NSString *interface = [notification objectAtIndex:[notification count]-2];
+                
+                    if([key hasSuffix:@"AirPort"])  //Check against airport first
+                    {
+                        CFDictionaryRef status = SCDynamicStoreCopyValue(store, (CFStringRef)key);
+                        if(status) {
+                            [observer updateInterface:interface forType:HWGAirPortInterface withStatus:(NSDictionary*)status];
+                            CFRelease(status);
+                        }
+                    }
+                    else if([key hasSuffix:@"Link"])
+                    {
+                        NSString *isAnAirportConnection = [key stringByReplacingOccurrencesOfString:@"Link" withString:@"AirPort"];
+                        CFDictionaryRef status = SCDynamicStoreCopyValue(store, (CFStringRef)isAnAirportConnection);
+                        if(!status)
+                        {
+                            status = SCDynamicStoreCopyValue(store, (CFStringRef)key);
+                            if(status) {
+                                [observer updateInterface:interface forType:HWGEthernetInterface withStatus:(NSDictionary*)status];
+                                CFRelease(status);
+                            }
+                        }
+                        else
+                            CFRelease(status);
+                    }
+                    else
+                        NSLog(@"Invalid Notification: %@", key);
+            }
+        }];
+    }
 }
 
 #pragma mark HWGrowlPluginProtocol

@@ -145,7 +145,7 @@
 				[description appendString:@"\n"];
 		}
 		if(percentage){
-			[description appendFormat:NSLocalizedString(@"at %@\%", @"at battery percentage"), percentage];
+			[description appendFormat:NSLocalizedString(@"at %@", @"at battery percentage"), percentage];
 			if(time)
 				[description appendString:@"\n"];
 		}

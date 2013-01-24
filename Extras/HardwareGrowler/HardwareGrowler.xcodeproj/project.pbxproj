@@ -134,7 +134,6 @@
 		BCE83C781580580C005570DD /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA26B7015558837009C5ABC /* IOBluetooth.framework */; };
 		BCECA3651552D1D300F49280 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA3631552D1C500F49280 /* NSStringAdditions.m */; };
 		BCECA3681552D22100F49280 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCECA3661552D1FA00F49280 /* SystemConfiguration.framework */; };
-		BCECA36B1552D24C00F49280 /* GrowlNetworkUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA36A1552D24C00F49280 /* GrowlNetworkUtilities.m */; };
 		BCECA38D155322D200F49280 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BCECA394155322D200F49280 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCECA392155322D200F49280 /* InfoPlist.strings */; };
 		BCECA3AB155322FD00F49280 /* HWGrowlVolumeMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCECA3AA155322FD00F49280 /* HWGrowlVolumeMonitor.m */; };
@@ -388,6 +387,7 @@
 		832B24DF15E493BC004FD493 /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		83CFD42E15E491DE0050746D /* ar */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83CFD43E15E4920C0050746D /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
+		93AD0193165BBADF005B790D /* GrowlToolChainSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GrowlToolChainSupport.h; path = ../../../GrowlToolChainSupport.h; sourceTree = "<group>"; };
 		BC006C2515AB004900643FA8 /* HWGPrefsBluetooth.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = HWGPrefsBluetooth.tif; path = Resources/MonitorIcons/HWGPrefsBluetooth.tif; sourceTree = SOURCE_ROOT; };
 		BC006C2615AB004900643FA8 /* HWGPrefsCapster.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = HWGPrefsCapster.tif; path = Resources/MonitorIcons/HWGPrefsCapster.tif; sourceTree = SOURCE_ROOT; };
 		BC006C2715AB004900643FA8 /* HWGPrefsDefault.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = HWGPrefsDefault.tif; path = Resources/MonitorIcons/HWGPrefsDefault.tif; sourceTree = SOURCE_ROOT; };
@@ -995,6 +995,7 @@
 		BCB805F2155153330088C69A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				93AD0193165BBADF005B790D /* GrowlToolChainSupport.h */,
 				BCB8065B155158DA0088C69A /* Growl.xcodeproj */,
 				BCB8060C155154B80088C69A /* Images */,
 				BC4FC622155C04B700EE65EC /* MainMenu.xib */,
@@ -1337,16 +1338,16 @@
 			buildRules = (
 			);
 			dependencies = (
-				BC5BF7FC15752F8B0088443E /* PBXTargetDependency */,
+				BCB80690155158F50088C69A /* PBXTargetDependency */,
 				BCB8068E155158EF0088C69A /* PBXTargetDependency */,
+				BCB806CF15515D700088C69A /* PBXTargetDependency */,
+				BC5BF7FC15752F8B0088443E /* PBXTargetDependency */,
 				BCAA17661557857C00D9E4ED /* PBXTargetDependency */,
 				BCA26BAC1555B64E009C5ABC /* PBXTargetDependency */,
 				BCA26B6F15558817009C5ABC /* PBXTargetDependency */,
 				BC523C3315556B4500548427 /* PBXTargetDependency */,
 				BCECA3AD155325CC00F49280 /* PBXTargetDependency */,
 				BCB807651551A6F10088C69A /* PBXTargetDependency */,
-				BCB806CF15515D700088C69A /* PBXTargetDependency */,
-				BCB80690155158F50088C69A /* PBXTargetDependency */,
 			);
 			name = HardwareGrowler;
 			productName = HardwareGrowler;
@@ -1897,7 +1898,6 @@
 			files = (
 				BCB8076A1551A7510088C69A /* HWGrowlNetworkMonitor.m in Sources */,
 				BCECA3651552D1D300F49280 /* NSStringAdditions.m in Sources */,
-				BCECA36B1552D24C00F49280 /* GrowlNetworkUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2493,6 +2493,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -2512,6 +2513,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -2576,6 +2578,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
 			};
 			name = Localization;
@@ -2667,6 +2670,10 @@
 				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Growl,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
@@ -2683,6 +2690,10 @@
 				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Growl,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};
@@ -2699,6 +2710,10 @@
 				INFOPLIST_PREFIX_HEADER = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Growl,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = hwgrowlmonitor;
 			};

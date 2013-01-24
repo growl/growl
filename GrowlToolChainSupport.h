@@ -3,7 +3,7 @@
 #define accepted_patchfix 0
 
 #if defined(__clang_major__) && defined(__clang_minor__) && defined(__clang_patchlevel__)
-#if (__clang_major__ != accepted_major) || (__clang_minor__ != accepted_minor) || (__clang_patchlevel__ != accepted_patchfix)
+    #if (__clang_major__ != accepted_major) || (__clang_minor__ != accepted_minor) || (__clang_patchlevel__ != accepted_patchfix)
 
 #define VALUE_TO_STRING(x) #x
 #define VALUE(x) VALUE_TO_STRING(x)
@@ -16,5 +16,5 @@
 #pragma message(GROWL_FOUND)
 
 #error Growl requires a specific toolchain in order to build. you're more than welcome to comment this out in order to attempt building with the toolchain you have. We don't accept patches against the released versions as they are frozen in time.
-#endif
+    #endif
 #endif

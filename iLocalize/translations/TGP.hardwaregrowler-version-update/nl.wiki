@@ -1,3 +1,7 @@
+HardwareGrowler 2.0.1
+- Probleem opgelost waarbij meldingen bij netwerkwijzingen niet zouden worden getoond.
+- Stroommeldingen hebben nu betere omschrijvingen.
+
 HardwareGrowler 2
 
 - HardwareGrowler is volledig herschreven

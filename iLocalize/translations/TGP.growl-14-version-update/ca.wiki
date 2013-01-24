@@ -1,3 +1,8 @@
+Canvis en Growl 2.0.1
+
+- Solucionat els problemes de posicionament en la versió 2.0, gràcies pels comentaris!
+- Solucionats múltiples informes d'error
+
 Canvis en Growl 2
 
 General 

@@ -1,3 +1,5 @@
+HardwareGrowler 2.0.1⏎ - Es wurde ein Fehler behoben, bei dem Benachrichtigungen für Netzwerkänderungen nicht ausgelöst werden konnten.⏎ - Akku-Benachrichtigungen haben nun bessere Beschreibungen.
+
 HardwareGrowler 2
 
 - HardwareGrowler wurde von Grund auf neu geschrieben.

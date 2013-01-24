@@ -1,3 +1,5 @@
+Hardwaregrowler 2.0.1 - Løser et problem hvor notifikasjonene ikke ville bli utløst ved nettverks-forandringer. - Strøm notifikasjonene har nå bedre beskrivelser
+
 HardwareGrowler 2
 
 -Hardwaregrowler har blitt omskrevet fra bunnen av. Du kan nå slå på og av spesifikke funksjoner i Hardwaregrowler.  Har lagt til funksjon slik at du ignorere stasjoner ved navn. - Nettverks monitor har blitt drastisk forbedret. Lagt til støtte for IPv6.  Lagt til støtte for USB Ethernet adaptere. -Lagt til støtte for notifikasjonssenter   når Growl ikke er tilstede ved 10.8.

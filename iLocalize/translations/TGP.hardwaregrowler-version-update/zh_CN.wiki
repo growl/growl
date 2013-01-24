@@ -1,12 +1,16 @@
+HardwareGrowler 2.0.1
+- 解决网络状态改变时通知未出现的问题。
+- 改进电源模块的通知描述。
+
 HardwareGrowler 2
 
-- HardwareGrowler已完全重写。
-- HardwareGrowler的每一个功能均可单独开启或关闭。
+- HardwareGrowler 已完全重写。
+- HardwareGrowler 的每一个功能均可单独开启或关闭。
 - 根据设备名忽略相关通知。
 - 网络监视模块极大增强。
-- 支持IPv6。
-- 支持USB的以太网适配器。
-- 支持通知中心（若Growl未在10.8上安装）。
+- 支持 IPv6。
+- 支持 USB 的以太网适配器。
+- 支持通知中心（若 Growl 未在10.8上安装）。
 - Capster功能。Capslock，Numlock，FN和Shift键按下时会有通知。
 - 电源监视加入更多配置选项。
 

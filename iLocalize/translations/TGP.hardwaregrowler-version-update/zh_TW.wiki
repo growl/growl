@@ -1,3 +1,7 @@
+HardwareGrowler 2.0.1
+- 解決一個在變更網路狀態時不會顯示通知的問題。
+- 電源通知現在有更好的描述內容。
+
 HardwareGrowler 2
 
 - HardwareGrowler 已經完全重新改寫。

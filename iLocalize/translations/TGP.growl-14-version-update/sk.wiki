@@ -1,3 +1,8 @@
+Zmeny v Growl 2.0.1
+
+- rieši problémy s umiestnením upozornení, ktoré sa zistilo vo verzii 2.0, ďakujeme za vaše upozornenia na tento problém
+- rieši viaceré nahlásené problémy
+
 Zmeny v Growl 2
 
 Všeobecné

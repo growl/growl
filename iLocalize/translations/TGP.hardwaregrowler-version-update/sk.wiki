@@ -1,3 +1,7 @@
+HardwareGrowler 2.0.1
+- vyriešený problém s nezobrazovaním hlásení pri sieťových zmenách
+- zrozumiteľnejší popis hlásení o napájaní
+
 HardwareGrowler 2
 
 - HardwareGrowler bol kompletne prepísaný.

@@ -1,3 +1,7 @@
+HardwareGrowler 2.0.1
+- Vyřešen problém, kdy upozornění nebyly odeslány kvůli změně síťového nastavení.
+- Upozornění na události napájení myjí nyní lepší popis.
+
 HardwareGrowler 2
 
 - HardwareGrowler byl od základu přepsán.
