@@ -16,6 +16,8 @@
 @end
 
 @implementation GrowlWebKitWindowView
+@synthesize styleBundle;
+
 - (id) initWithFrame:(NSRect)frameRect frameName:(NSString *)frameName groupName:(NSString *)groupName {
 	if ((self = [super initWithFrame:frameRect frameName:frameName groupName:groupName])) {
 		[self setUIDelegate:self];
@@ -31,11 +33,13 @@
 
 - (void) dealloc {
 	[self setUIDelegate:nil];
+	[styleBundle release];
+	styleBundle = nil;
 	[super dealloc];
 }
 
 - (NSView *) hitTest:(NSPoint)aPoint {
-	if (realHitTest)
+	if (realHitTest || ![self showsCloseBox])
 		return [super hitTest:aPoint];
 
 	if ([[self superview] mouse:aPoint inRect:[self frame]])
@@ -101,6 +105,9 @@
 }
 
 - (BOOL) showsCloseBox {
+	NSDictionary *bundleDict = [styleBundle infoDictionary];
+	if([bundleDict objectForKey:@"GrowlCloseButtonEnabled"])
+		return [[bundleDict objectForKey:@"GrowCloseButtonEnabled"] boolValue];
 	return YES;
 }
 
@@ -118,25 +125,41 @@
 
 - (void) setCloseBoxVisible:(BOOL)flag {
 	if ([self showsCloseBox]) {
-	    NSButton *gCloseButton = [GrowlNotificationView closeButton];
-		// locate the close button in the upper-left corner as do other notification views
-#pragma mark Display style close box positioning override goes HERE.
-// This is where the location modification can be inserted with minimal effort, by reading values in from the display style and adjusting as needed.
-	    [gCloseButton setFrame:NSMakeRect([self bounds].origin.x, 
-										  [self bounds].size.height - [gCloseButton frame].size.height,
-										  [gCloseButton frame].size.width,
-										  [gCloseButton frame].size.height)];
-	    [gCloseButton setTarget:self];
-	    [gCloseButton setAction:@selector(clickedCloseBox:)];
-        if (flag) {
-            [self addSubview:gCloseButton];
+		NSButton *gCloseButton = [GrowlNotificationView closeButtonForKey:[styleBundle bundleIdentifier]];
+		if (flag) {
+			NSDictionary *bundleDict = [styleBundle infoDictionary];
+			CGFloat xOrig = [self bounds].origin.x;
+			CGFloat yOrig = [self bounds].size.height - [gCloseButton frame].size.height;
+			CGFloat width = [gCloseButton frame].size.width;
+			CGFloat height = [gCloseButton frame].size.height;
+			if([bundleDict objectForKey:@"GrowlCloseButtonXOrigin"])
+				xOrig = [[bundleDict objectForKey:@"GrowlCloseButtonXOrigin"] floatValue];
+			if([bundleDict objectForKey:@"GrowlCloseButtonYOrigin"])
+				yOrig = yOrig - [[bundleDict objectForKey:@"GrowlCloseButtonYOrigin"] floatValue];
+			if([bundleDict objectForKey:@"GrowlCloseButtonWidth"])
+				width = [[bundleDict objectForKey:@"GrowlCloseButtonWidth"] floatValue];
+			if([bundleDict objectForKey:@"GrowlCloseButtonHeight"])
+				height = [[bundleDict objectForKey:@"GrowlCloseButtonHeight"] floatValue];
+			
+			[gCloseButton setFrame:NSMakeRect(xOrig, yOrig, width, height)];
+			[gCloseButton setTarget:self];
+			[gCloseButton setAction:@selector(clickedCloseBox:)];
+			[[self superview] addSubview:gCloseButton];
 			closeButtonRect = [gCloseButton frame];
-
-        } else {
+			
+		} else {
 			[gCloseButton removeFromSuperview];
 			[gCloseButton setFrame:NSMakeRect(0,0,30,30)]; // restore the default frame
 			closeButtonRect = NSZeroRect;
 		}
+	}else {
+		NSString *webScriptMethodName = nil;
+		if(flag){
+			webScriptMethodName = @"showCloseButton";
+		}else{
+			webScriptMethodName = @"hideCloseButton";
+		}
+		[[self windowScriptObject] callWebScriptMethod:webScriptMethodName withArguments:nil];
 	}
 }
 
@@ -190,7 +213,7 @@
 	mouseOver = NO;
 
 	if (NSPointInRect([event locationInWindow], closeButtonRect)) {
-		[[GrowlNotificationView closeButton] mouseDown:event];
+		[[GrowlNotificationView closeButtonForKey:[styleBundle bundleIdentifier]] mouseDown:event];
 
 	} else {
 		if (target && action && [target respondsToSelector:action])

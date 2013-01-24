@@ -10,7 +10,6 @@
 #import "GrowlPathUtilities.h"
 #import "GrowlDefinesInternal.h"
 
-#define NAME_OF_SCREENSHOTS_DIRECTORY           @"Screenshots"
 #define NAME_OF_TICKETS_DIRECTORY               @"Tickets"
 #define NAME_OF_PLUGINS_DIRECTORY               @"Plugins"
 
@@ -68,11 +67,7 @@
 			case GrowlSupportDirectory:
 				//do nothing.
 				break;
-
-			case GrowlScreenshotsDirectory:
-				subpath = NAME_OF_SCREENSHOTS_DIRECTORY;
-				break;
-
+				
 			case GrowlTicketsDirectory:
 				subpath = NAME_OF_TICKETS_DIRECTORY;
 				break;
@@ -133,26 +128,6 @@
 	}
 }
 
-+ (NSString *) screenshotsDirectory {
-	NSArray *searchPath = [self searchPathForDirectory:GrowlScreenshotsDirectory inDomains:NSUserDomainMask mustBeWritable:YES];
-	if ([searchPath count])
-		return [searchPath objectAtIndex:0U];
-	else {
-		NSString *path = nil;
-
-		//if this doesn't return any writable directories, path will still be nil.
-		path = [self growlSupportDirectory];
-		if (path) {
-			path = [path stringByAppendingPathComponent:NAME_OF_SCREENSHOTS_DIRECTORY];
-			//try to create it. if that doesn't work, don't return it. return nil instead.
-			if (![[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil])
-				path = nil;
-		}
-
-		return path;
-	}
-}
-
 + (NSString *) ticketsDirectory {
 	NSArray *searchPath = [self searchPathForDirectory:GrowlTicketsDirectory inDomains:NSUserDomainMask mustBeWritable:YES];
 	if ([searchPath count])
@@ -173,38 +148,15 @@
 	}
 }
 
-#pragma mark -
-#pragma mark Screenshot names
-
-+ (NSString *) nextScreenshotName {
-	return [self nextScreenshotNameInDirectory:nil];
+/* Deprecated methods, return nil */
++ (NSString *) screenshotsDirectory {
+	return nil;
 }
-
++ (NSString *) nextScreenshotName {
+	return nil;
+}
 + (NSString *) nextScreenshotNameInDirectory:(NSString *) directory {
-	NSFileManager *mgr = [NSFileManager defaultManager];
-
-	if (!directory)
-		directory = [GrowlPathUtilities screenshotsDirectory];
-
-	//build a set of all the files in the directory, without their filename extensions.
-	NSArray *origContents = [mgr contentsOfDirectoryAtPath:directory error:nil];
-	NSMutableSet *directoryContents = [[NSMutableSet alloc] initWithCapacity:[origContents count]];
-
-	for (NSString *existingFilename in origContents)
-		[directoryContents addObject:[existingFilename stringByDeletingPathExtension]];
-
-	//look for a filename that doesn't exist (with any extension) in the directory.
-	NSString *filename = nil;
-	unsigned long long i;
-	for (i = 1ULL; i < ULLONG_MAX; ++i) {
-		[filename release];
-		filename = [[NSString alloc] initWithFormat:@"Screenshot %llu", i];
-		if (![directoryContents containsObject:filename])
-			break;
-	}
-	[directoryContents release];
-
-	return [filename autorelease];
+	return nil;
 }
 
 #pragma mark -

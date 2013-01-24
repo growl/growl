@@ -10,6 +10,7 @@
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlImageAdditions.h"
+#import "GNTPUtilities.h"
 
 @interface GNTPRegisterPacket ()
 
@@ -109,7 +110,7 @@
 			NSString *noteHeaderBlock = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
 			
 			NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-			[GNTPPacket enumerateHeaders:noteHeaderBlock
+			[GNTPUtilities enumerateHeaders:noteHeaderBlock
 									 withBlock:^BOOL(NSString *headerKey, NSString *headerValue) {
 										 if([headerValue isKindOfClass:[NSString class]]) {
 											 NSRange resourceRange = [headerValue rangeOfString:@"x-growl-resource://"];

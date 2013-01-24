@@ -138,9 +138,7 @@ static NSMutableDictionary *existingInstances;
 #pragma mark Screenshot mode
 
 - (void) takeScreenshot {
-	//NSView *view = [[self window] contentView];
-	//NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"png"];
-	//[[view dataWithPNGInsideRect:[view frame]] writeToFile:path atomically:NO];
+	//Deprecated no-op
 }
 
 #pragma mark -
@@ -279,9 +277,6 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (void) didDisplayNotification {
-	if (screenshotModeEnabled)
-		[self takeScreenshot];
-
 	[[NSNotificationCenter defaultCenter] postNotificationName:GrowlDisplayWindowControllerDidDisplayWindowNotification
 														object:self];
 }
@@ -509,10 +504,7 @@ static NSMutableDictionary *existingInstances;
 	}
 	
 	NSDictionary *noteDict = [theNotification dictionaryRepresentation];
-	
-	[self setScreenshotModeEnabled:[[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]];
-	[self setClickHandlerEnabled:[noteDict objectForKey:GROWL_CLICK_HANDLER_ENABLED]];	
-	
+		
 	NSView *view = [[self window] contentView];
 	if ([view isKindOfClass:[GrowlNotificationView class]]) {
 		GrowlNotificationView *notificationView = (GrowlNotificationView *)view;
@@ -630,14 +622,11 @@ static NSMutableDictionary *existingInstances;
 #pragma mark -
 
 - (NSNumber *) clickHandlerEnabled {
-	return clickHandlerEnabled;
+	return @YES;
 }
 
 - (void) setClickHandlerEnabled:(NSNumber *)flag {
-	if (flag != clickHandlerEnabled) {
-		[clickHandlerEnabled release];
-		clickHandlerEnabled = [flag retain];
-	}
+	//deprecated no-op
 }
 
 #pragma mark -

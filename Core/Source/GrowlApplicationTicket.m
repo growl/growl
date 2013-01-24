@@ -20,7 +20,6 @@
 
 #define UseDefaultsKey			@"useDefaults"
 #define TicketEnabledKey		@"ticketEnabled"
-#define ClickHandlersEnabledKey	@"clickHandlersEnabled"
 #define PositionTypeKey			@"positionType"
 #define LoggingEnabled        @"Logging"
 
@@ -37,7 +36,6 @@
 @synthesize useDefaults;
 @synthesize selectedPosition = selectedCustomPosition;
 @synthesize positionType;
-@synthesize clickHandlersEnabled;
 @synthesize ticketEnabled;
 @synthesize displayPluginName;
 
@@ -196,12 +194,6 @@
 			ticketEnabled = YES;
 
 		displayPluginName = [[ticketDict objectForKey:GrowlDisplayPluginKey] copy];
-
-		value = [ticketDict objectForKey:ClickHandlersEnabledKey];
-		if (value)
-			clickHandlersEnabled = [value boolValue];
-		else
-			clickHandlersEnabled = YES;
 		
 		value = [ticketDict objectForKey:PositionTypeKey];
 		if (value)
@@ -222,7 +214,6 @@
 		
 		[self addObserver:self forKeyPath:@"displayPluginName" options:NSKeyValueObservingOptionNew context:self];
 		[self addObserver:self forKeyPath:@"ticketEnabled" options:NSKeyValueObservingOptionNew context:self];
-		[self addObserver:self forKeyPath:@"clickHandlersEnabled" options:NSKeyValueObservingOptionNew context:self];
 		[self addObserver:self forKeyPath:@"positionType" options:NSKeyValueObservingOptionNew context:self];
 		[self addObserver:self forKeyPath:@"selectedPosition" options:NSKeyValueObservingOptionNew context:self];
 		[self addObserver:self forKeyPath:@"loggingEnabled" options:NSKeyValueObservingOptionNew context:self];
@@ -234,7 +225,6 @@
 	
 	[self removeObserver:self forKeyPath:@"displayPluginName"];
 	[self removeObserver:self forKeyPath:@"ticketEnabled"];
-	[self removeObserver:self forKeyPath:@"clickHandlersEnabled"];
 	[self removeObserver:self forKeyPath:@"positionType"];
 	[self removeObserver:self forKeyPath:@"selectedPosition"];
 	[self removeObserver:self forKeyPath:@"loggingEnabled"];   
@@ -313,7 +303,6 @@
 
 	NSNumber *useDefaultsValue = [[NSNumber alloc] initWithBool:useDefaults];
 	NSNumber *ticketEnabledValue = [[NSNumber alloc] initWithBool:ticketEnabled];
-	NSNumber *clickHandlersEnabledValue = [[NSNumber alloc] initWithBool:clickHandlersEnabled];
 	NSNumber *positionTypeValue = [[NSNumber alloc] initWithInteger:positionType];
 	NSNumber *selectedCustomPositionValue = [[NSNumber alloc] initWithInteger:selectedCustomPosition];
    NSNumber *localHost = [NSNumber numberWithBool:isLocalHost];
@@ -326,7 +315,6 @@
 		theIconData,					GROWL_APP_ICON_DATA,
 		useDefaultsValue,				UseDefaultsKey,
 		ticketEnabledValue,				TicketEnabledKey,
-		clickHandlersEnabledValue,		ClickHandlersEnabledKey,
 		positionTypeValue,				PositionTypeKey,
 		selectedCustomPositionValue,	GROWL_POSITION_PREFERENCE_KEY,
 		location,						GROWL_APP_LOCATION,
@@ -335,7 +323,6 @@
 		nil];
 	[useDefaultsValue					release];
 	[ticketEnabledValue					release];
-	[clickHandlersEnabledValue			release];
 	[positionTypeValue					release];
 	[selectedCustomPositionValue		release];
 	[saveNotifications					release];
@@ -390,7 +377,6 @@
 {
 	if(([keyPath isEqualToString:@"displayPluginName"] ||
 	    [keyPath isEqualToString:@"ticketEnabled"] ||
-	    [keyPath isEqualToString:@"clickHandlersEnabled"] ||
 	    [keyPath isEqualToString:@"positionType"] ||
 	    [keyPath isEqualToString:@"selectedPosition"] ||
        [keyPath isEqualToString:@"loggingEnabled"]) && [object isEqual:self])

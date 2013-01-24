@@ -135,13 +135,6 @@
 		{
 			[blockSelf speakNotification:summary withConfiguration:configuration];
 		}
-		
-		if ([[noteDict objectForKey:GROWL_SCREENSHOT_MODE] boolValue]) {
-			NSString *path = [[[GrowlPathUtilities screenshotsDirectory] stringByAppendingPathComponent:[GrowlPathUtilities nextScreenshotName]] stringByAppendingPathExtension:@"aiff"];
-			NSURL *url = [[NSURL alloc] initFileURLWithPath:path];
-			[blockSelf.syn startSpeakingString:summary toURL:url];
-			[url release];
-		}
 	});
 }
 

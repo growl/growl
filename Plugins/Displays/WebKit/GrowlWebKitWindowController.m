@@ -14,6 +14,7 @@
 #import "GrowlWebKitWindowView.h"
 #import "GrowlWebKitPrefsController.h"
 #import "GrowlWebKitDefines.h"
+#import "GrowlWebKitWindowTransition.h"
 #import "GrowlPluginController.h"
 #import "NSViewAdditions.h"
 #import "GrowlDefines.h"
@@ -168,6 +169,7 @@ static dispatch_queue_t __imageCacheQueue;
 	GrowlWebKitWindowView *view = [[GrowlWebKitWindowView alloc] initWithFrame:panelFrame
 																	 frameName:nil
 																	 groupName:nil];
+	[view setStyleBundle:[plugin bundle]];
 	[view setMaintainsBackForwardList:NO];
 	[view setTarget:self];
 	[view setAction:@selector(notificationClicked:)];
@@ -180,14 +182,34 @@ static dispatch_queue_t __imageCacheQueue;
 	[view release];
 
 	// set up the transitions...
-	GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
-	[self addTransition:fader];
-	[self setStartPercentage:0 endPercentage:100 forTransition:fader];
-	[fader setAutoReverses:YES];
-	[fader release];
-
+	NSDictionary *bundleDict = [[plugin bundle] infoDictionary];
+	if(![bundleDict objectForKey:@"UseDefaultWebKitFadeInOut"] || [[bundleDict objectForKey:@"UseDefaultWebKitFadeInOut"] boolValue]){
+		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
+		[self addTransition:fader];
+		[self setStartPercentage:0 endPercentage:100 forTransition:fader];
+		[fader setAutoReverses:YES];
+		[fader release];
+	}else{
+		//For now, just do this to force the window to be there
+		GrowlFadingWindowTransition *fader = [[GrowlFadingWindowTransition alloc] initWithWindow:panel];
+		[self addTransition:fader];
+		[self setStartPercentage:100 endPercentage:100 forTransition:fader];
+		[fader setAutoReverses:YES];
+		[fader release];
+	}
+	if([bundleDict objectForKey:@"UseWebKitAnimationOut"] && [[bundleDict objectForKey:@"UseWebKitAnimationOut"] boolValue]){
+		GrowlWebKitWindowTransition *webkitTransition = [[GrowlWebKitWindowTransition alloc] initWithWindow:panel];
+		[self addTransition:webkitTransition];
+		[self setStartPercentage:0 endPercentage:100 forTransition:webkitTransition];
+		[webkitTransition setAutoReverses:YES];
+		[webkitTransition release];
+	}
+	if([bundleDict objectForKey:@"WebKitAnimationDuration"]){
+		[self setTransitionDuration:[[bundleDict objectForKey:@"WebKitAnimationDuration"] floatValue]];
+	}
+	
 	[panel release];
-
+		
 	return self;
 }
 
@@ -303,6 +325,26 @@ static dispatch_queue_t __imageCacheQueue;
 
 		[listener ignore];
 	}
+}
+
+- (void)webView:(WebView *)webView windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
+	[windowScriptObject setValue:self forKey:@"NotificationWindowController"];
+	// Disable user text selection
+	[webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitUserSelect='none';"];
+	[webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.cursor='default';"];
+}
+- (id)invokeUndefinedMethodFromWebScript:(NSString *)name withArguments:(NSArray *)args
+{	
+	if([name isEqualToString:@"closeNote"])
+	{
+		if([self respondsToSelector:@selector(clickedClose)])
+			[self performSelector:@selector(clickedClose)];
+		GrowlWebKitWindowView *webView = [[self window] contentView];
+		[webView stringByEvaluatingJavaScriptFromString:@"if (!e) var e = window.event; e.stopPropagation();"];
+	}else if([name isEqualToString:@"clickNote"]){
+		[self notificationClicked:nil];
+	}
+	return nil;
 }
 
 /*!

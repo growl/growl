@@ -28,11 +28,6 @@
 #define GrowlEnableForwardKey		XSTR("GrowlEnableForward")
 #define GrowlForwardDestinationsKey	XSTR("GrowlForwardDestinations")
 #define GrowlTCPPortKey				XSTR("GrowlTCPPort")
-#define	GrowlLoggingEnabledKey		XSTR("GrowlLoggingEnabled")
-#define	GrowlLogTypeKey				XSTR("GrowlLogType")
-#define	GrowlCustomHistKey1			XSTR("Custom log history 1")
-#define	GrowlCustomHistKey2			XSTR("Custom log history 2")
-#define	GrowlCustomHistKey3			XSTR("Custom log history 3")
 #define GrowlMenuExtraKey			XSTR("GrowlMenuExtra")
 #define LastKnownVersionKey			XSTR("LastKnownVersion")
 #define GrowlIdleThresholdKey			XSTR("IdleThreshold")
@@ -194,6 +189,16 @@ unsigned short GrowlPreferencesController_unsignedShortForKey(CFTypeRef key);
 
 - (NSString*) GNTPSubscriberID;
 - (void) setGNTPSubscriberID:(NSString*)newID;
+
+#pragma mark Rules
+
+-(BOOL)hasShownWarningForRules;
+-(void)setHasShownWarningForRules:(BOOL)flag;
+-(BOOL)allowsRules;
+-(void)setAllowsRules:(BOOL)flag;
+
+-(BOOL)rulesLoggingEnabled;
+-(void)setRulesLoggingEnabled:(BOOL)flag;
 
 @end
 

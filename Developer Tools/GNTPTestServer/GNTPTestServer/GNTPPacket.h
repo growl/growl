@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "GNTPKey.h"
 
-typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
-
 @class GNTPKey, GNTPPacket, GCDAsyncSocket;
 
 @interface GNTPPacket : NSObject {
@@ -55,11 +53,6 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 							  errorCode:(GrowlGNTPErrorCode*)errCode
 							description:(NSString**)errDescription;
 
-+(NSString*)headerKeyFromHeader:(NSString*)header;
-+(NSString*)headerValueFromHeader:(NSString*)header;
-+(void)enumerateHeaders:(NSString*)headersString 
-				  withBlock:(GNTPHeaderBlock)headerBlock;
-
 #pragma mark Conversion Methods
 +(NSDictionary*)gntpToGrowlMatchingDict;
 +(NSString*)growlDictKeyForGNTPKey:(NSString*)gntpKey;
@@ -71,12 +64,13 @@ typedef  BOOL(^GNTPHeaderBlock)(NSString *headerKey, NSString *headerValue);
 
 #pragma mark Packet Building
 
++(NSString*)originString;
 +(NSMutableDictionary*)gntpDictFromGrowlDict:(NSDictionary*)dict;
 +(NSString*)headersForGNTPDictionary:(NSDictionary*)dict;
 +(NSData*)gntpDataFromGrowlDictionary:(NSDictionary*)dict 
 										 ofType:(NSString*)type
 										withKey:(GNTPKey*)encryptionKey;
-+ (NSString *)identifierForBinaryData:(NSData *)data;
++(NSString*)identifierForBinaryData:(NSData *)data;
 
 #pragma mark Packet
 -(NSInteger)parsePossiblyEncryptedDataBlock:(NSData*)data;

@@ -213,6 +213,14 @@
    return [[GrowlPreferencesController sharedController] isGrowlServerEnabled];
 }
 
+- (BOOL)forwardingEnabled {
+   return [[GrowlPreferencesController sharedController] isForwardingEnabled];
+}
+
+- (BOOL)subscriptionAllowed {
+   return [[GrowlPreferencesController sharedController] isSubscriptionAllowed];
+}
+
 - (IBAction)orderFrontStandardAboutPanel:(id)sender
 {
    [[GrowlApplicationController sharedController] showPreferences];

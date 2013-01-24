@@ -9,7 +9,6 @@
 
 #import "GrowlPathwayController.h"
 #import "GrowlDefinesInternal.h"
-#import "GrowlLog.h"
 #import "GrowlPluginController.h"
 
 #import "GrowlTCPPathway.h"
@@ -144,14 +143,10 @@ NSString *GrowlPathwayNotificationKey = @"GrowlPathway";
 }
 
 - (void) pathwayCouldNotEnable:(GrowlPathway *)pathway {
-	[[GrowlLog sharedController] writeToLog:@"Could not set enabled state to YES on pathway %@", pathway];
-
 	NSError *error = [NSError errorWithDomain:GrowlErrorDomain code:GrowlPathwayErrorCouldNotEnable userInfo:nil];
 	[NSApp presentError:error];
 }
 - (void) pathwayCouldNotDisable:(GrowlPathway *)pathway {
-	[[GrowlLog sharedController] writeToLog:@"Could not set enabled state to NO on pathway %@", pathway];
-
 	NSError *error = [NSError errorWithDomain:GrowlErrorDomain code:GrowlPathwayErrorCouldNotDisable userInfo:nil];
 	[NSApp presentError:error];
 }

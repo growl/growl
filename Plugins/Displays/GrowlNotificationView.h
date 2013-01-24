@@ -22,7 +22,10 @@
 - (BOOL) mouseOver;
 - (void) setCloseOnMouseExit:(BOOL)flag;
 
-+ (NSButton *) closeButton;
++ (NSButton *) closeButton;  //Default
++ (NSButton *) closeButtonForKey:(NSString*)key;
++ (void)makeButtonWithImage:(NSImage*)image pressedImage:(NSImage*)pressed forKey:(NSString*)key;
++ (void)setButton:(NSButton*)button forKey:(NSString*)key;
 - (BOOL) showsCloseBox;
 - (void) setCloseBoxVisible:(BOOL)yorn;
 - (void) setCloseBoxOrigin:(NSPoint)inOrigin;
@@ -35,5 +38,6 @@
 - (void) sizeToFit;
 
 - (NSDictionary *) configurationDict;
+- (NSString*)buttonKey;
 
 @end

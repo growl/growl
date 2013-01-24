@@ -8,10 +8,6 @@
 	<false/>
 	<key>GrowlEnableForward</key>
 	<false/>
-	<key>GrowlLoggingEnabled</key>
-	<false/>
-	<key>GrowlLogType</key>
-	<integer>0</integer>
 	<key>GrowlMenuExtra</key>
 	<false/>
 	<key>IdleThreshold</key>
@@ -74,5 +70,11 @@
 	<integer>60</integer>
 	<key>IdleTimeExceptions</key>
 	<array/>
+	<key>GrowlRulesLoggingEnabled</key>
+	<false/>
+	<key>GrowlRulesWarningShown</key>
+	<false/>
+	<key>GrowlAllowsRules</key>
+	<string>YES</string>
 </dict>
 </plist>

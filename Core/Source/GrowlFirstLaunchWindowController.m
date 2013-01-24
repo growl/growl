@@ -19,6 +19,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
 
 @synthesize windowTitle;
 @synthesize textBoxString;
+@synthesize webView;
 @synthesize actionButtonTitle;
 @synthesize continueButtonTitle;
 
@@ -32,7 +33,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
 
 +(BOOL)previousVersionOlder
 {
-   NSString *current = @"2.0";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+   NSString *current = @"2.1a1";//[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
    NSString *previous = [[GrowlPreferencesController sharedController] objectForKey:LastKnownVersionKey];
    return (!previous || compareVersionStrings(previous, current) == kCFCompareLessThan);
 }
@@ -62,13 +63,11 @@ typedef void(^GrowlFirstLaunchAction)(void);
        
        NSMutableArray *views = [NSMutableArray array];
       
-       NSData *welcomeData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Welcome" withExtension:@"rtf"]];
-       NSAttributedString *welcomeString = [[[NSAttributedString alloc] initWithRTF:welcomeData documentAttributes:nil] autorelease];
+		 NSString *welcomeString = [[[NSBundle mainBundle] URLForResource:@"Welcome" withExtension:@"html"] absoluteString];
        NSDictionary *welcomeDict = [NSDictionary dictionaryWithObjectsAndKeys:welcomeString, @"textBody", nil];
        [views addObject:welcomeDict];
        
-       NSData *whatsNewData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"WhatsNew" withExtension:@"rtf"]];
-       NSAttributedString *whatsNewString = [[[NSAttributedString alloc] initWithRTF:whatsNewData documentAttributes:nil] autorelease];
+		 NSString *whatsNewString = [[[NSBundle mainBundle] URLForResource:@"WhatsNew" withExtension:@"html"] absoluteString];
        NSDictionary *whatsNewDict = [NSDictionary dictionaryWithObjectsAndKeys:whatsNewString, @"textBody", nil];
        [views addObject:whatsNewDict];
        
@@ -79,9 +78,8 @@ typedef void(^GrowlFirstLaunchAction)(void);
              [prefs setAllowStartAtLogin:YES];
           } copy];
           
-          NSData *loginData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"StartAtLogin" withExtension:@"rtf"]];
-          NSAttributedString *loginString = [[[NSAttributedString alloc] initWithRTF:loginData documentAttributes:nil] autorelease];
-          NSDictionary *loginDict = [NSDictionary dictionaryWithObjectsAndKeys:loginString, @"textBody", 
+			 NSString *loginString = [[[NSBundle mainBundle] URLForResource:@"StartAtLogin" withExtension:@"html"] absoluteString];
+          NSDictionary *loginDict = [NSDictionary dictionaryWithObjectsAndKeys:loginString, @"textBody",
                                                                                loginBlock, @"actionBlock", 
                                                                                FirstLaunchStartGrowlButton, @"actionTitle", nil];
           [views addObject:loginDict];
@@ -89,11 +87,10 @@ typedef void(^GrowlFirstLaunchAction)(void);
        }
        if(![[GrowlPathUtilities runningHelperAppBundle] isEqual:[NSBundle mainBundle]]) {
           GrowlFirstLaunchAction oldBlock = [^{
-                [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/documentation/growl-package-removal.php#1.2easy"]];
+				 [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://growl.info/documentation/growl-package-removal.php#1.2easy"]];
           } copy];
-          NSData *oldData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"OldGrowl" withExtension:@"rtf"]];
-          NSAttributedString *oldString = [[[NSAttributedString alloc] initWithRTF:oldData documentAttributes:nil] autorelease];
-          NSDictionary *oldDict = [NSDictionary dictionaryWithObjectsAndKeys:oldString, @"textBody", 
+			 NSString *oldString = [[[NSBundle mainBundle] URLForResource:@"OldGrowl" withExtension:@"html"] absoluteString];
+          NSDictionary *oldDict = [NSDictionary dictionaryWithObjectsAndKeys:oldString, @"textBody",
                                                                              oldBlock, @"actionBlock",
                                                                              FirstLaunchOldGrowlButton, @"actionTitle", nil];
           [views addObject:oldDict];
@@ -146,6 +143,7 @@ typedef void(^GrowlFirstLaunchAction)(void);
    }
    
    self.textBoxString = [[launchViews objectAtIndex:current] valueForKey:@"textBody"];
+	[self.webView setMainFrameURL:self.textBoxString];
 }
 
 -(IBAction)nextPage:(id)sender
@@ -164,6 +162,20 @@ typedef void(^GrowlFirstLaunchAction)(void);
       GrowlFirstLaunchAction action = [[launchViews objectAtIndex:current] valueForKey:@"actionBlock"];
       action();
    }
+}
+
+- (void)webView:(WebView *)webView
+decidePolicyForNavigationAction:(NSDictionary *)actionInformation
+		  request:(NSURLRequest *)request
+			 frame:(WebFrame *)frame
+decisionListener:(id < WebPolicyDecisionListener >)listener
+{
+	NSString *host = [[request URL] host];
+	if (host) {
+		[[NSWorkspace sharedWorkspace] openURL:[request URL]];
+	} else {
+		[listener use];
+	}
 }
 
 @end

@@ -302,8 +302,8 @@ enum {
 
 - (BOOL)parseHeader:(NSString*)string {
 	//NSLog(@"%@", string);
-	NSString *headerKey = [GNTPPacket headerKeyFromHeader:string];
-	NSString *headerValue = [GNTPPacket headerValueFromHeader:string];
+	NSString *headerKey = [GNTPUtilities headerKeyFromHeader:string];
+	NSString *headerValue = [GNTPUtilities headerValueFromHeader:string];
 	if (headerKey && headerValue){
 		if(!callbackHeaderItems)
 			self.callbackHeaderItems = [NSMutableDictionary dictionary];
@@ -394,12 +394,15 @@ enum {
    
    id clickContext = nil;
    
-   if([contextType caseInsensitiveCompare:@"PList"] == NSOrderedSame)
+   if([contextType caseInsensitiveCompare:@"PList"] == NSOrderedSame){
+		NSError *serializeError = nil;
       clickContext = [NSPropertyListSerialization propertyListWithData:[context dataUsingEncoding:NSUTF8StringEncoding] 
                                                                options:0
                                                                 format:NULL
-                                                                 error:NULL];
-   else
+                                                                 error:&serializeError];
+		if(serializeError)
+			NSLog(@"There was an error: %@ deserlializing the plist: %@", serializeError, context);
+	}else
       clickContext = context;
 	
    switch (resultValue) {

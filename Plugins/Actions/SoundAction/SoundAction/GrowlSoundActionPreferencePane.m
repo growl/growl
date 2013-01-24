@@ -67,21 +67,32 @@
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification	{
 	NSInteger selectedRow = [soundTableView selectedRow];
-	if(selectedRow > 0 && (NSUInteger)selectedRow < [sounds count]){
+	if(selectedRow >= 0 && (NSUInteger)selectedRow < [sounds count]){
 		NSString *soundName = [sounds objectAtIndex:selectedRow];
 		if([[self soundName] caseInsensitiveCompare:soundName] != NSOrderedSame){
 			[self setSoundName:soundName];
-			[[NSSound soundNamed:soundName] play];
+			if([soundName caseInsensitiveCompare:LocalizedSystemDefaultSound] == NSOrderedSame)
+				NSBeep();
+			else
+				[[NSSound soundNamed:soundName] play];
+         if([self respondsToSelector:@selector(_setDisplayName:)]){
+            [self performSelector:@selector(_setDisplayName:) withObject:soundName];
+         }
 		}
 	}
 }
 
 -(void)setSoundName:(NSString *)soundName {
+	if([soundName caseInsensitiveCompare:LocalizedSystemDefaultSound] == NSOrderedSame)
+		soundName = GrowlSystemDefaultSound;
 	[self setConfigurationValue:soundName forKey:SelectedSoundPref];
 }
 
 -(NSString*)soundName {
-	return [self.configuration valueForKey:SelectedSoundPref];
+	NSString *soundName = [self.configuration valueForKey:SelectedSoundPref];
+	if([soundName isEqualToString:GrowlSystemDefaultSound])
+		soundName = LocalizedSystemDefaultSound;
+	return soundName;
 }
 
 -(void)setSoundVolume:(NSUInteger)volume {
@@ -119,6 +130,8 @@
 			}
 		}
 	}];
+	[soundNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+	[soundNames insertObject:LocalizedSystemDefaultSound atIndex:0];
 	self.sounds = soundNames;
 }
 

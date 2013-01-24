@@ -9,4 +9,7 @@
 #define SelectedSoundPref @"GrowlSoundAction - selected"
 #define SoundVolumePref @"GrowlSoundAction - volume"
 
+#define GrowlSystemDefaultSound @"com.Growl.SoundAction.systemDefault"
+#define LocalizedSystemDefaultSound NSLocalizedString(@"System Default Alert Sound", @"System default sound")
+
 #define SoundVolumeDefault 100;
