@@ -1,0 +1,5 @@
+GrowlTunes 2.1.1
+- Durch die Aktualisierung des Growl-Frameworks wird die Verwendung der Speicher-Ressourcen optimiert
+
+GrowlTunes 2.1
+- Unterstützung für die OS X Mitteilungszentrale hinzugefügt

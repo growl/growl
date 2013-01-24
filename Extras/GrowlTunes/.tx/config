@@ -13,3 +13,9 @@ file_filter = mas/<lang>/AppStoreText.txt
 source_file = mas/en/AppStoreText.txt
 source_lang = en
 type = TXT
+
+[growltunes.update_text]]
+file_filter = mas/<lang>/UpdateText.txt
+source_file = mas/en/UpdateText.txt
+source_lang = en
+type = TXT

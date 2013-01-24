@@ -1,0 +1,5 @@
+GrowlTunes 2.1.1
+- Chest al miore la utilizazion das risorsis di memorie atualizand il framework di Growl.
+
+GrowlTunes 2.1
+- Chest al ğonte il sopuart pal centri des notificazions su MAC OS X 10.8.

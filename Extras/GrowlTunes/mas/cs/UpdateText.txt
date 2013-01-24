@@ -1,0 +1,5 @@
+GrowlTunes 2.1.1
+- Vylepšená správa paměti pomocí aktualizace Growl framework.
+
+GrowlTunes 2.1
+- Přidána podpora pro Centrum oznámení v OS X 10.8.
