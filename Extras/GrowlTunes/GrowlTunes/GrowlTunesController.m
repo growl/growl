@@ -32,8 +32,7 @@
 @property(readonly, STRONG, nonatomic) NSString* stringQuitITunes;
 @property(readonly, STRONG, nonatomic) NSString* stringQuitGrowlTunes;
 @property(readonly, STRONG, nonatomic) NSString* stringStartITunes;
-@property(readonly, STRONG, nonatomic) NSString* stringNotifyWithITunesActive;
-@property(readonly, STRONG, nonatomic) NSString* stringConfigureFormatting;
+@property(readonly, STRONG, nonatomic) NSString* stringPreferences;
 
 - (void)notifyWithTitle:(NSString*)title
             description:(NSString*)description
@@ -132,13 +131,10 @@
 - (NSString*)stringNotifyWithITunesActive
 { return MenuNotifyWithITunesActive; }
 
-- (NSString*)stringConfigureFormatting
-{ return MenuConfigureFormatting; }
+- (NSString*)stringPreferences
+{ return MenuPreferences; }
 
-- (NSString*)stringStartAtLogin
-{ return MenuStartAtLogin; }
-
-- (NSString*)applicationNameForGrow
+- (NSString*)applicationNameForGrowl
 { return @"GrowlTunes"; }
 
 - (NSDictionary*)registrationDictionaryForGrowl

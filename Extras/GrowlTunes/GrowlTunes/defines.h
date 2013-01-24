@@ -45,7 +45,7 @@
 #define streamReadable                  NSLocalizedString(@"Stream", nil)
 #define showReadable                    NSLocalizedString(@"Show", nil)
 #define movieReadable                   NSLocalizedString(@"Movie", nil)
-#define musicVideoReadable              NSLocalizedString(@"MusicVideo", nil)
+#define musicVideoReadable              NSLocalizedString(@"Music Video", nil)
 #define musicReadable                   NSLocalizedString(@"Music", nil)
 #define formattingTypes                 @"podcast", @"stream", @"show", @"movie", @"musicVideo", @"music"
 #define formattingTypesReadable         podcastReadable, streamReadable, showReadable, movieReadable, musicVideoReadable, musicReadable
@@ -105,5 +105,4 @@
 #define MenuQuitGrowlTunes              NSLocalizedString(@"Quit GrowlTunes", nil)
 #define MenuStartITunes                 NSLocalizedString(@"Start iTunes", nil)
 #define MenuNotifyWithITunesActive      NSLocalizedString(@"Notify when iTunes is active", nil)
-#define MenuConfigureFormatting         NSLocalizedString(@"Configure Formatting", nil)
-#define MenuStartAtLogin                NSLocalizedString(@"Start at Login", nil)
+#define MenuPreferences					NSLocalizedString(@"Preferences", nil)

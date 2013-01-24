@@ -24,6 +24,14 @@
 	<string>RAWR</string>
 	<key>CFBundleVersion</key>
 	<string>${GT_VERSION}</string>
+	<key>CompiledAt</key>
+	<string>COMPILED_AT</string>
+	<key>CompiledByUser</key>
+	<string>COMPILED_BY_USER</string>
+	<key>CompiledOn</key>
+	<string>COMPILED_ON</string>
+	<key>CompilerVersion</key>
+	<string>COMPILER_VERSION</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.music</string>
 	<key>LSMinimumSystemVersion</key>
@@ -33,18 +41,10 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2011 The Growl Project. All rights reserved.</string>
+	<string>Copyright © 2011-2013 The Growl Project. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>GrowlTunes</string>
 	<key>NSPrincipalClass</key>
 	<string>GrowlTunesController</string>
-	<key>CompiledByUser</key>
-	<string>COMPILED_BY_USER</string>
-	<key>CompilerVersion</key>
-	<string>COMPILER_VERSION</string>
-	<key>CompiledOn</key>
-	<string>COMPILED_ON</string>
-	<key>CompiledAt</key>
-	<string>COMPILED_AT</string>
 </dict>
 </plist>

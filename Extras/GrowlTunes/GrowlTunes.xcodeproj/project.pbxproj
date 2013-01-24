@@ -625,6 +625,7 @@
 				6A9ED37C1447D04F002A0537 /* Sources */,
 				6A9ED37D1447D04F002A0537 /* Frameworks */,
 				6A9ED37E1447D04F002A0537 /* Resources */,
+				93B957E916B0ECBE00C85136 /* pt-BR link to pt */,
 				6A89594E1447D458009D09FC /* Copy Framework */,
 				6AAE996F14DAED9F004848EC /* Copy Launcher */,
 				6A8959541447DA5D009D09FC /* Fix GNTP XPC */,
@@ -898,6 +899,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "genstrings -o GrowlTunes/en.lproj GrowlTunes/*.h GrowlTunes/*.m";
+		};
+		93B957E916B0ECBE00C85136 /* pt-BR link to pt */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "pt-BR link to pt";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/usr/bin/env ruby";
+			shellScript = "resources = \"#{ENV[\"BUILT_PRODUCTS_DIR\"]}/#{ENV[\"UNLOCALIZED_RESOURCES_FOLDER_PATH\"]}\"\n`ln -sfh \"pt-BR.lproj\" \"#{resources}/pt.lproj\"`";
 		};
 /* End PBXShellScriptBuildPhase section */
 
