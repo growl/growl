@@ -1,0 +1,3 @@
+iTunes正在播放哪首歌？GrowlTunes来告诉你。GrowlTunes让我们更方便地知道正在播放的曲目，更有其它功能，如改变评价和改变音量等。如果已经安装了Growl，通知显示的样式也能随意改变。 
+
+GrowlTunes让使用iTunes更加方便有趣。无论是在办公室还是Party，在你需要的时候，GrowlTunes就在那里。

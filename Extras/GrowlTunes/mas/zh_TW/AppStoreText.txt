@@ -1,0 +1,3 @@
+iTunes 正在播放哪一首歌？有了 GrowlTunres 您將不再需要問您自己這個問題，您會知道的。GrowlTunes 讓您看到正在播放的音樂，並給您更多的操控，例如更改音樂評分，還有 ITunes 的音量。如果您有 Growl，您甚至可以自定音樂變換提示的樣式。 
+
+GrowlTunes 讓使用 ITunes 更加有趣。無論是在辦公室還是在派對上，在您需要時，易於操作的 GrowlTunes 將協助您。

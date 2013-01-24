@@ -7,3 +7,9 @@ file_filter = GrowlTunes/<lang>.lproj/Localizable.strings
 source_file = GrowlTunes/en.lproj/Localizable.strings
 source_lang = en
 type = STRINGS
+
+[growltunes.mas_text]
+file_filter = mas/<lang>/AppStoreText.txt
+source_file = mas/en/AppStoreText.txt
+source_lang = en
+type = TXT
