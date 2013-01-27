@@ -19,6 +19,8 @@
 @property (readonly, nonatomic) GrowlTunesFormattingController *formatController;
 
 @property (nonatomic, assign) IBOutlet NSToolbar *toolbar;
+@property (nonatomic, assign) IBOutlet NSToolbarItem *generalItem;
+@property (nonatomic, assign) IBOutlet NSToolbarItem *formatItem;
 
 @property (nonatomic, assign) IBOutlet NSView *generalTabView;
 @property (nonatomic, assign) IBOutlet GrowlOnSwitch *onLoginSwitch;
@@ -27,7 +29,6 @@
 @property (nonatomic, assign) BOOL oldOnLoginValue;
 
 @property (nonatomic, assign) IBOutlet NSView *formatTabView;
-
 @end
 
 @implementation GrowlTunesPreferencesWindowController
@@ -56,9 +57,11 @@
 -(void)windowDidLoad {
 	//Make me load a preference
 	[self selectTabIndex:0];
-	
+	[_generalItem setLabel:[[self localizedStringsController] stringForKey:@"GeneralTabTitle"]];
+	[_formatItem setLabel:[[self localizedStringsController] stringForKey:@"FormatTabTitle"]];
+				
 	[_onLoginSwitch setState:[[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:@"OnLogin"]];
-   [_onLoginSwitch addObserver:self
+	[_onLoginSwitch addObserver:self
 						  forKeyPath:@"state"
 							  options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
 							  context:nil];
@@ -71,6 +74,12 @@
 																				 forKeyPath:@"values.OnLogin"
 																					 options:NSKeyValueObservingOptionNew
 																					 context:nil];
+}
+
+- (id)localizedStringsController
+{
+	id returnValue = [[NSApp delegate] performSelector:@selector(localizedStringsController)];
+	return returnValue;
 }
 
 -(void)showWindow:(id)sender {
@@ -101,11 +110,11 @@
 				if(![[defaultController defaults] boolForKey:@"SuppressNoIconWarn"])
 				{
 					[NSApp activateIgnoringOtherApps:YES];
-					NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Warning! Enabling this option will cause GrowlTunes to run in the background", nil)
-																defaultButton:NSLocalizedString(@"Ok", nil)
-															 alternateButton:NSLocalizedString(@"Cancel", nil)
-																  otherButton:nil
-												informativeTextWithFormat:NSLocalizedString(@"Enabling this option will cause GrowlTunes to run without showing a dock icon or a menu item.\n\nTo access preferences, tap GrowlTunes in Launchpad, or open GrowlTunes in Finder.", nil)];
+					NSAlert *alert = [NSAlert alertWithMessageText:[[self localizedStringsController] stringForKey:@"BackgroundAlertTitle"]
+													 defaultButton:[[self localizedStringsController] stringForKey:@"OkButtonTitle"]
+												   alternateButton:[[self localizedStringsController] stringForKey:@"CancelButtonTitle"]
+													   otherButton:nil
+										 informativeTextWithFormat:@"%@",[[self localizedStringsController] stringForKey:@"BackgroundAlertMessage"]];
 					alert.showsSuppressionButton = YES;
 					NSInteger allow = [alert runModal];
 					if(allow == NSAlertDefaultReturn)
@@ -152,11 +161,11 @@
 			if(![[defaultController defaults] boolForKey:@"SuppressStartAtLogin"])
 			{
 				[NSApp activateIgnoringOtherApps:YES];
-				NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Alert! Enabling this option will add GrowlTunes to your login items", nil)
-															defaultButton:NSLocalizedString(@"Ok", nil)
-														 alternateButton:NSLocalizedString(@"Cancel", nil)
+				NSAlert *alert = [NSAlert alertWithMessageText:[[self localizedStringsController] stringForKey:@"AlertTitleStartAtLogin"]
+												 defaultButton:[[self localizedStringsController] stringForKey:@"OkButtonTitle"]
+														 alternateButton:[[self localizedStringsController] stringForKey:@"CancelButtonTitle"]
 															  otherButton:nil
-											informativeTextWithFormat:NSLocalizedString(@"Allowing this will let GrowlTunes launch everytime you login, so that it is available for applications which use it at all times", nil)];
+											informativeTextWithFormat:@"%@", [[self localizedStringsController] stringForKey:@"AlertMessageStartAtLogin"]];
 				alert.showsSuppressionButton = YES;
 				NSInteger allow = [alert runModal];
 				if(allow == NSAlertDefaultReturn)
@@ -194,7 +203,7 @@
 {
 	if((BOOL)isless(NSFoundationVersionNumber, NSFoundationVersionNumber10_7)) {
 		NSAlert *alert = AUTORELEASE([[NSAlert alloc] init]);
-		[alert setMessageText:NSLocalizedString(@"This setting will take effect when GrowlTunes restarts",nil)];
+		[alert setMessageText:[[self localizedStringsController] stringForKey:@"MessageTextEffectiveUponRestart"]];
 		[alert runModal];
 	}
 }

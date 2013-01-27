@@ -15,24 +15,13 @@
 #import "FormattedItemViewController.h"
 #import "TrackRatingLevelIndicatorValueTransformer.h"
 #import "StartAtLoginController.h"
+#import "GrowlLocalizedStringsController.h"
 
 @interface GrowlTunesController ()
 
 @property(readwrite, STRONG, nonatomic) IBOutlet ITunesConductor* conductor;
 @property(readonly, assign, nonatomic) BOOL noMeansNo;
 @property(readwrite, STRONG, nonatomic) StartAtLoginController* loginController;
-
-@property(readonly, STRONG, nonatomic) NSString* stringPlayPause;
-@property(readonly, STRONG, nonatomic) NSString* stringNextTrack;
-@property(readonly, STRONG, nonatomic) NSString* stringPreviousTrack;
-@property(readonly, STRONG, nonatomic) NSString* stringRating;
-@property(readonly, STRONG, nonatomic) NSString* stringVolume;
-@property(readonly, STRONG, nonatomic) NSString* stringBringITunesToFront;
-@property(readonly, STRONG, nonatomic) NSString* stringQuitBoth;
-@property(readonly, STRONG, nonatomic) NSString* stringQuitITunes;
-@property(readonly, STRONG, nonatomic) NSString* stringQuitGrowlTunes;
-@property(readonly, STRONG, nonatomic) NSString* stringStartITunes;
-@property(readonly, STRONG, nonatomic) NSString* stringPreferences;
 
 - (void)notifyWithTitle:(NSString*)title
             description:(NSString*)description
@@ -56,7 +45,7 @@
 @synthesize currentTrackMenuItem = _currentTrackMenuItem;
 @synthesize currentTrackController = _currentTrackController;
 @synthesize loginController = _loginController;
-
+@synthesize localizedStringsController = _localizedStringsController;
 
 + (void)initialize
 {
@@ -87,8 +76,10 @@
 
 -(id)init {
    if((self = [super init])){
-      _formatController = [[GrowlTunesFormattingController alloc] init];
-      [NSApp setDelegate:self];
+	   [NSApp setDelegate:self];
+	   _localizedStringsController = [[GrowlLocalizedStringsController alloc] init];
+	   _localizedStringsController.table = @"Localizable";
+	   _formatController = [[GrowlTunesFormattingController alloc] init];
       self.conductor = AUTORELEASE([[ITunesConductor alloc] init]);
    }
    return self;
@@ -98,49 +89,13 @@
 - (BOOL)noMeansNo
 { return NO; }
 
-- (NSString*)stringPlayPause
-{ return MenuPlayPause; }
-
-- (NSString*)stringNextTrack
-{ return MenuNextTrack; }
-
-- (NSString*)stringPreviousTrack
-{ return MenuPreviousTrack; }
-
-- (NSString*)stringRating
-{ return MenuRating; }
-
-- (NSString*)stringVolume
-{ return MenuVolume; }
-
-- (NSString*)stringBringITunesToFront
-{ return MenuBringITunesToFront; }
-
-- (NSString*)stringQuitBoth
-{ return MenuQuitBoth; }
-
-- (NSString*)stringQuitITunes
-{ return MenuQuitITunes; }
-
-- (NSString*)stringQuitGrowlTunes
-{ return MenuQuitGrowlTunes; }
-
-- (NSString*)stringStartITunes
-{ return MenuStartITunes; }
-
-- (NSString*)stringNotifyWithITunesActive
-{ return MenuNotifyWithITunesActive; }
-
-- (NSString*)stringPreferences
-{ return MenuPreferences; }
-
 - (NSString*)applicationNameForGrowl
 { return @"GrowlTunes"; }
 
 - (NSDictionary*)registrationDictionaryForGrowl
 {
 	NSArray *allNotifications = @[formattingTypes, NotifierPaused, NotifierStopped];
-	NSArray *allReadable = @[formattingTypesReadable, NotifierPausedReadable, NotifierStoppedReadable];
+	NSArray *allReadable = @[[[self localizedStringsController] stringForKey:@"PodcastFormatTitle"],[[self localizedStringsController] stringForKey:@"StreamFormatTitle"],[[self localizedStringsController] stringForKey:@"ShowFormatTitle"],[[self localizedStringsController] stringForKey:@"MovieFormatTitle"],[[self localizedStringsController] stringForKey:@"MusicVideoFormatTitle"],[[self localizedStringsController] stringForKey:@"MusicFormatTitle"], NotifierPausedReadable, NotifierStoppedReadable];
 	NSArray *readableDict = [NSDictionary dictionaryWithObjects:allReadable forKeys:allNotifications];
 		
 	NSURL* iconURL = [[NSBundle mainBundle] URLForImageResource:@"GrowlTunes"];

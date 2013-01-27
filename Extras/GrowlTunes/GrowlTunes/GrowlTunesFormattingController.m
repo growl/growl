@@ -59,12 +59,18 @@
 	return [typeDict valueForKey:attribute];
 }
 
+- (id)localizedStringsController
+{
+	id returnValue = [[NSApp delegate] performSelector:@selector(localizedStringsController)];
+	return returnValue;
+}
+
 -(void)loadTokens {
 	NSDictionary *format = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"format"];
 	if (!format) format = [NSDictionary dictionary];
 	
 	NSArray *types = @[formattingTypes];
-	NSDictionary *readableDict = [NSDictionary dictionaryWithObjects:@[formattingTypesReadable] forKeys:types];
+	NSDictionary *readableDict = [NSDictionary dictionaryWithObjects:@[[[self localizedStringsController] stringForKey:@"PodcastFormatTitle"],[[self localizedStringsController] stringForKey:@"StreamFormatTitle"],[[self localizedStringsController] stringForKey:@"ShowFormatTitle"],[[self localizedStringsController] stringForKey:@"MovieFormatTitle"],[[self localizedStringsController] stringForKey:@"MusicVideoFormatTitle"],[[self localizedStringsController] stringForKey:@"MusicFormatTitle"]] forKeys:types];
 	NSArray *attributes = @[formattingAttributes];
 	
 	NSMutableDictionary *dictBuild = [NSMutableDictionary dictionaryWithCapacity:[types count]];

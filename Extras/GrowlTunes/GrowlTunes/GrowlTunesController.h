@@ -19,6 +19,7 @@ typedef enum : NSInteger {
 } GrowlTunesIconState;
 
 @class ITunesConductor, FormattedItemViewController, StartAtLoginController, GrowlTunesFormattingController;
+@class GrowlLocalizedStringsController;
 
 @interface GrowlTunesController : NSApplication <GrowlApplicationBridgeDelegate, NSApplicationDelegate> {
     ITunesConductor* _iTunesConductor;
@@ -37,6 +38,7 @@ typedef enum : NSInteger {
 @property(readwrite, STRONG, nonatomic) IBOutlet FormattedItemViewController* currentTrackController;
 @property(readwrite, STRONG, nonatomic) IBOutlet NSMenu* loggingMenu;
 @property(readonly, STRONG, nonatomic) GrowlTunesFormattingController *formatController;
+@property (readwrite, STRONG, nonatomic) GrowlLocalizedStringsController *localizedStringsController;
 
 - (IBAction)configureFormatting:(id)sender;
 - (IBAction)quitGrowlTunes:(id)sender;
