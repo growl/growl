@@ -1171,6 +1171,7 @@
 		932D6CD5094BB83B00B64D0F /* GrowlScaleWindowTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GrowlScaleWindowTransition.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9335015C142399450077C0D7 /* ko */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9335015D1423994B0077C0D7 /* ko */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9336228616B4EDD0006A5A82 /* GrowlToolChainSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GrowlToolChainSupport.h; sourceTree = "<group>"; };
 		934B85DD15C2704F0056A72A /* SliderHandle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SliderHandle.png; path = external_dependencies/tmslidercontrol/SliderHandle.png; sourceTree = "<group>"; };
 		934B85DE15C2704F0056A72A /* SliderHandleDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SliderHandleDown.png; path = external_dependencies/tmslidercontrol/SliderHandleDown.png; sourceTree = "<group>"; };
 		934B85DF15C2704F0056A72A /* SliderWell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SliderWell.png; path = external_dependencies/tmslidercontrol/SliderWell.png; sourceTree = "<group>"; };
@@ -2045,6 +2046,7 @@
 			isa = PBXGroup;
 			children = (
 				93E01DF413C93C6000885286 /* Growl.entitlements */,
+				9336228616B4EDD0006A5A82 /* GrowlToolChainSupport.h */,
 				93EA7FF61369089600AB89AE /* xcconfig */,
 				93254753104E135B00130D3B /* external_dependencies */,
 				953C3EFE0747970800F2A737 /* Documentation */,

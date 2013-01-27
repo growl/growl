@@ -1,6 +1,7 @@
 //
 // Prefix header for all source files of the 'Growl' target in the 'Growl' project.
 //
+#include "GrowlToolChainSupport.h"
 
 #ifdef __OBJC__
 	#import <Foundation/Foundation.h>
