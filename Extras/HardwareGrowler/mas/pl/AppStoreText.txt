@@ -1,0 +1,7 @@
+Growler Sprzętowy to najlepszy sposób na dowiedzenie się o zmianach sprzętowych na Macu. 
+
+Gdy kabel zasilający zostanie odlączony, HardwareGrowler wchodzi do akcji i powiadamia o tym fakcie. Podlącz urządzenie takie jak klawiature, pen drive lub zestaw sluchawkowy USB a zostaniesz poinformowany o tych zmianach.
+
+HardwareGrowler również pozwala na informowanie o zmianach w sieci na komputerze Mac. Kiedy polączenie WiFi zmieni punkt dostępowy lub adres IP zostaniesz o tym poinformowany. 
+
+HardwareGrowler jest wszystkim czego potrzebujesz jeśli chcesz wiedzieć o sprzęcie. HardwareGrowler korzysta z Growl'a przy notyfikacjach lub robi to sam. Latwy w użyciu, latwy w konfiguracji HardwareGrowler jest aplikacją dla tych, którzy chcą wiedzieć. 

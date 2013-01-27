@@ -1,0 +1,20 @@
+HardwareGrowler 2.0.1
+- Vyřešen problém, kdy upozornění nebyly odeslány kvůli změně síťového nastavení.
+- Upozornění na události napájení myjí nyní lepší popis.
+
+HardwareGrowler 2
+
+- HardwareGrowler byl od základu přepsán.
+- Určité funkce aplikace HardwareGrowler lez zapnout a vypnout
+- Přidána možnost ignorovat disky podle jména.
+- Sledování s'ťové aktivity bylo výrazně zdokonaleno.
+- Přidána podpora pro IPv6.
+- Přidána podpora pro USB Ethernet adapters.
+- Přidána podpora pro Upozornění v Mac OS X 10.8, když není Growl nainstalován.
+- Aplikace Capster je nyní součástí HardwareGrowler. Můžete vidět upozornšní pro stisknuté klávesy Zámek přeřaďovače, Zámek číselného bloku, funkčních kláves a přeřaďovače.
+- Sledování napájení má další volby pro to, kdy má zobrazit upozornění.
+
+HardwareGrowler 1.3.2
+
+- Přidána francouzská a španělská lokalizace
+- Vyřešen problém se španělskou lokalizací

@@ -1,0 +1,7 @@
+HardwareGrowler是Mac上最好的获得硬件状态更新的方式。如果你想知道Mac上发生了什么，你就需要HardwareGrowler。 
+
+当电源线掉了，HardwareGrowler会及时通知你。键盘，指间设备，乃至usb耳机的接入都会有通知。
+
+HardwareGrowler也会让你知道任何网络状态变更：无线接入另一个节点，或者IP地址改变等。 
+
+如果你想要了解硬件变动，你就会需要HardwareGrowler。HardwareGrowler可以使用Growl或者自己提供消息服务。HardwareGrowler易用易配，为需要的用户开发。

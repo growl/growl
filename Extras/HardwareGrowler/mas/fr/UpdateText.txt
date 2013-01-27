@@ -1,0 +1,18 @@
+HardwareGrowler 2.0.1⏎ - Résolution d'un problème où certaines notifications de changement réseau étaient oubliées.⏎ - Amélioration des descriptions pour les notifications d'alimentation.
+
+HardwareGrowler 2
+
+- HardwareGrowler a été totalement réécrit.
+- Des détails spécifiques de son comportement sont maintenant désactivables.
+- Il est possible d'ignorer certains lecteurs par leur nom.
+- La supervision réseau a été considérablement améliorée.
+- Ajout du support IPv6.
+- Ajout du support des adaptateurs Ethernet USB.
+- Ajout du support du Centre de Notifications si Growl n'est pas présent sous OS 10.8.
+- Les fonctionnalités de Capster sont désormais dans HardwareGrowler : des notifications sont disponibles pour les touches de fonctions (fn), Verr. numérique, Verr. Majuscule (⇪) et Majuscule (⇪).
+- De nouvelles options permettent de définir quand les notifications d'alimentation doivent être indiquées.
+
+HardwareGrowler 1.3.2
+
+- Ajout des traductions en français et espagnol.
+- Résolution d’un problème dans la traduction en suédois affichant du roumain.

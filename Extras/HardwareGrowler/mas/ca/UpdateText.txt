@@ -1,0 +1,20 @@
+HardwareGrowler 2.0.1
+- Resolved an issue where notifications would not be fired for network changes.
+- Power notifications now have better descriptions.
+
+HarwareGrowler 2
+
+HarwareGrowler ha estat reescrita des de zero.
+- Ara pots activar o desactivar funcions específiques de HarwareGrowler
+- Afegeix la possibilitat d'ignorar volums per nom.
+- Monitoratge de xarxa millorat dràsticament
+- Afegeix suport per IPv6.
+- Afegeix suport per adaptadors d'Ethernet mitjançant USB. 
+- Afegeix suport per al Centre de Notificacions quan Growl no està instal·lat en Mac OS 10.8
+- HarwareGrowler t'avisarà quan bloquegis les majúscules, el teclat numèric, FN i les tecles shift.
+- El monitor de potència té controls addicionals per quan enviï notificacions. 
+
+HarwareGrowler 1.3.2
+
+- Afegides les localitzacions de Francès i Espanyol.
+- Resolt un problema amb la localització sueca mostrada en romanès. 

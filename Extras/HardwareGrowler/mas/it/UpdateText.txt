@@ -1,0 +1,20 @@
+HardwareGrowler 2.0.1
+- Risolve un problema dove le notifiche non venivano aggiornate nei cambiamenti della rete.
+- La notifiche sull'alimentazione ora hanno una migliore descrizione.
+
+HardwareGrowler 2
+
+-HardwareGrowler è stato riscritto da capo.
+-Adesso puoi atiivare/disattivare ogni singola caratteristica.
+-Aggiunta la possibilità di ignorare di dischi tramite il nome.
+-Controllo della rete nettamente migliorato.
+-Aggiunto il supporto ad IPv6.
+-Aggiunto il supporto agli adattatori Ethernet USB.
+-Aggiunto il supporto al centro notifiche su 10.8 anche quando non hai Growl.
+-Le caratteristiche di Capster ora sono presenti in HardwareGrowler. Ora vedrai le notifiche anche per la pressione dei tasti Blocco Maiuscole, Tastierino Numerico, tasti funzione e Maiuscole.
+-Il monitoraggio dell'alimentazione ha ora dei controlli aggiuntivi su quando deve inviare delle notifiche.
+
+HardwareGrowler 1.3.2
+
+- Aggiunte localizzazioni Francese e Spagnolo.
+- Risolto un problema con la localizzazione Svedese mostrata in Rumeno.

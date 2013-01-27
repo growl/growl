@@ -1,0 +1,7 @@
+HardwareGrowler pentru Mac este cea mai bună modalitate de a afla când starea dispozitivelor fizice a fost modificată. Dacă vrei să știi ce se întâmplă du dispozitivele atașate Mac-ului tău, atunci ai nevoie de HardwareGrowler. 
+
+Când cablul de alimentare va fi detașat, HardwareGrowler va înregistra acțiunea și te va înștiința despre aceasta. Conectează un dispozitiv gen tastatură, unitate fizică sau chiar un set de căști USB şi vei fi înștiințat cu privire la modificările efectuate la nivel fizic.
+
+De asemenea, HardwareGrowler îți va permite să știi despre modificările efectuate la nivelul rețelei Mac-ului tău. Atunci când o conexiune fără fir se modifică într-un anume punct de acces sau o adresă IP se modifică, vei fi înștiințat despre aceasta. 
+
+HardwareGrowler este exact ceea ce ai nevoie dacă vrei să să știi despre starea dispozitivelor fizice atașate Mac-ului tău. HardwareGrowler se utilizează de Growl pentru a furniza notificări sau o poate face chiar de la sine, este simplu de utilizat și uşor de configurat. HardwareGrowler este o aplicație dedicată celor care vor să știe despre starea dispozitivelor fizice atașate Mac-ului.

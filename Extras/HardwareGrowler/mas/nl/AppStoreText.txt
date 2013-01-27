@@ -1,0 +1,7 @@
+HardwareGrowler is de beste manier om te weten komen wanneer hardwarestatuswijzigingen optreden op de Mac. Als je wilt weten wat er gaande is op je Mac, dan heb je HardwareGrowler nodig. 
+
+Wanneer je stroomsnoer losraakt, komt HardwareGrowler in actie en laat het je weten. Sluit een apparaat zoals een toetsenbord, USB-stick, of zelfs een USB-headset aan en je krijgt een melding over de gewijzigde hardware.
+
+HardwareGrowler meldt ook wijzigingen in netwerkinstellingen op je Mac. Wanneer een draadloze verbinding wijzigt naar een ander accesspoint of als het IP-adres wijzigt, krijg je een melding over deze wijziging. 
+
+HardwareGroler is wat je nodig hebt als je wilt weten hoe het zit met je hardware. HardwareGrowler gebruikt Growl voor het geven van meldingen of kan het geheel op zichzelf. Eenvoudig te gebruiken, makkelijk in te stellen; HardwareGrowler is het programma voor mensen die willen weten hoe het zit.

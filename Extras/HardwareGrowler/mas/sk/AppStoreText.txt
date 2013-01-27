@@ -1,0 +1,7 @@
+HardwareGrowler je najlepší spôsob ako sledovať zmeny stavu hardvéru na Macu. Ak potrebujete vedieť čo sa deje s vaším Macom, potrebujete HardwareGrowler. 
+
+Keď sa odpojí napájací kábel, HardwareGrowler to okamžite zistí a dá vám o tom vedieť. Pripojte zariadenie ako klávesnica, USB kľúč, alebo dokonca USB slúchadlá a buďte notifikovaný o zmene ich stavu.
+
+HardwareGrowler vám dá takisto vedieť o zmenách sieťových pripojení vášho Macu. Keď sa bezdrôtové pripojenie prepojí na iný prístupový bod, alebo sa zmení IP adresa, budete notifikovaný o zmene. 
+
+Ak potrebujte vedieť o vašom hardvére, potrebujte práve HardwareGrowler. HardwareGrowler vyžíva Growl na zobrazenie hlásení, alebo ich dokáže zobraziť aj sám. Jednoducho sa používa, ľahko nastavuje. HardwareGrowler je proste aplikácie pre tých, ktorí potrebujú vedieť.

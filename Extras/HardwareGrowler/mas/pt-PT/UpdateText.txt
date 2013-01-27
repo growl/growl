@@ -1,0 +1,20 @@
+HardwareGrowler 2.0.1
+- Resolvido um problema em que as notificações não eram accionadas para alterações na rede.
+- As notificações de energia agora têm melhores descrições.
+
+HardwareGrowler 2
+
+- O HardwareGrowler foi completamente reeescrito.
+- Pode agora activar ou desactivar funcionalidades específicas do HardwareGrowler.
+- Adicionada a possibilidade de ignorar drives por nome.
+- Networking monitoring drastically improved.
+- Adicionado suporte para IPv6.
+- Adicionada suporte para adaptadores de Ethernet USB.
+- Adicionado suporte para o Centro de Notificações quando o Growl não estiver presente com Mac OS X 10.8.
+- As funcionalidade do Capster estão agora presentes no HardwareGrowler. Pode receber notificações quando prime as teclas Capslock, Numlock, FN e Shift.
+- O monitor de Energia tem controlos adicionais para quando deverá apresentar notificações.
+
+HardwareGrowler 1.3.2
+
+- Adicionadas traduções em Francês e Espanhol.
+- Resolvido um problema com a tradução em Sueco ser apresentada em Romeno.

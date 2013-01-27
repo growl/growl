@@ -1,0 +1,7 @@
+HardwareGrowler yw'r ffordd orau o wybod pan fydd statws eich caledwedd yn newid ar Mac. Os ydych am wybod beth sy'n digwydd ar eich Mac, rydych angen HardwareGrowler. 
+
+When your power cable unplugs, HardwareGrowler will spring into action and lets you know about it. Plug in a device like a keyboard, thumb drive, or even a usb headset and get notified about the hardware changes.
+
+HardwareGrowler will also let you know about changes to networking on your Mac. When a wireless connection changes to a different access point or an IP address changes, you'll be notified about the change. 
+
+HardwareGrowler is what you need if you need to know about your hardware. HardwareGrowler uses Growl to provide notifications or can do it all by itself. Simple to use, easy to configure, HardwareGrowler is the application for those who need to know.

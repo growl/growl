@@ -1,0 +1,22 @@
+[main]
+host = https://www.transifex.com
+lang_map = pt_BR: pt-BR, pt_PT: pt-PT, zh_CN: zh-Hans, es_ES: es, es_MX: es-MX, th_TH:th
+
+[hardwaregrowler.localizablestrings]
+file_filter = HardwareGrowler/<lang>.lproj/Localizable.strings
+source_file = HardwareGrowler/en.lproj/Localizable.strings
+source_lang = en
+type = STRINGS
+
+[hardwaregrowler.mas_text]
+file_filter = mas/<lang>/AppStoreText.txt
+source_file = mas/en/AppStoreText.txt
+source_lang = en
+type = TXT
+
+[hardwaregrowler.update_text]
+file_filter = mas/<lang>/UpdateText.txt
+source_file = mas/en/UpdateText.txt
+source_lang = en
+type = TXT
+

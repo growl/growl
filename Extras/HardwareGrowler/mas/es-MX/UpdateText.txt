@@ -1,0 +1,20 @@
+HardwareGrowler 2.0.1
+- Resolved an issue where notifications would not be fired for network changes.
+- Power notifications now have better descriptions.
+
+HardwareGrowler 2
+
+- HardwareGrowler has been rewritten from scratch.
+- You can now turn specific features of HardwareGrowler on and off
+- Adds the ability to ignore drives by name.
+- Networking monitoring drastically improved.
+- Adds support for IPv6.
+- Adds support for USB Ethernet adapters.
+- Adds support for Notification Center when Growl is not present on 10.8.
+- Capster features are now in HardwareGrowler. You can see notifications for key presses on the Capslock, Numlock, FN and Shift keys.
+- The Power monitor has additional control for when it will fire a notification.
+
+HardwareGrowler 1.3.2
+
+- Hemos agregado las traducciones al francés y español.
+- Resolvimos un problema con la traducción sueca monstrándose en Rumano.

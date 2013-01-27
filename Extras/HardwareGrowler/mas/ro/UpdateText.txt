@@ -1,0 +1,12 @@
+HardwareGrowler 2.0.1
+- Resolved an issue where notifications would not be fired for network changes.
+- Power notifications now have better descriptions.
+
+HardwareGrowler 2
+
+- HardwareGrowler a fost scris de la zero.⏎ - Acum poți activa saudezactiva caracteristicile specifice HardwareGrowler.⏎ - Adaugă posibilitatea de a ignora unități în funcție de nume.⏎ - Monitorizarea rețelei a fost foarte îmbunătățiță.⏎ - Adaugă suport pentru IPv6.⏎ - Adaugă suport pentru adaptoare Ethernet USB.⏎ - Adaugă suport pentru centrul de notificări când Growl nu este prezent pe 10.8.⏎ - Caracteristici Capster sunt acum în HardwareGrowler. Puteți vedea notificările apăsând tastele Capslock, Numlock, FN și Shift.⏎ - Monitorul de alimentare are un control suplimentar pentru atunci când se va declanșa o notificare.
+
+HardwareGrowler 1.3.2
+
+- Au fost adăugate localizările pentru limba franceză și spaniolă.
+- Sa rezolvat o problemă care afișa un text în limba română în localizarea limbii suedeze.

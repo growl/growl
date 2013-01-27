@@ -1,0 +1,20 @@
+HardwareGrowler 2.0.1
+- Rozwiązano problem z brakiem powiadomień po zmianie stanu sieci.
+- Lepsze opisy powiadomień na temat zasilania.
+
+HardwareGrowler 2
+
+- HardwareGrowler został przepisany od podstaw.
+- Możliwość włączania i wyłączania poszczególnych elementów.
+- Możliwość ignorowania konkretnych napędów po ich nazwie.
+- Znacznie poprawiono monitorowanie sieci.
+- Wsparcie dla IPv6.
+- Wsparcie dla kart sieciowych USB.
+- Możliwość korzystania z Centrum powiadomień gdy aplikacja Growl nie jest zainstalowana w OS X 10.8.
+- Funkcjonalność z aplikacji Capster - powiadomienia po wciśnięciu klawiszy Capslock, Numlock, FN i Shift.
+- Dodatkowe funkcje kontroli powiadomień Monitora zasilania.
+
+HardwareGrowler 1.3.2
+
+- Dodano tłumaczenie francuskie i hiszpańskie
+- Rozwiązano problem z tłumaczeniem szwedzkim wyświetlanym w języku rumuńskim

@@ -957,6 +957,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/usr/bin/env ruby";
 			shellScript = "resources = \"#{ENV[\"BUILT_PRODUCTS_DIR\"]}/#{ENV[\"UNLOCALIZED_RESOURCES_FOLDER_PATH\"]}\"\n`ln -sfh \"pt-BR.lproj\" \"#{resources}/pt.lproj\"`";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 

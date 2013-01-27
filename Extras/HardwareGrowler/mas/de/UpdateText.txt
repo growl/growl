@@ -1,0 +1,18 @@
+HardwareGrowler 2.0.1⏎ - Es wurde ein Fehler behoben, bei dem Benachrichtigungen für Netzwerkänderungen nicht ausgelöst werden konnten.⏎ - Akku-Benachrichtigungen haben nun bessere Beschreibungen.
+
+HardwareGrowler 2
+
+- HardwareGrowler wurde von Grund auf neu geschrieben.
+- Sie können nun spezielle Eigenschaften von HardwareGrowler AN- und AUSschalten.
+- Festplatten können nun anhand des Namens ignoriert werden.
+- Das Netzwerk-Monitoring wurde dramatisch verbessert.
+- Unterstützung für IPv6 hinzugefügt.
+- Unterstützung für USB-Internetadapter hinzugefügt.
+- Unterstützung für OS X 10.8 Mitteilungszentrale, wenn Growl nicht läuft.
+- Integration der Funktionen von Capster in HardwareGrowler. Sie können nun Benachrichtigungen sehen, wenn die Feststelltaste, die Numlock, die Funktions- und Umschalttasten betätigt werden.
+- Es sind nun zusätzliche Einstellungen vorhanden, um zu bestimmen, wenn eine Benachrichtigung ausgelöst wird.
+
+HardwareGrowler 1.3.2
+
+- Französische und spanische Übersetzungen hinzugefügt
+- Ein Problem mit der Anzeige der schwedischen Übersetzung in Rumänisch behoben

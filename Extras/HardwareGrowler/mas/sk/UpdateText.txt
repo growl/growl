@@ -1,0 +1,20 @@
+HardwareGrowler 2.0.1
+- vyriešený problém s nezobrazovaním hlásení pri sieťových zmenách
+- zrozumiteľnejší popis hlásení o napájaní
+
+HardwareGrowler 2
+
+- HardwareGrowler bol kompletne prepísaný.
+- Teraz môžete rôzne funkcie samostatne vypnúť a zapnúť.
+- Pridaná možnosť ignorovania diskových jednotiek podľa mena.
+- Monitorovanie siete drasticky vylepšené.
+- Pridaná podpora IPv6.
+- Pridaná podpora USB Ethernetových adaptérov.
+- Pridaná podpora Notifikačného centra ak nie je naištalovaný Growl a verzia OS X je 10.8.
+- Capster funkcie sú odteraz súčasťou HardwareGrowl. Môžete zobraziť hlásenia o stlační kláves Cpas Lock, Num Lock, Fn a Shift.
+- Monitor napájania má dodatočné nastavenia pre kontrolu toho, kedy sa majú hlásenia zobraziť.
+
+HardwareGrowler 1.3.2
+
+- Pridaná Francúska a Španielska lokalizácia.
+- Vyriešený problém so Švédskou lokalizáciou zobrazovanou v Rumunčine.
