@@ -40,6 +40,10 @@
 		6ACCD3DC148E6E8C00D6804D /* FormattedItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */; };
 		6AD776F914817C2800A1592B /* iTunes+iTunesAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AD776F814817C2800A1592B /* iTunes+iTunesAdditions.m */; };
 		9336229E16B4FCA0006A5A82 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9336229C16B4FCA0006A5A82 /* Localizable.strings */; };
+		933622DD16B5903C006A5A82 /* Prefs-General.png in Resources */ = {isa = PBXBuildFile; fileRef = 933622D916B5903C006A5A82 /* Prefs-General.png */; };
+		933622DE16B5903C006A5A82 /* Prefs-General@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 933622DA16B5903C006A5A82 /* Prefs-General@2x.png */; };
+		933622DF16B5903C006A5A82 /* Prefs-Notifications.png in Resources */ = {isa = PBXBuildFile; fileRef = 933622DB16B5903C006A5A82 /* Prefs-Notifications.png */; };
+		933622E016B5903C006A5A82 /* Prefs-Notifications@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 933622DC16B5903C006A5A82 /* Prefs-Notifications@2x.png */; };
 		93B9580216B44A1500C85136 /* GrowlLocalizedStringsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B9580116B44A1500C85136 /* GrowlLocalizedStringsController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		93B9580A16B4DF1900C85136 /* movie.tif in Resources */ = {isa = PBXBuildFile; fileRef = 93B9580416B4DF1900C85136 /* movie.tif */; };
 		93B9580B16B4DF1900C85136 /* music.tif in Resources */ = {isa = PBXBuildFile; fileRef = 93B9580516B4DF1900C85136 /* music.tif */; };
@@ -321,6 +325,10 @@
 		933622BB16B4FD0B006A5A82 /* zh_TW */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/Localizable.strings; sourceTree = "<group>"; };
 		933622BC16B4FD0B006A5A82 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		933622C316B4FDBC006A5A82 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		933622D916B5903C006A5A82 /* Prefs-General.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Prefs-General.png"; sourceTree = "<group>"; };
+		933622DA16B5903C006A5A82 /* Prefs-General@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Prefs-General@2x.png"; sourceTree = "<group>"; };
+		933622DB16B5903C006A5A82 /* Prefs-Notifications.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Prefs-Notifications.png"; sourceTree = "<group>"; };
+		933622DC16B5903C006A5A82 /* Prefs-Notifications@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Prefs-Notifications@2x.png"; sourceTree = "<group>"; };
 		93B9580016B44A1500C85136 /* GrowlLocalizedStringsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlLocalizedStringsController.h; path = ../../Common/Source/GrowlLocalizedStringsController.h; sourceTree = "<group>"; };
 		93B9580116B44A1500C85136 /* GrowlLocalizedStringsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlLocalizedStringsController.m; path = ../../Common/Source/GrowlLocalizedStringsController.m; sourceTree = "<group>"; };
 		93B9580416B4DF1900C85136 /* movie.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = movie.tif; sourceTree = "<group>"; };
@@ -392,6 +400,10 @@
 				6A56766614CB70B200E97962 /* GrowlTunes-Template.pdf */,
 				6AADA30F1448B43E0089AB08 /* GrowlTunes.icns */,
 				6AADA3351448C1F50089AB08 /* GrowlTunes.xib */,
+				933622D916B5903C006A5A82 /* Prefs-General.png */,
+				933622DA16B5903C006A5A82 /* Prefs-General@2x.png */,
+				933622DB16B5903C006A5A82 /* Prefs-Notifications.png */,
+				933622DC16B5903C006A5A82 /* Prefs-Notifications@2x.png */,
 			);
 			name = Resources;
 			path = ../Resources;
@@ -886,6 +898,10 @@
 				93B9580E16B4DF1A00C85136 /* show.tif in Resources */,
 				93B9580F16B4DF1A00C85136 /* stream.tif in Resources */,
 				9336229E16B4FCA0006A5A82 /* Localizable.strings in Resources */,
+				933622DD16B5903C006A5A82 /* Prefs-General.png in Resources */,
+				933622DE16B5903C006A5A82 /* Prefs-General@2x.png in Resources */,
+				933622DF16B5903C006A5A82 /* Prefs-Notifications.png in Resources */,
+				933622E016B5903C006A5A82 /* Prefs-Notifications@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

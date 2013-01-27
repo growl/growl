@@ -1090,19 +1090,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">title: selection.RatingMenuTitle</string>
+						<string key="label">title: selection.RatingsMenuTitle</string>
 						<reference key="source" ref="811089115"/>
 						<reference key="destination" ref="204135847"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="811089115"/>
 							<reference key="NSDestination" ref="204135847"/>
-							<string key="NSLabel">title: selection.RatingMenuTitle</string>
+							<string key="NSLabel">title: selection.RatingsMenuTitle</string>
 							<string key="NSBinding">title</string>
-							<string key="NSKeyPath">selection.RatingMenuTitle</string>
+							<string key="NSKeyPath">selection.RatingsMenuTitle</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1119</int>
+					<int key="connectionID">1133</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2123,7 +2123,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1132</int>
+			<int key="maxID">1133</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2171,47 +2171,16 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">GrowlLocalizedStringsController</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/GrowlLocalizedStringsController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">GrowlTunesController</string>
 					<string key="superclassName">NSApplication</string>
 					<dictionary class="NSMutableDictionary" key="actions">
-						<string key="activateItunes:">id</string>
 						<string key="configureFormatting:">id</string>
-						<string key="nextTrack:">id</string>
-						<string key="playPause:">id</string>
-						<string key="previousTrack:">id</string>
 						<string key="quitGrowlTunes:">id</string>
 						<string key="quitGrowlTunesAndITunes:">id</string>
-						<string key="quitItunes:">id</string>
-						<string key="quitWithWarning:">id</string>
-						<string key="runiTunes:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
-						<object class="IBActionInfo" key="activateItunes:">
-							<string key="name">activateItunes:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="configureFormatting:">
 							<string key="name">configureFormatting:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="nextTrack:">
-							<string key="name">nextTrack:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="playPause:">
-							<string key="name">playPause:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="previousTrack:">
-							<string key="name">previousTrack:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="quitGrowlTunes:">
@@ -2222,24 +2191,11 @@
 							<string key="name">quitGrowlTunesAndITunes:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="quitItunes:">
-							<string key="name">quitItunes:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="quitWithWarning:">
-							<string key="name">quitWithWarning:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="runiTunes:">
-							<string key="name">runiTunes:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="conductor">ITunesConductor</string>
 						<string key="currentTrackController">FormattedItemViewController</string>
 						<string key="currentTrackMenuItem">NSMenuItem</string>
-						<string key="localizedStringsController">GrowlLocalizedStringsController</string>
 						<string key="loggingMenu">NSMenu</string>
 						<string key="statusItemMenu">NSMenu</string>
 					</dictionary>
@@ -2255,10 +2211,6 @@
 						<object class="IBToOneOutletInfo" key="currentTrackMenuItem">
 							<string key="name">currentTrackMenuItem</string>
 							<string key="candidateClassName">NSMenuItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="localizedStringsController">
-							<string key="name">localizedStringsController</string>
-							<string key="candidateClassName">GrowlLocalizedStringsController</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="loggingMenu">
 							<string key="name">loggingMenu</string>
