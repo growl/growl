@@ -97,6 +97,7 @@
 		//Replace with localized type
 		[mutableValue setObject:type forKey:@"formatType"];
 		[mutableValue setObject:[readableDict valueForKey:type] forKey:@"formatTypeReadable"];
+		[mutableValue setObject:([[NSBundle mainBundle] URLForImageResource:type]?:[[NSBundle mainBundle] URLForImageResource:@"GrowlTunes.icns"]) forKey:@"formatIconURL"];
 		[dictBuild setObject:mutableValue forKey:type];
 	}];
 	self.tokenDicts = dictBuild;
