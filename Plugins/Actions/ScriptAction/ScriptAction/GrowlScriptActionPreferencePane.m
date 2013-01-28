@@ -37,9 +37,14 @@
 -(void)setActionName:(NSString *)actionName;
 -(NSString*)actionName;
 
+@property (nonatomic, retain) NSString *previousUnixTestName;
+@property (nonatomic) BOOL isUnixTask;
+
 @end
 
 @implementation GrowlScriptActionPreferencePane
+
+@synthesize isUnixTask = _isUnixTask;
 
 -(id)initWithBundle:(NSBundle *)bundle {
 	if((self = [super initWithBundle:bundle])){
@@ -84,12 +89,17 @@
 
 -(void)updateConfigurationValues {
 	[self updateActionList];
-	[super updateConfigurationValues];
 	if((!self.actionName || ![self.actions containsObject:[self actionName]]) && [self.actions count] > 0){
 		[self setActionName:[self.actions objectAtIndex:0U]];
+	}else if(![self.actions containsObject:[self actionName]] && [self.actions count] == 0){
+		[self setActionName:nil];
 	}
-   [self.actionsTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[self.actions indexOfObject:[self actionName]]]
-                      byExtendingSelection:NO];
+	[super updateConfigurationValues];
+	if(self.actionName && [self.actions containsObject:self.actionName]){
+		[self.actionsTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[self.actions indexOfObject:[self actionName]]]
+								 byExtendingSelection:NO];
+	}
+	
 	NSArray *arguments = [self.configuration valueForKey:@"ScriptActionUnixArguments"];
 	if(!arguments)
 		arguments = [self defaultArgumentsArray];
@@ -133,13 +143,15 @@
 }
 
 -(BOOL)isUnixTask {
-	BOOL result = NO;
-	if([self actionName]){
+	if([self actionName] && ![self.actionName isEqualToString:self.previousUnixTestName]){
+		self.previousUnixTestName = self.actionName;
 		NSUserScriptTask *task = [GrowlUserScriptTaskUtilities scriptTaskForFile:[self actionName]];
 		if([task isKindOfClass:[NSUserUnixTask class]])
-			result = YES;
+			_isUnixTask = YES;
+		else
+			_isUnixTask = NO;
 	}
-	return result;
+	return _isUnixTask;
 }
 
 #pragma mark Token field support
@@ -222,6 +234,10 @@ completionsForSubstring:(NSString *)substring
 		[self saveArguments];
 	});
 	return result;
+}
+
+- (void)controlTextDidEndEditing:(NSNotification *)obj {
+	[self saveArguments];
 }
 
 -(void)saveArguments {

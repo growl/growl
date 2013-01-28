@@ -8,6 +8,6 @@
 
 #import <GrowlPlugins/GrowlPluginPreferencePane.h>
 
-@interface GrowlScriptActionPreferencePane : GrowlPluginPreferencePane <NSTokenFieldDelegate>
+@interface GrowlScriptActionPreferencePane : GrowlPluginPreferencePane <NSTokenFieldDelegate, NSControlTextEditingDelegate>
 
 @end
