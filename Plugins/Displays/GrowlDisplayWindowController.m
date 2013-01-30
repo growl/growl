@@ -99,8 +99,8 @@ static NSMutableDictionary *existingInstances;
 		self.occupiedRect = CGRectZero;
 		windowTransitions = [[NSMutableDictionary alloc] init];
 		ignoresOtherNotifications = NO;
-		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0U);
-		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSIntegerMapValueCallBacks, 0U);
+		startTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0U);
+		endTimes = NSCreateMapTable(NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 0U);
 		transitionDuration = DEFAULT_TRANSITION_DURATION;
 
 		//Show notifications on all Spaces
@@ -341,8 +341,8 @@ static NSMutableDictionary *existingInstances;
 			  @"The end parameter was invalid for the transition: %@",
 			  transition);
 
-	NSMapInsert(startTimes, transition, (void *)start);
-	NSMapInsert(endTimes, transition, (void *)end);
+	[startTimes setObject:[NSNumber numberWithUnsignedInteger:start] forKey:transition ];
+	[endTimes setObject:[NSNumber numberWithUnsignedInteger:end] forKey:transition ];
 }
 
 #pragma mark-
@@ -392,8 +392,10 @@ static NSMutableDictionary *existingInstances;
 }
 
 - (BOOL) startTransition:(GrowlWindowTransition *)transition {
-	NSInteger startPercentage = (NSInteger) NSMapGet(startTimes, transition);
-	NSInteger endPercentage   = (NSInteger) NSMapGet(endTimes, transition);
+    NSNumber *start = [startTimes objectForKey:transition];
+    NSNumber *end = [endTimes objectForKey:transition];
+	NSUInteger startPercentage = [start unsignedIntegerValue];
+	NSUInteger endPercentage   = [end unsignedIntegerValue];
 
 	// If there were no times set up then the end time would be NULL (0)...
 	if (endPercentage == 0)

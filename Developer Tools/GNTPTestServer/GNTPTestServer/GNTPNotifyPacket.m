@@ -126,10 +126,10 @@
 				contextType = [dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTENT_TYPE];
 			else
 				contextType = @"String";
-		}else if([NSPropertyListSerialization propertyList:context isValidForFormat:kCFPropertyListXMLFormat_v1_0]){
+		}else if([NSPropertyListSerialization propertyList:context isValidForFormat:NSPropertyListXMLFormat_v1_0]){
 			NSError *error = nil;
 			NSData *plistData = [NSPropertyListSerialization dataWithPropertyList:context
-                                                                        format:kCFPropertyListXMLFormat_v1_0
+                                                                        format:NSPropertyListXMLFormat_v1_0
                                                                        options:0
                                                                          error:&error];
 			if(plistData){

@@ -703,7 +703,7 @@
 		6A9ED3771447D04F002A0537 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "The Growl Project";
 			};
 			buildConfigurationList = 6A9ED37A1447D04F002A0537 /* Build configuration list for PBXProject "GrowlTunes" */;
@@ -1074,6 +1074,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A636281149C43E500C1ED44 /* Global-Debug.xcconfig */;
 			buildSettings = {
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 			};
 			name = Debug;
 		};
@@ -1081,6 +1082,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A636282149C43E500C1ED44 /* Global-Release.xcconfig */;
 			buildSettings = {
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 			};
 			name = Release;
 		};
@@ -1133,6 +1135,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6ACCBED114C289C5000F3151 /* Global-Localization.xcconfig */;
 			buildSettings = {
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 			};
 			name = Localization;
 		};

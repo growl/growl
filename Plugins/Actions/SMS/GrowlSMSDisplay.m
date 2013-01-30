@@ -134,11 +134,11 @@
 
  */
 - (void) sendXMLCommand:(NSString *)commandString {
-	CFStringRef			dataString = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("data=%@"), commandString);
-	CFDataRef			postData = CFStringCreateExternalRepresentation(kCFAllocatorDefault, dataString, kCFStringEncodingUTF8, 0U);
-	CFURLRef			clickatellURL = CFURLCreateWithString(kCFAllocatorDefault, CFSTR("https://api.clickatell.com/xml/xml"), NULL);
-	NSMutableURLRequest	*post = [[NSMutableURLRequest alloc] initWithURL:(NSURL *)clickatellURL];
-	CFStringRef			contentLength = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("%u"), CFDataGetLength(postData));
+	NSString			*dataString = [NSString stringWithFormat:@"data=%@", commandString];
+	NSData              *postData = [dataString dataUsingEncoding:NSUTF8StringEncoding];
+	NSURL               *clickatellURL = [NSURL URLWithString:@"https://api.clickatell.com/xml/xml"];
+	NSMutableURLRequest	*post = [[NSMutableURLRequest alloc] initWithURL:clickatellURL];
+	NSString            *contentLength = [NSString stringWithFormat:@"%lu", [postData length]];
 
 //	NSLog(@"SMS display: Sending data: %@", postData);
 
@@ -147,11 +147,6 @@
 	[post setHTTPBody:(NSData *)postData];
 	[commandQueue addObject:post];
 	[post release];
-
-	CFRelease(postData);
-	CFRelease(dataString);
-	CFRelease(clickatellURL);
-	CFRelease(contentLength);
 
 	[self processQueue];
 }
