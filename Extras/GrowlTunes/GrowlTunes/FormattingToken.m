@@ -42,7 +42,8 @@
 							TokenTrackNumber:		TokenTrackNumberReadable,
 							TokenTime:				TokenTimeReadable,
 							TokenVideoKindName:	TokenVideoKindNameReadable,
-							TokenRating:			TokenRatingReadable};
+							TokenRating:			TokenRatingReadable,
+							TokenEpisode:			TokenEpisodeReadable};
 	});
    return tokenMap;
 }

@@ -67,7 +67,8 @@
 #define TokenTrackNumber                @"trackNumber"
 #define TokenTime                       @"time"
 #define TokenVideoKindName              @"videoKindName"
-#define TokenRating							 @"rating"
+#define TokenRating						@"rating"
+#define TokenEpisode					@"episode"
 
 #pragma mark formatting token text
 #define TokenAlbumReadable              NSLocalizedString(@"Album", nil)
@@ -88,7 +89,8 @@
 #define TokenTrackNumberReadable        NSLocalizedString(@"Track Number", nil)
 #define TokenTimeReadable               NSLocalizedString(@"Play Time", nil)
 #define TokenVideoKindNameReadable      NSLocalizedString(@"Video Kind", nil)
-#define TokenRatingReadable				 NSLocalizedString(@"Rating", nil)
+#define TokenRatingReadable				NSLocalizedString(@"Rating", nil)
+#define TokenEpisodeReadable			NSLocalizedString(@"Episode", nil)
 
 #pragma mark menu entries
 #define MenuPlayPause                   NSLocalizedStringWithDefaultValue(@"PlayPauseMenuTitle", @"Localizable", [NSBundle mainBundle], @"▶ Play/Pause", @"Play pause menu text")

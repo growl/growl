@@ -34,6 +34,7 @@
 @synthesize cache = _cache;
 @synthesize isEvaluated = _isEvaluated;
 @synthesize neverEvaluate = _neverEvaluate;
+@synthesize rating = _rating;
 
 static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 
@@ -98,7 +99,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd);
 																								@"playedCount",
 																								@"playedDate",
 																								@"podcast",
-																								@"rating",
+//																								@"rating",
 																								@"ratingKind",
 																								@"releaseDate",
 																								@"sampleRate",
@@ -305,7 +306,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 	return _safeTrackPropertyGetter(self, key);
 }
 
-@dynamic album, albumArtist, artist, comment, description, episodeID, episodeNumber, longDescription, name, seasonNumber, show, streamTitle, trackCount, trackNumber, time, videoKindName, persistentID, rating;
+@dynamic album, albumArtist, artist, comment, description, episodeID, episodeNumber, longDescription, name, seasonNumber, show, streamTitle, trackCount, trackNumber, time, videoKindName, persistentID;
 
 -(id)valueForUndefinedKey:(NSString *)key
 {
