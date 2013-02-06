@@ -98,7 +98,7 @@
 		NSUInteger typeIndex = [types indexOfObject:type];
 		NSString *resourceName = [NSString stringWithFormat:@"Notifications-%@", [fileNames objectAtIndex:typeIndex]];
 		NSURL *urlForIcon = ([[NSBundle mainBundle] URLForImageResource:resourceName]?:[[NSBundle mainBundle] URLForImageResource:@"GrowlTunes.icns"]);
-		NSLog(@"resourceName: %@", urlForIcon);
+
 		//Replace with localized type
 		[mutableValue setObject:type forKey:@"formatType"];
 		[mutableValue setObject:[readableDict valueForKey:type] forKey:@"formatTypeReadable"];

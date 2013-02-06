@@ -140,6 +140,11 @@
 			[self notifyWithTitle:NotifierStoppedReadable description:@"" name:NotifierStopped icon:nil];
 		}
 	}
+	else if ([keyPath isEqualToString:@"currentTrack.rating"])
+	{
+		NSDictionary* formatted = [[[self conductor] currentTrack] formattedDescriptionDictionary];
+		[_currentTrackController setFormattedDescription:formatted];
+	}
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification*)aNotification
@@ -207,6 +212,7 @@
 	    
     if (!_iTunesConductor) { self.conductor = AUTORELEASE([[ITunesConductor alloc] init]); }
     [self.conductor addObserver:self forKeyPath:@"currentTrack" options:NSKeyValueObservingOptionInitial context:nil];
+    [self.conductor addObserver:self forKeyPath:@"currentTrack.rating" options:NSKeyValueObservingOptionInitial context:nil];
 	[self.conductor addObserver:self forKeyPath:@"isPaused" options:NSKeyValueObservingOptionInitial context:nil];
 	[self.conductor addObserver:self forKeyPath:@"isStopped" options:NSKeyValueObservingOptionInitial context:nil];
 }
@@ -217,6 +223,7 @@
 
 -(void)dealloc
 {
+    [self.conductor removeObserver:self forKeyPath:@"currentTrack.rating"];
     [self.conductor removeObserver:self forKeyPath:@"currentTrack"];
 	[self.conductor removeObserver:self forKeyPath:@"isPaused"];
 	[self.conductor removeObserver:self forKeyPath:@"isStopped"];

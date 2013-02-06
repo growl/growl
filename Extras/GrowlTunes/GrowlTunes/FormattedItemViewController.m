@@ -51,11 +51,13 @@
 }
 
 -(void)setFormattedDescription:(NSDictionary *)newDescription {
+	[self willChangeValueForKey:@"formattedDescription"];
 	if(_formattedDescription){
 		RELEASE(_formattedDescription);
 	}
 	_formattedDescription = RETAIN(newDescription);
 	[self updateItems];
+	[self didChangeValueForKey:@"formattedDescription"];
 }
 
 -(void)setIcon:(NSImage*)icon

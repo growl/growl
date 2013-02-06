@@ -321,11 +321,22 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 {
 	if (![[ITunesApplication sharedInstance] isRunning] || ![self.trackObject exists]) return;
 	
+	[self willChangeValueForKey:@"rating"];
+	
 	[self.trackObject setValue:rating forKey:@"rating"];
 	if (self.isEvaluated) {
 		rating = [self.trackObject valueForKey:@"rating"];
 		[self.cache setValue:rating forKey:@"rating"];
 	}
+	[self didChangeValueForKey:@"rating"];
+}
+
+-  (NSNumber *)rating
+{
+	NSNumber *result = [NSNumber numberWithInteger:0];
+	if([self.trackObject valueForKey:@"rating"])
+		result = [self.trackObject valueForKey:@"rating"];
+	return result;
 }
 
 #pragma mark helper accessors
