@@ -44,6 +44,7 @@
 #define musicReadable                   NSLocalizedStringWithDefaultValue(@"MusicFormatTitle", @"Localizable", [NSBundle mainBundle], @"Music", nil)
 
 #define formattingTypes                 @"podcast", @"stream", @"show", @"movie", @"musicVideo", @"music"
+#define typeFileNames						@"Podcast", @"Stream", @"Show", @"Movie", @"MusicVideo", @"Music"
 //#define formattingTypesReadable       podcastReadable, streamReadable, showReadable, movieReadable, musicVideoReadable, musicReadable
 #define formattingAttributes            @"titleArray", @"descriptionArray"
 

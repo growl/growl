@@ -94,10 +94,15 @@
 			[mutableValue setValue:buildArray forKey:attribute];
 		}];
 		
+		NSArray *fileNames = @[typeFileNames];
+		NSUInteger typeIndex = [types indexOfObject:type];
+		NSString *resourceName = [NSString stringWithFormat:@"Notifications-%@", [fileNames objectAtIndex:typeIndex]];
+		NSURL *urlForIcon = ([[NSBundle mainBundle] URLForImageResource:resourceName]?:[[NSBundle mainBundle] URLForImageResource:@"GrowlTunes.icns"]);
+		NSLog(@"resourceName: %@", urlForIcon);
 		//Replace with localized type
 		[mutableValue setObject:type forKey:@"formatType"];
 		[mutableValue setObject:[readableDict valueForKey:type] forKey:@"formatTypeReadable"];
-		[mutableValue setObject:([[NSBundle mainBundle] URLForImageResource:type]?:[[NSBundle mainBundle] URLForImageResource:@"GrowlTunes.icns"]) forKey:@"formatIconURL"];
+		[mutableValue setObject:urlForIcon forKey:@"formatIconURL"];
 		[dictBuild setObject:mutableValue forKey:type];
 	}];
 	self.tokenDicts = dictBuild;
