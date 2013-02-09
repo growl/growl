@@ -438,7 +438,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 		bestArtist = [self valueForKey:@"artist"];
 	}
 	
-	if (!bestArtist || [bestArtist length] == 0) {
+	if (!bestArtist || [bestArtist isEqualTo:[NSNull null]] || [bestArtist length] == 0) {
 		bestArtist = @"Unknown Artist";
 	}
 	
