@@ -280,6 +280,7 @@
             [_statusItem setImage:[NSImage imageNamed:@"GrowlTunes-Template.pdf"]];
             [_statusItem setHighlightMode:YES];
             [_statusItem setAction:@selector(openMenu:)];
+			[_statusItem sendActionOn:NSLeftMouseDownMask];
             [_statusItem setTarget:self];
 //            [_statusItem setMenu:self.statusItemMenu];
         }
