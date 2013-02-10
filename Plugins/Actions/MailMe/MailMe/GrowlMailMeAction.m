@@ -35,8 +35,14 @@
 																							accountName:[configuration valueForKey:GROWL_PLUGIN_CONFIG_ID]];
 	NSString *messageFrom = [configuration valueForKey:SMTPFromKey];
 	NSString *messageTo = [configuration valueForKey:SMTPToKey];
-	
-	if (!serverPorts.length) serverPorts = @"";
+
+	NSMutableArray *portArray = [NSMutableArray array];
+	if(serverPorts && serverPorts.length){
+		[[serverPorts componentsSeparatedByString:@","] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			NSInteger port = [obj integerValue];
+			[portArray addObject:@(port)];
+		}];
+	}
 	if(!serverAddress || serverAddress.length == 0 ||
 		!messageFrom || messageFrom.length == 0 ||
 		!messageTo || messageTo.length == 0) {
@@ -65,7 +71,7 @@
 		tlsMode = [[configuration valueForKey:SMTPServerTLSModeKey] integerValue];
 	NSDictionary* params = [NSDictionary dictionaryWithObjectsAndKeys: 
 									serverAddress, SMTPServerAddressKey,
-									serverPorts, SMTPServerPortsKey,
+									portArray, SMTPServerPortsKey,
 									[NSNumber numberWithInteger:tlsMode], SMTPServerTLSModeKey,
 									[NSNumber numberWithBool:authFlag], SMTPServerAuthFlagKey,
 									serverAuthUsername, SMTPServerAuthUsernameKey,
