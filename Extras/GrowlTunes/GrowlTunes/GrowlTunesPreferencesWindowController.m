@@ -13,6 +13,12 @@
 #import "GrowlOnSwitch.h"
 #import "GrowlProcessTransformation.h"
 #import "StartAtLoginController.h"
+#import "iTunes.h"
+#import "iTunes+iTunesAdditions.h"
+
+#import "SGHotKeyCenter.h"
+#import "SGHotKey.h"
+#import "SGKeyCombo.h"
 
 @interface GrowlTunesPreferencesWindowController ()
 
@@ -29,6 +35,17 @@
 @property (nonatomic, assign) BOOL oldOnLoginValue;
 
 @property (nonatomic, assign) IBOutlet NSView *formatTabView;
+@property (nonatomic, assign) IBOutlet NSView *keyboardTabView;
+
+@property (nonatomic, assign) IBOutlet SRRecorderControl *nowPlayingRecorder;
+@property (nonatomic, assign) IBOutlet SRRecorderControl *volumeUpRecorder;
+@property (nonatomic, assign) IBOutlet SRRecorderControl *volumeDownRecorder;
+@property (nonatomic, assign) IBOutlet SRRecorderControl *nextRecorder;
+@property (nonatomic, assign) IBOutlet SRRecorderControl *previousRecorder;
+@property (nonatomic, assign) IBOutlet SRRecorderControl *playPauseRecorder;
+@property (nonatomic, assign) IBOutlet SRRecorderControl *activateiTunesRecorder;
+
+-(IBAction)selectTab:(id)sender;
 @end
 
 @implementation GrowlTunesPreferencesWindowController
@@ -74,6 +91,30 @@
 																				 forKeyPath:@"values.OnLogin"
 																					 options:NSKeyValueObservingOptionNew
 																					 context:nil];
+
+	[self setupHotKeys];
+}
+
+- (void)setupHotKeys
+{
+	NSArray *hotKeys = @[NowPlayingHotKeyIdentifier, VolumeUpHotKeyIdentifier, VolumeDownHotKeyIdentifier, NextTrackHotKeyIdentifier, PreviousTrackHotKeyIdentifier, PlayPauseHotKeyIdentifier, ActivateHotKeyIdentifier];
+	NSArray *recorders = @[_nowPlayingRecorder, _volumeUpRecorder, _volumeDownRecorder, _nextRecorder, _previousRecorder, _playPauseRecorder, _activateiTunesRecorder];
+	[hotKeys enumerateObjectsUsingBlock:^(NSString *identifier, NSUInteger idx, BOOL *stop)
+	 {
+		 SRRecorderControl *recorder = [recorders objectAtIndex:idx];
+		 NSDictionary *plist = [[NSUserDefaults standardUserDefaults] objectForKey:identifier];
+		 if(plist)
+		 {
+			 SGKeyCombo *combo = [[SGKeyCombo alloc] initWithPlistRepresentation:plist];
+			 if(([combo keyCode] != -1) && ([combo modifiers] != -1))
+			 {
+				 KeyCombo srCombo = {combo.modifiers, combo.keyCode};
+				 [recorder setKeyCombo:srCombo];
+			 }
+		 }
+		 //we specify the delegate here instead of in the xib so that setting the key combo doesn't cause the save delegate method to be invoked when we assign the load key combo state
+		 recorder.delegate = self;
+	 }];
 }
 
 - (id)localizedStringsController
@@ -211,13 +252,16 @@
 #pragma mark Toolbar/Tab support
 
 -(void)selectTabIndex:(NSInteger)tab {
-	if(tab < 0 || tab > 1)
+	if(tab < 0 || tab > 2)
 		tab = 0;
 	[_toolbar setSelectedItemIdentifier:[NSString stringWithFormat:@"%ld", tab]];
 	//Set our new content view
 	NSView *currentView = [[self window] contentView];
 	NSView *nextView = nil;
 	switch (tab) {
+		case 2:
+			nextView = _keyboardTabView;
+			break;
 		case 1:
 			nextView = _formatTabView;
 			break;
@@ -248,13 +292,13 @@
 	return YES;
 }
 -(NSArray*)toolbarSelectableItemIdentifiers:(NSToolbar*)aToolbar {
-	return [NSArray arrayWithObjects:@"0", @"1", nil];
+	return [NSArray arrayWithObjects:@"0", @"1", @"2", nil];
 }
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
-   return [NSArray arrayWithObjects:@"0", @"1", nil];
+   return [NSArray arrayWithObjects:@"0", @"1", @"2", nil];
 }
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)aToolbar {
-   return [NSArray arrayWithObjects:@"0", @"1", nil];
+   return [NSArray arrayWithObjects:@"0", @"1", @"2", nil];
 }
 
 #pragma mark NSTokenField Delegate methods
@@ -328,4 +372,66 @@ completionsForSubstring:(NSString *)substring
 	return YES;
 }
 
+#pragma mark ShortcutRecorder
+
+- (void)shortcutRecorder:(SRRecorderControl *)aRecorder keyComboDidChange:(KeyCombo)newKeyCombo
+{
+	NSString *identifier = nil;
+	id target = [NSApp delegate];
+	SEL selector = nil;
+	SGKeyCombo *combo = [SGKeyCombo keyComboWithKeyCode:newKeyCombo.code modifiers:newKeyCombo.flags];
+
+	if([aRecorder isEqualTo:_nowPlayingRecorder])
+	{
+		identifier = NowPlayingHotKeyIdentifier;
+		selector = @selector(nowPlaying:);
+	}
+	else if ([aRecorder isEqualTo:_volumeUpRecorder])
+	{
+		identifier = VolumeUpHotKeyIdentifier;
+		selector = @selector(volumeUp:);
+	}
+	else if ([aRecorder isEqualTo:_volumeDownRecorder])
+	{
+		identifier = VolumeDownHotKeyIdentifier;
+		selector = @selector(volumeDown:);
+	}
+	else if ([aRecorder isEqualTo:_nextRecorder])
+	{
+		identifier = NextTrackHotKeyIdentifier;
+		selector = @selector(nextTrack:);
+	}
+	else if ([aRecorder isEqualTo:_previousRecorder])
+	{
+		identifier = PreviousTrackHotKeyIdentifier;
+		selector = @selector(previousTrack:);
+	}
+	else if ([aRecorder isEqualTo:_playPauseRecorder])
+	{
+		identifier = PlayPauseHotKeyIdentifier;
+		selector = @selector(playPause:);
+	}
+	else if ([aRecorder isEqualTo:_activateiTunesRecorder])
+	{
+		identifier = ActivateHotKeyIdentifier;
+		selector = @selector(activateItunes:);
+	}
+	
+	if(identifier)
+	{		
+		if(newKeyCombo.code == -1)
+		{
+			[[NSUserDefaults standardUserDefaults] removeObjectForKey:identifier];
+			[[SGHotKeyCenter sharedCenter] unregisterHotKey:[[SGHotKeyCenter sharedCenter] hotKeyWithIdentifier:identifier]];
+		}
+		else
+		{
+			[[NSUserDefaults standardUserDefaults] setObject:[combo plistRepresentation] forKey:identifier];
+			combo.modifiers = SRCocoaToCarbonFlags(combo.modifiers);
+			SGHotKey *hotKey = [[SGHotKey alloc] initWithIdentifier:identifier keyCombo:combo target:target action:selector];
+			
+			[[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
+		}
+	}
+}
 @end

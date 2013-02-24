@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "ShortcutRecorder/ShortcutRecorder.h"
 
 @interface GrowlTunesPreferencesWindowController : NSWindowController <NSTokenFieldDelegate, NSToolbarDelegate, NSWindowDelegate>
 

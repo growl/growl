@@ -17,6 +17,10 @@
 #import "StartAtLoginController.h"
 #import "GrowlLocalizedStringsController.h"
 
+#import "SGHotKeyCenter.h"
+#import "SGHotKey.h"
+#import "SGKeyCombo.h"
+
 @interface GrowlTunesController ()
 
 @property(readwrite, STRONG, nonatomic) IBOutlet ITunesConductor* conductor;
@@ -215,6 +219,8 @@
     [self.conductor addObserver:self forKeyPath:@"currentTrack.rating" options:NSKeyValueObservingOptionInitial context:nil];
 	[self.conductor addObserver:self forKeyPath:@"isPaused" options:NSKeyValueObservingOptionInitial context:nil];
 	[self.conductor addObserver:self forKeyPath:@"isStopped" options:NSKeyValueObservingOptionInitial context:nil];
+	
+	[self setupHotKeys];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
@@ -357,25 +363,69 @@
     [NSApp terminate:self];
 }
 
+- (void)setupHotKeys
+{
+	NSArray *hotKeys = @[NowPlayingHotKeyIdentifier, VolumeUpHotKeyIdentifier, VolumeDownHotKeyIdentifier, NextTrackHotKeyIdentifier, PreviousTrackHotKeyIdentifier, PlayPauseHotKeyIdentifier, ActivateHotKeyIdentifier];
+	NSArray *actions = @[@"nowPlaying:", @"volumeUp:", @"volumeDown:", @"nextTrack:", @"previousTrack:", @"playPause:", @"activateItunes:"];
+	[hotKeys enumerateObjectsUsingBlock:^(NSString *identifier, NSUInteger idx, BOOL *stop)
+	{
+		NSDictionary *plist = [[NSUserDefaults standardUserDefaults] objectForKey:identifier];
+		if(plist)
+		{
+			SGKeyCombo *combo = [[SGKeyCombo alloc] initWithPlistRepresentation:plist];
+			if(([combo keyCode] != -1) && ([combo modifiers] != -1))
+			{
+				combo.modifiers = SRCocoaToCarbonFlags(combo.modifiers);
+				SGHotKey *hotKey = [[SGHotKey alloc] initWithIdentifier:identifier keyCombo:combo target:self action:NSSelectorFromString([actions objectAtIndex:idx])];
+				[[SGHotKeyCenter sharedCenter] registerHotKey:hotKey];
+			}
+		}
+	}];
+}
 
 #pragma mark Pass through from UI to conductor
+
 - (IBAction)quitItunes:(id)sender {
 	[self.conductor quit:sender];
 }
+
 - (IBAction)runiTunes:(id)sender {
 	[self.conductor runiTunes:sender];
 }
+
 - (IBAction)playPause:(id)sender {
 	[self.conductor playPause:sender];
 }
+
 - (IBAction)nextTrack:(id)sender {
 	[self.conductor nextTrack:sender];
 }
+
 - (IBAction)previousTrack:(id)sender {
 	[self.conductor previousTrack:sender];
 }
+
 - (IBAction)activateItunes:(id)sender {
 	[self.conductor activate:sender];
+}
+
+- (IBAction)nowPlaying:(id)sender {
+	[self.conductor willChangeValueForKey:@"currentTrack"];
+	[self.conductor didChangeValueForKey:@"currentTrack"];
+}
+
+- (IBAction)volumeUp:(id)sender {
+	NSInteger newVolume = [[self.conductor volume] integerValue];
+	newVolume+=10;
+	newVolume= MIN(newVolume, 100);
+	[self.conductor setVolume:[NSNumber numberWithInteger:newVolume]];
+}
+
+- (IBAction)volumeDown:(id)sender {
+	NSInteger newVolume = [[self.conductor volume] integerValue];
+	newVolume-=10;
+	newVolume= MAX(newVolume, 0);
+	[self.conductor setVolume:[NSNumber numberWithInteger:newVolume]];
 }
 
 #if defined(BETA)

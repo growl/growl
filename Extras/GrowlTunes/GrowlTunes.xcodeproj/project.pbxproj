@@ -65,6 +65,15 @@
 		93C9F54716C1EBBF0070F9EF /* Notifications-Ringtones@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93C9F53316C1EBBF0070F9EF /* Notifications-Ringtones@2x.png */; };
 		93C9F54816C1EBBF0070F9EF /* Notifications-Show.png in Resources */ = {isa = PBXBuildFile; fileRef = 93C9F53416C1EBBF0070F9EF /* Notifications-Show.png */; };
 		93C9F54916C1EBBF0070F9EF /* Notifications-Show@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93C9F53516C1EBBF0070F9EF /* Notifications-Show@2x.png */; };
+		93C9F55F16D5F7500070F9EF /* Prefs-Keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 93C9F55D16D5F74F0070F9EF /* Prefs-Keyboard.png */; };
+		93C9F56016D5F7500070F9EF /* Prefs-Keyboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 93C9F55E16D5F74F0070F9EF /* Prefs-Keyboard@2x.png */; };
+		93C9F56C16D5FA610070F9EF /* ShortcutRecorder.framework in Copy Framework */ = {isa = PBXBuildFile; fileRef = 93C9F56716D5F8EF0070F9EF /* ShortcutRecorder.framework */; };
+		93C9F56D16D5FA7C0070F9EF /* ShortcutRecorder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C9F56716D5F8EF0070F9EF /* ShortcutRecorder.framework */; };
+		93C9F57616D7212B0070F9EF /* SGHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C9F56F16D721260070F9EF /* SGHotKey.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		93C9F57716D7212B0070F9EF /* SGHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C9F57116D721270070F9EF /* SGHotKeyCenter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		93C9F57816D7212B0070F9EF /* SGKeyCodeTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C9F57316D721280070F9EF /* SGKeyCodeTranslator.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		93C9F57916D7212B0070F9EF /* SGKeyCombo.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C9F57516D7212B0070F9EF /* SGKeyCombo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		93C9F57C16D727320070F9EF /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A4BE42C1465F6F700A48B46 /* Carbon.framework */; };
 		BC11E34516567DBD00B96422 /* GrowlOnSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = BC11E34216567DBD00B96422 /* GrowlOnSwitch.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BC11E34616567DBD00B96422 /* GrowlOnSwitchLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = BC11E34416567DBD00B96422 /* GrowlOnSwitchLabel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BC11E34916567DD100B96422 /* TMSliderControl.m in Sources */ = {isa = PBXBuildFile; fileRef = BC11E34816567DD100B96422 /* TMSliderControl.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -203,6 +212,27 @@
 			remoteGlobalIDString = FF93C8E214218EB3007EAC43;
 			remoteInfo = GNTPClientService;
 		};
+		93C9F56616D5F8EF0070F9EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93C9F56116D5F8EE0070F9EF /* ShortcutRecorder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 939837800DA42965007F53F3;
+			remoteInfo = ShortcutRecorder.framework;
+		};
+		93C9F56816D5F8EF0070F9EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93C9F56116D5F8EE0070F9EF /* ShortcutRecorder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 93983B220DA43C4E007F53F3;
+			remoteInfo = ShortcutRecorder_Tester;
+		};
+		93C9F56A16D5FA540070F9EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93C9F56116D5F8EE0070F9EF /* ShortcutRecorder.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9398377F0DA42965007F53F3;
+			remoteInfo = ShortcutRecorder.framework;
+		};
 		BC8F61EA15F05CF400DEC0A8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6A89591B1447D221009D09FC /* Growl.xcodeproj */;
@@ -219,6 +249,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				93C9F56C16D5FA610070F9EF /* ShortcutRecorder.framework in Copy Framework */,
 				6A89594F1447D46E009D09FC /* Growl.framework in Copy Framework */,
 			);
 			name = "Copy Framework";
@@ -365,6 +396,17 @@
 		93C9F53316C1EBBF0070F9EF /* Notifications-Ringtones@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Notifications-Ringtones@2x.png"; sourceTree = "<group>"; };
 		93C9F53416C1EBBF0070F9EF /* Notifications-Show.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Notifications-Show.png"; sourceTree = "<group>"; };
 		93C9F53516C1EBBF0070F9EF /* Notifications-Show@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Notifications-Show@2x.png"; sourceTree = "<group>"; };
+		93C9F55D16D5F74F0070F9EF /* Prefs-Keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Prefs-Keyboard.png"; sourceTree = "<group>"; };
+		93C9F55E16D5F74F0070F9EF /* Prefs-Keyboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Prefs-Keyboard@2x.png"; sourceTree = "<group>"; };
+		93C9F56116D5F8EE0070F9EF /* ShortcutRecorder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ShortcutRecorder.xcodeproj; path = ../../external_dependencies/shortcutrecorder/ShortcutRecorder.xcodeproj; sourceTree = "<group>"; };
+		93C9F56E16D721260070F9EF /* SGHotKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGHotKey.h; path = ../../external_dependencies/SGHotKeysLib/SGHotKeysLib/SGHotKey.h; sourceTree = "<group>"; };
+		93C9F56F16D721260070F9EF /* SGHotKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGHotKey.m; path = ../../external_dependencies/SGHotKeysLib/SGHotKeysLib/SGHotKey.m; sourceTree = "<group>"; };
+		93C9F57016D721270070F9EF /* SGHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGHotKeyCenter.h; path = ../../external_dependencies/SGHotKeysLib/SGHotKeysLib/SGHotKeyCenter.h; sourceTree = "<group>"; };
+		93C9F57116D721270070F9EF /* SGHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGHotKeyCenter.m; path = ../../external_dependencies/SGHotKeysLib/SGHotKeysLib/SGHotKeyCenter.m; sourceTree = "<group>"; };
+		93C9F57216D721280070F9EF /* SGKeyCodeTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGKeyCodeTranslator.h; path = ../../external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCodeTranslator.h; sourceTree = "<group>"; };
+		93C9F57316D721280070F9EF /* SGKeyCodeTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGKeyCodeTranslator.m; path = ../../external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCodeTranslator.m; sourceTree = "<group>"; };
+		93C9F57416D721290070F9EF /* SGKeyCombo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGKeyCombo.h; path = ../../external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCombo.h; sourceTree = "<group>"; };
+		93C9F57516D7212B0070F9EF /* SGKeyCombo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGKeyCombo.m; path = ../../external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCombo.m; sourceTree = "<group>"; };
 		93D17D8F169FB083003AE638 /* GrowlToolChainSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlToolChainSupport.h; path = ../../../GrowlToolChainSupport.h; sourceTree = "<group>"; };
 		BC11E34116567DBD00B96422 /* GrowlOnSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitch.h; path = ../../../Core/Source/GrowlOnSwitch.h; sourceTree = "<group>"; };
 		BC11E34216567DBD00B96422 /* GrowlOnSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitch.m; path = ../../../Core/Source/GrowlOnSwitch.m; sourceTree = "<group>"; };
@@ -394,11 +436,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93C9F57C16D727320070F9EF /* Carbon.framework in Frameworks */,
 				6AAE990114D94A19004848EC /* CoreFoundation.framework in Frameworks */,
 				6AAE98FF14D94932004848EC /* Foundation.framework in Frameworks */,
 				6AAE990014D94941004848EC /* AppKit.framework in Frameworks */,
 				6AAE997314DAF119004848EC /* ServiceManagement.framework in Frameworks */,
 				6A34E62A14A039C5001CFA45 /* SystemConfiguration.framework in Frameworks */,
+				93C9F56D16D5FA7C0070F9EF /* ShortcutRecorder.framework in Frameworks */,
 				6A48D1A214DD5B1400C8C999 /* Security.framework in Frameworks */,
 				6A4BE4341465F83400A48B46 /* ScriptingBridge.framework in Frameworks */,
 				6A4BE4361465F85800A48B46 /* Growl.framework in Frameworks */,
@@ -428,6 +472,8 @@
 				6A56766614CB70B200E97962 /* GrowlTunes-Template.pdf */,
 				6AADA30F1448B43E0089AB08 /* GrowlTunes.icns */,
 				6AADA3351448C1F50089AB08 /* GrowlTunes.xib */,
+				93C9F55D16D5F74F0070F9EF /* Prefs-Keyboard.png */,
+				93C9F55E16D5F74F0070F9EF /* Prefs-Keyboard@2x.png */,
 				933622D916B5903C006A5A82 /* Prefs-General.png */,
 				933622DA16B5903C006A5A82 /* Prefs-General@2x.png */,
 				933622DB16B5903C006A5A82 /* Prefs-Notifications.png */,
@@ -482,6 +528,16 @@
 		6A9ED3751447D04F002A0537 = {
 			isa = PBXGroup;
 			children = (
+				93C9F56E16D721260070F9EF /* SGHotKey.h */,
+				93C9F56F16D721260070F9EF /* SGHotKey.m */,
+				93C9F57016D721270070F9EF /* SGHotKeyCenter.h */,
+				93C9F57116D721270070F9EF /* SGHotKeyCenter.m */,
+				93C9F57216D721280070F9EF /* SGKeyCodeTranslator.h */,
+				93C9F57316D721280070F9EF /* SGKeyCodeTranslator.m */,
+				93C9F57416D721290070F9EF /* SGKeyCombo.h */,
+				93C9F57516D7212B0070F9EF /* SGKeyCombo.m */,
+				6A89591B1447D221009D09FC /* Growl.xcodeproj */,
+				93C9F56116D5F8EE0070F9EF /* ShortcutRecorder.xcodeproj */,
 				6A63627F149C43E500C1ED44 /* xcconfig */,
 				93B957FF16B44A0600C85136 /* Growl_Common */,
 				6AD07C33149FF6C400BFFF52 /* additions */,
@@ -507,7 +563,6 @@
 			children = (
 				6A9ED3861447D04F002A0537 /* Other Frameworks */,
 				6AAE995214DAE740004848EC /* Cocoa.framework */,
-				6A89591B1447D221009D09FC /* Growl.xcodeproj */,
 				6AADA337144902060089AB08 /* ScriptingBridge.framework */,
 				6A48D1A114DD5B1400C8C999 /* Security.framework */,
 				6AAE997114DAF0C6004848EC /* ServiceManagement.framework */,
@@ -641,6 +696,15 @@
 			name = type_icons;
 			sourceTree = "<group>";
 		};
+		93C9F56216D5F8EE0070F9EF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				93C9F56716D5F8EF0070F9EF /* ShortcutRecorder.framework */,
+				93C9F56916D5F8EF0070F9EF /* ShortcutRecorder.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		BC11E33F16567D3500B96422 /* PreferencesWindow */ = {
 			isa = PBXGroup;
 			children = (
@@ -713,6 +777,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				93C9F56B16D5FA540070F9EF /* PBXTargetDependency */,
 				6AAE996E14DAED81004848EC /* PBXTargetDependency */,
 				6A89594A1447D242009D09FC /* PBXTargetDependency */,
 				6AAE997514DAF3C6004848EC /* PBXTargetDependency */,
@@ -795,6 +860,10 @@
 				{
 					ProductGroup = 6A89591C1447D221009D09FC /* Products */;
 					ProjectRef = 6A89591B1447D221009D09FC /* Growl.xcodeproj */;
+				},
+				{
+					ProductGroup = 93C9F56216D5F8EE0070F9EF /* Products */;
+					ProjectRef = 93C9F56116D5F8EE0070F9EF /* ShortcutRecorder.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -904,6 +973,20 @@
 			remoteRef = 6A8959471447D221009D09FC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		93C9F56716D5F8EF0070F9EF /* ShortcutRecorder.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ShortcutRecorder.framework;
+			remoteRef = 93C9F56616D5F8EF0070F9EF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		93C9F56916D5F8EF0070F9EF /* ShortcutRecorder.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ShortcutRecorder.app;
+			remoteRef = 93C9F56816D5F8EF0070F9EF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		BC8F61EB15F05CF400DEC0A8 /* GrowlPlugins.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -958,6 +1041,8 @@
 				93C9F54716C1EBBF0070F9EF /* Notifications-Ringtones@2x.png in Resources */,
 				93C9F54816C1EBBF0070F9EF /* Notifications-Show.png in Resources */,
 				93C9F54916C1EBBF0070F9EF /* Notifications-Show@2x.png in Resources */,
+				93C9F55F16D5F7500070F9EF /* Prefs-Keyboard.png in Resources */,
+				93C9F56016D5F7500070F9EF /* Prefs-Keyboard@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1044,6 +1129,10 @@
 				BC924FE916776AA200347C16 /* StartAtLoginController.m in Sources */,
 				BCF70C2B1681F9900098B98E /* GrowlProcessTransformation.m in Sources */,
 				93B9580216B44A1500C85136 /* GrowlLocalizedStringsController.m in Sources */,
+				93C9F57616D7212B0070F9EF /* SGHotKey.m in Sources */,
+				93C9F57716D7212B0070F9EF /* SGHotKeyCenter.m in Sources */,
+				93C9F57816D7212B0070F9EF /* SGKeyCodeTranslator.m in Sources */,
+				93C9F57916D7212B0070F9EF /* SGKeyCombo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1073,6 +1162,11 @@
 			isa = PBXTargetDependency;
 			name = GNTPClientService;
 			targetProxy = 6AAE997414DAF3C6004848EC /* PBXContainerItemProxy */;
+		};
+		93C9F56B16D5FA540070F9EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ShortcutRecorder.framework;
+			targetProxy = 93C9F56A16D5FA540070F9EF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

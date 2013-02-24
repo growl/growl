@@ -137,3 +137,17 @@
 
 #define BackgroundAlertTitle NSLocalizedStringWithDefaultValue(@"OkButtonTitle", @"Localizable", [NSBundle mainBundle], @"Warning! Enabling this option will cause GrowlTunes to run in the background", @"User wants to run GrowlTunes in the background, no icons in the menu or dock")
 #define BackgroundAlertMessage NSLocalizedStringWithDefaultValue(@"OkButtonTitle", @"Localizable", [NSBundle mainBundle], @"Enabling this option will cause GrowlTunes to run without showing a dock icon or a menu item.\n\nTo access preferences, tap GrowlTunes in Launchpad, or open GrowlTunes in Finder.", @"User wants to run GrowlTunes in the background, no icons in the menu or dock")
+
+
+#pragma mark Hot Keys
+
+//identifiers
+#define NowPlayingHotKeyIdentifier				@"com.growl.growltunes.nowplaying"
+#define VolumeUpHotKeyIdentifier				@"com.growl.growltunes.volumeup"
+#define VolumeDownHotKeyIdentifier				@"com.growl.growltunes.volumedown"
+#define NextTrackHotKeyIdentifier				@"com.growl.growltunes.nextTrack"
+#define PreviousTrackHotKeyIdentifier			@"com.growl.growltunes.previousTrack"
+#define PlayPauseHotKeyIdentifier				@"com.growl.growltunes.playpause"
+#define ActivateHotKeyIdentifier				@"com.growl.growltunes.activateiTunes"
+
+
