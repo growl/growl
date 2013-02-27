@@ -1242,6 +1242,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 			};
 			name = Debug;
 		};
@@ -1251,6 +1252,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 			};
 			name = Release;
 		};
@@ -1295,6 +1297,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application: The Growl Project, LLC";
 				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 			};
 			name = Localization;
 		};
