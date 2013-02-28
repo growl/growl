@@ -274,7 +274,8 @@
 	}
 	if(currentView != nextView){
 		CGRect newFrame = [[self window] frame];
-		CGSize newSize = [nextView frame].size;
+		CGRect newViewFrame = [[self window] frameRectForContentRect:[nextView bounds]];
+		CGSize newSize = newViewFrame.size;
 		newFrame.origin.y -= (newSize.height - newFrame.size.height);
 		newFrame.size = newSize;
 		
