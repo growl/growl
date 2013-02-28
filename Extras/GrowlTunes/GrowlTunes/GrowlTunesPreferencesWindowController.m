@@ -27,6 +27,7 @@
 @property (nonatomic, assign) IBOutlet NSToolbar *toolbar;
 @property (nonatomic, assign) IBOutlet NSToolbarItem *generalItem;
 @property (nonatomic, assign) IBOutlet NSToolbarItem *formatItem;
+@property (nonatomic, assign) IBOutlet NSToolbarItem *hotKeysItem;
 
 @property (nonatomic, assign) IBOutlet NSView *generalTabView;
 @property (nonatomic, assign) IBOutlet GrowlOnSwitch *onLoginSwitch;
@@ -76,6 +77,7 @@
 	[self selectTabIndex:0];
 	[_generalItem setLabel:[[self localizedStringsController] stringForKey:@"GeneralTabTitle"]];
 	[_formatItem setLabel:[[self localizedStringsController] stringForKey:@"FormatTabTitle"]];
+	[_hotKeysItem setLabel:[[self localizedStringsController] stringForKey:@"HotKeysTabTitle"]];
 				
 	[_onLoginSwitch setState:[[[NSUserDefaultsController sharedUserDefaultsController] defaults] boolForKey:@"OnLogin"]];
 	[_onLoginSwitch addObserver:self

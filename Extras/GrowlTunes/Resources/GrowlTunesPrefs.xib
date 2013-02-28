@@ -143,12 +143,12 @@
 							<int key="NSToolbarItemVisibilityPriority">0</int>
 						</object>
 					</dictionary>
-					<array class="NSMutableArray" key="NSToolbarIBAllowedItems">
+					<array key="NSToolbarIBAllowedItems">
 						<reference ref="769031340"/>
 						<reference ref="321733199"/>
 						<reference ref="533531711"/>
 					</array>
-					<array class="NSMutableArray" key="NSToolbarIBDefaultItems">
+					<array key="NSToolbarIBDefaultItems">
 						<reference ref="769031340"/>
 						<reference ref="321733199"/>
 						<reference ref="533531711"/>
@@ -1239,6 +1239,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">hotKeysItem</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="533531711"/>
+					</object>
+					<int key="connectionID">1887</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="1005"/>
 						<reference key="destination" ref="1001"/>
@@ -1872,6 +1880,118 @@
 						</object>
 					</object>
 					<int key="connectionID">1533</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.NowPlayingTitle</string>
+						<reference key="source" ref="1037307045"/>
+						<reference key="destination" ref="151805620"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1037307045"/>
+							<reference key="NSDestination" ref="151805620"/>
+							<string key="NSLabel">value: selection.NowPlayingTitle</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.NowPlayingTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1889</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.VolumeUpTitle</string>
+						<reference key="source" ref="86010399"/>
+						<reference key="destination" ref="151805620"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="86010399"/>
+							<reference key="NSDestination" ref="151805620"/>
+							<string key="NSLabel">value: selection.VolumeUpTitle</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.VolumeUpTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1891</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.VolumeDownTitle</string>
+						<reference key="source" ref="705157259"/>
+						<reference key="destination" ref="151805620"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="705157259"/>
+							<reference key="NSDestination" ref="151805620"/>
+							<string key="NSLabel">value: selection.VolumeDownTitle</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.VolumeDownTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1893</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.NextTrackTitle</string>
+						<reference key="source" ref="837405086"/>
+						<reference key="destination" ref="151805620"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="837405086"/>
+							<reference key="NSDestination" ref="151805620"/>
+							<string key="NSLabel">value: selection.NextTrackTitle</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.NextTrackTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1895</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.PreviousTrackTitle</string>
+						<reference key="source" ref="228499393"/>
+						<reference key="destination" ref="151805620"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="228499393"/>
+							<reference key="NSDestination" ref="151805620"/>
+							<string key="NSLabel">value: selection.PreviousTrackTitle</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.PreviousTrackTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1896</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.PlayPauseTitle</string>
+						<reference key="source" ref="1002865335"/>
+						<reference key="destination" ref="151805620"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1002865335"/>
+							<reference key="NSDestination" ref="151805620"/>
+							<string key="NSLabel">value: selection.PlayPauseTitle</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.PlayPauseTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1897</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.ActivateiTunesTitle</string>
+						<reference key="source" ref="647226136"/>
+						<reference key="destination" ref="151805620"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="647226136"/>
+							<reference key="NSDestination" ref="151805620"/>
+							<string key="NSLabel">value: selection.ActivateiTunesTitle</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.ActivateiTunesTitle</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1898</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -5492,7 +5612,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1886</int>
+			<int key="maxID">1898</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5546,6 +5666,7 @@
 						<string key="formatTabView">NSView</string>
 						<string key="generalItem">NSToolbarItem</string>
 						<string key="generalTabView">NSView</string>
+						<string key="hotKeysItem">NSToolbarItem</string>
 						<string key="iconPopUp">NSPopUpButton</string>
 						<string key="keyboardTabView">NSView</string>
 						<string key="nextRecorder">SRRecorderControl</string>
@@ -5577,6 +5698,10 @@
 						<object class="IBToOneOutletInfo" key="generalTabView">
 							<string key="name">generalTabView</string>
 							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="hotKeysItem">
+							<string key="name">hotKeysItem</string>
+							<string key="candidateClassName">NSToolbarItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="iconPopUp">
 							<string key="name">iconPopUp</string>

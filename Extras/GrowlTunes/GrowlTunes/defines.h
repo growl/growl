@@ -109,6 +109,7 @@
 #define PreferencesWindowTitle			NSLocalizedStringWithDefaultValue(@"PreferencesWindowTitle", @"Localizable", [NSBundle mainBundle], @"Preferences", @"title for the Preferences Window")
 #define GeneralTabTitle			NSLocalizedStringWithDefaultValue(@"GeneralTabTitle", @"Localizable", [NSBundle mainBundle], @"General", @"title for the General Tab")
 #define FormatTabTitle			NSLocalizedStringWithDefaultValue(@"FormatTabTitle", @"Localizable", [NSBundle mainBundle], @"Format", @"title for the Format Tab")
+#define HotKeysTabTitle			NSLocalizedStringWithDefaultValue(@"HotKeysTabTitle", @"Localizable", [NSBundle mainBundle], @"HotKeys", @"title for the HotKeys Tab")
 
 #define StartAtLoginTitle				NSLocalizedStringWithDefaultValue(@"StartAtLoginTitle", @"Localizable", [NSBundle mainBundle], @"Start at login:", @"title for the start at login switch")
 #define IconPositionTitle				NSLocalizedStringWithDefaultValue(@"IconPositionTitle", @"Localizable", [NSBundle mainBundle], @"Icon position:", @"title for the icon position pop-up")
@@ -124,6 +125,17 @@
 #define NotificationTitleTitle		NSLocalizedStringWithDefaultValue(@"NotificationTitleTitle", @"Localizable", [NSBundle mainBundle], @"Title:", @"title for the notification title format field")
 #define NotificationDescriptionTitle		NSLocalizedStringWithDefaultValue(@"NotificationDescriptionTitle", @"Localizable", [NSBundle mainBundle], @"Description:", @"title for the notification description format field")
 #define AvailableTagsTitle		NSLocalizedStringWithDefaultValue(@"AvailableTagsTitle", @"Localizable", [NSBundle mainBundle], @"Available Tags:", @"title for the available tags cloud field")
+
+
+#pragma mark HotKeys Tab
+#define NowPlayingTitle		NSLocalizedStringWithDefaultValue(@"NowPlayingTitle", @"Localizable", [NSBundle mainBundle], @"Now Playing:", @"title for the available tags cloud field")
+#define VolumeUpTitle		NSLocalizedStringWithDefaultValue(@"VolumeUpTitle", @"Localizable", [NSBundle mainBundle], @"Volume Up:", @"title for the available tags cloud field")
+#define VolumeDownTitle		NSLocalizedStringWithDefaultValue(@"VolumeDownTitle", @"Localizable", [NSBundle mainBundle], @"Volume Down:", @"title for the available tags cloud field")
+#define NextTrackTitle		NSLocalizedStringWithDefaultValue(@"NextTrackTitle", @"Localizable", [NSBundle mainBundle], @"Next Track:", @"title for the available tags cloud field")
+#define PreviousTrackTitle		NSLocalizedStringWithDefaultValue(@"PreviousTrackTitle", @"Localizable", [NSBundle mainBundle], @"Previous Track:", @"title for the available tags cloud field")
+#define PlayPauseTitle		NSLocalizedStringWithDefaultValue(@"PlayPauseTitle", @"Localizable", [NSBundle mainBundle], @"Play/Pause:", @"title for the available tags cloud field")
+#define ActivateiTunesTitle		NSLocalizedStringWithDefaultValue(@"ActivateiTunesTitle", @"Localizable", [NSBundle mainBundle], @"Activate iTunes:", @"title for the available tags cloud field")
+
 
 
 #pragma mark alert messages
