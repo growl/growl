@@ -49,8 +49,11 @@
 }
 
 -(NSArray*)allTokenDicts {
+	NSArray *types = @[@"music", @"musicVideo", @"stream",@"movie", @"show", @"podcast"];
 	return [[_tokenDicts allValues] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-		return [[obj1 valueForKey:@"formatTypeReadable"] caseInsensitiveCompare:[obj2 valueForKey:@"formatTypeReadable"]];
+		NSUInteger index1 = [types indexOfObject:[obj1 valueForKey:@"formatType"]];
+		NSUInteger index2 = [types indexOfObject:[obj2 valueForKey:@"formatType"]];
+		return  (index1 > index2);
 	}];
 }
 
