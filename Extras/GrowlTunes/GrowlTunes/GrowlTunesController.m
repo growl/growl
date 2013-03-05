@@ -309,14 +309,6 @@
     [_statusItem popUpStatusItemMenu:self.statusItemMenu];
 }
 
-- (void)removeStatusItem
-{    
-    if (_statusItem) {
-        [[NSStatusBar systemStatusBar] removeStatusItem:_statusItem];
-        RELEASE(_statusItem);
-    }
-}
-
 - (IBAction)configureFormatting:(id)sender
 {
 #pragma unused(sender)
