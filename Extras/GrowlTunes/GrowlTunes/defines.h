@@ -108,8 +108,8 @@
 #pragma mark prefs window entries
 #define PreferencesWindowTitle			NSLocalizedStringWithDefaultValue(@"PreferencesWindowTitle", @"Localizable", [NSBundle mainBundle], @"Preferences", @"title for the Preferences Window")
 #define GeneralTabTitle			NSLocalizedStringWithDefaultValue(@"GeneralTabTitle", @"Localizable", [NSBundle mainBundle], @"General", @"title for the General Tab")
-#define FormatTabTitle			NSLocalizedStringWithDefaultValue(@"FormatTabTitle", @"Localizable", [NSBundle mainBundle], @"Format", @"title for the Format Tab")
-#define HotKeysTabTitle			NSLocalizedStringWithDefaultValue(@"HotKeysTabTitle", @"Localizable", [NSBundle mainBundle], @"HotKeys", @"title for the HotKeys Tab")
+#define FormatTabTitle			NSLocalizedStringWithDefaultValue(@"FormatTabTitle", @"Localizable", [NSBundle mainBundle], @"Media Types", @"title for the Format Tab")
+#define HotKeysTabTitle			NSLocalizedStringWithDefaultValue(@"HotKeysTabTitle", @"Localizable", [NSBundle mainBundle], @"Shortcuts", @"title for the HotKeys Tab")
 
 #define StartAtLoginTitle				NSLocalizedStringWithDefaultValue(@"StartAtLoginTitle", @"Localizable", [NSBundle mainBundle], @"Start at login:", @"title for the start at login switch")
 #define IconPositionTitle				NSLocalizedStringWithDefaultValue(@"IconPositionTitle", @"Localizable", [NSBundle mainBundle], @"Icon position:", @"title for the icon position pop-up")
