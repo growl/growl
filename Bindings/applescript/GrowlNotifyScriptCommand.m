@@ -46,7 +46,7 @@
 
 NSString *IMAGE_FROM_LOCATION_DEPRECATION_URL = @"http://growl.info/documentation/faq.php#applescriptimagelocation";
 
-static const NSSize iconSize = { 128.0, 128.0 };
+static const NSSize iconSize = { 1024.0f, 1024.0f };
 
 @implementation GrowlNotifyScriptCommand
 

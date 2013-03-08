@@ -19,7 +19,7 @@
 
 #define ERROR_EXCEPTION					1
 
-static const NSSize iconSize = { 128.0, 128.0 };
+static const NSSize iconSize = { 1024.0f, 1024.0f };
 
 @implementation GrowlRegisterScriptCommand
 
