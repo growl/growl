@@ -1,0 +1,54 @@
+[main]
+host = https://www.transifex.com
+lang_map = pt_BR: pt-BR, pt_PT: pt-PT, zh_CN: zh-Hans, es_ES: es, es_MX: es-MX, th_TH:th, ru_RU:ru, ro_RO:ro, nb_NO:nb
+
+[TGP.growl_localizablestrings]
+file_filter = Core/Resources/<lang>.lproj/Localizable.strings
+source_file = Core/Resources/en.lproj/Localizable.strings
+source_lang = en
+type = STRINGS
+
+[TGP.automatoraction_infoplist]/GrowlAction
+file_filter = Plugins/System/GrowlAction/<lang>.lproj/InfoPlist.strings
+source_file = Plugins/System/GrowlAction/en.lproj/Localizable.strings
+source_lang = en
+type = STRINGS
+
+
+[TGP.growl-appstore-text]
+file_filter = mas/<lang>/AppStoreText.txt
+source_file = mas/en/AppStoreText.txt
+source_lang = en
+type = TXT
+
+[TGP.growl_update_text]
+file_filter = mas/<lang>/UpdateText.txt
+source_file = mas/en/UpdateText.txt
+source_lang = en
+type = TXT
+
+
+
+
+TGP.growl-bezel-display-plugin-localizable-string
+TGP.growl-boxcar-display-plugin
+TGP.growl-brushed-localizable-string
+TGP.growl-ical-display-localizable-string
+TGP.growl-mainmenu-strings-file
+TGP.growl-music-video-display-plugin
+TGP.growl-nano-display-plugin
+TGP.growl-pluginprefstrings-strings-file
+TGP.growl-prowl-display-plugin
+TGP.growl-sms-display-localizable-strings
+
+
+Multiple resources for the same thing?
+
+Growl MailMe Display Localizable Plugin Uncategorized 19 words (13 strings) Mar 27, 04:46a.m. 
+Growl MailMe Display Localizable Strings Growl 4 words (2 strings) Mar 27, 03:55a.m. 
+
+Find resource names for these.
+
+Growl SoundAction Display Plugin Uncategorized 2 words (2 strings) Mar 27, 04:47a.m. 
+Growl Speech Display Localizable String Growl 26 words (13 strings) Mar 27, 03:54a.m. 
+
