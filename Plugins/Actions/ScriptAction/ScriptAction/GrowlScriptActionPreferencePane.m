@@ -166,8 +166,8 @@
 						  GROWL_NOTIFICATION_TITLE,
 						  GROWL_NOTIFICATION_DESCRIPTION,
 						  GROWL_NOTIFICATION_PRIORITY,
-						  GROWL_NOTIFICATION_STICKY,
-						  GROWL_NOTIFICATION_ICON_DATA] retain];
+						  GROWL_NOTIFICATION_STICKY/*,
+						  GROWL_NOTIFICATION_ICON_DATA*/] retain];
 	});
 	return _arguments;
 }
@@ -182,8 +182,8 @@
 					GROWL_NOTIFICATION_TITLE : GrowlScriptActionLocalizedString(@"Title", @"Token display string for notification title"),
 					GROWL_NOTIFICATION_DESCRIPTION : GrowlScriptActionLocalizedString(@"Description", @"Token display string for notification description"),
 					GROWL_NOTIFICATION_PRIORITY : GrowlScriptActionLocalizedString(@"Priority", @"Token display string for notification priority"),
-					GROWL_NOTIFICATION_STICKY : GrowlScriptActionLocalizedString(@"Sticky", @"Token display string for notification sticky"),
-					GROWL_NOTIFICATION_ICON_DATA : GrowlScriptActionLocalizedString(@"Icon Data", @"Token display string for icon data")
+					GROWL_NOTIFICATION_STICKY : GrowlScriptActionLocalizedString(@"Sticky", @"Token display string for notification sticky")/*,
+					GROWL_NOTIFICATION_ICON_DATA : GrowlScriptActionLocalizedString(@"Icon Data", @"Token display string for icon data")*/
 					} retain];
 	});
 	return _dict;

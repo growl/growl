@@ -70,11 +70,11 @@
 			NSString *priorityString = [NSString stringWithFormat:@"%ld", priority];
 			[result addObject:priorityString];
 		}else if([obj isEqualToString:GROWL_NOTIFICATION_ICON_DATA]){
-			id icon = [dict valueForKey:GROWL_NOTIFICATION_ICON_DATA];
+/*			id icon = [dict valueForKey:GROWL_NOTIFICATION_ICON_DATA];
 			NSData *iconData = [icon isKindOfClass:[NSData class]] ? icon : ([icon isKindOfClass:[NSImage class]] ? [icon TIFFRepresentation] : nil);
 			if(iconData != nil){
 				[result addObject:iconData];
-			}
+			}*/
 		}
 	}];
 	return result;
@@ -90,8 +90,8 @@
 						  GROWL_NOTIFICATION_TITLE,
 						  GROWL_NOTIFICATION_DESCRIPTION,
 						  GROWL_NOTIFICATION_PRIORITY,
-						  GROWL_NOTIFICATION_STICKY,
-						  GROWL_NOTIFICATION_ICON_DATA] retain];
+						  GROWL_NOTIFICATION_STICKY/*,
+						  GROWL_NOTIFICATION_ICON_DATA*/] retain];
 	});
 	return _arguments;
 }
