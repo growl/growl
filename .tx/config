@@ -2,6 +2,27 @@
 host = https://www.transifex.com
 lang_map = pt_BR: pt-BR, pt_PT: pt-PT, zh_CN: zh-Hans, es_ES: es, es_MX: es-MX, th_TH:th, ru_RU:ru, ro_RO:ro, nb_NO:nb
 
+
+
+
+[TGP.growl-mainmenu-strings-file]
+file_filter = Core/Resources/<lang>.lproj/mainmenu.strings
+source_file = Core/Resources/en.lproj/mainmenu.strings
+source_lang = en
+type = TXT
+
+
+[TGP.growl-pluginprefstrings-strings-file]
+file_filter = Plugins/PluginFramework/<lang>.lproj/PluginPrefStrings.strings
+source_file = Plugins/PluginFramework/en.lproj/PluginPrefStrings.strings
+source_lang = en
+type = TXT
+
+
+
+
+
+
 [TGP.growl_localizablestrings]
 file_filter = Core/Resources/<lang>.lproj/Localizable.strings
 source_file = Core/Resources/en.lproj/Localizable.strings
@@ -27,28 +48,72 @@ source_file = mas/en/UpdateText.txt
 source_lang = en
 type = TXT
 
+[TGP.growl-bezel-display-plugin-localizable-string]
+file_filter = Plugins/Displays/Bezel/<lang>.lproj/Localizable.strings
+source_file = Plugins/Displays/Bezel/en.lproj/Localizable.strings
+source_lang = en
+type = TXT
+
+[TGP.growl-boxcar-display-plugin]
+file_filter = Plugins/Actions/Boxcar/Boxcar/<lang.lproj>/Localizable.strings
+source_file = Plugins/Actions/Boxcar/Boxcar/en.lproj/Localizable.strings
+source_lang = en
+type = TXT
+
+[TGP.growl-brushed-localizable-string]
+file_filter = Plugins/Displays/Brushed/<lang>.lproj/Localizable.strings
+source_file = Plugins/Displays/Brushed/en.lproj/Localizable.strings
+source_lang = en
+type = TXT
+
+[TGP.growl-ical-display-localizable-string]
+file_filter = Plugins/Displays/iCal/<lang>.lproj/Localizable.strings
+source_file = Plugins/Displays/iCal/en.lproj/Localizable.strings
+source_lang = en
+type = TXT
+
+
+[TGP.growl-music-video-display-plugin]
+file_filter = Plugins/Displays/MusicVideo/<lang>.lproj/Localizable.strings
+source_file = Plugins/Displays/MusicVideo/en.lproj/Localizable.strings
+source_lang = en
+type = TXT
+
+
+[TGP.growl-nano-display-plugin]
+file_filter = Plugins/Displays/Nano/<lang>.lproj/Localizable.strings
+source_file = Plugins/Displays/Nano/en.lproj/Localizable.strings
+source_lang = en
+type = TXT
 
 
 
-TGP.growl-bezel-display-plugin-localizable-string
-TGP.growl-boxcar-display-plugin
-TGP.growl-brushed-localizable-string
-TGP.growl-ical-display-localizable-string
-TGP.growl-mainmenu-strings-file
-TGP.growl-music-video-display-plugin
-TGP.growl-nano-display-plugin
-TGP.growl-pluginprefstrings-strings-file
-TGP.growl-prowl-display-plugin
-TGP.growl-sms-display-localizable-strings
+[TGP.growl-prowl-display-plugin]
+file_filter = Plugins/Actions/Prowl/Prowl/<lang.lproj>/Localizable.strings
+source_file = Plugins/Actions/Prowl/Prowl/en.lproj/Localizable.strings
+source_lang = en
+type = TXT
 
+[TGP.growl-sms-display-localizable-strings]
+file_filter = Plugins/Actions/SMS/<lang.lproj>/Localizable.strings
+source_file = Plugins/Actions/SMS/en.lproj/Localizable.strings
+source_lang = en
+type = TXT
 
-Multiple resources for the same thing?
+[TGP.growl-mailme-display-localizable-plugin]
+file_filter = Plugins/Actions/MailMe/MailMe/<lang>.lproj/Localizable.strings
+file_filter = Plugins/Actions/MailMe/MailMe/en.lproj/Localizable.strings
+source_lang = en
+type = TXT
 
-Growl MailMe Display Localizable Plugin Uncategorized 19 words (13 strings) Mar 27, 04:46a.m. 
-Growl MailMe Display Localizable Strings Growl 4 words (2 strings) Mar 27, 03:55a.m. 
+[TGP.growl-soundaction-display-plugin]
+file_filter = Plugins/Actions/SoundAction/SoundAction/<lang.lproj>/Localizable.strings
+source_file = Plugins/Actions/SoundAction/SoundAction/en.lproj/Localizable.strings
+source_lang = en
+type = TXT
 
-Find resource names for these.
-
-Growl SoundAction Display Plugin Uncategorized 2 words (2 strings) Mar 27, 04:47a.m. 
-Growl Speech Display Localizable String Growl 26 words (13 strings) Mar 27, 03:54a.m. 
-
+[TGP.growl-speech-display-localizable-string]
+file_filter = Plugins/Actions/Speech/<lang.lproj>/Localizable.strings
+source_file = Plugins/Actions/Speech/en.lproj/Localizable.strings
+source_lang = en
+type = TXT
