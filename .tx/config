@@ -55,7 +55,7 @@ source_lang = en
 type = TXT
 
 [TGP.growl-boxcar-display-plugin]
-file_filter = Plugins/Actions/Boxcar/Boxcar/<lang.lproj>/Localizable.strings
+file_filter = Plugins/Actions/Boxcar/Boxcar/<lang>.lproj/Localizable.strings
 source_file = Plugins/Actions/Boxcar/Boxcar/en.lproj/Localizable.strings
 source_lang = en
 type = TXT
@@ -89,13 +89,13 @@ type = TXT
 
 
 [TGP.growl-prowl-display-plugin]
-file_filter = Plugins/Actions/Prowl/Prowl/<lang.lproj>/Localizable.strings
+file_filter = Plugins/Actions/Prowl/Prowl/<lang>.lproj/Localizable.strings
 source_file = Plugins/Actions/Prowl/Prowl/en.lproj/Localizable.strings
 source_lang = en
 type = TXT
 
 [TGP.growl-sms-display-localizable-strings]
-file_filter = Plugins/Actions/SMS/<lang.lproj>/Localizable.strings
+file_filter = Plugins/Actions/SMS/<lang>.lproj/Localizable.strings
 source_file = Plugins/Actions/SMS/en.lproj/Localizable.strings
 source_lang = en
 type = TXT
