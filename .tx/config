@@ -1,6 +1,6 @@
 [main]
 host = https://www.transifex.com
-lang_map = pt_BR: pt-BR, pt_PT: pt-PT, zh_CN: zh-Hans, es_ES: es, es_MX: es-MX, th_TH:th, ru_RU:ru, ro_RO:ro, nb_NO:nb
+lang_map = pt_BR: pt-BR, pt_PT: pt-PT, zh_CN: zh-Hans, es_ES: es, es_MX: es-MX, th_TH:th, ru_RU:ru, ro_RO:ro, nb_NO:nb, lv_LV: lv
 
 
 
@@ -107,13 +107,14 @@ source_lang = en
 type = TXT
 
 [TGP.growl-soundaction-display-plugin]
-file_filter = Plugins/Actions/SoundAction/SoundAction/<lang.lproj>/Localizable.strings
+file_filter = Plugins/Actions/SoundAction/SoundAction/<lang>.lproj/Localizable.strings
 source_file = Plugins/Actions/SoundAction/SoundAction/en.lproj/Localizable.strings
 source_lang = en
 type = TXT
 
 [TGP.growl-speech-display-localizable-string]
-file_filter = Plugins/Actions/Speech/<lang.lproj>/Localizable.strings
+file_filter = Plugins/Actions/Speech/<lang>.lproj/Localizable.strings
 source_file = Plugins/Actions/Speech/en.lproj/Localizable.strings
 source_lang = en
 type = TXT
+
