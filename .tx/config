@@ -89,11 +89,6 @@ source_file = Plugins/Actions/SMS/en.lproj/Localizable.strings
 source_lang = en
 type = TXT
 
-[TGP.growl-mailme-display-localizable-plugin]
-file_filter = Plugins/Actions/MailMe/MailMe/<lang>.lproj/Localizable.strings
-file_filter = Plugins/Actions/MailMe/MailMe/en.lproj/Localizable.strings
-source_lang = en
-type = TXT
 
 [TGP.growl-soundaction-display-plugin]
 file_filter = Plugins/Actions/SoundAction/SoundAction/<lang>.lproj/Localizable.strings
@@ -107,3 +102,9 @@ source_file = Plugins/Actions/Speech/en.lproj/Localizable.strings
 source_lang = en
 type = TXT
 
+
+[TGP.growl-mailme-display-plugin]
+file_filter = Plugins/Actions/MailMe/MailMe/<lang>.lproj/Localizable.strings
+file_filter = Plugins/Actions/MailMe/MailMe/en.lproj/Localizable.strings
+source_lang = en
+type = TXT
