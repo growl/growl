@@ -1,0 +1,23 @@
+Growl ir pilnīga Mac paziņojumu sistēma. Tā piedāvā visvieglāk izmantojamo iespēju uzzināt, ko dara pārējās programmas tikmēr, kamēr esi aizņemts ar ko citu vai pat neesi pie datora.
+
+Reiz mēs strādājām ar attēliem iPhoto un tajā pašā laikā sazinājāmies, izmantojot Adium. Gaidot svarīgu ziņu, katru reizi, pienākot jaunam paziņojumam, mēs pārtraucām darbu ar iPhoto un pārslēdzāmies uz Adium. Pat zinot, ka pienākusi ziņa, mums tik un tā vajadzēja pārslēgties uz Adium, lai noskaidrotu, kas tieši tika ziņots. Beidzot mēs nolēmām, ka nepieciešams risinājums un tā piedzima Growl. Paziņojumi reālā laikā ļauj laicīgi uzzināt to, ko nepieciešams zināt. Ar efektīgu paziņojumu un Growl unikālā kopsavilkuma loga palīdzību tu vienmēr zināsi par notiekošo, pat ja nebūsi pie sava Mac datora. 
+
+Vēl nekad iepriekš nav bijis tik efektīva risinājuma paziņojumiem. Tos var saņemt dažādos veidos - gan uz ekrāna, gan e-pastā, vai pat norunātus jums priekšā. Pie tam, ja vien zināt nedaudz par web tehnoloģijām (CSS/XHTML/Javascript), tad variet pielāgot Growl stilus pēc vēlēšanās.
+
+Vēl citas satriecošas iespējas uzskaitītas te.
+
+
+- Personalizējiet paziņojumus. Izvēlieties Growl skatus un attēlojumus.
+- Growl turpina darbu pat tad, ja jūs nedariet neko. Atgriežoties, ar Kopsavilkuma palīdzību, kas noticis prombūtnes laikā.
+- Viegli lietojama Programmu cilne, lai kontrolētu, kādus paziņojumus saņemt un kādus bloķēt.
+- Runas attēlošana, lieliska cilvēkiem ar redzes problēmām.
+- Satriecoša paziņojumu vēsture, lai uzzinātu, kas noticis iepriekš.
+- Saņemiet daudz paziņojumu stilu kopā ar Growl. No pavisam nelielā nano līdz ļoti lielajam music video.
+- Viegli izveidojiet savus stilus ar web tehnoloģijām, lai apveltītu Growl ar personalizētu izskatu.
+- Sūtiet Growl paziņojumus no Cocoa, AppleScript vai pa tīklu uz citu datoru.
+- Tiklošana ļauj diviem vai vairākiem Mac datoriem sūtīt paziņojumus savā starpā.
+- Ar iProwl palīdzību strādā arī ar iPhone un iPad.
+
+
+
+Growl ir tas, kas tev ir vajadzīgs. Growl patīk miljoniem cilvēku un iepatiksies arī tev. Nopietni!

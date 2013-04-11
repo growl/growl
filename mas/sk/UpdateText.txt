@@ -1,0 +1,67 @@
+Zmeny v Growl 2.0.1
+
+- rieši problémy s umiestnením upozornení, ktoré sa zistilo vo verzii 2.0, ďakujeme za vaše upozornenia na tento problém
+- rieši viaceré nahlásené problémy
+
+Zmeny v Growl 2
+
+Všeobecné
+- pridaná podpora Notifikačného centra OS X vo verzii 10.8
+- pridaná podpora pre služby Prowl a Boxcar
+- Rollup má vylepšenú detekciu nečinnosti
+- Growl plne podporuje Mac OS X sandboxing
+
+Nastavenia
+- Zap./Vyp. prepínač v Growl by mal byť odteraz viac zrozumiteľný
+
+Zobrazenia
+- Speech umožňuje vačšiu kontrolu nastavenia
+- oddelené Akcie a Zobrazenia
+- Music Video teraz umožňuje zarovnanie textu do ľava a do prava
+- opravené problémy s výškou viac riadkových hlásení u Music Videa
+- Nano môže byť zobrazený na viacerých miestach - vľavo, v strede a vpravo
+- pridané zobrazenie SoundAction
+- pridaná možnosť len nevizuálnych hlásení
+
+Opravy chýb
+- vyriešený problém s vysokou záťažou CPU
+- vyriešené viacnásobné pády aplikácie
+- klávesové skratky môžu byť zrušené
+
+
+Zmeny v Growl 1.4
+
+Všeobecné
+- Redizajn záložky Aplikácie! Jedná sa o zásadné prepracovanie a malo by umožniť oveľa jednoduchšie používanie.
+- Presunutie ovládania Rollup funkcií do vlastnej záložky.
+- Zásadné vylepšenia sieťových funkcií.
+
+Prepracovanie panelu Nastavení
+- Nový prepínač pre on/off tlačítka
+- Pridaná podpora klávesnice pre vybranie pozície
+- Zásadné prepracovanie záložiek
+- Záložka Sieť - Pridaná podpora pre prihlásenia
+- Záložka História, kontextuálne menu pre tabuľku histórie, umožňujúc sa prepnúť priamo do nastavení notifikácií aplikácie
+- Záložka Rollup - nový domov pre ovládacie prvky relevantné pre Rollup okno
+- Pridanie nového štýlu by nemalo vyžadovať reštart Growl
+
+Sieť
+- Podpora pre Notification-Callback-Target, URL pole v GNTP. Po kliknutí, nechá Growl rozhodnúť OSX ako danú URL otvoriť (napríklad predvoleným prehliadačom pre http:// url)
+- Podpora prihlasovania, prihláste sa na všetky aplikácie na vzdialenom počítači.
+- Celkové vylepšenie sieťovej autentifikácie, odstránené povinné používanie hesla a používanie hlavičiek hesla ak nie je heslo vyplnené
+- Opravený pád sieťových funkcií týkajúcich sa zisťovania adresy
+- Pripojenie sa na lokálny socket len ak nečakáme na príchodzie hlásenia
+- Caschovanie adresných dát a sledovanie sieťových zmien pre mazanie tejto cashe
+
+Applescript
+- Podpora URL spätnej väzby, ako u Notification-Callback-Target
+
+Opravy chýb
+- Vyriešený pád aplikácie s webkit plugin bridge pri vytváraní.
+- Vyriešený pád aplikácie pri preposielaní.
+- Vyriešený problém s čakaním Speech štýlu na dokončenie prechádzajúcej správy, spôsobujúci vyťaženie CPU.
+- Vyriešený pád aplikácie s CFErrorGetDomain pre štýly používajúce WebKit.
+- Opravené viacnásobné zobrazenie pluginov pri reinštalácii.
+- Notification-Callback-Target je od teraz rešpektovaný a používaný, aj bez hlavičky metódy.
+- Riešenie problémov s poškodenou databázou histórie.
+- Opravené triedenie pri mazaní záznamu zo zoznamu histórie.

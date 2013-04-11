@@ -1,0 +1,51 @@
+Growl 2.0.1 Endringer
+
+Adresserer posisjoneringproblemet som dukket opp i 2.0, takk for tilbakemeldingene!  - Adresserer flere kræsj rapporter. 
+
+Growl 2 forandringer
+
+Generelt - Nå kompatibelt med OSX notifikasjons senter på 10.8 - Nå kompatibilitet med Prowl og Boxcar tjenester som handlings-vinduer. - Rollup har nå bedre inaktivitets oppdagelse. - Growl kjører nå i "Sandbox" .
+
+Preferanser - PÅ / AV knappen i Growl skal nå være enklere å forstå.
+
+Visning - "Speech" introduserer nå større kontroll.  Separerer handlings-vinduer fra visuelle vinduer. "Music Video" kan nå venstre og høyrejustere tekst.  Fikser høydeproblemer for multilinje notifikasjoner i "Music Video". Nano kan nå vises på flere lokasjoner, venstre midt og høyre. Nå lagt til en "Sound action" visning. la til en måte å ikke ha noen visuelle notifikasjoner. 
+
+Bug fiks - Fikset høy CPU / Prosessor bruk. Fikset flere typer kræsj. Snarveier kan nå tilbakestilles.
+
+
+Growl 1.4 Forandringer.
+
+General
+- Applications Tab Redesign! This is a major overhaul, and should be much easier to use.
+- Moved Rollup controls to separate tab.
+- Major improvements to networking.
+
+Preference Pane overhaul
+- New slider switch for on/off switches
+- Added keyboard support to position picker.
+- General Tab Relayout.
+- Networking tab - Add support for subscription
+- History Tab, contextual menu for history table to jump to the app/notification settings
+- Rollup tab is the new home of controls related to the Rollup window.
+- Adding a new display should not require a restart of Growl now.
+
+Networking
+- Support for Notification-Callback-Target, a URL field in GNTP. Upon click, Growl lets OSX figure out how to open the URL (such as the default browser for an http:// url)
+- Subscription support, subscribe to all applications on a remote machine.
+- General improvements to networking authentication, removed requirement for, and use of password headers if the password field is blank
+- Fix networking crash related to address data resolution.
+- Bind to local socket only if not listening for incoming notifications.
+- Address data caching, and observation of network changes to clear caches
+
+Applescript
+- URL click feedback support, same as Notification-Callback-Target in GNTP
+
+Bug fixes
+- Resolved a crash with webkit plugin bridge on creation.
+- Resolved a crash with forwarding.
+- Resolved an issue where the Speech display waits for previous message to complete causing a CPU drain
+- Resolved a crash with CFErrorGetDomain for WebKit Display Styles.
+- Fixed duplicate listings of display plugins on reinstall.
+- Notification-Callback-Target is now respected, and used, even without the method header.
+- Worked around problems with corrupt history databases.
+- Fixed a sorting problem when deleting a single entry in the history list.

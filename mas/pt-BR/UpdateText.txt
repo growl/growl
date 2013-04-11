@@ -1,0 +1,67 @@
+Novidades no Growl 2.0.1
+
+- Resolve o problema de posicionamento que apareceu no 2.0 - obrigado pelo feedback!
+- Resolve diversos relatórios de travamentos.
+
+Novidades no Growl 2
+
+Geral
+- Adicionado suporte para a Central de Notificações do OS X no 10.8.
+- Adicionado suporte para serviços Prowl e Boxcar como forma de exibição.
+- Agrupamento tem melhor detecção de inatividade.
+- Growl agora roda em sandbox.
+
+Preferências
+- O botão de ON/OFF no Growl deve ser mais fácil de entender agora.
+
+Visuais
+- Speech agora introduz melhores controles.
+- Separados os Visuais de Ação dos Visuais de Aparência.
+- Vídeo de Música agora pode ter texto em justificado à esquerda ou direita.
+- Correção de problemas de altura para notificações com múltiplas linhas no Vídeo de Música.
+- Nano agora pode ser exibido em múltiplas localizações, esquerda, centro e direita.
+- Adicionado um visual de SoundAction.
+- Adicionada uma forma para não haver notificações sobre visuais.
+
+Correção de Bugs
+- Resolvido o problema de alto uso de CPU.
+- Resolvido diversos travamentos.
+- Atalhos agora podem ser desfeitos.
+
+
+Novidades no Growl 1.4
+
+Geral
+- Guia de Aplicativos Redesenhada! Esta é uma grande mudança, e deve estar muito mais fácil de usar.
+- Movidos os controles do Agregamento para uma guia separada.
+- Grandes melhoramentos na conectividade.
+
+Painel de Preferências revisto:
+- Novo botão de slider para ligar/desativar opções
+- Adicionado suporte a teclado para selecionar posição.
+- Guia Geral com novo layout.
+- Guia Rede - Adicionado suporte para inscrição
+- Guia Histórico, menu contextual para tabela de histórico para pular para as configurações de aplicativo/notificação
+- Guia Agrupamento é a nova central de controles relacionada à janela de Agrupamento.
+- Adicionar um novo visual não deve mais exigir que Growl seja reiniciado.
+
+Conectividade
+- Suporte a Notification-Callback-Target, um campo de URL em GNTP. Ao clicar, Growl deixa que OSX se cuide para abrir a URL (como, por exemplo, o navegador padrão para uma URL http://)
+- Suporte a inscrição, inscreva-se a todos aplicativos em uma máquina remota.
+- Melhoramentos gerais da autenticação de rede, removida sua necessidade, e uso de cabeçalhos de senha caso o campo de senha esteja vazio.
+- Correção de falha de conectividade relacionada a resolução de dados de endereço.
+- Vinculação a socket local somente se não estiver ouvindo notificações recebidas.
+- Cache de dados de endereço, e observação de alterações da rede para limpar caches.
+
+Applescript
+- Suporte a feedback de clique em URL, mesmo que Notification-Callback-Target em GNTP
+
+Correção de Bugs
+- Resolvida uma falha com o bridge do plugin webkit na criação.
+- Resolvida uma falha com encaminhamento.
+- Resolvido um problema no qual a exibição de Speech espera por mensagens anteriores para completar estar sugando a CPU.
+- Resolvida uma falha com CFErrorGetDomain para Estilos de Exibição.
+- Corrigidas listagens duplicadas de visualização de plugins ao reinstalar.
+- Notification-Callback-Target agora é respeitado, e usado, mesmo sem o cabeçalho do método.
+- Resolvidos os problemas de base de dados de histórico corrompidas.
+- Corrigido um problema de ordenação ao deletar um registro da lista de histórico.

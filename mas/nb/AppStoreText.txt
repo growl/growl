@@ -1,0 +1,32 @@
+Growl er det ultimate notifikasjonssystemet for Mac. Det er den enkleste måten å holde seg oppdatert på hva som skjer med de andre programmene mens du jobber med noe annet, eller til og med dersom du går bort fra maskinen en stund.
+
+En dag jobbet vi med bilder i iPhoto mens vi hadde en samtale i Adium. Vi ventet på en viktig melding i samtalen og mens vi ventet måtte vi klikke fram og tilbake hver gang en melding kom i samtalevinduet. Selv om vi visste at vi fikk en melding, måtte vi klikke på samtalevinduet i Adium for å se hva som ble sagt. Ideen for Growl ble skapt slik, ut av frustrasjon av å måtte klikke på Adium-vinduet for å se hva som ble sagt. Med myke-notifikasjoner (Smooth notifications) og Growls unike "samlevindu", vil du alltid se hva som skjer, til og med når du ikke sitter ved maskinen. 
+
+Aldri før har det vært noe som personliggjør meldingene du får på en slik effektiv måte! Du kan motta meldinger på flere måter: på skjermen, via e-post eller ha dem lest opp til deg. I tillegg, om du vet litt om web teknologier (CSS/XHTML/Javascript), kan du lage din egen Growl-stil, akkurat slik du selv ønsker.
+
+Mange flere FLOTTE funksjoner listet her.
+
+
+• Personliggjør dine meldinger. Velg Growls presentasjon, utseende og "look and feel".
+
+• Fortsetter å jobbe når du ikke gjør det. Kom tilbake til din Mac og se hva som har skjedd mens du har vært borte, med "samlemeldinger".
+
+• En program-fane som er enkel å bruke, for å kontrollere hva som slipper igjennom og hva som blir blokkert.
+
+• Tale "display" for å få meldingene lest opp. Flott å bruke for de med nedsatt syn eller andre synsproblemer.
+
+• Flott meldingshistorikk, så du kan se hva som har skjedd.
+
+• Stor variasjon av temaer, utseender og stiler følger med. Alt fra "nano" som er miniatyr til "music video" som er svær.
+
+• Lag dine egne Growl tema med forskjellige web-teknologier! Det er ikke vanskelig!
+
+• Send Growl-meldinger fra Cocoa, Applescript eller over nettverk.
+
+• Tilrettelagt for nettverk så to eller flere mac-er kan sende meldinger til hverandre.
+
+• Kan brukes med iPhone og iPad via Prowl.
+
+
+
+Growl er hva du trenger! Millioner av mennesker elsker det! Du vil også :)

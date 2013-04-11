@@ -1,0 +1,67 @@
+Zmiany w Growl 2.0.1
+
+- Rozwiązanie problemu związanego z pozycją powiadomień w wersji 2.0. Dziękujemy za Wasz odzew!
+- Rozwiązanie problemów pochodzących z wielu raportów o błędach.
+
+Zmiany w Growl 2
+
+Ogólne
+- Dodano wsparcie dla Centrum powiadomień w OS X 10.8.
+- Dodano wsparcie dla serwisów Prowl i Boxcar jako akcji.
+- Roleta lepiej wykrywa bezczynność.
+- Growl uruchamia się w "piaskownicy".
+
+Preferencje
+- Przyciski ON/OFF powinny być teraz bardziej czytelne.
+
+Wyświetlanie
+- Większa kontrola modułu Speech.
+- Oddzielenie akcji od powiadomień wizualnych.
+- W module Music Video tekst może być wyrównany do lewej lub prawej strony.
+- Poprawki dotyczące wysokości modułu Music Video w przypadku wieloliniowych powiadomień.
+- Moduł Nano może wyświetlać się po lewej i prawej stronie oraz na środku.
+- Dodano moduł SoundAction.
+- Możliwość wyłączenia jakichkolwiek powiadomień wizualnych.
+
+Poprawki
+- Rozwiązano problem wysokiego użycia procesora.
+- Rozwiązano różne problemy prowadzące do zawieszenia aplikacji.
+- Skróty klawiaturowe można teraz usunąć.
+
+
+Zmiany w Growl 1.4
+
+Ogólne
+- Nowy wygląd zakładki Aplikacje! Teraz powinna być znacznie prostsza w użyciu.
+- Ustawienia Rolety zostały przeniesione do osobnej zakładki.
+- Znaczące poprawki obsługi sieci.
+
+Odświeżenie panelu preferencji
+- Nowy wygląd suwaków WŁ./WYŁ.
+- Dodano obsługę położenia powiadomienia na ekranie za pomocą klawiatury.
+- Zmieniono układ zakładki Ogólne.
+- Dodano obsługę subskrypcji w zakładce Sieć.
+- Nowe menu kontekstowe dla tabeli w zakładce Historia, które pozwala na szybkie przejście do ustawień aplikacji lub powiadomień.
+- Ustawienia dotyczące Rolety zostały umieszczone na osobnej karcie.
+- Podłączenie nowego monitora nie powinno już wymagać restartu aplikacji Growl.
+
+Sieć
+- Wsparcie dla Notification-Callback-Target, pola URL w GNTP. Po kliknięciu, Growl pozwala OS X na decydowanie o sposobie otwarcia URL (np. poprzez domyślną przeglądarkę dla URL typu http://).
+- Wsparcie dla subskrypcji. Subskrybuj wszystkie aplikacje na zdalnym komputerze.
+- Ogólne usprawnienia uwierzytelniania sieciowego. Usunięto wymóg i używanie haseł w nagłówkach jeżeli pole hasła pozostawiono nieuzupełnione.
+- Poprawiono usterkę sieciową związaną z konwersją danych adresowych.
+- Przypisanie do lokalnego gniazda tylko w sytuacji gdy brak jest nasłuchu powiadomień przychodzących.
+- Buforowanie danych adresowych i analiza zmian w sieci celem opróżniania bufora.
+
+AppleScript
+- Informacja zwrotna o kliknięciu URL, analogicznie do Notification-Callback-Target w GNTP.
+
+Poprawki
+- Usunięto usterkę związaną z mostkiem wtyczek WebKit podczas jego tworzenia.
+- Usunięto usterkę związaną z przekierowaniami.
+- Rozwiązano problem z wtyczką Speech oczekującą na zakończenie poprzedniej wiadomości, powodujący maksymalne użycie procesora.
+- Usunięto usterkę związaną z CFErrorGetDomain dla styli wyświetlania WebKit.
+- Poprawiono błąd powodujący wyświetlanie duplikatów na liście wtyczek po ponownej instalacji.
+- Wsparcie dla Notification-Callback-Target nawet w przypadku braku metody w nagłówku.
+- Obejście problemu związanego z uszkodzonymi bazami danych historii.
+- Usunięto problem z sortowaniem podczas usuwania pojedynczego wpisu na liście historii.

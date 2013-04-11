@@ -1,0 +1,67 @@
+Canvis en Growl 2.0.1
+
+- Solucionat els problemes de posicionament en la versió 2.0, gràcies pels comentaris!
+- Solucionats múltiples informes d'error
+
+Canvis en Growl 2
+
+General 
+ - Afegeix suport per al centre de notificacions de Mac OS X 10,8 
+ - Afegeix suport per als serveis de Prowl i Boxcar com pantalles acció 
+ - ROLLUP disposa d'una millor detecció d'inactivitat 
+ - Growl s'ha convertit en una sandbox.
+
+Preferències
+ - L'interruptor Encendre/Apagar és ara més intuïtiu
+
+Aparença
+ - Speech presenta ara un major control.
+ - Algunes accions es mostren en pantalles separades.
+ - L'opció de vídeo musical permet justificar el text a la dreta i a l'esquerra   
+ - S'han corregit alguns problemes d'altura per notificacions de línies múltiples en l'opció de vídeo musical.
+ - Les notificacions en Nano es poden mostrar en múltiples ubicacions, esquerra, centre i dreta
+ - Afegida una pantalla SoundAction
+ - S'ha afegit una manera de no tenir cap notificació visual.
+
+Correcció d'errors
+- S'han corregit alguns problemes amb l'ús excessiu de recursos de la CPU.
+- S'han resolt múltiples errors que feien que l'aplicació no respongués.
+- Les dreçeres de teclat es poden deshabilitar
+
+
+Canvis en Growl 1.4
+
+General
+ - S'ha redissenyat la llengüeta d'aplicacions! Aquesta és una revisió molt important que ha de facilitar el seu ús. 
+ - S'han desplaçat els controls de Rollup en una llengüeta separada.
+Millores substancials en la connexió en xarxa.
+
+Revisió del panell de preferències
+ - Nou interruptor lliscant per interruptors d'encendre i d'apagar
+ - Afegit suport de teclat en la posició del selector.
+ - Redistribució de la pestanya General.
+ - Llengüeta de xarxa - Afegit suport per a la subscripció
+ - History Tab, menú de context de taula d'historial per anar a la configuració d'aplicacions i notificacions
+ - La llengüeta Rollup és la nova llar dels controls relacionats amb Rollup.
+ - Afegir ara una nova pantalla no hauria de requerir un reinici de Growl.
+
+Xarxa
+ - Suport per Notification-Callback-Target, un camp de URL a GNTP. Growl permet que OSX triï com obrir una URL (com per exemple utilitzant el navegador per defecte per a obrir una http://url)
+ - Suport per a subscripcions d'ordinadors remots
+ - S'ha millorat l'autentificació en xarxa i, en cas de no haver-hi una contrasenya, s'ha suprimit aquest camp.
+ - Solucionats problemes amb dades de resolució d'adreces. 
+ - Enllaç amb el sòcol local només si no hi han notificacions entrants.
+ - Emmagatzematge en memòria cau d'adreces, i escolta de canvis en la xarxa per buidar la memòria cau.
+
+Applescript
+ - Suport per enviar ressenyes de URL, igual que en el Notification-Callback-Target en GNTP
+
+Correcció d'errors
+ - S'ha resolt un conflicte en la creació de connectors WebKit
+ - S'ha resolt un problema amb el reenviament.
+ - S'ha resolt un problema a l'hora de posar veu a les notificacions, que podia causar un ús excessiu de recursos.
+ - S'ha resolt un problema amb el CFErrorGetDomain dins dels estils d'aparença de WebKit.
+ - S'ha resolt un problema de duplicitats a l'hora de mostrar els connectors reinstal·lats.
+ - Ja es respecta el Notification-Callback-Target, i funciona fins i tot sense els capçals de mètode.
+ - S'han solucionat alguns problemes amb bases de dades històriques corruptes.
+ - Solucionat un problema d'ordenament a l'hora d'eliminar una entrada del històric

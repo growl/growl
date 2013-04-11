@@ -1,0 +1,67 @@
+Growl 2.0.1 wijzigingen
+
+- Lost het positioneringsprobleem op uit 2.0, dank voor de feedback!
+- Meerdere crashmeldingen opgelost.
+
+Growl 2 wijzigingen
+
+Algemeen
+- Ondersteuning voor OS X berichtencentrum onder 10.8
+- Ondersteuning voor Prowl en Boxcar-voorzieningen als actieweergaven
+- Samenvatting heeft verbeterde idle-detectie
+- Growl is nu sandboxed
+
+Voorkeuren
+- De AAN/UIT schakelaar binnen Growl moet nu eenvoudiger te begrijpen zijn
+
+Weergaven
+- Spraak heeft nu instelmogelijkheden
+- Scheiding tussen Actieweergaven en Visuele weergaven
+- Muziekvideo kan tekst nu links en rechts uitlijnen
+- Problemen in de hoogte verholpen bij meervoudige meldingen in Muziekvideo
+- Nano kan nu op meerdere plaatsen worden weergegeven, links, rechts, midden
+- SoundAction-weergave toegevoegd
+- Mogelijkheid om visuele meldingen te deactiveren
+
+Problemen opgelost
+- Hoog CPU-verbruik opgelost
+- Meerdere oorzaken voor crashes opgelost
+- Toetscombinaties kunnen nu weer worden verwijderd
+
+
+Growl 1.4 wijzigingen
+
+Algemeen
+- Programma's-tab opnieuw ontworpen! Dit is een grote wijziging waardoor deze veel makkelijker in gebruik is.
+- Samenvattingsinstellingen verplaatst naar een eigen tabblad.
+- Grote verbeteringen in het netwerken.
+
+Opnieuw ontworpen voorkeurenpaneel
+- Nieuwe schuif voor aan-/uitschakelen.
+- Ondersteuning voor toetsenbord toegevoegd voor positiebepaling.
+- Tabblad Algemeen: opnieuw ontworpen
+- Tabblad Netwerk: ondersteuning voor abonneren toegevoegd
+- Tabblad Historie: contextueel menu voor historie
+- Tabblad Samenvatting: hier zijn alle instellingen voor het samenvattingsvenster bij elkaar gebracht.
+- Toevoegen van een beeldscherm vereist nu geen herstart van Growl meer.
+
+Netwerk
+- Ondersteuning voor Notification-Callback-Target, een URL-veld in GNTP. Bij klikken laat Growl OSX uitzoeken hoe de URL moet worden geopend (zoals de standaardbrowser voor een http:// URL)
+- Ondersteuning voor abonneren, abonneer uzelf op alle programma's op een andere machine.
+- Algemene verbeteringen in netwerkauthenticatie, vereiste op wachtwoordheaders verwijderd als het wachtwoord is leeggelaten.
+- Netwerkprobleem verholpen gerelateerd aan adresgegevensresolutie.
+- Alleen binden aan lokale socket als er niet naar inkomende meldingen wordt geluisterd.
+- Caching van adresgegevens en controle op netwerkwijzigingen zodat de cache wordt geleegd.
+
+Applescript
+- Ondersteuning voor feedback bij klikken op een URL, gelijk aan Notification-Callback-Target in GNTP
+
+Opgelost
+- Probleem opgelost met webkit plug-in bridge bij aanmaken.
+- Probleem opgelost bij doorsturen.
+- Probleem opgelost waarbij Spraakweergave wacht op voltooiing van een vorig bericht waardoor CPU zwaar wordt belast.
+- Probleem opgelost met CFErrorGetDomain voor WebKit weergavestijlen.
+- Dubbele vermeldingen van plug-ins bij herinstallatie opgelost.
+- Notification-Callback-Target wordt nu ondersteund, gebruikt, zelfs zonder method-header.
+- Probleem met defecte geschiedenisdatabases kunnen omzeilen.
+- Sorteerprobleem opgelost bij verwijderen van één onderdeel in de geschiedenislijst.

@@ -1,0 +1,68 @@
+Alterações no Growl 2.0.1
+
+- Resolvido o problema de posicionamento que surgiu na versão 2.0, obrigado pelo feedback!
+- Resolvidas várias falhas reportadas.
+
+Alterações no Growl 2
+
+Geral
+- Suporte para centro de notificações no 10.8.
+- Suporte adicional para os serviços Prowl e Boxcar como acções de apresentação.
+- Agregador tem melhor detecção de inactividade.
+- O Growl é agora executado dentro de uma sandbox.
+
+Preferências
+- O botão I/O deve ser agora mais fácil de entender.
+
+Apresentação
+- Voz com muito maior controlo.
+- Separação entre apresentações Acções e Visualizações
+- Music Video pode justificar o texto à direita e esquerda.
+- Corrigidos problemas de altura para notificações multi linha no Music Video.
+- Nano agora funciona em múltiplas localizações, esquerda, centro e direita.
+- Adicionada uma apresentação SoundAction.
+- Adicionada uma maneira de não ter nenhumas notificações visuais.
+
+Bugs corrigidos
+- Resolvida a utilização elevada do CPU.
+- Múltiplas falhas resolvidas.
+- Os atalhos podem agora ser desassociados.
+
+
+Alterações no Growl 1.4
+
+Geral
+- Redesign do separador de Aplicações! Trata-se de uma grande reformulação, deverá ser muito mais fácil de utilizar.
+- Movidos controlos do Agregador para um separador novo.
+- Melhoramentos significativos ao suporte de rede.
+
+Reformulação da janela de preferências
+- Novo interruptor para botões I/O.
+- Adicionado suporte para o teclado para escolher a posição.
+- Redesign geral de separadores.
+- Separador de rede.
+- Adicionado suporte para subscrições.
+- Separador de histórico, menu de contexto na tabela do histórico para saltar para as definições da app/notificações.
+- Separador do Agregador é a nova casa dos controles relacionado com a janela Agregador.
+- Adicionar um novo estilo de apresentação não deverá requerer um reinício do Growl agora.
+
+Rede
+- Suporte para Notification-Callback-Target, um campo de URL no GNTP. Ao clicar, o Growl permite ao OSX decidir como abrir o URL (como por exemplo o browser predefinido para um url http:// )
+- Suporte para subscrições, subscreva a todas as aplicações numa máquina remota.
+- Melhoramentos gerais na autenticação de rede, removida a necessidade de, e a utilização de cabeçalhos de palavra-passe se o campo de palavra-passe estiver em branco.
+- Resolvida uma falha relacionada com resolução de dados de endereço.
+- Bind to local socket only if not listening for incoming notifications.
+- Cache de dados de endereços e monitorização de alterações na rede para limpar caches
+
+Applescript
+- Suporte a resposta a cliques em URL, tal como Notification-Callback-Target no GNTP
+
+Bugs corrigidos
+- Resolvida uma falha com o plugin bridge de Webkit ao criar.
+- Resolvida uma falha no reencaminhamento.
+- Resolvido um problema onde a apresentação Voz espera que a última mensagem termine, causando uma elevada utilização do CPU.
+- Resolvida uma falha com CFErrorGetDomain para estilos de apresentação Webkit.
+- Corrigida a listagem em duplicado de plugins de apresentação ao reinstalar.
+- Notification-Callback-Target é agora respeitado e utilizado, mesmo sem o cabeçalho do método.
+- Solucionados problemas com bases de dados de histórico corrompidas.
+- Corrigido um problema de ordenação ao apagar uma única entrada da lista de histórico.

@@ -1,0 +1,24 @@
+Growl es el mejor sistema de notificaciones para el Mac. Es la manera más fácil de saber qué está pasando con otras aplicaciones mientras haces otras cosas, en tiempo real o incluso mientras no estás.
+
+Un día estábamos trabajando con iPhoto mientras conversábamos en Adium. Mientras esperábamos que pasara algo importante en la conversación, tuvimos que estar pinchando cada vez que llegaba un nuevo mensaje. Aunque sabíamos que debíamos pinchar la ventana de Adium siempre que llegase un nuevo mensaje, la idea de Growl nació de la frustración de tener que pinchar una y otra vez para saber qué se decía.
+Las notificaciones en tiempo real te mantienen informado de todo lo que necesitas saber. Y gracias a la ventana de Resumen, sabrás lo que pasa aún cuando no estés utilizando el Mac. 
+
+Nunca antes ha existido algo que permita personalizar las notificaciones de manera tan efectiva. Puedes recibir notificaciones de diversas maneras, tales como: en pantalla, por correo electrónico, o incluso leídas por el Mac. Además, si sabes un poco de tecnologías web (CSS/HTML/Javascript) incluso puedes hacer que se vean como tú quieres.
+
+Muchas más funciones SUPERGUAYS listadas a continuación.
+
+
+• Personaliza tus notificaciones.
+• Sigue funcionando aunque no estés utilizando el Mac. Cuando vuelvas, todo se encontrará organizado en la ventana de Resumen.
+• Pestaña de Aplicaciones, fácil de usar y útil para controlar qué recibes y qué se bloquea.
+• Opciones de voz para que el Mac te lea las notificaciones. Perfecto para personas con problemas visuales.
+• Increíble historial de notificaciones, útil para ver qué ha pasado desde el principio.
+• Una gran variedad de estilos visuales. Desde "nano" que es pequeño, hasta "vídeo musical" que es enorme.
+• Crea tus propios estilos visuales de Growl fácilmente gracias a tecnologías web, para que se vea como quieras.
+• Envía notificaciones desde Cocoa, AppleScript o por la red
+• Soporte de red para que dos o más Macs puedan enviarse notificaciones entre ellos
+• Funciona con iPhone/iPad vía Prowl
+
+
+
+Growl es justo lo que necesitas. Querido y utilizado por millones de personas, y pronto por ti también. ¡En serio!

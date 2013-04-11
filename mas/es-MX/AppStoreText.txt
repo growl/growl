@@ -1,0 +1,25 @@
+Growl es el sistema de notificaciones definitivo para la Mac. Es la manera más sencilla de saber qué está sucediendo con otras aplicaciones cuando estás ocupado trabajando en algo más, en tiempo real, o hasta cuando te alejas unos momentos.
+
+Un día estábamos trabajando con fotos en iPhoto mientras teníamos una conversación en Adium. Como esperábamos que algo importante surgiera en la conversación, teníamos que estar cambiando una y otra vez entre las aplicaciones cada vez que un mensaje llegaba. Aunque sabíamos que un mensaje había llegado, teníamos que cambiar a la ventana de Adium para ver qué se había dicho. La idea de Growl nació por la frustración de ser forzados a estar cambiando de aplicaciones para saber qué sucedía.
+
+Las notificaciones en tiempo real te mantienen informado de todo lo que necesitas saber. Con notificaciones agradables y el concepto "Resumen", único de Growl, siempre sabrás qué está pasando, hasta cuando te alejas de tu Mac. 
+
+Nunca antes ha habido algo que personalice notificaciones de manera tan efectiva. Puedes recibir notificaciones de varias maneras, en pantalla, vía emal, o hasta habladas. Además, si conoces un poco de tecnologías web (CSS/XHTML/Javascript), puedes crear tu propio estilo de Growl.
+
+Muchas más características espectaculares en esta lista.
+
+
+• Personaliza tus notificaciones. Escoge la presentación de Growl.
+• Sigue trabajando, hasta cuando tú no lo estás. Regresa a tu Mac y revisa qué pasó con Resumen.
+• Tab de aplicaciones fácil de usar para controlar qué mensajes recibes y cuáles no.
+• Estilo de habla para que escuches tus notificaciones. Genial para las personas con impedimentos visuales.
+• Grandioso historial de notificaciones, para que puedas ver qué ha estado sucediendo.
+• Una gran variedad de estilos vienen incluidos en Growl, desde "nano" que es diminuto hasta "Music Video" que es enorme.
+• Crea tus propios estilos de Growl facilmente usando tecnologías web.
+• Envía notificaciones Growl desde Cocoa, Applescript o a través de la red.
+• Se puede conectar en red para que dos o más Macs reenvíen notificaciones entre ellas.
+• Trabaja con iPhone y iPad vía Prowl.
+
+
+
+Growl es lo que necesitas. Millones de personas lo aman, y tu ño harás también. ¡En serio!
