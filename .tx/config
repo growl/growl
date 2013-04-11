@@ -3,8 +3,6 @@ host = https://www.transifex.com
 lang_map = pt_BR: pt-BR, pt_PT: pt-PT, zh_CN: zh-Hans, es_ES: es, es_MX: es-MX, th_TH:th, ru_RU:ru, ro_RO:ro, nb_NO:nb, lv_LV: lv
 
 
-
-
 [TGP.growl-mainmenu-strings-file]
 file_filter = Core/Resources/<lang>.lproj/mainmenu.strings
 source_file = Core/Resources/en.lproj/mainmenu.strings
@@ -18,23 +16,17 @@ source_file = Plugins/PluginFramework/en.lproj/PluginPrefStrings.strings
 source_lang = en
 type = TXT
 
-
-
-
-
-
 [TGP.growl_localizablestrings]
 file_filter = Core/Resources/<lang>.lproj/Localizable.strings
 source_file = Core/Resources/en.lproj/Localizable.strings
 source_lang = en
 type = STRINGS
 
-[TGP.automatoraction_infoplist]/GrowlAction
+[TGP.automatoraction_infoplist]
 file_filter = Plugins/System/GrowlAction/<lang>.lproj/InfoPlist.strings
 source_file = Plugins/System/GrowlAction/en.lproj/Localizable.strings
 source_lang = en
 type = STRINGS
-
 
 [TGP.growl-appstore-text]
 file_filter = mas/<lang>/AppStoreText.txt
@@ -79,14 +71,11 @@ source_file = Plugins/Displays/MusicVideo/en.lproj/Localizable.strings
 source_lang = en
 type = TXT
 
-
 [TGP.growl-nano-display-plugin]
 file_filter = Plugins/Displays/Nano/<lang>.lproj/Localizable.strings
 source_file = Plugins/Displays/Nano/en.lproj/Localizable.strings
 source_lang = en
 type = TXT
-
-
 
 [TGP.growl-prowl-display-plugin]
 file_filter = Plugins/Actions/Prowl/Prowl/<lang>.lproj/Localizable.strings
