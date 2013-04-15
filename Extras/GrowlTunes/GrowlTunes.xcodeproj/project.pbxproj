@@ -407,6 +407,7 @@
 		93C9F57416D721290070F9EF /* SGKeyCombo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGKeyCombo.h; path = ../../external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCombo.h; sourceTree = "<group>"; };
 		93C9F57516D7212B0070F9EF /* SGKeyCombo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGKeyCombo.m; path = ../../external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCombo.m; sourceTree = "<group>"; };
 		93D17D8F169FB083003AE638 /* GrowlToolChainSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlToolChainSupport.h; path = ../../../GrowlToolChainSupport.h; sourceTree = "<group>"; };
+		93F4810B171C60D300929971 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC11E34116567DBD00B96422 /* GrowlOnSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitch.h; path = ../../../Core/Source/GrowlOnSwitch.h; sourceTree = "<group>"; };
 		BC11E34216567DBD00B96422 /* GrowlOnSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitch.m; path = ../../../Core/Source/GrowlOnSwitch.m; sourceTree = "<group>"; };
 		BC11E34316567DBD00B96422 /* GrowlOnSwitchLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitchLabel.h; path = ../../../Core/Source/GrowlOnSwitchLabel.h; sourceTree = "<group>"; };
@@ -1213,6 +1214,7 @@
 				93A0B07516F0B75700DD64F6 /* zh-Hans */,
 				93A0B07616F0B75900DD64F6 /* ru */,
 				93A0B07716F0B75A00DD64F6 /* nb */,
+				93F4810B171C60D300929971 /* zh_TW */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
