@@ -134,6 +134,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		831F5EE0171BB6F1006A4DAF /* ar */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		831F5EF0171BB70E006A4DAF /* cy */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cy; path = cy.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8358A9BB15EDAE8C00590748 /* lv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8358A9CC15EDAE9B00590748 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		839F997D15F458AD00A04D3C /* pt-PT */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -340,6 +342,8 @@
 				he,
 				"pt-PT",
 				th,
+				ar,
+				cy,
 			);
 			mainGroup = BCEA7ED31517CD4400E98B1F;
 			productRefGroup = BCEA7EDF1517CD4400E98B1F /* Products */;
@@ -546,6 +550,8 @@
 				BC4002D715F2652900F95B4E /* da */,
 				839F997D15F458AD00A04D3C /* pt-PT */,
 				BC4C9C8E15F7B8D1007ECC82 /* th */,
+				831F5EE0171BB6F1006A4DAF /* ar */,
+				831F5EF0171BB70E006A4DAF /* cy */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

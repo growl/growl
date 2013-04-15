@@ -154,6 +154,20 @@
 		65942E140711D4310089E4F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65942E150711D4310089E4F1 /* Show Growl Notification.action */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Show Growl Notification.action"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65AABA78056AB2A5006CE269 /* Automator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Automator.framework; path = /System/Library/Frameworks/Automator.framework; sourceTree = "<absolute>"; };
+		83B86700171BBB25003E0C62 /* ar */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83B86710171BBB43003E0C62 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83B86711171BBBF7003E0C62 /* cy */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cy; path = cy.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83B86712171BBC09003E0C62 /* el */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83B86713171BBC17003E0C62 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		83B86714171BBC34003E0C62 /* he */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83B86715171BBC84003E0C62 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83B86716171BBC91003E0C62 /* ro */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83B86717171BBC9D003E0C62 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83B86718171BBCAC003E0C62 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83B86719171BBCC2003E0C62 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83B8671A171BBCCF003E0C62 /* th */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		83B8671B171BBCE3003E0C62 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		83B8671C171BBCEE003E0C62 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		93A042E91382169500C46F0A /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../../xcconfig/Common.xcconfig; sourceTree = SOURCE_ROOT; };
 		93A042EA1382169500C46F0A /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../../xcconfig/Debug.xcconfig; sourceTree = SOURCE_ROOT; };
 		93A042EB1382169500C46F0A /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../../xcconfig/Release.xcconfig; sourceTree = SOURCE_ROOT; };
@@ -350,6 +364,19 @@
 				de,
 				da,
 				ko,
+				ar,
+				ca,
+				cy,
+				"es-MX",
+				he,
+				pt,
+				ro,
+				ru,
+				sk,
+				sv,
+				th,
+				"zh-Hant",
+				"zh-Hans",
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Automator Action */;
 			projectDirPath = "";
@@ -542,6 +569,20 @@
 				93D7D7A5144139CD00BFCFB6 /* nb */,
 				93D7D7A6144139CD00BFCFB6 /* ja */,
 				93D7D7A7144139CD00BFCFB6 /* de */,
+				83B86700171BBB25003E0C62 /* ar */,
+				83B86710171BBB43003E0C62 /* ca */,
+				83B86711171BBBF7003E0C62 /* cy */,
+				83B86712171BBC09003E0C62 /* el */,
+				83B86713171BBC17003E0C62 /* es-MX */,
+				83B86714171BBC34003E0C62 /* he */,
+				83B86715171BBC84003E0C62 /* pt */,
+				83B86716171BBC91003E0C62 /* ro */,
+				83B86717171BBC9D003E0C62 /* ru */,
+				83B86718171BBCAC003E0C62 /* sk */,
+				83B86719171BBCC2003E0C62 /* sv */,
+				83B8671A171BBCCF003E0C62 /* th */,
+				83B8671B171BBCE3003E0C62 /* zh-Hant */,
+				83B8671C171BBCEE003E0C62 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
