@@ -56,13 +56,15 @@
 }
 
 -(void)updateConfigurationValues {
+   self.soundTableView.delegate = nil;
 	[self updateSoundsList];
 	[super updateConfigurationValues];
 	if((![self soundName] || ![sounds containsObject:[self soundName]]) && [sounds count] > 0){
 		[self setSoundName:[sounds objectAtIndex:0U]];
 	}
-	[soundTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[sounds indexOfObject:[self soundName]]] 
+	[soundTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[sounds indexOfObject:[self soundName]]]
 					byExtendingSelection:NO];
+   self.soundTableView.delegate = self;
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification *)notification	{
