@@ -25,7 +25,7 @@
     </entity>
     <entity name="GrowlPlugin" representedClassName="GrowlTicketDatabasePlugin" isAbstract="YES" syncable="YES">
         <attribute name="configID" attributeType="String" syncable="YES"/>
-        <attribute name="configuration" optional="YES" attributeType="Transformable" valueTransformerName="NSKeyedUnarchiveFromDataTransformerName" syncable="YES"/>
+        <attribute name="configuration" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
         <attribute name="displayName" attributeType="String" syncable="YES"/>
         <attribute name="pluginID" attributeType="String" syncable="YES"/>
         <attribute name="pluginType" optional="YES" attributeType="String" syncable="YES"/>
