@@ -444,9 +444,9 @@
 				
 				NSDictionary *growlDict = [packet growlDict];
 				if([packet isKindOfClass:[GNTPRegisterPacket class]]){
-					[self.delegate registerWithDictionary:growlDict];
+					[self.delegate server:self registerWithDictionary:growlDict];
 				}else if([packet isKindOfClass:[GNTPNotifyPacket class]]){
-					GrowlNotificationResult notifyResult = [self.delegate notifyWithDictionary:growlDict];
+					GrowlNotificationResult notifyResult = [self.delegate server:self notifyWithDictionary:growlDict];
 					switch (notifyResult) {
 						case GrowlNotificationResultDisabled:
 							[self dumpSocket:sock
@@ -468,13 +468,9 @@
 						default:
 							break;
 					}
-				}else if([packet isKindOfClass:[GNTPNotifyPacket class]]){
-					dispatch_async(dispatch_get_main_queue(), ^{
-						[self.delegate registerWithDictionary:growlDict];
-					});
 				}else if([packet isKindOfClass:[GNTPSubscribePacket class]]){
 					dispatch_async(dispatch_get_main_queue(), ^{
-						[self.delegate subscribeWithDictionary:(GNTPSubscribePacket*)packet];
+						[self.delegate server:self subscribeWithDictionary:(GNTPSubscribePacket*)packet];
 					});
 				}
 				//Whatever happened, we are done with it, let the server move on

@@ -271,6 +271,11 @@
 
 -(void)forwardDictionary:(NSDictionary*)dict isRegistration:(BOOL)registration toSubscriberIDs:(NSArray*)entryIDs {
    __block GNTPSubscriptionController *blockSubscriber = self;
+   if(!registration){
+      NSMutableArray *keys = [[dict allKeys] mutableCopy];
+      [keys removeObject:GROWL_NOTIFICATION_ALREADY_SHOWN];
+      dict = [dict dictionaryWithValuesForKeys:keys];
+   }
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       NSArray *sendingDetails = nil;
       if(!entryIDs || [entryIDs count] == 0){

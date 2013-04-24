@@ -11,6 +11,7 @@
 #import "GrowlNotification.h"
 #import "GrowlNetworkUtilities.h"
 #import "GNTPSubscriptionController.h"
+#import "GrowlDefines.h"
 
 @interface GrowlTCPPathway ()
 @property (nonatomic, retain) GNTPServer *localServer;
@@ -124,15 +125,21 @@
  
 #pragma mark GNTPServerDelegate
 
-- (void)registerWithDictionary:(NSDictionary *)dictionary {
+- (void)server:(GNTPServer*)server registerWithDictionary:(NSDictionary *)dictionary {
 	[super registerApplicationWithDictionary:dictionary];
 }
 
-- (GrowlNotificationResult)notifyWithDictionary:(NSDictionary *)dictionary {
+- (GrowlNotificationResult)server:(GNTPServer*)server notifyWithDictionary:(NSDictionary *)dictionary {
+   if([server isEqual:self.remoteServer]){
+      NSMutableArray *keys = [[dictionary allKeys] mutableCopy];
+      [keys removeObject:GROWL_NOTIFICATION_ALREADY_SHOWN];
+      dictionary = [dictionary dictionaryWithValuesForKeys:keys];
+   }
+   
 	return [super resultOfPostNotificationWithDictionary:dictionary];
 }
 
--(void)subscribeWithDictionary:(GNTPSubscribePacket*)packet {
+-(void)server:(GNTPServer*)server subscribeWithDictionary:(GNTPSubscribePacket*)packet {
 	[[GNTPSubscriptionController sharedController] addRemoteSubscriptionFromPacket:packet];
 }
 
