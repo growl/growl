@@ -1,11 +1,11 @@
 /*
  Copyright (c) The Growl Project, 2004-2011
  All rights reserved.
-
-
+ 
+ 
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-
+ 
+ 
  1. Redistributions of source code must retain the above copyright
  notice, this list of conditions and the following disclaimer.
  2. Redistributions in binary form must reproduce the above copyright
@@ -14,11 +14,11 @@
  3. Neither the name of Growl nor the names of its contributors
  may be used to endorse or promote products derived from this software
  without specific prior written permission.
-
-
+ 
+ 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-*/
+ 
+ */
 #import <Foundation/Foundation.h>
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
@@ -38,19 +38,17 @@
 
 #define NOTIFICATION_NAME @"Command-Line Growl Notification"
 
-#define STRINGIFY(x) STRINGIFY2(x)
-#define STRINGIFY2(x) #x
-
 static const char usage[] =
-"Usage: growlnotify [-hsvuwc] [-i ext] [-I filepath] [--image filepath]\n"
+"Usage: growlnotify [-hsvw] [-i ext] [-I filepath] [--image filepath]\n"
 "                   [-a appname] [-p priority] [-H host] [-P password]\n"
-"                   [-n name] [-A method] [--html] [-m message] [-t] [--url url]\n"
+"                   [-n name] [-N notename] [-m message] [-t] [--url url]\n"
 "                   [title]\n"
 "Options:\n"
 "    -h,--help       Display this help\n"
 "    -v,--version    Display version number\n"
 "    -n,--name       Set the name of the application that sends the notification\n"
 "                    [Default: growlnotify]\n"
+"    -N --noteName   Set the note name of the notification that GrowlNotify sends"
 "    -s,--sticky     Make the notification sticky\n"
 "    -a,--appIcon    Specify an application name to take the icon from\n"
 "    -i,--icon       Specify a file type or extension to look up for the\n"
@@ -64,7 +62,7 @@ static const char usage[] =
 "    -H,--host       Specify a hostname or IP address to which to send a remote notification.\n"
 "    -P,--password   Password used for remote notifications.\n"
 "    -w,--wait       Wait until the notification has been dismissed.\n"
-"    --url        Notification click will result in the URL being opened\n"
+"    --url           Notification click will result in the URL being opened\n"
 "\n"
 "Display a notification using the title given on the command-line and the\n"
 "message given in the standard input.\n"
@@ -84,11 +82,11 @@ static NSData* copyIconDataForTypeInfo(CFStringRef typeInfo)
 	IconRef icon;
 	NSData *data = nil;
 	OSStatus err = GetIconRefFromTypeInfo(/*inCreator*/   0,
-										  /*inType*/      0,
-										  /*inExtension*/ typeInfo,
-										  /*inMIMEType*/  NULL,
-										  /*inUsageFlags*/kIconServicesNormalUsageFlag,
-										  /*outIconRef*/  &icon);
+                                         /*inType*/      0,
+                                         /*inExtension*/ typeInfo,
+                                         /*inMIMEType*/  NULL,
+                                         /*inUsageFlags*/kIconServicesNormalUsageFlag,
+                                         /*outIconRef*/  &icon);
 	if (err == noErr) {
 		IconFamilyHandle fam = NULL;
 		err = IconRefToIconFamily(icon, kSelectorAllAvailableData, &fam);
@@ -100,7 +98,7 @@ static NSData* copyIconDataForTypeInfo(CFStringRef typeInfo)
 		}
 		ReleaseIconRef(icon);
 	}
-
+   
 	return data;
 }
 
@@ -112,6 +110,7 @@ int main(int argc, const char **argv) {
 	BOOL         isSticky = NO;
 	BOOL         wait = NO;
 	char        *appName = NULL;
+   char        *noteName = NULL;
 	char        *appIcon = NULL;
 	char        *iconExt = NULL;
 	char        *iconPath = NULL;
@@ -120,15 +119,15 @@ int main(int argc, const char **argv) {
 	char        *host = NULL;
 	int          priority = 0;
 	int          flag;
-	char        *port = NULL;
 	int          code = EXIT_SUCCESS;
 	char        *password = NULL;
 	char        *identifier = NULL;
    char        *url = NULL;
-
+   
 	struct option longopts[] = {
 		{ "help",		no_argument,		NULL,	'h' },
 		{ "name",		required_argument,	NULL,	'n' },
+      { "noteName",  required_argument,   NULL, 'N' },
 		{ "icon",		required_argument,	NULL,	'i' },
 		{ "iconpath",	required_argument,	NULL,	'I' },
 		{ "appIcon",	required_argument,	NULL,	'a' },
@@ -148,7 +147,7 @@ int main(int argc, const char **argv) {
 		{ NULL,			0,					NULL,	 0  }
 	};
 
-	while ((ch = getopt_long(argc, (char * const *)argv, "hvn:sa:A:i:I:p:tm:H:uP:d:wc", longopts, NULL)) != -1) {
+	while ((ch = getopt_long(argc, (char * const *)argv, "hvn:N:sa:i:I:p:tm:H:P:d:w", longopts, NULL)) != -1) {
 		switch (ch) {
 		case '?':
 			puts(usage);
@@ -165,6 +164,9 @@ int main(int argc, const char **argv) {
 		case 'n':
 			appName = optarg;
 			break;
+      case 'N':
+            noteName = optarg;
+            break;
 		case 's':
 			isSticky = YES;
 			break;
@@ -213,15 +215,19 @@ int main(int argc, const char **argv) {
 					imagePath = optarg;
 					break;
 				case 2:
-					port = strdup(optarg);
+               fprintf(stderr, "Port option not supported at this time\n");
 					break;
 				case 4:
+               fprintf(stderr, "HTML option no longer supported\n");
 					break;
 			}
 			break;
       case 'U':
          url = optarg;
          break;
+         default:
+            fprintf(stderr, "Unrecognized argument %s: option '-%c' is invalid: ignored\n", argv[0], optopt);
+            break;
       }  
 	}
 	argc -= optind;
@@ -321,7 +327,7 @@ int main(int argc, const char **argv) {
       
       
 	// Register with Growl
-	NSString *name = NOTIFICATION_NAME;
+	NSString *name = (noteName != NULL) ? [NSString stringWithUTF8String:noteName] :  NOTIFICATION_NAME;
 	NSArray *defaultAndAllNotifications = [NSArray arrayWithObject:name];
 	NSArray *registerKeys = [[NSArray alloc] initWithObjects:GROWL_APP_NAME, 
                                                             GROWL_NOTIFICATIONS_ALL,
