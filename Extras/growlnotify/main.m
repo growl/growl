@@ -1,5 +1,5 @@
 /*
- Copyright (c) The Growl Project, 2004-2011
+ Copyright (c) The Growl Project, 2004-2013
  All rights reserved.
  
  
@@ -125,259 +125,249 @@ int main(int argc, const char **argv) {
    char        *url = NULL;
    
 	struct option longopts[] = {
-		{ "help",		no_argument,		NULL,	'h' },
-		{ "name",		required_argument,	NULL,	'n' },
+		{ "help",      no_argument,         NULL, 'h' },
+		{ "name",      required_argument,   NULL, 'n' },
       { "noteName",  required_argument,   NULL, 'N' },
-		{ "icon",		required_argument,	NULL,	'i' },
-		{ "iconpath",	required_argument,	NULL,	'I' },
-		{ "appIcon",	required_argument,	NULL,	'a' },
-		{ "image",		required_argument,	&flag,	 1  },
-		{ "title",		no_argument,		NULL,	't' },
-		{ "message",	required_argument,	NULL,	'm' },
-		{ "priority",	required_argument,	NULL,	'p' },
-		{ "host",		required_argument,	NULL,	'H' },
-		{ "password",	required_argument,	NULL,	'P' },
-		{ "port",		required_argument,	&flag,	 2  },
-		{ "version",	no_argument,		NULL,	'v' },
-		{ "identifier", required_argument,  NULL,   'd' },
-		{ "wait",		no_argument,		NULL,   'w' },
-		{ "sticky",     no_argument,        NULL,   's' },
-		{ "html",       no_argument,        &flag,   4  },
-      { "url",       required_argument,	NULL,	'U' },
-		{ NULL,			0,					NULL,	 0  }
+		{ "icon",      required_argument,   NULL, 'i' },
+		{ "iconpath",  required_argument,   NULL, 'I' },
+		{ "appIcon",   required_argument,   NULL, 'a' },
+		{ "image",     required_argument,   &flag, 1  },
+		{ "title",     no_argument,         NULL, 't' },
+		{ "message",   required_argument,   NULL, 'm' },
+		{ "priority",  required_argument,   NULL, 'p' },
+		{ "host",      required_argument,   NULL, 'H' },
+		{ "password",  required_argument,   NULL, 'P' },
+		{ "port",      required_argument,   &flag, 2  },
+		{ "version",   no_argument,         NULL, 'v' },
+		{ "identifier",required_argument,   NULL, 'd' },
+		{ "wait",      no_argument,         NULL, 'w' },
+		{ "sticky",    no_argument,         NULL, 's' },
+		{ "html",      no_argument,         &flag, 4  },
+      { "url",       required_argument,   NULL, 'U' },
+		{ NULL,        0,                   NULL,	 0  }
 	};
-
+   
 	while ((ch = getopt_long(argc, (char * const *)argv, "hvn:N:sa:i:I:p:tm:H:P:d:w", longopts, NULL)) != -1) {
 		switch (ch) {
-		case '?':
-			puts(usage);
-			exit(EXIT_FAILURE);
-			break;
-		case 'h':
-			puts(usage);
-			exit(EXIT_SUCCESS);
-			break;
-		case 'v':
-			puts(version);
-			exit(EXIT_SUCCESS);
-			break;
-		case 'n':
-			appName = optarg;
-			break;
-      case 'N':
+         case '?':
+            puts(usage);
+            exit(EXIT_FAILURE);
+            break;
+         case 'h':
+            puts(usage);
+            exit(EXIT_SUCCESS);
+            break;
+         case 'v':
+            puts(version);
+            exit(EXIT_SUCCESS);
+            break;
+         case 'n':
+            appName = optarg;
+            break;
+         case 'N':
             noteName = optarg;
             break;
-		case 's':
-			isSticky = YES;
-			break;
-		case 'i':
-			iconExt = optarg;
-			break;
-		case 'I':
-			iconPath = optarg;
-			break;
-		case 'a':
-			appIcon = optarg;
-			break;
-		case 'p':
-			if (sscanf(optarg, "%d", &priority) == 0) {
-				// It's not an integer - is it one of the priority keys?
-				char *keys[] = {"Very Low", "Moderate", "Normal", "High", "Emergency"};
-				for (int i = 0; i < 5; i++) {
-					if (strcmp(optarg, keys[i]) == 0) {
-						priority = i - 2;
-						break;
-					}
-				}
-			}
-			break;
-		case 't':
-			// do nothing
-			break;
-		case 'm':
-			message = optarg;
-			break;
-		case 'H':
-			host = optarg;
-			break;
-		case 'P':
-			password = optarg;
-			break;
-		case 'd':
-			identifier = optarg;
-			break;
-		case 'w':
-			wait = YES;
-			break;
-		case 0:
-			switch (flag) {
-				case 1:
-					imagePath = optarg;
-					break;
-				case 2:
-               fprintf(stderr, "Port option not supported at this time\n");
-					break;
-				case 4:
-               fprintf(stderr, "HTML option no longer supported\n");
-					break;
-			}
-			break;
-      case 'U':
-         url = optarg;
-         break;
+         case 's':
+            isSticky = YES;
+            break;
+         case 'i':
+            iconExt = optarg;
+            break;
+         case 'I':
+            iconPath = optarg;
+            break;
+         case 'a':
+            appIcon = optarg;
+            break;
+         case 'p':
+            if (sscanf(optarg, "%d", &priority) == 0) {
+               // It's not an integer - is it one of the priority keys?
+               char *keys[] = {"Very Low", "Moderate", "Normal", "High", "Emergency"};
+               for (int i = 0; i < 5; i++) {
+                  if (strcmp(optarg, keys[i]) == 0) {
+                     priority = i - 2;
+                     break;
+                  }
+               }
+            }
+            break;
+         case 't':
+            // do nothing
+            break;
+         case 'm':
+            message = optarg;
+            break;
+         case 'H':
+            host = optarg;
+            break;
+         case 'P':
+            password = optarg;
+            break;
+         case 'd':
+            identifier = optarg;
+            break;
+         case 'w':
+            wait = YES;
+            break;
+         case 0:
+            switch (flag) {
+               case 1:
+                  imagePath = optarg;
+                  break;
+               case 2:
+                  fprintf(stderr, "Port option not supported at this time\n");
+                  break;
+               case 4:
+                  fprintf(stderr, "HTML option no longer supported\n");
+                  break;
+            }
+            break;
+         case 'U':
+            url = optarg;
+            break;
          default:
             fprintf(stderr, "Unrecognized argument %s: option '-%c' is invalid: ignored\n", argv[0], optopt);
             break;
-      }  
+      }
 	}
 	argc -= optind;
 	argv += optind;
-
+   
 	// Deal with title
-
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-   
-	NSMutableString *title = [NSMutableString string];
-	while (argc--) {
-		if (strlen(*argv)) {
-			if ([title length])
-				[title appendString:@" "];
-         [title appendString:[NSString stringWithUTF8String:(argv++)[0]]];
-		}
-	}
-
-	// Deal with image
-	// --image takes precedence over -I takes precedence over -i takes precedence over -a
-	NSData *icon = nil;
-	if (imagePath) {
-		// read the image file into a CFDataRef
-		icon = [NSData dataWithContentsOfFile:[NSString stringWithUTF8String:imagePath]];
-	} else if (iconPath) {
-		// get icon data for path
-		NSString *path = [[NSString stringWithUTF8String:iconPath] stringByStandardizingPath];
-		if (![path isAbsolutePath])
-			path = [[[NSFileManager defaultManager] currentDirectoryPath] stringByAppendingPathComponent:path];
-		icon = [[[NSWorkspace sharedWorkspace] iconForFile:path] PNGRepresentation];
-	} else if (iconExt) {
-		// get icon data for file extension or type
-		CFStringRef fileType = CFStringCreateWithCString(kCFAllocatorDefault, iconExt, kCFStringEncodingUTF8);
-		icon = copyIconDataForTypeInfo  (fileType);
-		CFRelease(fileType);
-	} else if (appIcon) {
-		// get icon data for application name
-		NSString *appPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:[NSString stringWithUTF8String:appIcon]];
-		if (appPath) {
-         icon = [[[NSWorkspace sharedWorkspace] iconForFile:appPath] PNGRepresentation];
-		}
-	}
-	if (!icon) {
-		NSString *appPath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.Terminal"];
-		if (appPath) {
-         icon = [[[NSWorkspace sharedWorkspace] iconForFile:appPath] PNGRepresentation];
-		}
-	}
-
-	// Check message
-	NSString *desc;
-	if (message && !(message[0] == '-' && message[1] == 0)) {
-		// -m was used
-		desc = [NSString stringWithUTF8String:message];
-	} else {
-		// Deal with stdin
-		if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
-			fputs("Enter a notification description, followed by newline, followed by Ctrl-D (End of File). To cancel, press Ctrl-C.\n", stdout);
-
-		char buffer[4096];
-		NSMutableString *temp = [NSMutableString string];
-		while (!feof(stdin)) {
-			size_t len = fread(buffer, 1, sizeof(buffer)-1, stdin);
-			if (!len)
-				break;
-			buffer[len] = '\0';
-			[temp appendString:[NSString stringWithUTF8String:buffer]];
-		}
-		desc = [temp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-	}
-
-	// Application name
-	NSString *applicationName;
-	if (appName)
-		applicationName = [NSString stringWithUTF8String:appName];
-	else
-		applicationName = @"growlnotify";
-
-	NSString *identifierString;
-	if (identifier)
-		identifierString = [NSString stringWithUTF8String:identifier];
-	else
-		identifierString = nil;
-
-   NSString *clickURL = nil;
-   if(url)
-      clickURL = [NSString stringWithUTF8String:url];
-	
-	if(clickURL && [NSURL URLWithString:clickURL] == nil){
-		NSLog(@"Click URL %@ does not conform to RFC 2396\n\
-				Click URL must contain a scheme (such as http)\n\
-				The separator ://\n\
-				And a valid path, including %% escapes for any characters such as spaces which need it.\n\
-				Not sending click url to Growl via GNTP.", clickURL);
-		clickURL = nil;
-	}
+   @autoreleasepool {
       
       
-	// Register with Growl
-	NSString *name = (noteName != NULL) ? [NSString stringWithUTF8String:noteName] :  NOTIFICATION_NAME;
-	NSArray *defaultAndAllNotifications = [NSArray arrayWithObject:name];
-	NSArray *registerKeys = [[NSArray alloc] initWithObjects:GROWL_APP_NAME, 
-                                                            GROWL_NOTIFICATIONS_ALL,
-                                                            GROWL_NOTIFICATIONS_DEFAULT,
-                                                            GROWL_APP_ICON_DATA, nil];
-	NSArray *registerValues = [[NSArray alloc] initWithObjects:applicationName,
-                                                              defaultAndAllNotifications,
-                                                              defaultAndAllNotifications,
-                                                              icon, nil];
-   
-   NSDictionary *registerInfo = [[NSDictionary alloc] initWithObjects:registerValues forKeys:registerKeys];
-
-	// Notify
-	CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-	CFStringRef clickContext = CFUUIDCreateString(kCFAllocatorDefault, uuid);
-   NSNumber *priorityNumber = [NSNumber numberWithInt:priority];
-   NSNumber *stickyValue = [NSNumber numberWithBool:isSticky];
-   NSMutableDictionary *notificationInfo = [NSMutableDictionary dictionary];
-   [notificationInfo setValue:name forKey:GROWL_NOTIFICATION_NAME];
-   [notificationInfo setValue:applicationName forKey:GROWL_APP_NAME];
-   [notificationInfo setValue:title forKey:GROWL_NOTIFICATION_TITLE];
-   [notificationInfo setValue:desc forKey:GROWL_NOTIFICATION_DESCRIPTION];
-   [notificationInfo setValue:priorityNumber forKey:GROWL_NOTIFICATION_PRIORITY];
-   [notificationInfo setValue:stickyValue forKey:GROWL_NOTIFICATION_STICKY];
-   [notificationInfo setValue:icon forKey:GROWL_NOTIFICATION_ICON_DATA];
-   [notificationInfo setValue:(NSString*)clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-   if(clickURL)
-      [notificationInfo setValue:clickURL forKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
-	if (identifierString) {
-      [notificationInfo setValue:identifierString forKey:GROWL_NOTIFICATION_IDENTIFIER];
-	}
-	CFRelease(clickContext);
-   
-   /* TODO: GNTP Registration, and notification */
-   
-   NSString *hostName = nil;
-   if(host != NULL)
-      hostName = [NSString stringWithUTF8String:host];
-   NSString *pass = nil;
-   if(password != NULL)
-      pass = [NSString stringWithUTF8String:password];
-   
-   GrowlNotify *notifier = [[GrowlNotify alloc] initWithRegistrationDict:registerInfo
-                                                        notificationDict:notificationInfo
-                                                                    host:hostName
-                                                                password:pass];
-   code = [notifier start:wait];
-   [notifier release];
-
-	[pool release];
-
+      NSMutableString *title = [NSMutableString string];
+      while (argc--) {
+         if (strlen(*argv)) {
+            if ([title length])
+               [title appendString:@" "];
+            [title appendString:[NSString stringWithUTF8String:(argv++)[0]]];
+         }
+      }
+      
+      // Deal with image
+      // --image takes precedence over -I takes precedence over -i takes precedence over -a
+      NSData *icon = nil;
+      if (imagePath) {
+         // read the image file into a CFDataRef
+         icon = [NSData dataWithContentsOfFile:[NSString stringWithUTF8String:imagePath]];
+      } else if (iconPath) {
+         // get icon data for path
+         NSString *path = [[NSString stringWithUTF8String:iconPath] stringByStandardizingPath];
+         if (![path isAbsolutePath])
+            path = [[[NSFileManager defaultManager] currentDirectoryPath] stringByAppendingPathComponent:path];
+         icon = [[[NSWorkspace sharedWorkspace] iconForFile:path] PNGRepresentation];
+      } else if (iconExt) {
+         // get icon data for file extension or type
+         CFStringRef fileType = CFStringCreateWithCString(kCFAllocatorDefault, iconExt, kCFStringEncodingUTF8);
+         icon = copyIconDataForTypeInfo  (fileType);
+         CFRelease(fileType);
+      } else if (appIcon) {
+         // get icon data for application name
+         NSString *appPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:[NSString stringWithUTF8String:appIcon]];
+         if (appPath) {
+            icon = [[[NSWorkspace sharedWorkspace] iconForFile:appPath] PNGRepresentation];
+         }
+      }
+      if (!icon) {
+         NSString *appPath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.Terminal"];
+         if (appPath) {
+            icon = [[[NSWorkspace sharedWorkspace] iconForFile:appPath] PNGRepresentation];
+         }
+      }
+      
+      // Check message
+      NSString *desc;
+      if (message && !(message[0] == '-' && message[1] == 0)) {
+         // -m was used
+         desc = [NSString stringWithUTF8String:message];
+      } else {
+         // Deal with stdin
+         if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+            fputs("Enter a notification description, followed by newline, followed by Ctrl-D (End of File). To cancel, press Ctrl-C.\n", stdout);
+         
+         char buffer[4096];
+         NSMutableString *temp = [NSMutableString string];
+         while (!feof(stdin)) {
+            size_t len = fread(buffer, 1, sizeof(buffer)-1, stdin);
+            if (!len)
+               break;
+            buffer[len] = '\0';
+            [temp appendString:[NSString stringWithUTF8String:buffer]];
+         }
+         desc = [temp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+      }
+      
+      // Application name
+      NSString *applicationName;
+      if (appName)
+         applicationName = [NSString stringWithUTF8String:appName];
+      else
+         applicationName = @"growlnotify";
+      
+      NSString *identifierString;
+      if (identifier)
+         identifierString = [NSString stringWithUTF8String:identifier];
+      else
+         identifierString = nil;
+      
+      NSString *clickURL = nil;
+      if(url)
+         clickURL = [NSString stringWithUTF8String:url];
+      
+      if(clickURL && [NSURL URLWithString:clickURL] == nil){
+         NSLog(@"Click URL %@ does not conform to RFC 2396\n\
+               Click URL must contain a scheme (such as http)\n\
+               The separator ://\n\
+               And a valid path, including %% escapes for any characters such as spaces which need it.\n\
+               Not sending click url to Growl via GNTP.", clickURL);
+         clickURL = nil;
+      }
+      
+      
+      // Register with Growl
+      NSString *name = (noteName != NULL) ? [NSString stringWithUTF8String:noteName] :  NOTIFICATION_NAME;
+      NSArray *defaultAndAllNotifications = @[name];
+      
+      NSDictionary *registerInfo = @{GROWL_APP_NAME : applicationName,
+                                     GROWL_NOTIFICATIONS_ALL : defaultAndAllNotifications,
+                                     GROWL_NOTIFICATIONS_DEFAULT : defaultAndAllNotifications,
+                                     GROWL_APP_ICON_DATA : icon};
+      
+      // Notify
+      NSString *uuid = [[NSProcessInfo processInfo] globallyUniqueString];
+      NSNumber *priorityNumber = [NSNumber numberWithInt:priority];
+      NSNumber *stickyValue = [NSNumber numberWithBool:isSticky];
+      NSMutableDictionary *notificationInfo = [NSMutableDictionary dictionary];
+      [notificationInfo setValue:name forKey:GROWL_NOTIFICATION_NAME];
+      [notificationInfo setValue:applicationName forKey:GROWL_APP_NAME];
+      [notificationInfo setValue:title forKey:GROWL_NOTIFICATION_TITLE];
+      [notificationInfo setValue:desc forKey:GROWL_NOTIFICATION_DESCRIPTION];
+      [notificationInfo setValue:priorityNumber forKey:GROWL_NOTIFICATION_PRIORITY];
+      [notificationInfo setValue:stickyValue forKey:GROWL_NOTIFICATION_STICKY];
+      [notificationInfo setValue:icon forKey:GROWL_NOTIFICATION_ICON_DATA];
+      [notificationInfo setValue:uuid forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+      if(clickURL)
+         [notificationInfo setValue:clickURL forKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
+      if (identifierString) {
+         [notificationInfo setValue:identifierString forKey:GROWL_NOTIFICATION_IDENTIFIER];
+      }
+      
+      NSString *hostName = nil;
+      if(host != NULL)
+         hostName = [NSString stringWithUTF8String:host];
+      NSString *pass = nil;
+      if(password != NULL)
+         pass = [NSString stringWithUTF8String:password];
+      
+      GrowlNotify *notifier = [[GrowlNotify alloc] initWithRegistrationDict:registerInfo
+                                                           notificationDict:notificationInfo
+                                                                       host:hostName
+                                                                   password:pass];
+      code = [notifier start:wait];
+      [notifier release];
+      
+   }
 	return code;
 }
