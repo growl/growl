@@ -1,0 +1,65 @@
+
+
+
+
+Growl 2–förändringar
+
+Generellt
+- Stöd för OS X's Notiser under 10.8
+- Stöd för Prowl och Boxcar-tjänsterna som handlingsstilar.
+- Meddelanderullen upptäcker nu bättre viloläge.
+- Growl kör nu i sandbox.
+
+Inställningar
+- Av/på-knapparna genom hela Growl ska nu vara lättare att förstå.
+
+Visningsstilar
+- Tal-stilen ger dig nu mer kontroll.
+- Separerat handlingsstilar från visningsstilar
+- Musikvideo kan nu vänster/högerjustera text.
+- Fixar problem med höjd vid flerradiga notiser med visningsstilen Musikvideo.
+- Nano kan nu visa på flera platser, vänster, centrerat och höger.
+- Ny SoundAction-stil.
+- Nytt sätt att inte visa några visuella meddelande.
+
+Buggfixar
+- Fixat problemet med hög CPU användning
+- Fixat flertalet krascher.
+- Tangentbordsgenvägar kan nu tas bort.
+
+
+Growl 1.4–förändringar
+
+Allmänt
+- Fliken Program är omarbetad! Detta är en total omarbetning, och den bör vara mycket enklare att arbeta med.
+- Inställningarna för Meddelanderullen är flyttade till en separat flik.
+- Stora förbättringar i nätverksstödet.
+
+Omarbetning av inställningspanelen
+- Ny "strömbrytare" för av/på-knappar.
+- Positionsväljaren stöder nu tangentbordsstyrning.
+- Allmänt-fliken är omdesignad.
+- Nätverksfliken har nu funktioner för prenumerationer.
+- Historikfliken: meddelandelistan har fått en snabbvalsmeny för att gå till program- och meddelandeinställningar.
+- Vid inkoppling av en ny skärm behöver Growl inte längre startas om.
+
+Nätverk
+- Stöd för Notification-Callback-Target, ett URL-fält i GNTP. När man klickar på en länk, överlämnar Growl åt OS X att lista ut hur man öppnar adressen (som till exempel vilken webbläsare som är förvald för HTTP-adresser).
+- Prenumerationsstöd, prenumerera på alla program på en fjärrdator.
+- Allmänna förbättringar för nätverksautentisering, kravet på autentisering borttaget, användning av lösenordssidhuvuden ifall lösenordsfältet är tomt.
+- Åtgärdar nätverksrelaterat stabilitetsproblem rörande namnuppslag.
+- Binder nu endast till lokal port om Growl inte lyssnar efter inkommande meddelanden.
+- Adressinformation cachelagras, men cachet töms om en nätverksförändring observeras.
+
+AppleScript
+- Stöd för återkoppling efter klick på URL (samma som Notification-Callback-Target i GNTP).
+
+Buggfixar
+- Åtgärdar ett stabilitetsproblem med WebKit-insticksmodulens överbryggning.
+- Åtgärdar ett stabilitetsproblem vid vidarebefordran.
+- Åtgärdar ett problem som orsakade att visningsstilen Speech konsumerade processorkraft medan den väntade på att föregående meddelande färdigställdes.
+- Åtgärdar ett stabilitetsproblem rörande CFErrorGetDomain för WebKit-baserade visningsstilar.
+- Åtgärdar att visningsstilar listades dubbelt efter ominstallation.
+- Notification-Callback-Target repekteras och används nu, även utan metodsidhuvudet.
+- Inför metoder för att kringgå problem med trasiga historikdatabaser.
+- Åtgärdar ett sorteringsproblem när en enstaka historikpost raderas.

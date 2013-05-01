@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Growl 1.4-ændringer
+
+Generelt
+- Redesignet "Programmer"-fane! Dette er en stor overhaling, og burde være meget nemmere at bruge.
+- Rullegardinindstillinger flyttet til sin egen fane.
+- Store forbedringer til netværksfunktioner
+
+
+
+
+
+
+
+

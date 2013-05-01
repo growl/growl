@@ -1,0 +1,5 @@
+GrowlTunes 2.1.1
+- Uzlabota atmiņas resursu izmantošana, atjauninot Growl struktūrprogrammas.
+
+GrowlTunes 2.1
+- Pievienots atbalsts OS X 10.8 Notification Center.

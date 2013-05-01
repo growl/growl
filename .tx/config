@@ -105,6 +105,6 @@ type = TXT
 
 [TGP.growl-mailme-display-plugin]
 file_filter = Plugins/Actions/MailMe/MailMe/<lang>.lproj/Localizable.strings
-file_filter = Plugins/Actions/MailMe/MailMe/en.lproj/Localizable.strings
+source_file = Plugins/Actions/MailMe/MailMe/en.lproj/Localizable.strings
 source_lang = en
 type = TXT

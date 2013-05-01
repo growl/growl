@@ -1,0 +1,65 @@
+Cambios en Growl 2.0.1
+
+
+
+Cambios en Growl 2
+
+General
+- Agrega soporte para Notification Center en OS X 10.8.
+- Soporte para los servicios Prowl y Boxcar como acciones.
+- Detección de inactividad mejorada para el Resumen.
+- Growl ahora corre en un sandbox.
+
+Preferencias
+- El switch de "prendido / apagado" debe ser más fácil de entender.
+
+Estilos
+- Mayor control para el estilo de habla.
+- Separación entre los estilos de acción y los estilos visuales.
+- Music Video puede justificar el texto a la derecha o izquierda.
+- Arregla problemas de altura para notificaciones de varias líneas en Music Video.
+- Nano puede desplegarse en varias posiciones: izquierda, derecha y centro.
+- Se agregó un nuevo display de Sonido.
+- Se agregó una manera para no tener notificaciones visuales.
+
+Corrección de errores
+- Resuelve el error de alto consumo de CPU.
+- Resuelve varios errores fatales.
+- Ahora se pueden quitar los atajos de teclado.
+
+
+Cambios en Growl 1.4
+
+General
+- ¡Rediseño del tab de aplicaciones! Este es un cambio casi total y debe ser mucho más fácil de usar.
+- Se movieron los controles del Resumen a una tab separada.
+- Mejoras mayores en red.
+
+Revisión al panel de preferencias.
+- Nuevo slider para prender o apagar opciones.
+- Soporte para posicionar el "picker" con el teclado.
+- Cambió la estructura de la tab General.
+- Tab de Red – se agregó soporte a suscripciones.
+- Tab de historial, menú contextual de la tabla del historial para saltar a las preferencias de notificación/aplicación.
+- La tab de Resumen es el nuevo hogar de todos los controles relacionados con el Resumen.
+- Agregar un nuevo estilo no debe requerir que Growl reinicie.
+
+Red
+ - Soporte para Notification-Callback-Target, un campo URL en GNTP. Al hacer click, Growl deja que OSX intente abrir el URL (por ejemplo, usando el browser predeterminado para una url http).
+- Soporte de suscripciones, suscribirse a todas las aplicaciones de una máquina remota.
+- Mejoras generales de autenticación de red, se eliminó el requisito, y uso,  de headers de contraseña si el campo de contraseña está en blanco.
+- Se corrigió un error relativo a la resolución de dirección de datos
+- Enlazar sólo al socket local si no se esperan notificaciones entrantes.
+- Cache de dirección de datos y se observarn cambios en la red para borrar los caches.
+
+Applescript
+- Soporte a click de URL, igual que Notification-Callback-Target en GNTP
+
+Solución de errores
+- Se resolvió un error fatal al crear el puente de webkit plugin.
+- Se resolvió un error fatal al reenviar notificaciones.
+- Se resolvió un problema en el que el estilo de habla espera a que termine el mensaje anterior, drenando CPU.
+- Se resolció un error fatal con CFErrorGetDomain en los estilos visuales WebKit.
+- Notification-Callback-Target es respetada, y usada, aunque carezca del header de método.
+- Se resolvieron problemas de bases de datos corruptas de historiales.
+- Se resolvió un problema de orden cuando se borraba un sólo item de la lista de historial.

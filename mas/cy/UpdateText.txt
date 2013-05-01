@@ -1,0 +1,28 @@
+Newidiadau Growl 2.0.1
+
+- Yn ateb y broblem lleoli a ymddangosodd yn 2.0, diolch am yr adborth!
+- Yn ayeb sawl adroddiad chwaliad.
+
+Newidiadau Growl 2
+
+
+
+Dewisiadau
+- Dylai switsh YMLAEN/I FFWRDD fod yn haws i'w ddeall trwy Growl yn gyfan bellach.
+
+
+
+
+
+
+Newidiadau Growl 1.4
+
+
+
+
+
+
+
+
+
+

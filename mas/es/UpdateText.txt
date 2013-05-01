@@ -1,0 +1,66 @@
+
+
+
+
+Cambios en Growl 2
+
+General
+- Añade soporte para el Centro de Notificaciones de OS X 10.8
+- Añade soporte para Prowl y servicios de Boxcar
+- Mejor detección de ausencia para Resumen
+- Soporte para sandbox
+
+Preferencias
+- El interruptor SÍ/NO a través de Growl es ahora más sencillo
+
+Estilos visuales
+- Más control sobre las preferencias de voz
+- Separa los estilos de acción de los estilos visuales
+- El estilo visual "Vídeo Musical" ahora puede alinear el texto a la izquierda, a la derecha y justificadamente
+- El estilo visual "Nano" ahora puede mostrarse en diferentes ubicaciones: izquierda, centro y derecha
+- Añadidos los sonidos para acciones
+- Añadido un modo sin notificaciones visuales
+
+Fallos arreglados
+- Resuelve un problema con la CPU
+- Resuelve varios bloqueos inesperados
+- Atajos de teclado desactivables
+
+
+Cambios en Growl 1.4
+
+General
+- ¡Rediseño de la pestaña "Aplicaciones"! Por completo, ahora mucho más fácil de usar
+- Los controles de Resumen se han movido a una pestaña independiente
+- Mejoras notables para redes
+
+Rediseño completo del panel de preferencias
+- Nuevo interruptor SÍ/NO para Growl
+- Añadido soporte para el teclado al escoger posición para las notificaciones
+- Pestaña "General" rediseñada
+- Nueva pestaña "Redes"
+- Añade soporte para suscripciones
+- Pestaña "Historial", con menú contextual para ver el historial en una tabla y moverse entre los ajustes de las Aplicaciones y Notificaciones
+- Todos los controles relativos a Resumen ahora están agrupados en la pestaña Resumen
+- Añadir un nuevo estilo visual ya no requiere que Growl se reinicie
+
+Redes
+- Soporte para objetos de notificaciones, un campo de URL en GNTP. Tras pinchar, Growl permite a OS X saber cómo abrir la URL (ya sea con el navegador por defecto con http://)
+- Soporte para suscripciones, suscríbete a todas las aplicaciones en un ordenador remoto.
+- Mejoras generales para autenticación de red, eliminando el campo de contraseña cuando es innecesario
+- Arreglado un problema que podría causar el cierre inesperado en la resolución de direcciones para algunos usuarios
+- Posibilidad de enlazar al socket local si se están ignorando las notificaciones entrantes
+- Cacheo de datos en direcciones, además de obsrevación en cambios en la red para limpiar cachés
+
+Applescript
+- Soporte para retroalimentación al pinchar una URL, al igual que los objetos de notificaciones en GNTP
+
+Fallos arreglados
+- Se ha arreglado un fallo que podría producir el cierre inesperado de la aplicación al crear complementos webkit
+- Otro relacionado con el reenvío de notificaciones
+- Resuelto un fallo en el que las notificaciones por voz esperaban mensajes previos causando una sobrecarga en el uso de CPU
+- Resuelto un fallo grave con CFErrorGetDomain para estilos visuales webkit
+- Arreglada la muestra de complementos duplicados al reinstalar
+- Objeto de Notificaciones es ahora respetado y utilizado
+- Arreglados los problemas con bases de datos corruptas
+- Arreglado un fallo en el ordenamiento de datos al borrar una entrada en el historial

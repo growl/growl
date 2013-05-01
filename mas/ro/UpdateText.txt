@@ -1,0 +1,27 @@
+
+
+
+
+Modificări în Growl 2
+
+
+
+Preferințe ⏎ - Întrerupătorul I / O prin intermediul Growl ar trebui să fie mai ușor de înțeles acum.
+
+
+
+Bugfix-uri⏎ - Rezolvă ce mai mare problema a CPU-ului.⏎ - Rezolvă accidente multiple.⏎ - Comenzile rapide pot fi acum dezactivate.
+
+
+Modificări în Growl 1.4
+
+
+
+
+
+Rețea ⏎ - Suport pentru notificările Callback-Target, un câmp adresă URL în GNTP. La clic, Growl permite OSX să își dea seama cum se deschide adresa URL (cum ar fi browser-ul implicit pentru un URL http://). ⏎ - Suport de abonare, aboneaza-te la toate aplicațiile pe un aparat corespondent.⏎ - Îmbunătățiri generale la autentificarea în rețea, eliminat cerință pentru, și de a folosi anteturile de parolă în cazul în câmpul parolei este gol.⏎ - Rezolvă accidentele legate de datele rezoluție.⏎ - Lăgătură la priza locală numai în cazul în care nu asculta de notificări primite.⏎ -  Adresează date cache, și observarea schimbărilor de rețea pentru a șterge cache.
+
+
+AppleScript ⏎ - fă clic pe URL-ul de sprijin feedback, la fel ca Notificare-Callback-țintă în GNTP
+
+
