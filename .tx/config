@@ -108,3 +108,38 @@ file_filter = Plugins/Actions/MailMe/MailMe/<lang>.lproj/Localizable.strings
 source_file = Plugins/Actions/MailMe/MailMe/en.lproj/Localizable.strings
 source_lang = en
 type = TXT
+
+
+[TGP.growl-about-html]
+file_filter = Core/Resources/<lang>.lproj/About.html
+source_file = Core/Resources/en.lproj/About.html
+source_lang = en
+type = HTML
+
+
+[TGP.growl-oldgrowl-html]
+file_filter = Core/Resources/<lang>.lproj/OldGrowl.html
+source_file = Core/Resources/en.lproj/OldGrowl.html
+source_lang = en
+type = HTML
+
+
+[TGP.growl-startatlogin-html]
+file_filter = Core/Resources/<lang>.lproj/StartAtLogin.html
+source_file = Core/Resources/en.lproj/StartAtLogin.html
+source_lang = en
+type = HTML
+
+
+[TGP.growl-welcome-html]
+file_filter = Core/Resources/<lang>.lproj/Welcome.html
+source_file = Core/Resources/en.lproj/Welcome.html
+source_lang = en
+type = HTML
+
+[TGP.growl-whatsnew-html]
+file_filter = Core/Resources/<lang>.lproj/WhatsNew.html
+source_file = Core/Resources/en.lproj/WhatsNew.html
+source_lang = en
+type = HTML
+
