@@ -28,29 +28,6 @@
 
 #import <ApplicationServices/ApplicationServices.h>
 
-@interface GrowlApplicationBridge (PRIVATE)
-
-/*!	@method	_applicationNameForGrowlSearchingRegistrationDictionary:
- *	@abstract Obtain the name of the current application.
- *	@param regDict	The dictionary to search, or <code>nil</code> not to.
- *	@result	The name of the current application.
- *	@discussion	Does not call +bestRegistrationDictionary, and is therefore safe to call from it.
- */
-- (NSString *) _applicationNameForGrowlSearchingRegistrationDictionary:(NSDictionary *)regDict;
-/*!	@method	_applicationNameForGrowlSearchingRegistrationDictionary:
- *	@abstract Obtain the icon of the current application.
- *	@param regDict	The dictionary to search, or <code>nil</code> not to.
- *	@result	The icon of the current application, in IconFamily format (same as is used in 'icns' resources and .icns files).
- *	@discussion	Does not call +bestRegistrationDictionary, and is therefore safe to call from it.
- */
-- (NSData *) _applicationIconDataForGrowlSearchingRegistrationDictionary:(NSDictionary *)regDict;
-
-- (BOOL) _growlIsReachableUpdateCache:(BOOL)update;
-- (void) _checkSandbox;
-- (void) _fireAppleNotificationCenter:(NSDictionary*)growlDict;
-
-@end
-
 @class GrowlRunningAppObserver;
 
 //used primarily by GIP, but could be useful elsewhere.
@@ -191,20 +168,20 @@ static dispatch_queue_t notificationQueue_Queue;
 	return queuedGrowlNotifications;
 }
 
-- (void) queueNote:(NSDictionary*)note {
+- (void) queueNote:(GrowlNote*)note {
 	NSMutableArray *queue = [self queuedNotes];
 	dispatch_async(notificationQueue_Queue, ^{
 		[queue addObject:note];
 	});
 }
 
-- (NSMutableArray *) attempts {
-   static NSMutableArray *_attempts = nil;
+-(NSMutableDictionary *)notifications {
+   static NSMutableDictionary *_notes = nil;
    static dispatch_once_t onceToken;
    dispatch_once(&onceToken, ^{
-      _attempts = [[NSMutableArray alloc] init];
+      _notes = [[NSMutableDictionary alloc] init];
    });
-	return _attempts;
+   return _notes;
 }
 
 - (void) setDelegate:(id<GrowlApplicationBridgeDelegate>)delegate {
@@ -433,8 +410,10 @@ static dispatch_queue_t notificationQueue_Queue;
 }
 
 -(void)notifyWithNote:(GrowlNote *)note {
-   [[self attempts] addObject:note];
-   [note notify];
+   dispatch_async(notificationQueue_Queue, ^{
+      [[self notifications] setObject:note forKey:[note noteUUID]];
+      [note notify];      
+   });
 }
 
 - (BOOL)isNotificationDefaultEnabled:(NSDictionary*)growlDict
@@ -555,34 +534,31 @@ static dispatch_queue_t notificationQueue_Queue;
    
    self.registrationDictionary = regDict;
 
-	GrowlCommunicationAttempt *firstAttempt = nil;
    GrowlApplicationBridgeRegistrationAttempt *secondAttempt = nil;
    
    if(self.hasGNTP){
       //These should be the only way we get marked as having gntp
       if([GrowlXPCCommunicationAttempt canCreateConnection])
-         firstAttempt = [[[GrowlXPCRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
+         _registrationAttempt = [[GrowlXPCRegistrationAttempt alloc] initWithDictionary:regDict];
       else if(self.hasNetworkClient)
-         firstAttempt = [[[GrowlGNTPRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
+         _registrationAttempt = [[GrowlGNTPRegistrationAttempt alloc] initWithDictionary:regDict];
       
-      if(firstAttempt){
-         firstAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-         [[self attempts] addObject:firstAttempt];
+      if(_registrationAttempt){
+         _registrationAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
       }
    }
 
    if(!self.sandboxed){
-      secondAttempt = [[[GrowlApplicationBridgeRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
+      secondAttempt = [[GrowlApplicationBridgeRegistrationAttempt alloc] initWithDictionary:regDict];
       secondAttempt.applicationName = [self _applicationNameForGrowlSearchingRegistrationDictionary:regDict];
       secondAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-      [[self attempts] addObject:secondAttempt];
-      if(firstAttempt)
-         firstAttempt.nextAttempt = secondAttempt;
+      if(_registrationAttempt != nil)
+         _registrationAttempt.nextAttempt = secondAttempt;
       else
-         firstAttempt = secondAttempt;
+         _registrationAttempt = secondAttempt;
    }
 
-	[firstAttempt begin];
+	[_registrationAttempt begin];
 
 	return YES;
 }
@@ -814,8 +790,8 @@ static dispatch_queue_t notificationQueue_Queue;
 	dispatch_async(notificationQueue_Queue, ^{
 		if([queue count]){
 			[queue enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-				if([obj isKindOfClass:[NSDictionary class]])
-					[self notifyWithDictionary:obj];
+				if([obj isKindOfClass:[GrowlNote class]])
+					[obj notify];
 			}];
 			[queue removeAllObjects];
 		}
@@ -930,9 +906,9 @@ static dispatch_queue_t notificationQueue_Queue;
                   NSLog(@"We failed at registering with items in our queue waiting to go to growl, sending them to OS X notification center instead");
                   dispatch_async(notificationQueue_Queue, ^{
                      [queue enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                        if([obj isKindOfClass:[NSDictionary class]]){
+                        if([obj isKindOfClass:[GrowlNote class]]){
                            dispatch_async(dispatch_get_main_queue(), ^{
-                              [self _fireAppleNotificationCenter:obj];
+                              [obj _fireAppleNotificationCenter];
                            });
                         }
                      }];
@@ -942,9 +918,9 @@ static dispatch_queue_t notificationQueue_Queue;
                   NSLog(@"We failed at registering with items in our queue waiting to go to growl, sending them to Mist instead");
                   dispatch_async(notificationQueue_Queue, ^{
                      [queue enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                        if([obj isKindOfClass:[NSDictionary class]]){
+                        if([obj isKindOfClass:[GrowlNote class]]){
                            dispatch_async(dispatch_get_main_queue(), ^{
-                              //[self _fireMiniDispatch:obj];
+                              [obj _fireMiniDispatch];
                            });
                         }
                      }];
@@ -958,23 +934,22 @@ static dispatch_queue_t notificationQueue_Queue;
 			}
       }
    }
-   [[self attempts] removeObject:attempt];
+   if([_registrationAttempt isEqual:attempt]){
+      [_registrationAttempt release];
+      _registrationAttempt = nil;
+   }
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt{
-   [[self attempts] removeObject:attempt];
+   if([attempt isEqual:_registrationAttempt]){
+      [_registrationAttempt release];
+      _registrationAttempt = nil;
+   }
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt{
-   if(attempt.attemptType != GrowlCommunicationAttemptTypeNotify)
-      return;
-   
-   [self queueNote:[attempt dictionary]];
-   [self reregisterGrowlNotifications];
 }
 
 - (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context
 {
-   if(self.delegate != nil && [self.delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
-      [self.delegate growlNotificationWasClicked:context];
 }
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context
 {

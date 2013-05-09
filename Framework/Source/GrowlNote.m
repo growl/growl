@@ -10,11 +10,12 @@
 #import "GrowlDefines.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlApplicationBridge.h"
+#import "GrowlApplicationBridge_Private.h"
 #import "GrowlMiniDispatch.h"
 
 #import "GrowlGNTPNotificationAttempt.h"
 #import "GrowlXPCNotificationAttempt.h"
-#import "GrowlApplicationBridgeNotificationAttempt.m"
+#import "GrowlApplicationBridgeNotificationAttempt.h"
 
 @interface GrowlNote ()
 
@@ -184,7 +185,7 @@
    }
    
    //All the cases where growl is reachable *should* be covered now
-   if ([[GrowlApplicationBridge sharedBridge] registered] && [self _growlIsReachableUpdateCache:NO]) {      
+   if ([[GrowlApplicationBridge sharedBridge] registered] && [[GrowlApplicationBridge sharedBridge] _growlIsReachableUpdateCache:NO]) {
       GrowlCommunicationAttempt *firstAttempt = nil;
       GrowlApplicationBridgeNotificationAttempt *secondAttempt = nil;
       
@@ -215,12 +216,11 @@
       if(_firstAttempt)
          [_firstAttempt begin];
    }else{
-      if ([self _growlIsReachableUpdateCache:NO])
+      if ([[GrowlApplicationBridge sharedBridge] _growlIsReachableUpdateCache:NO])
       {
-         [self queueNote:userInfo];
-         
-         if(!attemptingToRegister)
-            [GrowlApplicationBridge registerWithDictionary:nil];
+         [[GrowlApplicationBridge sharedBridge] queueNote:self];
+         //Protections in registerWithDictionary save this
+         [GrowlApplicationBridge registerWithDictionary:nil];
       } else {
          // If we do the always-send-to-notification-center, we don't need a fallback.
          if (!alwaysCopyNC) {
@@ -229,7 +229,7 @@
             }
             else if([GrowlApplicationBridge isMistEnabled]){
                dispatch_async(dispatch_get_main_queue(), ^(void) {
-                  //[self _fireMiniDispatch:userInfo];
+                  [self _fireMiniDispatch];
                });
             }
          }
@@ -291,28 +291,32 @@
 #pragma mark GrowlCommunicationAttemptDelegate
 
 - (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt {
-   
+   //hrm
 }
 - (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
    
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt {
-   
+
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt {
+   if(attempt.attemptType != GrowlCommunicationAttemptTypeNotify)
+      return;
    
+   [[GrowlApplicationBridge sharedBridge] queueNote:self];
+   [GrowlApplicationBridge reregisterGrowlNotifications];
 }
 
 //Sent after success
 - (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context {
-   
+   id<GrowlApplicationBridgeDelegate> mainDelegate = [GrowlApplicationBridge sharedBridge].delegate;
+   if(mainDelegate != nil && [mainDelegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+      [mainDelegate growlNotificationWasClicked:context];
 }
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context {
-   
-}
-
-- (void) stoppedAttempts:(GrowlCommunicationAttempt *)attempt {
-   
+   id<GrowlApplicationBridgeDelegate> mainDelegate = [GrowlApplicationBridge sharedBridge].delegate;
+   if(mainDelegate != nil && [mainDelegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+      [mainDelegate growlNotificationWasClicked:context];
 }
 
 @end

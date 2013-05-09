@@ -1515,6 +1515,7 @@
 		BC7E26D815065CF100828D29 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		BC7FC594152F41D60047368D /* NSScreen+GrowlScreenAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSScreen+GrowlScreenAdditions.h"; path = "Plugins/PluginFramework/NSScreen+GrowlScreenAdditions.h"; sourceTree = "<group>"; };
 		BC7FC595152F41D60047368D /* NSScreen+GrowlScreenAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSScreen+GrowlScreenAdditions.m"; path = "Plugins/PluginFramework/NSScreen+GrowlScreenAdditions.m"; sourceTree = "<group>"; };
+		BC803553173BE05300969A15 /* GrowlApplicationBridge_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationBridge_Private.h; path = Framework/Source/GrowlApplicationBridge_Private.h; sourceTree = "<group>"; };
 		BC80590C15BB78C300E852B9 /* GrowlSMSDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlSMSDisplay.h; path = Plugins/Actions/SMS/GrowlSMSDisplay.h; sourceTree = "<group>"; };
 		BC80590D15BB78C300E852B9 /* GrowlSMSDisplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlSMSDisplay.m; path = Plugins/Actions/SMS/GrowlSMSDisplay.m; sourceTree = "<group>"; };
 		BC80590E15BB78C300E852B9 /* GrowlSMSPrefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlSMSPrefs.h; path = Plugins/Actions/SMS/GrowlSMSPrefs.h; sourceTree = "<group>"; };
@@ -2370,6 +2371,7 @@
 				343354C10792F96300C84B15 /* GrowlFramework_Prefix.pch */,
 				34F60EC2078E1D5600CECA86 /* Growl.h */,
 				34F60EB8078E1D3E00CECA86 /* GrowlApplicationBridge.h */,
+				BC803553173BE05300969A15 /* GrowlApplicationBridge_Private.h */,
 				34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */,
 				BC417532173A0C5D00AB80BD /* GrowlNote.h */,
 				BCF3F1B4173AB91100C9E087 /* GrowlNote_Private.h */,

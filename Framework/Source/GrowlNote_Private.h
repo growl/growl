@@ -12,4 +12,7 @@
 
 -(void)notify;
 
+- (void) _fireMiniDispatch;
+- (void) _fireAppleNotificationCenter;
+
 @end

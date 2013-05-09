@@ -23,7 +23,7 @@
 //Forward declarations
 @protocol GrowlApplicationBridgeDelegate;
 
-@class GrowlMiniDispatch, GrowlNote;
+@class GrowlMiniDispatch, GrowlNote, GrowlCommunicationAttempt;
 
 //------------------------------------------------------------------------------
 #pragma mark -
@@ -55,6 +55,8 @@
    @private
    NSMutableArray *_pendingNotifications;
    GrowlMiniDispatch *_miniDispatch;
+   
+   GrowlCommunicationAttempt *_registrationAttempt;
 }
 
 @property (nonatomic, readonly) BOOL isGrowlRunning;
