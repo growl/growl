@@ -81,8 +81,10 @@ static dispatch_queue_t notificationQueue_Queue;
 -(id)init {
    if((self = [super init])){
       self.registered = NO;
-      self.isGrowlRunning = [GrowlApplicationBridge isGrowlRunning];
+      self.isGrowlRunning = Growl_HelperAppIsRunning();
       [self _checkSandbox];
+      
+      notificationQueue_Queue = dispatch_queue_create("com.growl.growlframework.notequeue_queue", 0);
       
       [[NSWorkspace sharedWorkspace] addObserver:self
                                       forKeyPath:@"runningApplications"
@@ -163,7 +165,6 @@ static dispatch_queue_t notificationQueue_Queue;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		queuedGrowlNotifications = [[NSMutableArray alloc] init];
-		notificationQueue_Queue = dispatch_queue_create("com.growl.growlframework.notequeue_queue", 0);
 	});
 	return queuedGrowlNotifications;
 }
