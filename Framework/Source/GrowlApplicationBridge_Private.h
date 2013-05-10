@@ -10,7 +10,6 @@
 
 @interface GrowlApplicationBridge ()
 
-
 /*!	@method	_applicationNameForGrowlSearchingRegistrationDictionary:
  *	@abstract Obtain the name of the current application.
  *	@param regDict	The dictionary to search, or <code>nil</code> not to.

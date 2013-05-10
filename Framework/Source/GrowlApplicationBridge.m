@@ -80,7 +80,6 @@ static dispatch_queue_t notificationQueue_Queue;
 
 -(id)init {
    if((self = [super init])){
-      self.registered = NO;
       self.isGrowlRunning = Growl_HelperAppIsRunning();
       [self _checkSandbox];
       
@@ -137,6 +136,13 @@ static dispatch_queue_t notificationQueue_Queue;
       }else {
 #pragma mark FIX THIS TO BE BETTER
          [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
+      }
+      
+      
+      self.registrationDictionary = [self bestRegistrationDictionary];
+      self.registered = NO;
+      if(self.registrationDictionary != nil){
+         [self registerWithDictionary:self.registrationDictionary];
       }
    }
    return self;
@@ -289,6 +295,13 @@ static dispatch_queue_t notificationQueue_Queue;
    [NSDNC postNotificationName:GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_QUERY
                         object:nil
                       userInfo:nil deliverImmediately:YES];
+   
+   if(self.registrationDictionary == nil){
+      self.registrationDictionary = [self bestRegistrationDictionary];
+      if(self.registrationDictionary != nil){
+         [self registerWithDictionary:self.registrationDictionary];
+      }
+   }
 }
 + (void) setGrowlDelegate:(id<GrowlApplicationBridgeDelegate>)inDelegate {
    [[GrowlApplicationBridge sharedBridge] setDelegate:inDelegate];
@@ -300,10 +313,11 @@ static dispatch_queue_t notificationQueue_Queue;
 
 - (void)setRegistrationDictionary:(NSDictionary *)registrationDictionary {
    if (![self.registrationDictionary isEqualToDictionary:registrationDictionary]){
-      registrationDictionary = [GrowlApplicationBridge registrationDictionaryByFillingInDictionary:registrationDictionary];
+      registrationDictionary = [self registrationDictionaryByFillingInDictionary:registrationDictionary];
       if(![self.registrationDictionary isEqualToDictionary:registrationDictionary]){
          [_registrationDictionary release];
          _registrationDictionary = [registrationDictionary copy];
+         [self registerWithDictionary:self.registrationDictionary];
       }
    }
 }
@@ -419,7 +433,7 @@ static dispatch_queue_t notificationQueue_Queue;
 
 - (BOOL)isNotificationDefaultEnabled:(NSDictionary*)growlDict
 {
-   NSDictionary *regDict = [GrowlApplicationBridge bestRegistrationDictionary];
+   NSDictionary *regDict = [self bestRegistrationDictionary];
    //Sanity check, shouldn't happen, just in case
    if(!regDict)
       return NO;
@@ -522,9 +536,9 @@ static dispatch_queue_t notificationQueue_Queue;
    }
    
 	if (regDict)
-		regDict = [GrowlApplicationBridge registrationDictionaryByFillingInDictionary:regDict];
+		regDict = [self registrationDictionaryByFillingInDictionary:regDict];
 	else
-		regDict = [GrowlApplicationBridge bestRegistrationDictionary];
+		regDict = [self bestRegistrationDictionary];
 	
 	if(!regDict){
 		NSLog(@"Cannot register without a registration dictionary!");
@@ -582,45 +596,55 @@ static dispatch_queue_t notificationQueue_Queue;
 #pragma mark -
 
 + (NSDictionary *) registrationDictionaryFromDelegate {
-	NSDictionary *regDict = nil;
-
-   id<GrowlApplicationBridgeDelegate> delegate = [[GrowlApplicationBridge sharedBridge] delegate];
-	if (delegate && [delegate respondsToSelector:@selector(registrationDictionaryFromDelegate)])
-		regDict = [delegate registrationDictionaryForGrowl];
-
+   return [[GrowlApplicationBridge sharedBridge] registrationDictionaryFromDelegate];
+}
+- (NSDictionary *) registrationDictionaryFromDelegate {
+   NSDictionary *regDict = nil;
+   
+	if (self.delegate && [self.delegate respondsToSelector:@selector(registrationDictionaryForGrowl)])
+		regDict = [self.delegate registrationDictionaryForGrowl];
+   
 	return regDict;
 }
 
 + (NSDictionary *) registrationDictionaryFromBundle:(NSBundle *)bundle {
-	if (!bundle) bundle = [NSBundle mainBundle];
-
+   return [[GrowlApplicationBridge sharedBridge] registrationDictionaryFromBundle:bundle];
+}
+- (NSDictionary *) registrationDictionaryFromBundle:(NSBundle *)bundle {
+   if (!bundle) bundle = [NSBundle mainBundle];
+   
 	NSDictionary *regDict = nil;
-
+   
 	NSString *regDictPath = [bundle pathForResource:@"Growl Registration Ticket" ofType:GROWL_REG_DICT_EXTENSION];
 	if (regDictPath) {
 		regDict = [NSDictionary dictionaryWithContentsOfFile:regDictPath];
-		if (!regDict)
-			NSLog(@"GrowlApplicationBridge: The bundle at %@ contains a registration dictionary, but it is not a valid property list. Please tell this application's developer.", [bundle bundlePath]);
+//		if (!regDict)
+//			NSLog(@"GrowlApplicationBridge: The bundle at %@ contains a registration dictionary, but it is not a valid property list. Please tell this application's developer.", [bundle bundlePath]);
 	}
-
+   
 	return regDict;
 }
 
 + (NSDictionary *) bestRegistrationDictionary {
-	NSDictionary *registrationDictionary = [self registrationDictionaryFromDelegate];
-	if (!registrationDictionary) {
-		registrationDictionary = [self registrationDictionaryFromBundle:nil];
-		if (!registrationDictionary)
-			NSLog(@"GrowlApplicationBridge: The Growl delegate did not supply a registration dictionary, and the app bundle at %@ does not have one. Please tell this application's developer.", [[NSBundle mainBundle] bundlePath]);
-	}
-
+   return [[GrowlApplicationBridge sharedBridge] bestRegistrationDictionary];
+}
+- (NSDictionary *) bestRegistrationDictionary {
+   NSDictionary *registrationDictionary =  [self registrationDictionaryFromDelegate];
+   if (registrationDictionary == nil) {
+      registrationDictionary = [self registrationDictionaryFromBundle:nil];
+//      if (registrationDictionary == nil)
+//         NSLog(@"GrowlApplicationBridge: The Growl delegate did not supply a registration dictionary, and the app bundle at %@ does not have one. Please tell this application's developer.", [[NSBundle mainBundle] bundlePath]);
+   }
 	return [self registrationDictionaryByFillingInDictionary:registrationDictionary];
 }
 
 #pragma mark -
 
 + (NSDictionary *) registrationDictionaryByFillingInDictionary:(NSDictionary *)regDict {
-	return [self registrationDictionaryByFillingInDictionary:regDict restrictToKeys:nil];
+	return [[GrowlApplicationBridge sharedBridge] registrationDictionaryByFillingInDictionary:regDict];
+}
+- (NSDictionary *) registrationDictionaryByFillingInDictionary:(NSDictionary *)regDict {
+   return [self registrationDictionaryByFillingInDictionary:regDict restrictToKeys:nil];
 }
 
 + (NSDictionary *) registrationDictionaryByFillingInDictionary:(NSDictionary *)regDict restrictToKeys:(NSSet *)keys {
@@ -966,18 +990,18 @@ static dispatch_queue_t notificationQueue_Queue;
       id clickContext = [[notification userInfo] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
       
       if(notification.activationType == NSUserNotificationActivationTypeActionButtonClicked) {
-         if(clickContext && [[GrowlApplicationBridge growlDelegate] respondsToSelector:@selector(growlNotificationActionButtonClicked:)])
-            [[GrowlApplicationBridge growlDelegate] growlNotificationActionButtonClicked:clickContext];
-         else if(clickContext && [[GrowlApplicationBridge growlDelegate] respondsToSelector:@selector(growlNotificationWasClicked:)])
-            [[GrowlApplicationBridge growlDelegate] growlNotificationWasClicked:clickContext];
+         if(clickContext && [self.delegate respondsToSelector:@selector(growlNotificationActionButtonClicked:)])
+            [self.delegate growlNotificationActionButtonClicked:clickContext];
+         else if(clickContext && [self.delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+            [self.delegate growlNotificationWasClicked:clickContext];
       }
       else if (notification.activationType == NSUserNotificationActivationTypeContentsClicked) {
-         if(clickContext && [[GrowlApplicationBridge growlDelegate] respondsToSelector:@selector(growlNotificationWasClicked:)])
-            [[GrowlApplicationBridge growlDelegate] growlNotificationWasClicked:clickContext];
+         if(clickContext && [self.delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+            [self.delegate growlNotificationWasClicked:clickContext];
       }
       else {
-         if(clickContext && [[GrowlApplicationBridge growlDelegate] respondsToSelector:@selector(growlNotificationTimedOut:)])
-            [[GrowlApplicationBridge growlDelegate] growlNotificationTimedOut:clickContext];
+         if(clickContext && [self.delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
+            [self.delegate growlNotificationTimedOut:clickContext];
       }
       // Remove the notification, so it doesn't sit around forever.
       [center removeDeliveredNotification:notification];
