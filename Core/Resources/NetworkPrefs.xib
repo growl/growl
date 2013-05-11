@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">12C60</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
-		<string key="IBDocument.AppKitVersion">1187.34</string>
-		<string key="IBDocument.HIToolboxVersion">625.00</string>
+		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
+		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2844</string>
+			<string key="NS.object.0">3084</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -564,7 +564,7 @@
 											<string key="NSFrame">{{69, -2}, {31, 14}}</string>
 											<reference key="NSSuperview" ref="571501632"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="1035030715"/>
+											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:1535</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="84558728">
@@ -1079,7 +1079,6 @@
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{47, -2}, {77, 14}}</string>
 											<reference key="NSSuperview" ref="695054413"/>
-											<reference key="NSNextKeyView" ref="1035030715"/>
 											<string key="NSReuseIdentifierKey">_NS:1535</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="58084974">
@@ -3780,7 +3779,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 								<int key="contentType">3</int>
 							</object>
 							<reference ref="1009882496"/>
-							<reference ref="327979285"/>
 							<reference ref="378365662"/>
 							<reference ref="199286715"/>
 							<reference ref="308262733"/>
@@ -3791,6 +3789,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<reference ref="15685768"/>
 							<reference ref="997855976"/>
 							<reference ref="500046759"/>
+							<reference ref="327979285"/>
 						</object>
 						<reference key="parent" ref="1002"/>
 					</object>
@@ -3809,6 +3808,22 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="740557251"/>
+							<object class="IBNSLayoutConstraint" id="840096236">
+								<reference key="firstItem" ref="327979285"/>
+								<int key="firstAttribute">8</int>
+								<int key="relation">0</int>
+								<nil key="secondItem"/>
+								<int key="secondAttribute">0</int>
+								<float key="multiplier">1</float>
+								<object class="IBLayoutConstant" key="constant">
+									<double key="value">28</double>
+								</object>
+								<float key="priority">1000</float>
+								<reference key="containingView" ref="327979285"/>
+								<int key="scoringType">9</int>
+								<float key="scoringTypeFloat">40</float>
+								<int key="contentType">1</int>
+							</object>
 							<object class="IBNSLayoutConstraint" id="126677340">
 								<reference key="firstItem" ref="327979285"/>
 								<int key="firstAttribute">7</int>
@@ -5922,11 +5937,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="parent" ref="1009882496"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1662</int>
-						<reference key="object" ref="415108174"/>
-						<reference key="parent" ref="490188636"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1661</int>
 						<reference key="object" ref="558037832"/>
 						<reference key="parent" ref="490188636"/>
@@ -6441,11 +6451,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="parent" ref="571501632"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">1760</int>
-						<reference key="object" ref="494022339"/>
-						<reference key="parent" ref="490188636"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1762</int>
 						<reference key="object" ref="230547906"/>
 						<reference key="parent" ref="571501632"/>
@@ -6586,6 +6591,21 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<int key="objectID">1825</int>
 						<reference key="object" ref="391447929"/>
 						<reference key="parent" ref="695054413"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1828</int>
+						<reference key="object" ref="840096236"/>
+						<reference key="parent" ref="327979285"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1662</int>
+						<reference key="object" ref="415108174"/>
+						<reference key="parent" ref="490188636"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1760</int>
+						<reference key="object" ref="494022339"/>
+						<reference key="parent" ref="490188636"/>
 					</object>
 				</object>
 			</object>
@@ -6818,6 +6838,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string>1820.IBPluginDependency</string>
 					<string>1824.IBPluginDependency</string>
 					<string>1825.IBPluginDependency</string>
+					<string>1828.IBPluginDependency</string>
 					<string>19.IBPluginDependency</string>
 					<string>2.IBNSViewMetadataConstraints</string>
 					<string>2.IBPluginDependency</string>
@@ -7288,6 +7309,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSMutableArray">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<reference ref="930375133"/>
@@ -7407,9 +7429,10 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<object class="NSMutableArray">
+					<object class="NSArray">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<reference ref="126677340"/>
+						<reference ref="840096236"/>
 					</object>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7457,7 +7480,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<reference key="dict.values" ref="1002"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1827</int>
+			<int key="maxID">1830</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
