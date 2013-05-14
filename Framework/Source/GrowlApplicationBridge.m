@@ -983,8 +983,8 @@ static dispatch_queue_t notificationQueue_Queue;
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context{}
 
 -(void)noteClicked:(GrowlNote*)note {
-   if(self.delegate != nil && [self.delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
-      [self.delegate growlNotificationTimedOut:[note clickContext]];
+   if(self.delegate != nil && [self.delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+      [self.delegate growlNotificationWasClicked:[note clickContext]];
 }
 -(void)noteTimedOut:(GrowlNote*)note {
    if(self.delegate != nil && [self.delegate respondsToSelector:@selector(growlNotificationTimedOut:)])

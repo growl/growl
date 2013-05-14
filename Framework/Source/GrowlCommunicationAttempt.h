@@ -40,6 +40,8 @@ typedef NSUInteger GrowlCommunicationAttemptType;
 	GrowlCommunicationAttempt *nextAttempt;
 	id <GrowlCommunicationAttemptDelegate> delegate;
 	NSError *error;
+   
+   BOOL _finished;
 }
 
 //To be overridden by subclasses. If your subclass can be any attempt type, return GrowlCommunicationAttemptTypeNone and initialize the attemptType variable in your -initWithDictionary:. GrowlCommunicationAttempt's implementation of +attemptType throws an exception.

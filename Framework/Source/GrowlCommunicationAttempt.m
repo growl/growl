@@ -32,7 +32,8 @@
 	if ((self = [super init])) {
 		dictionary = [dict retain];
 		attemptType = [[self class] attemptType];
-        nextAttempt = nil;
+      nextAttempt = nil;
+      _finished = NO;
 	}
 	return self;
 }
@@ -86,7 +87,10 @@
 	[self.delegate attemptDidFail:self];
 }
 - (void) finished {
-    [self.delegate finishedWithAttempt:self];
+   if(_finished)
+      return;
+   _finished = YES;
+   [self.delegate finishedWithAttempt:self];
 }
 
 @end
