@@ -20,6 +20,8 @@
 #import <AppKit/AppKit.h>
 #import <Growl/GrowlDefines.h>
 
+#import "GrowlNote.h"
+
 //Forward declarations
 @protocol GrowlApplicationBridgeDelegate;
 
@@ -36,7 +38,7 @@
  *	 Currently it provides a way to detect if Growl is installed and launch the
  *	 GrowlHelperApp if it's not already running.
  */
-@interface GrowlApplicationBridge : NSObject <NSUserNotificationCenterDelegate> {
+@interface GrowlApplicationBridge : NSObject <NSUserNotificationCenterDelegate, GrowlNoteDelegate> {
    BOOL _isGrowlRunning;
    BOOL _useNotificationCenterAlways;
    BOOL _shouldUseBuiltInNotifications;

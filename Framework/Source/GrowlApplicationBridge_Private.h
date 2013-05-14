@@ -26,6 +26,7 @@
 - (NSData *) _applicationIconDataForGrowlSearchingRegistrationDictionary:(NSDictionary *)regDict;
 
 - (void) queueNote:(GrowlNote*)note;
+- (void) finishedWithNote:(GrowlNote*)note;
 - (BOOL) _growlIsReachableUpdateCache:(BOOL)update;
 - (void) _checkSandbox;
 - (void) _fireAppleNotificationCenter:(NSDictionary*)growlDict;

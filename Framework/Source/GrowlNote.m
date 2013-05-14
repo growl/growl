@@ -26,6 +26,9 @@
 
 @implementation GrowlNote
 
+@synthesize delegate = _delegate;
+@synthesize completionBlock = _completionBlock;
+
 @synthesize noteUUID = _noteUUID;
 
 @synthesize noteName = _noteName;
@@ -101,9 +104,9 @@
 	NSParameterAssert(title || description);	//At least one of title or description is required.
    
 	// Build our noteDict from all passed parameters
-	NSMutableDictionary *noteDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+	NSMutableDictionary *noteDict = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
                                     notifName,	 GROWL_NOTIFICATION_NAME,
-                                    nil];
+                                    nil] autorelease];
    
 	if (title)			[noteDict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
 	if (description)	[noteDict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
@@ -161,6 +164,20 @@
 }
 
 -(void)dealloc {
+   [_completionBlock release];
+   _completionBlock = nil;
+   [_noteName release];
+   _noteName = nil;
+   [_title release];
+   _title = nil;
+   [_description release];
+   _description = nil;
+   [_iconData release];
+   _iconData = nil;
+   [_clickContext release];
+   _clickContext = nil;
+   [_noteDictionary release];
+   _noteDictionary = nil;
    [super dealloc];
 }
 
@@ -294,10 +311,21 @@
    //hrm
 }
 - (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
+   BOOL fallback = [attempt nextAttempt] == nil;
+   if(attempt == _firstAttempt){
+      [_firstAttempt release];
+      _firstAttempt = nil;
+   }else if(attempt == _secondAttempt){
+      [_secondAttempt release];
+      _secondAttempt = nil;
+   }
    
+   if(fallback) {
+      //figure out which to use
+   }
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt {
-
+   [[GrowlApplicationBridge sharedBridge] finishedWithNote:self];
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt {
    if(attempt.attemptType != GrowlCommunicationAttemptTypeNotify)
@@ -309,14 +337,19 @@
 
 //Sent after success
 - (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context {
-   id<GrowlApplicationBridgeDelegate> mainDelegate = [GrowlApplicationBridge sharedBridge].delegate;
-   if(mainDelegate != nil && [mainDelegate respondsToSelector:@selector(growlNotificationWasClicked:)])
-      [mainDelegate growlNotificationWasClicked:context];
+   if(self.completionBlock){
+      self.completionBlock(GrowlNoteClicked, self);
+   }else if(self.delegate){
+      [self.delegate noteClicked:self];
+   }
+   
 }
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context {
-   id<GrowlApplicationBridgeDelegate> mainDelegate = [GrowlApplicationBridge sharedBridge].delegate;
-   if(mainDelegate != nil && [mainDelegate respondsToSelector:@selector(growlNotificationWasClicked:)])
-      [mainDelegate growlNotificationWasClicked:context];
+   if(!self.delegate){
+      self.completionBlock(GrowlNoteTimedOut, self);
+   }else if(self.delegate){
+      [self.delegate noteTimedOut:self];
+   }
 }
 
 @end

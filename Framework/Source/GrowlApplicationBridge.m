@@ -182,6 +182,12 @@ static dispatch_queue_t notificationQueue_Queue;
 	});
 }
 
+- (void) finishedWithNote:(GrowlNote*)note {
+   dispatch_async(notificationQueue_Queue, ^{
+		[[self notifications] removeObjectForKey:[note noteUUID]];
+	});
+}
+
 -(NSMutableDictionary *)notifications {
    static NSMutableDictionary *_notes = nil;
    static dispatch_once_t onceToken;
@@ -421,7 +427,9 @@ static dispatch_queue_t notificationQueue_Queue;
 }
 - (void) notifyWithDictionary:(NSDictionary *)userInfo
 {
-   [self notifyWithNote:[GrowlNote noteWithDictionary:userInfo]];
+   GrowlNote *note = [GrowlNote noteWithDictionary:userInfo];
+   note.delegate = self;
+   [self notifyWithNote:note];
 }
 
 -(void)notifyWithNote:(GrowlNote *)note {
@@ -658,7 +666,7 @@ static dispatch_queue_t notificationQueue_Queue;
 	if ((!keys) || [keys containsObject:GROWL_APP_NAME]) {
 		if (![mRegDict objectForKey:GROWL_APP_NAME]) {
 			if (!self.appName)
-				self.appName = [[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] retain];
+				self.appName = [self _applicationNameForGrowlSearchingRegistrationDictionary:regDict];
 
 			[mRegDict setObject:self.appName
 			             forKey:GROWL_APP_NAME];
@@ -970,16 +978,17 @@ static dispatch_queue_t notificationQueue_Queue;
       _registrationAttempt = nil;
    }
 }
-- (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt{
-}
+- (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt{}
+- (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context{}
+- (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context{}
 
-- (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context
-{
-}
-- (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context
-{
+-(void)noteClicked:(GrowlNote*)note {
    if(self.delegate != nil && [self.delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
-      [self.delegate growlNotificationTimedOut:context];
+      [self.delegate growlNotificationTimedOut:[note clickContext]];
+}
+-(void)noteTimedOut:(GrowlNote*)note {
+   if(self.delegate != nil && [self.delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
+      [self.delegate growlNotificationTimedOut:[note clickContext]];
 }
 
 #pragma mark NSUserNotificationCenterDelegate

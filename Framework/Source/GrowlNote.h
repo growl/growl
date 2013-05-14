@@ -7,9 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GrowlCommunicationAttempt.h"
 
-@interface GrowlNote : NSObject <GrowlCommunicationAttemptDelegate> {
+@class GrowlCommunicationAttempt, GrowlNote;
+
+enum GrowlNoteStatus {
+   GrowlNoteClicked,
+   GrowlNoteTimedOut
+};
+typedef enum GrowlNoteStatus GrowlNoteStatus;
+
+typedef void(^GrowlNoteCompletionBlock)(GrowlNoteStatus status, GrowlNote *note);
+
+@protocol GrowlNoteDelegate <NSObject>
+
+-(void)noteClicked:(GrowlNote*)note;
+-(void)noteTimedOut:(GrowlNote*)note;
+
+@end
+
+@interface GrowlNote : NSObject {
    NSString *_noteUUID;
    
    NSString *_noteName;
@@ -22,11 +38,16 @@
    
    NSDictionary *_noteDictionary;
    
+   id<GrowlNoteDelegate> _delegate;
+   GrowlNoteCompletionBlock _completionBlock;
+   
    @private
-   BOOL _notify;
    GrowlCommunicationAttempt *_firstAttempt;
    GrowlCommunicationAttempt *_secondAttempt;
 }
+
+@property (nonatomic, assign) id<GrowlNoteDelegate> delegate;
+@property (nonatomic, copy) GrowlNoteCompletionBlock completionBlock;
 
 @property (nonatomic, readonly) NSString *noteUUID;
 
