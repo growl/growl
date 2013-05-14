@@ -443,7 +443,7 @@
 		NSUInteger major, minor, bugFix;
 		GrowlGetSystemVersion(&major, &minor, &bugFix);
 		
-		platformVersion = [[NSString stringWithFormat:@"%lu.%lu.%lu", (unsigned long)major, (unsigned long)minor, (unsigned long)bugFix] retain];
+		platformVersion = [NSString stringWithFormat:@"%lu.%lu.%lu", (unsigned long)major, (unsigned long)minor, (unsigned long)bugFix];
 		NSBundle *thisBundle = [NSBundle bundleForClass:[self class]];
 		NSString *bundleID = [thisBundle bundleIdentifier];
 		if ([bundleID isEqualToString:GROWL_HELPERAPP_BUNDLE_IDENTIFIER] ||
@@ -474,7 +474,7 @@
 		growlVersion = [[thisBundle infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
 		if(!growlVersion){
 #ifdef GROWL_VERSION_STRING
-			growlVersion = [[NSString stringWithCString:GROWL_VERSION_STRING encoding:NSUTF8StringEncoding] retain];
+			growlVersion = [NSString stringWithCString:GROWL_VERSION_STRING encoding:NSUTF8StringEncoding];
 #else
 			growlVersion = @"Unknown Version";
 #endif
