@@ -98,6 +98,8 @@
             priority:(NSInteger)priority
             isSticky:(BOOL)isSticky
         clickContext:(id)clickContext
+   actionButtonTitle:(NSString *)actionTitle
+   cancelButtonTitle:(NSString *)cancelTitle
           identifier:(NSString *)identifier
 {
    NSParameterAssert(notifName);	//Notification name is required.
@@ -115,6 +117,9 @@
 	if (priority)		[noteDict setObject:[NSNumber numberWithInteger:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
 	if (isSticky)		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];
 	if (identifier)   [noteDict setObject:identifier forKey:GROWL_NOTIFICATION_IDENTIFIER];
+   
+   if (actionTitle)  [noteDict setObject:actionTitle forKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION];
+   if (cancelTitle)  [noteDict setObject:cancelTitle forKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
    
    BOOL useNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
    
@@ -151,6 +156,8 @@
                   priority:(NSInteger)priority
                   isSticky:(BOOL)isSticky
               clickContext:(id)clickContext
+         actionButtonTitle:(NSString *)actionTitle
+         cancelButtonTitle:(NSString *)cancelTitle
                 identifier:(NSString *)identifier
 {
    return [[[GrowlNote alloc] initWithTitle:title
@@ -160,6 +167,8 @@
                                    priority:priority
                                    isSticky:isSticky
                                clickContext:clickContext
+                          actionButtonTitle:actionTitle
+                          cancelButtonTitle:cancelTitle
                                  identifier:identifier] autorelease];
 }
 

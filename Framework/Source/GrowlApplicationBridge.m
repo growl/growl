@@ -380,46 +380,17 @@ static dispatch_queue_t notificationQueue_Queue;
             clickContext:(id)clickContext
               identifier:(NSString *)identifier
 {
-	NSParameterAssert(notifName);	//Notification name is required.
-	NSParameterAssert(title || description);	//At least one of title or description is required.
-
-	// Build our noteDict from all passed parameters
-	NSMutableDictionary *noteDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-		notifName,	 GROWL_NOTIFICATION_NAME,
-		nil];
-
-	if (title)			[noteDict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
-	if (description)	[noteDict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
-	if (iconData)		[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
-	if (clickContext)	[noteDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-	if (priority)		[noteDict setObject:[NSNumber numberWithInteger:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
-	if (isSticky)		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];
-	if (identifier)   [noteDict setObject:identifier forKey:GROWL_NOTIFICATION_IDENTIFIER];
-   
-   BOOL useNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
-   
-   // Do we have notification center disabled?
-   if (useNotificationCenter && !self.useNotificationCenterAlways) {
-      if ([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE]) {
-         useNotificationCenter = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE];
-      }
-   }
-   
-   // If we have notification center on, we must set this accordingly.
-   //
-   // Ideally, this would be set by the notification center delivery callback, but as we
-   // are not guaranteed instant delivery, by that point the GNTP packet may already
-   // have been built.  As such, we need to set it here instead.
-   //
-   if (useNotificationCenter && (self.useNotificationCenterAlways ||
-                                 [[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS])) {
-      if (![[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS]) {
-         [noteDict setObject:[NSNumber numberWithBool:YES] forKey:GROWL_NOTIFICATION_ALREADY_SHOWN];
-      }
-   }
-   
-	[self notifyWithDictionary:noteDict];
-	[noteDict release];
+   GrowlNote *note = [GrowlNote noteWithTitle:title
+                                  description:description
+                             notificationName:notifName
+                                     iconData:iconData
+                                     priority:priority
+                                     isSticky:isSticky
+                                 clickContext:clickContext
+                            actionButtonTitle:nil
+                            cancelButtonTitle:nil
+                                   identifier:identifier];
+   [self notifyWithNote:note];
 }
 
 + (void) notifyWithDictionary:(NSDictionary *)userInfo {
@@ -428,12 +399,13 @@ static dispatch_queue_t notificationQueue_Queue;
 - (void) notifyWithDictionary:(NSDictionary *)userInfo
 {
    GrowlNote *note = [GrowlNote noteWithDictionary:userInfo];
-   note.delegate = self;
    [self notifyWithNote:note];
 }
 
 -(void)notifyWithNote:(GrowlNote *)note {
    dispatch_async(notificationQueue_Queue, ^{
+      if(note.delegate == nil && note.completionBlock == NULL)
+         note.delegate = self;
       [[self notifications] setObject:note forKey:[note noteUUID]];
       [note notify];      
    });

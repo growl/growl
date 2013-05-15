@@ -73,6 +73,8 @@ typedef void(^GrowlNoteCompletionBlock)(GrowlNoteStatus status, GrowlNote *note)
           priority:(NSInteger)priority
           isSticky:(BOOL)isSticky
       clickContext:(id)clickContext
+ actionButtonTitle:(NSString *)actionTitle
+ cancelButtonTitle:(NSString *)cancelTitle
         identifier:(NSString *)identifier;
 +(GrowlNote*)noteWithTitle:(NSString *)title
                description:(NSString *)description
@@ -81,6 +83,8 @@ typedef void(^GrowlNoteCompletionBlock)(GrowlNoteStatus status, GrowlNote *note)
                   priority:(NSInteger)priority
                   isSticky:(BOOL)isSticky
               clickContext:(id)clickContext
+         actionButtonTitle:(NSString *)actionTitle
+         cancelButtonTitle:(NSString *)cancelTitle
                 identifier:(NSString *)identifier;
 
 @end
