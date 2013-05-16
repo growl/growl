@@ -20,7 +20,7 @@ def resign(path, signer)
 	if not File.exists? path
 		puts "No such file #{path}"
 		problem = true
-		break
+		return problem
 	end
     
 	Find.find(path) do |subpath|
