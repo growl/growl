@@ -1,0 +1,22 @@
+* {
+	font-family: "Lucida Grande";
+}
+
+body {
+	background-color: #ededed;
+	margin: 0;
+	padding: 0;
+}
+
+h3 {
+	font-size: 13px;
+	font-weight: bold;
+	margin: 0;
+
+	text-align: center;
+}
+
+p {
+	font-size: 11px;
+	text-align: center;
+}

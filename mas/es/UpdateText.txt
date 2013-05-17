@@ -1,6 +1,7 @@
+Cambios en Growl 2.0.1
 
-
-
+- Resuelve el problema de posicionamiento que apareció en la versión 2.0, gracias por el feedback.
+- Resuelve múltiples errores reportados.
 
 Cambios en Growl 2
 
