@@ -27,7 +27,7 @@
 @implementation GrowlNote
 
 @synthesize delegate = _delegate;
-@synthesize completionBlock = _completionBlock;
+@synthesize statusUpdateBlock = _statusUpdateBlock;
 
 @synthesize noteUUID = _noteUUID;
 
@@ -173,8 +173,8 @@
 }
 
 -(void)dealloc {
-   [_completionBlock release];
-   _completionBlock = nil;
+   [_statusUpdateBlock release];
+   _statusUpdateBlock = nil;
    [_noteName release];
    _noteName = nil;
    [_title release];
@@ -295,6 +295,8 @@
    if ([self.noteDictionary objectForKey:GROWL_NOTIFICATION_STICKY])
       [notificationDict setObject:[self.noteDictionary objectForKey:GROWL_NOTIFICATION_STICKY] forKey:GROWL_NOTIFICATION_STICKY];
    
+   [notificationDict setObject:self.noteUUID forKey:@"APPLE_GROWL_NOTE_UUID"];
+   
    NSUserNotification *appleNotification = [[NSUserNotification alloc] init];
    appleNotification.title = [self.noteDictionary objectForKey:GROWL_NOTIFICATION_TITLE];
    appleNotification.informativeText = [self.noteDictionary objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
@@ -346,18 +348,18 @@
 
 //Sent after success
 - (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context {
-   if(self.completionBlock){
-      self.completionBlock(GrowlNoteClicked, self);
+   if(self.statusUpdateBlock){
+      self.statusUpdateBlock(GrowlNoteClicked, self);
    }else if(self.delegate){
-      [self.delegate noteClicked:self];
+      [self.delegate note:self statusUpdate:GrowlNoteClicked];
    }
    
 }
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context {
-   if(!self.delegate){
-      self.completionBlock(GrowlNoteTimedOut, self);
+   if(self.statusUpdateBlock){
+      self.statusUpdateBlock(GrowlNoteTimedOut, self);
    }else if(self.delegate){
-      [self.delegate noteTimedOut:self];
+      [self.delegate note:self statusUpdate:GrowlNoteTimedOut];
    }
 }
 

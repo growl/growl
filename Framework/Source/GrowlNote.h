@@ -11,17 +11,20 @@
 @class GrowlCommunicationAttempt, GrowlNote;
 
 enum GrowlNoteStatus {
-   GrowlNoteClicked,
-   GrowlNoteTimedOut
+   GrowlNoteNotDisplayed = -2,
+   GrowlNoteClosed = -1,
+   GrowlNoteTimedOut = 0,
+   GrowlNoteClicked = 1,
+   GrowlNoteActionClicked = 2,
+   GrowlNoteOtherClicked = 3,
 };
 typedef enum GrowlNoteStatus GrowlNoteStatus;
 
-typedef void(^GrowlNoteCompletionBlock)(GrowlNoteStatus status, GrowlNote *note);
+typedef void(^GrowlNoteStatusUpdateBlock)(GrowlNoteStatus status, GrowlNote *note);
 
 @protocol GrowlNoteDelegate <NSObject>
 
--(void)noteClicked:(GrowlNote*)note;
--(void)noteTimedOut:(GrowlNote*)note;
+-(void)note:(GrowlNote*)note statusUpdate:(GrowlNoteStatus)status;
 
 @end
 
@@ -39,7 +42,7 @@ typedef void(^GrowlNoteCompletionBlock)(GrowlNoteStatus status, GrowlNote *note)
    NSDictionary *_noteDictionary;
    
    id<GrowlNoteDelegate> _delegate;
-   GrowlNoteCompletionBlock _completionBlock;
+   GrowlNoteStatusUpdateBlock _statusUpdateBlock;
    
    @private
    GrowlCommunicationAttempt *_firstAttempt;
@@ -47,7 +50,7 @@ typedef void(^GrowlNoteCompletionBlock)(GrowlNoteStatus status, GrowlNote *note)
 }
 
 @property (nonatomic, assign) id<GrowlNoteDelegate> delegate;
-@property (nonatomic, copy) GrowlNoteCompletionBlock completionBlock;
+@property (nonatomic, copy) GrowlNoteStatusUpdateBlock statusUpdateBlock;
 
 @property (nonatomic, readonly) NSString *noteUUID;
 

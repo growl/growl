@@ -42,6 +42,7 @@
    BOOL _isGrowlRunning;
    BOOL _useNotificationCenterAlways;
    BOOL _shouldUseBuiltInNotifications;
+   BOOL _registerWhenGrowlIsReady;
    
    BOOL _sandboxed;
    BOOL _hasGNTP;
@@ -68,6 +69,7 @@
 @property (nonatomic, readonly) BOOL hasGNTP;
 @property (nonatomic, readonly) BOOL hasNetworkClient;
 @property (nonatomic, readonly) BOOL registered;
+@property (nonatomic, assign) BOOL registerWhenGrowlIsReady;
 
 @property (nonatomic, assign) BOOL shouldUseBuiltInNotifications;
 @property (nonatomic, copy) NSDictionary *registrationDictionary;

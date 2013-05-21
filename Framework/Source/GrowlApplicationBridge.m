@@ -30,9 +30,6 @@
 
 @class GrowlRunningAppObserver;
 
-//used primarily by GIP, but could be useful elsewhere.
-static BOOL		registerWhenGrowlIsReady = NO;
-
 static BOOL    attemptingToRegister = NO;
 
 static dispatch_queue_t notificationQueue_Queue;
@@ -60,6 +57,7 @@ static dispatch_queue_t notificationQueue_Queue;
 @synthesize hasGNTP = _hasGNTP;
 @synthesize hasNetworkClient = _hasNetworkClient;
 @synthesize registered = _registered;
+@synthesize registerWhenGrowlIsReady = _registerWhenGrowlIsReady;
 
 @synthesize shouldUseBuiltInNotifications = _shouldUseBuiltInNotifications;
 @synthesize registrationDictionary = _registrationDictionary;
@@ -83,7 +81,10 @@ static dispatch_queue_t notificationQueue_Queue;
       self.isGrowlRunning = Growl_HelperAppIsRunning();
       [self _checkSandbox];
       
-      notificationQueue_Queue = dispatch_queue_create("com.growl.growlframework.notequeue_queue", 0);
+      static dispatch_once_t onceToken;
+      dispatch_once(&onceToken, ^{
+         notificationQueue_Queue = dispatch_queue_create("com.growl.growlframework.notequeue_queue", 0);
+      });
       
       [[NSWorkspace sharedWorkspace] addObserver:self
                                       forKeyPath:@"runningApplications"
@@ -108,9 +109,9 @@ static dispatch_queue_t notificationQueue_Queue;
                                                                           userInfo:nil];
                         
                         //register (fixes #102: this is necessary if we got here by Growl having just been installed)
-                        if (registerWhenGrowlIsReady) {
+                        if (_registerWhenGrowlIsReady) {
                            [self reregisterGrowlNotifications];
-                           registerWhenGrowlIsReady = NO;
+                           _registerWhenGrowlIsReady = NO;
                         } else {
                            self.registered = YES;
                            [self _emptyQueue];
@@ -404,7 +405,7 @@ static dispatch_queue_t notificationQueue_Queue;
 
 -(void)notifyWithNote:(GrowlNote *)note {
    dispatch_async(notificationQueue_Queue, ^{
-      if(note.delegate == nil && note.completionBlock == NULL)
+      if(note.delegate == nil && note.self.statusUpdateBlock == NULL)
          note.delegate = self;
       [[self notifications] setObject:note forKey:[note noteUUID]];
       [note notify];      
@@ -511,7 +512,7 @@ static dispatch_queue_t notificationQueue_Queue;
    
    //Will register when growl is running and ready
    if(![self _growlIsReachableUpdateCache:NO]){
-      registerWhenGrowlIsReady = YES;
+      _registerWhenGrowlIsReady = YES;
       return NO;
    }
    
@@ -567,10 +568,10 @@ static dispatch_queue_t notificationQueue_Queue;
 }
 
 + (void) setWillRegisterWhenGrowlIsReady:(BOOL)flag {
-	registerWhenGrowlIsReady = flag;
+	[[GrowlApplicationBridge sharedBridge] setRegisterWhenGrowlIsReady:flag];
 }
 + (BOOL) willRegisterWhenGrowlIsReady {
-	return registerWhenGrowlIsReady;
+	return [[GrowlApplicationBridge sharedBridge] registerWhenGrowlIsReady];
 }
 
 #pragma mark -
@@ -954,13 +955,22 @@ static dispatch_queue_t notificationQueue_Queue;
 - (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context{}
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context{}
 
--(void)noteClicked:(GrowlNote*)note {
-   if(self.delegate != nil && [self.delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
-      [self.delegate growlNotificationWasClicked:[note clickContext]];
-}
--(void)noteTimedOut:(GrowlNote*)note {
-   if(self.delegate != nil && [self.delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
-      [self.delegate growlNotificationTimedOut:[note clickContext]];
+-(void)note:(GrowlNote *)note statusUpdate:(GrowlNoteStatus)status {
+   switch (status) {
+      case GrowlNoteTimedOut:
+      case GrowlNoteClosed:
+         if(self.delegate != nil && [self.delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
+            [self.delegate growlNotificationTimedOut:[note clickContext]];
+         break;
+      case GrowlNoteClicked:
+      case GrowlNoteActionClicked:
+      case GrowlNoteOtherClicked:
+         if(self.delegate != nil && [self.delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+            [self.delegate growlNotificationWasClicked:[note clickContext]];
+         break;
+      default:
+         break;
+   }
 }
 
 #pragma mark NSUserNotificationCenterDelegate
