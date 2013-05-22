@@ -56,7 +56,6 @@
    id<GrowlApplicationBridgeDelegate> _delegate;
    
    @private
-   NSMutableArray *_pendingNotifications;
    GrowlMiniDispatch *_miniDispatch;
    
    GrowlCommunicationAttempt *_registrationAttempt;
