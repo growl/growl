@@ -21,6 +21,9 @@
 @property (nonatomic, retain) NSString *noteUUID;
 @property (nonatomic, retain) NSDictionary *otherKeysDict;
 
+@property (nonatomic, retain) GrowlCommunicationAttempt *firstAttempt;
+@property (nonatomic, retain) GrowlCommunicationAttempt *secondAttempt;
+
 @end
 
 @implementation GrowlNote
@@ -40,9 +43,11 @@
 @synthesize priority = _priority;
 
 @synthesize otherKeysDict = _otherKeysDict;
+@synthesize firstAttempt = _firstAttempt;
+@synthesize secondAttempt = _secondAttempt;
 
 + (NSDictionary *) notificationDictionaryByFillingInDictionary:(NSDictionary *)notifDict {
-	NSMutableDictionary *mNotifDict = [notifDict mutableCopy];
+	NSMutableDictionary *mNotifDict = (notifDict != nil) ? [notifDict mutableCopy] : [[NSMutableDictionary alloc] init];
    
 	if (![mNotifDict objectForKey:GROWL_APP_NAME]) {
 		if ([[GrowlApplicationBridge sharedBridge] appName]) {
@@ -74,7 +79,6 @@
                    GROWL_NOTIFICATION_TITLE,
                    GROWL_NOTIFICATION_DESCRIPTION,
                    GROWL_NOTIFICATION_ICON_DATA,
-                   GROWL_NOTIFICATION_STICKY,
                    GROWL_NOTIFICATION_CLICK_CONTEXT,
                    GROWL_NOTIFICATION_CALLBACK_URL_TARGET,
                    GROWL_NOTIFICATION_PRIORITY,
@@ -251,18 +255,24 @@
 -(NSDictionary*)noteDictionary {
    NSMutableDictionary *buildDict = [[self.otherKeysDict mutableCopy] autorelease];
    
+   if (self.noteName)      [buildDict setObject:self.noteName forKey:GROWL_NOTIFICATION_NAME];
    if (self.title)         [buildDict setObject:self.title forKey:GROWL_NOTIFICATION_TITLE];
-	if (self.description)   [buildDict setObject:self.description forKey:GROWL_NOTIFICATION_DESCRIPTION];
-	if (self.iconData)      [buildDict setObject:self.iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
-	if (self.clickContext)	[buildDict setObject:self.clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+   if (self.description)   [buildDict setObject:self.description forKey:GROWL_NOTIFICATION_DESCRIPTION];
+   if (self.iconData)      [buildDict setObject:self.iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
+   if (self.clickContext)	[buildDict setObject:self.clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
    if (self.clickCallbackURL) [buildDict setObject:self.clickCallbackURL forKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
-	if (self.priority != 0)	[buildDict setObject:@(self.priority) forKey:GROWL_NOTIFICATION_PRIORITY];
-	if (self.sticky)		[buildDict setObject:@(self.sticky) forKey:GROWL_NOTIFICATION_STICKY];
+   if (self.priority != 0)	[buildDict setObject:@(self.priority) forKey:GROWL_NOTIFICATION_PRIORITY];
+   if (self.sticky)		[buildDict setObject:@(self.sticky) forKey:GROWL_NOTIFICATION_STICKY];
    
    return [[buildDict copy] autorelease];
 }
 
 -(void)notify {
+   if(self.firstAttempt != nil){
+      NSLog(@"ERROR! Should not be in -notify while -notify is already running");
+      return;
+   }
+   
    BOOL useNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
    BOOL alwaysCopyNC = NO;
    
@@ -297,7 +307,8 @@
          
          if(firstAttempt){
             firstAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-            _firstAttempt = firstAttempt;
+            self.firstAttempt = firstAttempt;
+            [firstAttempt release];
          }
       }
       
@@ -306,9 +317,10 @@
          secondAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
          
          if(_firstAttempt)
-            _firstAttempt.nextAttempt = secondAttempt;
+            self.secondAttempt.nextAttempt = secondAttempt;
          else
-            _secondAttempt = secondAttempt;
+            self.secondAttempt = secondAttempt;
+         [secondAttempt release];
       }
       
       //We should always have a first attempt if Growl is reachable
@@ -399,12 +411,10 @@
 }
 - (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
    BOOL fallback = [attempt nextAttempt] == nil;
-   if(attempt == _firstAttempt){
-      [_firstAttempt release];
-      _firstAttempt = nil;
-   }else if(attempt == _secondAttempt){
-      [_secondAttempt release];
-      _secondAttempt = nil;
+   if([attempt isEqual:self.firstAttempt]){
+      self.firstAttempt = nil;
+   }else if([attempt isEqual:self.secondAttempt]){
+      self.secondAttempt = nil;
    }
    
    if(fallback) {
@@ -420,6 +430,11 @@
    
    [[GrowlApplicationBridge sharedBridge] queueNote:self];
    [GrowlApplicationBridge reregisterGrowlNotifications];
+}
+
+- (void) stoppedAttempts:(GrowlCommunicationAttempt *)attempt {
+   self.firstAttempt = nil;
+   self.secondAttempt = nil;
 }
 
 //Sent after success

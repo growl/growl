@@ -30,8 +30,6 @@
 
 @class GrowlRunningAppObserver;
 
-static BOOL    attemptingToRegister = NO;
-
 static dispatch_queue_t notificationQueue_Queue;
 
 @interface GrowlApplicationBridge ()
@@ -45,6 +43,8 @@ static dispatch_queue_t notificationQueue_Queue;
 @property (nonatomic, assign) BOOL registered;
 
 @property (nonatomic, retain) GrowlMiniDispatch *miniDispatch;
+
+@property (nonatomic, retain) GrowlCommunicationAttempt *registrationAttempt;
 
 @end
 
@@ -66,6 +66,7 @@ static dispatch_queue_t notificationQueue_Queue;
 
 @synthesize delegate = _delegate;
 @synthesize miniDispatch = _miniDispatch;
+@synthesize registrationAttempt = _registrationAttempt;
 
 + (GrowlApplicationBridge*)sharedBridge {
    static GrowlApplicationBridge *_bridge = nil;
@@ -505,7 +506,7 @@ static dispatch_queue_t notificationQueue_Queue;
    return [[GrowlApplicationBridge sharedBridge] registerWithDictionary:regDict];
 }
 - (BOOL) registerWithDictionary:(NSDictionary *)regDict {
-   if(attemptingToRegister){
+   if(self.registrationAttempt != nil){
       NSLog(@"Attempting to register while an attempt is already running");
    }
    
@@ -524,8 +525,6 @@ static dispatch_queue_t notificationQueue_Queue;
 		NSLog(@"Cannot register without a registration dictionary!");
 		return NO;
 	}
-
-   attemptingToRegister = YES;
    
    self.registrationDictionary = regDict;
 
@@ -534,9 +533,9 @@ static dispatch_queue_t notificationQueue_Queue;
    if(self.hasGNTP){
       //These should be the only way we get marked as having gntp
       if([GrowlXPCCommunicationAttempt canCreateConnection])
-         _registrationAttempt = [[GrowlXPCRegistrationAttempt alloc] initWithDictionary:regDict];
+         self.registrationAttempt = [[[GrowlXPCRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
       else if(self.hasNetworkClient)
-         _registrationAttempt = [[GrowlGNTPRegistrationAttempt alloc] initWithDictionary:regDict];
+         self.registrationAttempt = [[[GrowlGNTPRegistrationAttempt alloc] initWithDictionary:regDict] autorelease];
       
       if(_registrationAttempt){
          _registrationAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
@@ -545,15 +544,15 @@ static dispatch_queue_t notificationQueue_Queue;
 
    if(!self.sandboxed){
       secondAttempt = [[GrowlApplicationBridgeRegistrationAttempt alloc] initWithDictionary:regDict];
-      secondAttempt.applicationName = [self _applicationNameForGrowlSearchingRegistrationDictionary:regDict];
+      secondAttempt.applicationName = [[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] autorelease];
       secondAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
-      if(_registrationAttempt != nil)
-         _registrationAttempt.nextAttempt = secondAttempt;
+      if(self.registrationAttempt != nil)
+         self.registrationAttempt.nextAttempt = secondAttempt;
       else
-         _registrationAttempt = secondAttempt;
+         self.registrationAttempt = secondAttempt;
    }
 
-	[_registrationAttempt begin];
+	[self.registrationAttempt begin];
 
 	return YES;
 }
@@ -823,10 +822,10 @@ static dispatch_queue_t notificationQueue_Queue;
       return NO;
    
    //This is a bit of a hack, we check for Growl 1.2.2 and lower by seeing if the running helper app is inside Growl.prefpane
-    NSString *runningPath = nil;
-    NSArray *runningApplications = [NSRunningApplication runningApplicationsWithBundleIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
-    if(runningApplications && [runningApplications count])
-        runningPath = [[[runningApplications objectAtIndex:0] bundleURL] absoluteString];
+   NSString *runningPath = nil;
+   NSArray *runningApplications = [NSRunningApplication runningApplicationsWithBundleIdentifier:GROWL_HELPERAPP_BUNDLE_IDENTIFIER];
+   if(runningApplications && [runningApplications count])
+      runningPath = [[[runningApplications objectAtIndex:0] bundleURL] absoluteString];
    NSString *prefPaneSubpath = @"Growl.prefpane/Contents/Resources";
    
     if(runningPath) {
@@ -871,16 +870,16 @@ static dispatch_queue_t notificationQueue_Queue;
 - (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt {
 	if (attempt.attemptType == GrowlCommunicationAttemptTypeRegister) {
 		self.registered = YES;
-      attemptingToRegister = NO;
       
       [self _emptyQueue];
 	}
 }
 - (void) attemptDidFail:(GrowlCommunicationAttempt *)attempt {
-   if(attempt.nextAttempt == nil){
+   if(attempt.nextAttempt != nil){
+      self.registrationAttempt = attempt.nextAttempt;
+   }else{
       //NSLog(@"Failed all attempts at %@", attempt.attemptType == GrowlCommunicationAttemptTypeNotify ? @"notifying" : @"registering");
       if(attempt.attemptType == GrowlCommunicationAttemptTypeRegister){
-         attemptingToRegister = NO;
 			
 			/* If we have queued notes and we failed to register, 
 			 * send them to Apple's notification center or to 
@@ -938,17 +937,11 @@ static dispatch_queue_t notificationQueue_Queue;
 				});
 			}
       }
-   }
-   if([_registrationAttempt isEqual:attempt]){
-      [_registrationAttempt release];
-      _registrationAttempt = nil;
+      self.registrationAttempt = nil;
    }
 }
-- (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt{
-   if([attempt isEqual:_registrationAttempt]){
-      [_registrationAttempt release];
-      _registrationAttempt = nil;
-   }
+- (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt {
+   self.registrationAttempt = nil;
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt{}
 - (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context{}
