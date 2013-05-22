@@ -131,6 +131,16 @@ static dispatch_queue_t notificationQueue_Queue;
                      usingBlock:^(NSNotification *note) {
                         self.shouldUseBuiltInNotifications = NO;
                      }];
+   
+      if([GrowlXPCCommunicationAttempt canCreateConnection]){
+         [[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationWillTerminateNotification
+                                                           object:nil
+                                                            queue:[NSOperationQueue mainQueue]
+                                                       usingBlock:^(NSNotification *note) {
+                                                          //Shutdown the XPC
+                                                          [GrowlXPCCommunicationAttempt shutdownXPC];
+                                                       }];
+      }
       
       if(NSClassFromString(@"NSUserNotificationCenter") == nil) {
          self.miniDispatch = [[[GrowlMiniDispatch alloc] init] autorelease];
@@ -159,7 +169,8 @@ static dispatch_queue_t notificationQueue_Queue;
 	if(object == [NSWorkspace sharedWorkspace] && [keyPath isEqualToString:@"runningApplications"]){
 		BOOL newRunning = Growl_HelperAppIsRunning();
 		if(self.isGrowlRunning && !newRunning){
-			[GrowlXPCCommunicationAttempt shutdownXPC];
+         if([GrowlXPCCommunicationAttempt canCreateConnection])
+            [GrowlXPCCommunicationAttempt shutdownXPC];
 			self.isGrowlRunning = NO;
 		}else if(newRunning){
 			self.isGrowlRunning = YES;
@@ -219,18 +230,6 @@ static dispatch_queue_t notificationQueue_Queue;
 	 */
 	self.appIconData = [self _applicationIconDataForGrowlSearchingRegistrationDictionary:self.registrationDictionary];
    
-	if([GrowlXPCCommunicationAttempt canCreateConnection]){
-		static dispatch_once_t onceToken;
-		dispatch_once(&onceToken, ^{
-			[[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationWillTerminateNotification
-																			  object:nil
-																				queue:[NSOperationQueue mainQueue]
-																		 usingBlock:^(NSNotification *note) {
-																			 //Shutdown the XPC
-																			 [GrowlXPCCommunicationAttempt shutdownXPC];
-																		 }];
-		});
-   }
 	/* Watch for notification clicks if our delegate responds to the
 	 * growlNotificationWasClicked: selector. Notifications will come in on a
 	 * unique notification name based on our app name, pid and
