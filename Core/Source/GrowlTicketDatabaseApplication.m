@@ -42,7 +42,6 @@
 +(NSString*)fullPathForRegDictApp:(NSDictionary*)regDict {
 	BOOL doLookup = YES;
 	NSString *name = [regDict valueForKey:GROWL_APP_NAME];
-	NSString *appID = [regDict valueForKey:GROWL_APP_ID];
 	NSString *fullPath = nil;
 	id location = [regDict objectForKey:GROWL_APP_LOCATION];
 	if (location) {
@@ -60,22 +59,9 @@
 			doLookup = [location boolValue];
 		}
 	}
-	if (!fullPath && doLookup) {
-		if (appID) {
-			CFURLRef appURL = NULL;
-			OSStatus err = LSFindApplicationForInfo(kLSUnknownCreator,
-																 (CFStringRef)appID,
-																 /*inName*/ NULL,
-																 /*outAppRef*/ NULL,
-																 &appURL);
-			if (err == noErr) {
-				fullPath = [(NSString *)CFURLCopyPath(appURL) autorelease];
-				CFRelease(appURL);
-			}
-		}
-		if (!fullPath)
-			fullPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:name];
-	}
+   
+   if (!fullPath && doLookup)
+      fullPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:name];
 	
 	return fullPath;
 }
