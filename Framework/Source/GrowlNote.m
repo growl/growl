@@ -8,7 +8,6 @@
 
 #import "GrowlNote.h"
 #import "GrowlDefines.h"
-#import "GrowlDefinesInternal.h"
 #import "GrowlApplicationBridge.h"
 #import "GrowlApplicationBridge_Private.h"
 #import "GrowlMiniDispatch.h"
@@ -20,7 +19,7 @@
 @interface GrowlNote ()
 
 @property (nonatomic, retain) NSString *noteUUID;
-@property (nonatomic, retain) NSDictionary *noteDictionary;
+@property (nonatomic, retain) NSDictionary *otherKeysDict;
 
 @end
 
@@ -36,10 +35,11 @@
 @synthesize description = _description;
 @synthesize iconData = _iconData;
 @synthesize clickContext = _clickContext;
+@synthesize clickCallbackURL = _clickCallbackURL;
 @synthesize sticky = _sticky;
 @synthesize priority = _priority;
 
-@synthesize noteDictionary = _noteDictionary;
+@synthesize otherKeysDict = _otherKeysDict;
 
 + (NSDictionary *) notificationDictionaryByFillingInDictionary:(NSDictionary *)notifDict {
 	NSMutableDictionary *mNotifDict = [notifDict mutableCopy];
@@ -58,32 +58,119 @@
 		}
 	}
    
-	//Only include the PID when there's a click context. We do this because NSDNC imposes a 15-MiB limit on the serialized notification, and we wouldn't want to overrun it because of a 4-byte PID.
-	if ([mNotifDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] && ![mNotifDict objectForKey:GROWL_APP_PID]) {
-		NSNumber *pidNum = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
-      
-		[mNotifDict setObject:pidNum
-		               forKey:GROWL_APP_PID];
-      
-		[pidNum release];
-	}
+   NSNumber *pidNum = [[NSNumber alloc] initWithInt:[[NSProcessInfo processInfo] processIdentifier]];
+   [mNotifDict setObject:pidNum
+                  forKey:GROWL_APP_PID];
+   [pidNum release];
    
 	return [mNotifDict autorelease];
 }
 
-/* Designated initializer */
--(id)initWithDictionary:(NSDictionary*)dictionary {
-   dictionary = [GrowlNote notificationDictionaryByFillingInDictionary:dictionary];
++ (NSArray*)ivarKeys {
+   static NSArray *_ivarKeys = nil;
+   static dispatch_once_t onceToken;
+   dispatch_once(&onceToken, ^{
+      _ivarKeys = [@[GROWL_NOTIFICATION_NAME,
+                   GROWL_NOTIFICATION_TITLE,
+                   GROWL_NOTIFICATION_DESCRIPTION,
+                   GROWL_NOTIFICATION_ICON_DATA,
+                   GROWL_NOTIFICATION_STICKY,
+                   GROWL_NOTIFICATION_CLICK_CONTEXT,
+                   GROWL_NOTIFICATION_CALLBACK_URL_TARGET,
+                   GROWL_NOTIFICATION_PRIORITY,
+                   GROWL_NOTIFICATION_STICKY] retain];
+   });
+   return _ivarKeys;
+}
++ (NSDictionary *)notificationDictionaryByRemovingIvarKeys:(NSDictionary*)notifDict {
+   NSMutableArray *keysToKeep = [[[notifDict allKeys] mutableCopy] autorelease];
+   [keysToKeep removeObjectsInArray:[self ivarKeys]];
+   return [notifDict dictionaryWithValuesForKeys:keysToKeep];
+}
+
+
+/* Designated initializer, internal only */
+-(id)initWithDictionary:(NSDictionary *)dictionary
+                  title:(NSString *)title
+            description:(NSString *)description
+       notificationName:(NSString *)notifName
+               iconData:(NSData *)iconData
+               priority:(NSInteger)priority
+               isSticky:(BOOL)isSticky
+           clickContext:(id)clickContext
+      actionButtonTitle:(NSString *)actionTitle
+      cancelButtonTitle:(NSString *)cancelTitle
+             identifier:(NSString *)identifier
+{
+   BOOL useDict = dictionary != nil;
+   NSMutableDictionary *noteDict = [[[GrowlNote notificationDictionaryByFillingInDictionary:dictionary] mutableCopy] autorelease];
    if((self = [super init])){
       self.noteUUID = [[NSProcessInfo processInfo] globallyUniqueString];
       
-      self.noteDictionary = dictionary;
-      self.noteName = [dictionary valueForKey:GROWL_NOTIFICATION_NAME];
-      self.title = [dictionary valueForKey:GROWL_NOTIFICATION_TITLE];
-      self.description = [dictionary valueForKey:GROWL_NOTIFICATION_DESCRIPTION];
-      self.iconData = [dictionary valueForKey:GROWL_APP_ICON_DATA];
-      self.priority = [[dictionary valueForKey:GROWL_NOTIFICATION_PRIORITY] integerValue];
-      self.sticky = [[dictionary valueForKey:GROWL_NOTIFICATION_STICKY] boolValue];
+      self.noteName = useDict ? [noteDict valueForKey:GROWL_NOTIFICATION_NAME] : notifName;
+      self.title = useDict ? [noteDict valueForKey:GROWL_NOTIFICATION_TITLE] : title;
+      self.description = useDict ? [noteDict valueForKey:GROWL_NOTIFICATION_DESCRIPTION] : description;
+      self.iconData = useDict ? [noteDict valueForKey:GROWL_NOTIFICATION_ICON_DATA] : iconData;
+      self.clickContext = useDict ? [noteDict valueForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] : clickContext;
+      
+      if(useDict) self.clickCallbackURL = [noteDict valueForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
+      
+      if(useDict && [noteDict valueForKey:GROWL_NOTIFICATION_PRIORITY] != nil)
+         self.priority = [[noteDict valueForKey:GROWL_NOTIFICATION_PRIORITY] integerValue];
+      else
+         self.priority = priority;
+      
+      if(useDict && [noteDict valueForKey:GROWL_NOTIFICATION_STICKY] != nil)
+         self.sticky = [[noteDict valueForKey:GROWL_NOTIFICATION_STICKY] boolValue];
+      else
+         self.sticky = isSticky;
+      
+      BOOL useNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
+      
+      // Do we have notification center disabled?
+      if (useNotificationCenter && ![[GrowlApplicationBridge sharedBridge] useNotificationCenterAlways]) {
+         if ([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE]) {
+            useNotificationCenter = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE];
+         }
+      }
+      
+      // If we have notification center on, we must set this accordingly.
+      //
+      // Ideally, this would be set by the notification center delivery callback, but as we
+      // are not guaranteed instant delivery, by that point the GNTP packet may already
+      // have been built.  As such, we need to set it here instead.
+      //
+      if (useNotificationCenter && ([[GrowlApplicationBridge sharedBridge] useNotificationCenterAlways] ||
+                                    [[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS]))
+      {
+         if (![[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS]) {
+            [noteDict setObject:[NSNumber numberWithBool:YES] forKey:GROWL_NOTIFICATION_ALREADY_SHOWN];
+         }
+      }
+      
+      self.otherKeysDict = [GrowlNote notificationDictionaryByRemovingIvarKeys:noteDict];
+   }
+   return self;
+
+}
+
+-(id)initWithDictionary:(NSDictionary*)dictionary {
+   NSParameterAssert([dictionary valueForKey:GROWL_NOTIFICATION_NAME]);	//Notification name is required.
+	NSParameterAssert([dictionary valueForKey:GROWL_NOTIFICATION_TITLE] ||
+                     [dictionary valueForKey:GROWL_NOTIFICATION_DESCRIPTION]);	//At least one of title or description is required.
+
+   if((self = [self initWithDictionary:dictionary
+                                 title:nil
+                           description:nil
+                      notificationName:nil
+                              iconData:nil
+                              priority:0
+                              isSticky:NO
+                          clickContext:nil
+                     actionButtonTitle:nil
+                     cancelButtonTitle:nil
+                            identifier:nil]))
+   {
    }
    return self;
 }
@@ -105,47 +192,18 @@
    NSParameterAssert(notifName);	//Notification name is required.
 	NSParameterAssert(title || description);	//At least one of title or description is required.
    
-	// Build our noteDict from all passed parameters
-	NSMutableDictionary *noteDict = [[[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                                    notifName,	 GROWL_NOTIFICATION_NAME,
-                                    nil] autorelease];
-   
-	if (title)			[noteDict setObject:title forKey:GROWL_NOTIFICATION_TITLE];
-	if (description)	[noteDict setObject:description forKey:GROWL_NOTIFICATION_DESCRIPTION];
-	if (iconData)		[noteDict setObject:iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
-	if (clickContext)	[noteDict setObject:clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-	if (priority)		[noteDict setObject:[NSNumber numberWithInteger:priority] forKey:GROWL_NOTIFICATION_PRIORITY];
-	if (isSticky)		[noteDict setObject:[NSNumber numberWithBool:isSticky] forKey:GROWL_NOTIFICATION_STICKY];
-	if (identifier)   [noteDict setObject:identifier forKey:GROWL_NOTIFICATION_IDENTIFIER];
-   
-   if (actionTitle)  [noteDict setObject:actionTitle forKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION];
-   if (cancelTitle)  [noteDict setObject:cancelTitle forKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
-   
-   BOOL useNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
-   
-   // Do we have notification center disabled?
-   if (useNotificationCenter && ![[GrowlApplicationBridge sharedBridge] useNotificationCenterAlways]) {
-      if ([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE]) {
-         useNotificationCenter = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE];
-      }
-   }
-   
-   // If we have notification center on, we must set this accordingly.
-   //
-   // Ideally, this would be set by the notification center delivery callback, but as we
-   // are not guaranteed instant delivery, by that point the GNTP packet may already
-   // have been built.  As such, we need to set it here instead.
-   //
-   if (useNotificationCenter && ([[GrowlApplicationBridge sharedBridge] useNotificationCenterAlways] ||
-                                 [[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS]))
+   if((self = [self initWithDictionary:nil
+                                 title:title
+                           description:description
+                      notificationName:notifName
+                              iconData:iconData
+                              priority:priority
+                              isSticky:isSticky
+                          clickContext:clickContext
+                     actionButtonTitle:actionTitle
+                     cancelButtonTitle:cancelTitle
+                            identifier:identifier]))
    {
-      if (![[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS]) {
-         [noteDict setObject:[NSNumber numberWithBool:YES] forKey:GROWL_NOTIFICATION_ALREADY_SHOWN];
-      }
-   }
-
-   if((self = [self initWithDictionary:noteDict])){
-      
    }
    return self;
 }
@@ -185,9 +243,23 @@
    _iconData = nil;
    [_clickContext release];
    _clickContext = nil;
-   [_noteDictionary release];
-   _noteDictionary = nil;
+   [_otherKeysDict release];
+   _otherKeysDict = nil;
    [super dealloc];
+}
+
+-(NSDictionary*)noteDictionary {
+   NSMutableDictionary *buildDict = [[self.otherKeysDict mutableCopy] autorelease];
+   
+   if (self.title)         [buildDict setObject:self.title forKey:GROWL_NOTIFICATION_TITLE];
+	if (self.description)   [buildDict setObject:self.description forKey:GROWL_NOTIFICATION_DESCRIPTION];
+	if (self.iconData)      [buildDict setObject:self.iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
+	if (self.clickContext)	[buildDict setObject:self.clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+   if (self.clickCallbackURL) [buildDict setObject:self.clickCallbackURL forKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
+	if (self.priority != 0)	[buildDict setObject:@(self.priority) forKey:GROWL_NOTIFICATION_PRIORITY];
+	if (self.sticky)		[buildDict setObject:@(self.sticky) forKey:GROWL_NOTIFICATION_STICKY];
+   
+   return [[buildDict copy] autorelease];
 }
 
 -(void)notify {
@@ -210,6 +282,7 @@
       }
    }
    
+   NSDictionary *noteDictionary = self.noteDictionary;
    //All the cases where growl is reachable *should* be covered now
    if ([[GrowlApplicationBridge sharedBridge] registered] && [[GrowlApplicationBridge sharedBridge] _growlIsReachableUpdateCache:NO]) {
       GrowlCommunicationAttempt *firstAttempt = nil;
@@ -218,9 +291,9 @@
       if([[GrowlApplicationBridge sharedBridge] hasGNTP]){
          //These should be the only way we get marked as having gntp
          if([GrowlXPCCommunicationAttempt canCreateConnection])
-            firstAttempt = [[GrowlXPCNotificationAttempt alloc] initWithDictionary:self.noteDictionary];
+            firstAttempt = [[GrowlXPCNotificationAttempt alloc] initWithDictionary:noteDictionary];
          else if([[GrowlApplicationBridge sharedBridge] hasNetworkClient])
-            firstAttempt = [[GrowlGNTPNotificationAttempt alloc] initWithDictionary:self.noteDictionary];
+            firstAttempt = [[GrowlGNTPNotificationAttempt alloc] initWithDictionary:noteDictionary];
          
          if(firstAttempt){
             firstAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
@@ -229,7 +302,7 @@
       }
       
       if(![[GrowlApplicationBridge sharedBridge] sandboxed]){
-         secondAttempt = [[GrowlApplicationBridgeNotificationAttempt alloc] initWithDictionary:self.noteDictionary];
+         secondAttempt = [[GrowlApplicationBridgeNotificationAttempt alloc] initWithDictionary:noteDictionary];
          secondAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
          
          if(_firstAttempt)
@@ -265,24 +338,27 @@
 
 - (void) _fireMiniDispatch
 {
+   NSDictionary *noteDictionary = self.noteDictionary;
    BOOL defaultOnly = YES;
    if([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_DEFAULT_ONLY])
       defaultOnly = [[[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_DEFAULT_ONLY] boolValue];
    
-   if (![[GrowlApplicationBridge sharedBridge] isNotificationDefaultEnabled:self.noteDictionary] && defaultOnly)
+   if (![[GrowlApplicationBridge sharedBridge] isNotificationDefaultEnabled:noteDictionary] && defaultOnly)
       return;
    
-   [[[GrowlApplicationBridge sharedBridge] miniDispatch] displayNotification:self.noteDictionary];
+   [[[GrowlApplicationBridge sharedBridge] miniDispatch] displayNotification:noteDictionary];
 }
 
 - (void) _fireAppleNotificationCenter
 {
 #if defined(MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_8
+   NSDictionary *dict = self.noteDictionary;
+   
    BOOL defaultOnly = YES;
    if([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_DEFAULT_ONLY])
       defaultOnly = [[[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_DEFAULT_ONLY] boolValue];
    
-   if (![[GrowlApplicationBridge sharedBridge] isNotificationDefaultEnabled:self.noteDictionary] && defaultOnly)
+   if (![[GrowlApplicationBridge sharedBridge] isNotificationDefaultEnabled:dict] && defaultOnly)
       return;
    
    // If we're not on 10.8, there's no point in doing this.
@@ -290,26 +366,26 @@
       return;
    
    NSMutableDictionary *notificationDict = [[[NSMutableDictionary alloc] init] autorelease];
-   if ([self.noteDictionary objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT])
-      [notificationDict setObject:[self.noteDictionary objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-   if ([self.noteDictionary objectForKey:GROWL_NOTIFICATION_STICKY])
-      [notificationDict setObject:[self.noteDictionary objectForKey:GROWL_NOTIFICATION_STICKY] forKey:GROWL_NOTIFICATION_STICKY];
+   if ([dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT])
+      [notificationDict setObject:[dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+   if ([dict objectForKey:GROWL_NOTIFICATION_STICKY])
+      [notificationDict setObject:[dict objectForKey:GROWL_NOTIFICATION_STICKY] forKey:GROWL_NOTIFICATION_STICKY];
    
    [notificationDict setObject:self.noteUUID forKey:@"APPLE_GROWL_NOTE_UUID"];
    
    NSUserNotification *appleNotification = [[NSUserNotification alloc] init];
-   appleNotification.title = [self.noteDictionary objectForKey:GROWL_NOTIFICATION_TITLE];
-   appleNotification.informativeText = [self.noteDictionary objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+   appleNotification.title = [dict objectForKey:GROWL_NOTIFICATION_TITLE];
+   appleNotification.informativeText = [dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
    appleNotification.userInfo = notificationDict;
    appleNotification.hasActionButton = NO;
    
-   if ([self.noteDictionary objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION]) {
+   if ([dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION]) {
       appleNotification.hasActionButton = YES;
-      appleNotification.actionButtonTitle = [self.noteDictionary objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION];
+      appleNotification.actionButtonTitle = [dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION];
    }
    
-   if ([self.noteDictionary objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL])
-      appleNotification.otherButtonTitle = [self.noteDictionary objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
+   if ([dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL])
+      appleNotification.otherButtonTitle = [dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
    
    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
    [appleNotification release];

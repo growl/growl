@@ -36,10 +36,11 @@ typedef void(^GrowlNoteStatusUpdateBlock)(GrowlNoteStatus status, GrowlNote *not
    NSString *_description;
    NSData *_iconData;
    id _clickContext;
+   NSURL *_clickCallbackURL;
    BOOL _sticky;
    NSInteger _priority;
    
-   NSDictionary *_noteDictionary;
+   NSDictionary *_otherKeysDict;
    
    id<GrowlNoteDelegate> _delegate;
    GrowlNoteStatusUpdateBlock _statusUpdateBlock;
@@ -59,6 +60,7 @@ typedef void(^GrowlNoteStatusUpdateBlock)(GrowlNoteStatus status, GrowlNote *not
 @property (nonatomic, retain) NSString *description;
 @property (nonatomic, retain) NSData *iconData;
 @property (nonatomic, retain) id clickContext;
+@property (nonatomic, retain) NSURL *clickCallbackURL;
 @property (nonatomic, assign) BOOL sticky;
 @property (nonatomic, assign) NSInteger priority;
 
