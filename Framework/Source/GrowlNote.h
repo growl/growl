@@ -37,6 +37,7 @@ typedef void(^GrowlNoteStatusUpdateBlock)(GrowlNoteStatus status, GrowlNote *not
    NSData *_iconData;
    id _clickContext;
    NSURL *_clickCallbackURL;
+   NSString *_overwriteIdentifier;
    BOOL _sticky;
    NSInteger _priority;
    
@@ -61,6 +62,7 @@ typedef void(^GrowlNoteStatusUpdateBlock)(GrowlNoteStatus status, GrowlNote *not
 @property (nonatomic, retain) NSData *iconData;
 @property (nonatomic, retain) id clickContext;
 @property (nonatomic, retain) NSURL *clickCallbackURL;
+@property (nonatomic, retain) NSString *overwriteIdentifier;
 @property (nonatomic, assign) BOOL sticky;
 @property (nonatomic, assign) NSInteger priority;
 

@@ -39,6 +39,7 @@
 @synthesize iconData = _iconData;
 @synthesize clickContext = _clickContext;
 @synthesize clickCallbackURL = _clickCallbackURL;
+@synthesize overwriteIdentifier = _overwriteIdentifier;
 @synthesize sticky = _sticky;
 @synthesize priority = _priority;
 
@@ -81,6 +82,7 @@
                    GROWL_NOTIFICATION_ICON_DATA,
                    GROWL_NOTIFICATION_CLICK_CONTEXT,
                    GROWL_NOTIFICATION_CALLBACK_URL_TARGET,
+                   GROWL_NOTIFICATION_IDENTIFIER,
                    GROWL_NOTIFICATION_PRIORITY,
                    GROWL_NOTIFICATION_STICKY] retain];
    });
@@ -116,6 +118,7 @@
       self.description = useDict ? [noteDict valueForKey:GROWL_NOTIFICATION_DESCRIPTION] : description;
       self.iconData = useDict ? [noteDict valueForKey:GROWL_NOTIFICATION_ICON_DATA] : iconData;
       self.clickContext = useDict ? [noteDict valueForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] : clickContext;
+      self.overwriteIdentifier = useDict ? [noteDict valueForKey:GROWL_NOTIFICATION_IDENTIFIER] : identifier;
       
       if(useDict) self.clickCallbackURL = [noteDict valueForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
       
@@ -255,14 +258,15 @@
 -(NSDictionary*)noteDictionary {
    NSMutableDictionary *buildDict = [[self.otherKeysDict mutableCopy] autorelease];
    
-   if (self.noteName)      [buildDict setObject:self.noteName forKey:GROWL_NOTIFICATION_NAME];
-   if (self.title)         [buildDict setObject:self.title forKey:GROWL_NOTIFICATION_TITLE];
-   if (self.description)   [buildDict setObject:self.description forKey:GROWL_NOTIFICATION_DESCRIPTION];
-   if (self.iconData)      [buildDict setObject:self.iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
-   if (self.clickContext)	[buildDict setObject:self.clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+   if (self.noteName)         [buildDict setObject:self.noteName forKey:GROWL_NOTIFICATION_NAME];
+   if (self.title)            [buildDict setObject:self.title forKey:GROWL_NOTIFICATION_TITLE];
+   if (self.description)      [buildDict setObject:self.description forKey:GROWL_NOTIFICATION_DESCRIPTION];
+   if (self.iconData)         [buildDict setObject:self.iconData forKey:GROWL_NOTIFICATION_ICON_DATA];
+   if (self.clickContext)     [buildDict setObject:self.clickContext forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
    if (self.clickCallbackURL) [buildDict setObject:self.clickCallbackURL forKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
-   if (self.priority != 0)	[buildDict setObject:@(self.priority) forKey:GROWL_NOTIFICATION_PRIORITY];
-   if (self.sticky)		[buildDict setObject:@(self.sticky) forKey:GROWL_NOTIFICATION_STICKY];
+   if (self.overwriteIdentifier) [buildDict setObject:self.overwriteIdentifier forKey:GROWL_NOTIFICATION_IDENTIFIER];
+   if (self.priority != 0)    [buildDict setObject:@(self.priority) forKey:GROWL_NOTIFICATION_PRIORITY];
+   if (self.sticky)           [buildDict setObject:@(self.sticky) forKey:GROWL_NOTIFICATION_STICKY];
    
    return [[buildDict copy] autorelease];
 }
