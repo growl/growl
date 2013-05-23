@@ -544,7 +544,6 @@ static dispatch_queue_t notificationQueue_Queue;
 
    if(!self.sandboxed){
       secondAttempt = [[GrowlApplicationBridgeRegistrationAttempt alloc] initWithDictionary:regDict];
-      secondAttempt.applicationName = [[self _applicationNameForGrowlSearchingRegistrationDictionary:regDict] autorelease];
       secondAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
       if(self.registrationAttempt != nil)
          self.registrationAttempt.nextAttempt = secondAttempt;

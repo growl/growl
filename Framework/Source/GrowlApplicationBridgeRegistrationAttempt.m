@@ -20,12 +20,8 @@
 	return GrowlCommunicationAttemptTypeRegister;
 }
 
-@synthesize applicationName;
-
 - (void)dealloc
-{
-	self.applicationName = nil;
-	
+{	
 	[super dealloc];
 }
 

@@ -10,9 +10,6 @@
 
 @interface GrowlApplicationBridgeRegistrationAttempt : GrowlCommunicationAttempt
 {
-	NSString *applicationName;
 }
-
-@property(nonatomic, copy) NSString *applicationName;
 
 @end
