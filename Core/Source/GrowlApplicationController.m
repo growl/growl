@@ -322,10 +322,23 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    if ([[growlDict objectForKey:GROWL_NOTIFICATION_ALREADY_SHOWN] boolValue])
       return;
 
-	//Here we have a choice to make, use Bark, or our own NC implementation. Bark is better due to icon thing
 	BOOL dispatchedToBark = NO;
+   NSString *gntpOrigin = [growlDict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME];
+   if([gntpOrigin caseInsensitiveCompare:@"Growl.framework"] == NSOrderedSame){
+      NSString *frameworkVersion = [growlDict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION];
+      if(compareVersionStrings(@"3.0", frameworkVersion) != kCFCompareGreaterThan){
+         NSString *noteUUID = [growlDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
+         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER"
+                                                                        object:noteUUID];
+         dispatchedToBark = YES;
+      }
+   }
+   
+	//Here we have a choice to make, use Bark, or our own NC implementation. Bark is better due to icon thing
 	GrowlTicketDatabasePlugin *barkPluginConfig = [[GrowlTicketDatabase sharedInstance] pluginConfigForBundleID:@"us.pandamonia.Bark"];
-	if(barkPluginConfig && [barkPluginConfig pluginInstanceForConfiguration]){
+	if(!dispatchedToBark &&
+      barkPluginConfig &&
+      [barkPluginConfig pluginInstanceForConfiguration]){
 		[self dispatchNotification:growlDict toActions:[NSSet setWithObject:barkPluginConfig]];
 		dispatchedToBark = YES;
 	}
@@ -1695,6 +1708,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 		return;
 	
    id callbackTarget = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_CALLBACK_URL_TARGET];
+   id clickContext = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
    if(callbackTarget && viaClick) {
       NSURL *callbackURL = nil;
       if([callbackTarget isKindOfClass:[NSURL class]]){
@@ -1705,6 +1719,17 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
       
       if(callbackURL)
          [[NSWorkspace sharedWorkspace] openURL:callbackURL];
+   }else if(clickContext) {
+      NSString *gntpOrigin = [growlNotificationDict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME];
+      if([gntpOrigin caseInsensitiveCompare:@"Growl.framework"] == NSOrderedSame){
+         NSString *frameworkVersion = [growlNotificationDict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION];
+         if(compareVersionStrings(@"3.0", frameworkVersion) != kCFCompareGreaterThan){
+            NSString *noteName = viaClick ? @"GROWL3_NOTIFICATION_CLICK" : @"GROWL3_NOTIFICATION_TIMEOUT";
+            NSString *noteUUID = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
+            [[NSDistributedNotificationCenter defaultCenter] postNotificationName:noteName
+                                                                           object:noteUUID];
+         }
+      }
    }
 	
 	if (!wasLocal) {

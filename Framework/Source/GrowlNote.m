@@ -160,6 +160,20 @@
       }
       
       self.otherKeysDict = [GrowlNote notificationDictionaryByRemovingIvarKeys:noteDict];
+      
+      NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
+      [NSDNC addObserver:self
+                selector:@selector(nsdncNoteUpdate:)
+                    name:@"GROWL3_NOTIFICATION_CLICK"
+                  object:self.noteUUID];
+      [NSDNC addObserver:self
+                selector:@selector(nsdncNoteUpdate:)
+                    name:@"GROWL3_NOTIFICATION_TIMEOUT"
+                  object:self.noteUUID];
+      [NSDNC addObserver:self
+                selector:@selector(nsdncNoteUpdate:)
+                    name:@"GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER"
+                  object:self.noteUUID];
    }
    return self;
 
@@ -242,6 +256,7 @@
 }
 
 -(void)dealloc {
+   [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
    [_statusUpdateBlock release];
    _statusUpdateBlock = nil;
    [_noteName release];
@@ -426,6 +441,16 @@
 #endif
 }
 
+-(void)nsdncNoteUpdate:(NSNotification*)note {
+   if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_CLICK"]){
+      NSLog(@"We were clicked in Growl!");
+   }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_TIMEOUT"]){
+      NSLog(@"We timed out in Growl!");      
+   }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER"]){
+      [self _fireAppleNotificationCenter];
+   }
+}
+
 #pragma mark GrowlCommunicationAttemptDelegate
 
 - (void) attemptDidSucceed:(GrowlCommunicationAttempt *)attempt {
@@ -444,7 +469,7 @@
    }
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt {
-   [[GrowlApplicationBridge sharedBridge] finishedWithNote:self];
+   //[[GrowlApplicationBridge sharedBridge] finishedWithNote:self];
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt {
    if(attempt.attemptType != GrowlCommunicationAttemptTypeNotify)
