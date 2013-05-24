@@ -173,7 +173,7 @@ static dispatch_queue_t notificationQueue_Queue;
          if([GrowlXPCCommunicationAttempt canCreateConnection])
             [GrowlXPCCommunicationAttempt shutdownXPC];
 			self.isGrowlRunning = NO;
-		}else if(newRunning){
+		}else if(newRunning && !self.isGrowlRunning){
 			self.isGrowlRunning = YES;
 		}
 	}
@@ -984,9 +984,7 @@ static dispatch_queue_t notificationQueue_Queue;
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
 {
-   @autoreleasepool {
-      //GrowlNote *note = [self noteForUUID:[[notification userInfo] valueForKey:@"GROWL_FRAMEWORK_INTERNAL_UUID"]];
-      
+   @autoreleasepool {      
       id clickContext = [[notification userInfo] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
       
       if(notification.activationType == NSUserNotificationActivationTypeActionButtonClicked) {

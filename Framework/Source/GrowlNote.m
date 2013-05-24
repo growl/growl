@@ -264,7 +264,7 @@
 -(NSDictionary*)noteDictionary {
    NSMutableDictionary *buildDict = [[self.otherKeysDict mutableCopy] autorelease];
    
-   [buildDict setObject:self.noteUUID forKey:@"GROWL_FRAMEWORK_INTERNAL_UUID"];
+   [buildDict setObject:self.noteUUID forKey:GROWL_NOTIFICATION_INTERNAL_ID];
    if (self.noteName)         [buildDict setObject:self.noteName forKey:GROWL_NOTIFICATION_NAME];
    if (self.title)            [buildDict setObject:self.title forKey:GROWL_NOTIFICATION_TITLE];
    if (self.description)      [buildDict setObject:self.description forKey:GROWL_NOTIFICATION_DESCRIPTION];
