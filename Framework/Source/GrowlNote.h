@@ -49,6 +49,8 @@ typedef void(^GrowlNoteStatusUpdateBlock)(GrowlNoteStatus status, GrowlNote *not
    @private
    GrowlCommunicationAttempt *_firstAttempt;
    GrowlCommunicationAttempt *_secondAttempt;
+   
+   NSUserNotification *_appleNotification;
 }
 
 @property (nonatomic, assign) id<GrowlNoteDelegate> delegate;

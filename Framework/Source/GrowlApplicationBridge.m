@@ -201,6 +201,14 @@ static dispatch_queue_t notificationQueue_Queue;
 	});
 }
 
+- (GrowlNote*)noteForUUID:(NSString*)uuid {
+   __block GrowlNote *note = nil;
+   dispatch_sync(notificationQueue_Queue, ^{
+      note = [[self notifications] valueForKey:uuid];
+   });
+   return note;
+}
+
 -(NSMutableDictionary *)notifications {
    static NSMutableDictionary *_notes = nil;
    static dispatch_once_t onceToken;
@@ -398,6 +406,14 @@ static dispatch_queue_t notificationQueue_Queue;
          note.delegate = self;
       [[self notifications] setObject:note forKey:[note noteUUID]];
       [note notify];      
+   });
+}
+
+- (void) cancelNoteWithUUID:(NSString*)uuid {
+   GrowlNote *note = [self noteForUUID:uuid];
+   [note cancelNote];
+   dispatch_async(notificationQueue_Queue, ^{
+      [[self notifications] removeObjectForKey:uuid];
    });
 }
 
@@ -942,20 +958,25 @@ static dispatch_queue_t notificationQueue_Queue;
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context{}
 
 -(void)note:(GrowlNote *)note statusUpdate:(GrowlNoteStatus)status {
-   switch (status) {
-      case GrowlNoteTimedOut:
-      case GrowlNoteClosed:
-         if(self.delegate != nil && [self.delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
-            [self.delegate growlNotificationTimedOut:[note clickContext]];
-         break;
-      case GrowlNoteClicked:
-      case GrowlNoteActionClicked:
-      case GrowlNoteOtherClicked:
-         if(self.delegate != nil && [self.delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
-            [self.delegate growlNotificationWasClicked:[note clickContext]];
-         break;
-      default:
-         break;
+   if(note.clickContext != nil && self.delegate != nil){
+      switch (status) {
+         case GrowlNoteTimedOut:
+         case GrowlNoteClosed:
+            if([self.delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
+               [self.delegate growlNotificationTimedOut:[note clickContext]];
+            break;
+         case GrowlNoteClicked:
+         case GrowlNoteOtherClicked:
+            if([self.delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+               [self.delegate growlNotificationWasClicked:[note clickContext]];
+            break;
+         case GrowlNoteActionClicked:
+            if([self.delegate respondsToSelector:@selector(growlNotificationActionButtonClicked:)])
+               [self.delegate growlNotificationActionButtonClicked:[note clickContext]];
+            break;
+         default:
+            break;
+      }
    }
 }
 
@@ -964,6 +985,8 @@ static dispatch_queue_t notificationQueue_Queue;
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
 {
    @autoreleasepool {
+      //GrowlNote *note = [self noteForUUID:[[notification userInfo] valueForKey:@"GROWL_FRAMEWORK_INTERNAL_UUID"]];
+      
       id clickContext = [[notification userInfo] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
       
       if(notification.activationType == NSUserNotificationActivationTypeActionButtonClicked) {

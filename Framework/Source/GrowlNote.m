@@ -24,6 +24,8 @@
 @property (nonatomic, retain) GrowlCommunicationAttempt *firstAttempt;
 @property (nonatomic, retain) GrowlCommunicationAttempt *secondAttempt;
 
+@property (nonatomic, retain) NSUserNotification *appleNotification;
+
 @end
 
 @implementation GrowlNote
@@ -46,6 +48,8 @@
 @synthesize otherKeysDict = _otherKeysDict;
 @synthesize firstAttempt = _firstAttempt;
 @synthesize secondAttempt = _secondAttempt;
+
+@synthesize appleNotification = _appleNotification;
 
 + (NSDictionary *) notificationDictionaryByFillingInDictionary:(NSDictionary *)notifDict {
 	NSMutableDictionary *mNotifDict = (notifDict != nil) ? [notifDict mutableCopy] : [[NSMutableDictionary alloc] init];
@@ -252,12 +256,15 @@
    _clickContext = nil;
    [_otherKeysDict release];
    _otherKeysDict = nil;
+   [_appleNotification release];
+   _appleNotification = nil;
    [super dealloc];
 }
 
 -(NSDictionary*)noteDictionary {
    NSMutableDictionary *buildDict = [[self.otherKeysDict mutableCopy] autorelease];
    
+   [buildDict setObject:self.noteUUID forKey:@"GROWL_FRAMEWORK_INTERNAL_UUID"];
    if (self.noteName)         [buildDict setObject:self.noteName forKey:GROWL_NOTIFICATION_NAME];
    if (self.title)            [buildDict setObject:self.title forKey:GROWL_NOTIFICATION_TITLE];
    if (self.description)      [buildDict setObject:self.description forKey:GROWL_NOTIFICATION_DESCRIPTION];
@@ -352,6 +359,16 @@
    }
 }
 
+- (void) cancelNote {
+   if(self.appleNotification) {
+#if defined(MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_8
+      [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:self.appleNotification];
+#endif
+   }
+   [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL_NOTIFICATION_CANCEL_REQUESTED"
+                                                                  object:self.noteUUID];
+}
+
 - (void) _fireMiniDispatch
 {
    NSDictionary *noteDictionary = self.noteDictionary;
@@ -404,6 +421,7 @@
       appleNotification.otherButtonTitle = [dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
    
    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
+   self.appleNotification = appleNotification;
    [appleNotification release];
 #endif
 }

@@ -250,6 +250,8 @@
 
 - (void) notifyWithNote:(GrowlNote*)note;
 
+- (void) cancelNoteWithUUID:(NSString*)uuid;
+
 #pragma mark -
 
 /*!	@method	registerWithDictionary:
