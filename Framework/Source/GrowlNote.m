@@ -323,7 +323,7 @@
          if(_firstAttempt)
             self.secondAttempt.nextAttempt = secondAttempt;
          else
-            self.secondAttempt = secondAttempt;
+            self.firstAttempt = secondAttempt;
          [secondAttempt release];
       }
       

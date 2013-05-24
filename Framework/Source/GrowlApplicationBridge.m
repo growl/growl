@@ -215,21 +215,14 @@ static dispatch_queue_t notificationQueue_Queue;
       _delegate = delegate;
    }
    
+   //This needs to change
    self.miniDispatch.delegate = delegate;
    
    NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
-      
-	//Cache the appName from the delegate or the process name
-	self.appName = [self _applicationNameForGrowlSearchingRegistrationDictionary:self.registrationDictionary];
-	if (!self.appName) {
-		NSLog(@"%@", @"GrowlApplicationBridge: Cannot register because the application name was not supplied and could not be determined");
-		return;
-	}
    
-	/* Cache the appIconData from the delegate if it responds to the
-	 * applicationIconDataForGrowl selector, or the application if not
-	 */
-	self.appIconData = [self _applicationIconDataForGrowlSearchingRegistrationDictionary:self.registrationDictionary];
+   if(self.registrationDictionary == nil){
+      self.registrationDictionary = [self bestRegistrationDictionary];
+   }
    
 	/* Watch for notification clicks if our delegate responds to the
 	 * growlNotificationWasClicked: selector. Notifications will come in on a
@@ -303,12 +296,6 @@ static dispatch_queue_t notificationQueue_Queue;
                         object:nil
                       userInfo:nil deliverImmediately:YES];
    
-   if(self.registrationDictionary == nil){
-      self.registrationDictionary = [self bestRegistrationDictionary];
-      if(self.registrationDictionary != nil){
-         [self registerWithDictionary:self.registrationDictionary];
-      }
-   }
 }
 + (void) setGrowlDelegate:(id<GrowlApplicationBridgeDelegate>)inDelegate {
    [[GrowlApplicationBridge sharedBridge] setDelegate:inDelegate];
@@ -324,6 +311,8 @@ static dispatch_queue_t notificationQueue_Queue;
       if(![self.registrationDictionary isEqualToDictionary:registrationDictionary]){
          [_registrationDictionary release];
          _registrationDictionary = [registrationDictionary copy];
+         self.appName = [self _applicationNameForGrowlSearchingRegistrationDictionary:self.registrationDictionary];
+         self.appIconData = [self _applicationIconDataForGrowlSearchingRegistrationDictionary:self.registrationDictionary];
          [self registerWithDictionary:self.registrationDictionary];
       }
    }
@@ -582,6 +571,9 @@ static dispatch_queue_t notificationQueue_Queue;
 	if (self.delegate && [self.delegate respondsToSelector:@selector(registrationDictionaryForGrowl)])
 		regDict = [self.delegate registrationDictionaryForGrowl];
    
+//   if(!regDict)
+//      NSLog(@"GrowlApplicationBridge: Either no delegate, or it does not respond to registrationDictionaryForGrowl");
+   
 	return regDict;
 }
 
@@ -610,8 +602,11 @@ static dispatch_queue_t notificationQueue_Queue;
    NSDictionary *registrationDictionary =  [self registrationDictionaryFromDelegate];
    if (registrationDictionary == nil) {
       registrationDictionary = [self registrationDictionaryFromBundle:nil];
-//      if (registrationDictionary == nil)
-//         NSLog(@"GrowlApplicationBridge: The Growl delegate did not supply a registration dictionary, and the app bundle at %@ does not have one. Please tell this application's developer.", [[NSBundle mainBundle] bundlePath]);
+      if(registrationDictionary == nil){
+         registrationDictionary = self.registrationDictionary;
+//         if (registrationDictionary == nil)
+//            NSLog(@"GrowlApplicationBridge: The Growl delegate did not supply a registration dictionary, and the app bundle at %@ does not have one. Please tell this application's developer.", [[NSBundle mainBundle] bundlePath]);
+      }
    }
 	return [self registrationDictionaryByFillingInDictionary:registrationDictionary];
 }
@@ -860,7 +855,7 @@ static dispatch_queue_t notificationQueue_Queue;
 	static dispatch_once_t onceToken;
    dispatch_once(&onceToken, ^{
       self.sandboxed = [GrowlCodeSignUtilities isSandboxed];
-      self.hasNetworkClient = [GrowlCodeSignUtilities hasNetworkClientEntitlement];
+      self.hasNetworkClient = self.sandboxed ? [GrowlCodeSignUtilities hasNetworkClientEntitlement] : YES;
    });
 }
 
