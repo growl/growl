@@ -36,17 +36,17 @@
 	//Build a feedback response
 	//This should support encrypting replies at some point
 	NSMutableString *response = [NSMutableString stringWithString:@"GNTP/1.0 -CALLBACK NONE\r\n"];
-	[response appendFormat:@"Application-Name: %@\r\n", [dictionary valueForKey:GROWL_APP_NAME]];
+	[response appendFormat:@"%@: %@\r\n", GrowlGNTPApplicationNameHeader, [dictionary valueForKey:GROWL_APP_NAME]];
 	if([dictionary valueForKey:GROWL_NOTIFICATION_INTERNAL_ID])
-		[response appendFormat:@"Notification-ID: %@\r\n", [dictionary valueForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
-	[response appendFormat:@"Notification-Callback-Result: %@\r\n", clicked ? @"CLICKED" : @"TIMEOUT"];
+		[response appendFormat:@"%@: %@\r\n", GrowlGNTPNotificationID, [dictionary valueForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
+	[response appendFormat:@"%@: %@\r\n", GrowlGNTPNotificationCallbackResult, clicked ? @"CLICKED" : @"TIMEOUT"];
 	
 	static ISO8601DateFormatter *_dateFormatter = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		_dateFormatter = [[ISO8601DateFormatter alloc] init];
 	});
-	[response appendFormat:@"Notification-Callback-Timestamp: %@\r\n", [_dateFormatter stringFromDate:[NSDate date]]];
+	[response appendFormat:@"%@: %@\r\n", GrowlGNTPNotificationCallbackTimestamp, [_dateFormatter stringFromDate:[NSDate date]]];
 	
 	//Append where this came from
 	[response appendString:[GNTPPacket originString]];
@@ -75,8 +75,8 @@
 	}
 	if(contextString){
 		//If we can't get a context formed into a string, this isn't worth sending
-		[response appendFormat:@"Notification-Callback-Context-Type: %@\r\n", contextType];
-		[response appendFormat:@"Notification-Callback-Context: %@\r\n", contextString];
+		[response appendFormat:@"%@: %@\r\n", GrowlGNTPNotificationCallbackContextType, contextType];
+		[response appendFormat:@"%@: %@\r\n", GrowlGNTPNotificationCallbackContext, contextString];
 		[response appendString:@"\r\n\r\n"];
 		//NSLog(@"%@", response);
 		feedbackData = [NSData dataWithBytes:[response UTF8String] length:[response length]];
