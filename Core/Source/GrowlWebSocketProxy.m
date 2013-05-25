@@ -461,7 +461,8 @@ static dispatch_queue_t bufferQueue = NULL;
 			}else {
 				unmaskedBytes = rawBytes;
 			}
-			NSData *unmaskedData = [NSData dataWithBytes:unmaskedBytes length:[data length]];
+         
+			NSData *unmaskedData = [NSData dataWithBytesNoCopy:unmaskedBytes length:[data length] freeWhenDone:YES];
 			//NSLog(@"Read message:\n%@", [[[NSString alloc] initWithBytes:unmaskedBytes length:[data length] encoding:NSUTF8StringEncoding] autorelease]);
 			//Add to our main mutable data buffer
 			dispatch_async(bufferQueue, ^{
