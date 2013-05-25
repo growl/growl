@@ -393,7 +393,7 @@
       [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:self.appleNotification];
 #endif
    }
-   [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL_NOTIFICATION_CANCEL_REQUESTED"
+   [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL3_NOTIFICATION_CANCEL_REQUESTED"
                                                                   object:self.noteUUID];
 }
 

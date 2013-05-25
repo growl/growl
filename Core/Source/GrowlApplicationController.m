@@ -604,7 +604,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                                    [ruleLogString appendFormat:@"\nDo not display visually"];
                                                 }
                                                 displayed = YES;
-                                                [self sendNotificationDict:copyDict ofType:@"GROWL3_NOTIFICATION_NOT_DISPLAYED"];
+                                                [self sendNotificationDict:copyDict feedbackOfType:@"GROWL3_NOTIFICATION_NOT_DISPLAYED"];
                                                 break;
                                              case 'DLDf': //Default explicit or not for note, handled below
                                              default:
