@@ -179,6 +179,11 @@
       suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
       [NSDNC addObserver:self
                 selector:@selector(nsdncNoteUpdate:)
+                    name:@"GROWL3_NOTIFICATION_NOT_DISPLAYED"
+                  object:self.noteUUID
+      suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
+      [NSDNC addObserver:self
+                selector:@selector(nsdncNoteUpdate:)
                     name:@"GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER"
                   object:self.noteUUID
        suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
@@ -456,6 +461,8 @@
       [self handleStatusUpdate:GrowlNoteTimedOut];
    }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_CLOSED"]){
       [self handleStatusUpdate:GrowlNoteClosed];
+   }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_NOT_DISPLAYED"]){
+      [self handleStatusUpdate:GrowlNoteNotDisplayed];
    }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER"]){
       [self _fireAppleNotificationCenter];
    }
