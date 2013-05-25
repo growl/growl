@@ -17,11 +17,13 @@
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt;
 
 //Sent after success
+- (void) notificationClosed:(GrowlCommunicationAttempt *)attempt context:(id)context;
 - (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context;
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context; 
 
 @optional
 - (void) stoppedAttempts:(GrowlCommunicationAttempt *)attempt;
+- (void) notificationWasNotDisplayed:(GrowlCommunicationAttempt *)attempt;
 
 @end
 
@@ -71,6 +73,7 @@ typedef NSUInteger GrowlCommunicationAttemptType;
 - (void) begin;
 
 //Subclasses: Send these messages to yourself when succeeding or failing.
+- (void) wasNotDisplayed;
 - (void) queueAndReregister;
 - (void) stopAttempts;
 - (void) succeeded;

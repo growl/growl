@@ -30,7 +30,7 @@
 @synthesize callbackString = _callbackString;
 @synthesize callbackType = _callbackType;
 
-+(NSData*)feedbackData:(BOOL)clicked forGrowlDictionary:(NSDictionary*)dictionary {
++(NSData*)feedbackData:(NSString*)feedback forGrowlDictionary:(NSDictionary*)dictionary {
 	NSData *feedbackData = nil;
 	
 	//Build a feedback response
@@ -39,7 +39,7 @@
 	[response appendFormat:@"%@: %@\r\n", GrowlGNTPApplicationNameHeader, [dictionary valueForKey:GROWL_APP_NAME]];
 	if([dictionary valueForKey:GROWL_NOTIFICATION_INTERNAL_ID])
 		[response appendFormat:@"%@: %@\r\n", GrowlGNTPNotificationID, [dictionary valueForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
-	[response appendFormat:@"%@: %@\r\n", GrowlGNTPNotificationCallbackResult, clicked ? @"CLICKED" : @"TIMEOUT"];
+	[response appendFormat:@"%@: %@\r\n", GrowlGNTPNotificationCallbackResult, feedback];
 	
 	static ISO8601DateFormatter *_dateFormatter = nil;
 	static dispatch_once_t onceToken;

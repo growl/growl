@@ -337,8 +337,8 @@ static dispatch_queue_t __imageCacheQueue;
 {	
 	if([name isEqualToString:@"closeNote"])
 	{
-		if([self respondsToSelector:@selector(clickedClose)])
-			[self performSelector:@selector(clickedClose)];
+		if([self respondsToSelector:@selector(clickedCloseBox)])
+			[self performSelector:@selector(clickedCloseBox)];
 		GrowlWebKitWindowView *webView = [[self window] contentView];
 		[webView stringByEvaluatingJavaScriptFromString:@"if (!e) var e = window.event; e.stopPropagation();"];
 	}else if([name isEqualToString:@"clickNote"]){

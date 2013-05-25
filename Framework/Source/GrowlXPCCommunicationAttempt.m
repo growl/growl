@@ -198,20 +198,46 @@ static BOOL xpcInUse = NO;
 	if([responseAction isEqualToString:@"reregister"]){
 		[self queueAndReregister];
 	}else if([responseAction isEqualToString:@"feedback"]){
-		BOOL clicked = [[dict objectForKey:@"Clicked"] boolValue];
-		NSString *context = [dict objectForKey:@"Context"];
-		if(clicked){
-			if(delegate && [delegate respondsToSelector:@selector(notificationClicked:context:)])
-				[delegate notificationClicked:self context:context];
-		}else{
-			if(delegate && [delegate respondsToSelector:@selector(notificationTimedOut:context:)])
-				[delegate notificationTimedOut:self context:context];
-		}
+#define NOTE_TIMEDOUT 0
+#define NOTE_CLICKED 1
+#define NOTE_CLOSED 2
+      NSInteger feedbackType = NOTE_TIMEDOUT;
+      if([dict objectForKey:@"Feedback"]){
+         NSString *feedbackString = [dict objectForKey:@"Feedback"];
+         if([feedbackString isEqualToString:@"Clicked"]){
+            feedbackType = NOTE_CLICKED;
+         }else if([feedbackString isEqualToString:@"Timedout"]){
+            feedbackType = NOTE_TIMEDOUT;
+         }else if([feedbackString isEqualToString:@"Closed"]){
+            feedbackType = NOTE_CLOSED;
+         }
+      }else{
+         BOOL clicked = [[dict objectForKey:@"Clicked"] boolValue];
+         feedbackType = clicked ? 1 : 0;
+      }
+      id context = [dict objectForKey:@"Context"];
+      switch (feedbackType) {
+         case NOTE_CLICKED:
+            if(delegate && [delegate respondsToSelector:@selector(notificationClicked:context:)])
+               [delegate notificationClicked:self context:context];
+            break;
+         case NOTE_CLOSED:
+            if(delegate && [delegate respondsToSelector:@selector(notificationClosed:context:)])
+               [delegate notificationClosed:self context:context];
+            break;
+         case NOTE_TIMEDOUT:
+         default:
+            if(delegate && [delegate respondsToSelector:@selector(notificationTimedOut:context:)])
+               [delegate notificationTimedOut:self context:context];
+            break;
+      }
 	}else if([responseAction isEqualToString:@"stoppedAttempts"]){
 		[self stopAttempts];
 	}else if([responseAction isEqualToString:@"finishedAttempt"]){
 		[self finished];
-	}else{
+	}else if([responseAction isEqualToString:@"wasNotDisplayed"]){
+      [self wasNotDisplayed];
+   }else{
 		self.responseDict = dict;
 		BOOL success = [dict objectForKey:@"Success"] != nil ? [[dict objectForKey:@"Success"] boolValue] : NO;
 		if (success){

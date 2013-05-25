@@ -44,6 +44,16 @@
 																		 [self.localServer notificationClicked:growlDict];
 																		 [self.remoteServer notificationClicked:growlDict];
 																	 }];
+
+		[[NSNotificationCenter defaultCenter] addObserverForName:@"GROWL_NOTIFICATION_CLOSED"
+																		  object:nil
+																			queue:[NSOperationQueue mainQueue]
+																	 usingBlock:^(NSNotification *note) {
+																		 GrowlNotification *growlNote = [note object];
+																		 NSDictionary *growlDict = [growlNote dictionaryRepresentation];
+																		 [self.localServer notificationClosed:growlDict];
+																		 [self.remoteServer notificationClosed:growlDict];
+																	 }];      
 		[[NSNotificationCenter defaultCenter] addObserverForName:GROWL_NOTIFICATION_TIMED_OUT
 																		  object:nil
 																			queue:[NSOperationQueue mainQueue]

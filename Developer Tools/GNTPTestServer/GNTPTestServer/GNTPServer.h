@@ -32,6 +32,7 @@
 -(BOOL)startServer;
 -(void)stopServer;
 
+-(void)notificationClosed:(NSDictionary*)dictionary;
 -(void)notificationClicked:(NSDictionary*)dictionary;
 -(void)notificationTimedOut:(NSDictionary*)dictionary;
 

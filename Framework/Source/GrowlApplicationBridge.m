@@ -956,6 +956,7 @@ static dispatch_queue_t notificationQueue_Queue;
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt{}
 - (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context{}
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context{}
+- (void) notificationClosed:(GrowlCommunicationAttempt *)attempt context:(id)context {}
 
 -(void)note:(GrowlNote *)note statusUpdate:(GrowlNoteStatus)status {
    if(note.clickContext != nil && self.delegate != nil){
@@ -974,6 +975,7 @@ static dispatch_queue_t notificationQueue_Queue;
             if([self.delegate respondsToSelector:@selector(growlNotificationActionButtonClicked:)])
                [self.delegate growlNotificationActionButtonClicked:[note clickContext]];
             break;
+         case GrowlNoteNotDisplayed:
          default:
             break;
       }

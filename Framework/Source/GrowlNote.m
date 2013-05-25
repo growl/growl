@@ -165,15 +165,23 @@
       [NSDNC addObserver:self
                 selector:@selector(nsdncNoteUpdate:)
                     name:@"GROWL3_NOTIFICATION_CLICK"
-                  object:self.noteUUID];
+                  object:self.noteUUID
+       suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
       [NSDNC addObserver:self
                 selector:@selector(nsdncNoteUpdate:)
                     name:@"GROWL3_NOTIFICATION_TIMEOUT"
-                  object:self.noteUUID];
+                  object:self.noteUUID
+       suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
+      [NSDNC addObserver:self
+                selector:@selector(nsdncNoteUpdate:)
+                    name:@"GROWL3_NOTIFICATION_CLOSED"
+                  object:self.noteUUID
+      suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
       [NSDNC addObserver:self
                 selector:@selector(nsdncNoteUpdate:)
                     name:@"GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER"
-                  object:self.noteUUID];
+                  object:self.noteUUID
+       suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
    }
    return self;
 
@@ -443,12 +451,24 @@
 
 -(void)nsdncNoteUpdate:(NSNotification*)note {
    if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_CLICK"]){
-      NSLog(@"We were clicked in Growl!");
+      [self handleStatusUpdate:GrowlNoteClicked];
    }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_TIMEOUT"]){
-      NSLog(@"We timed out in Growl!");      
+      [self handleStatusUpdate:GrowlNoteTimedOut];
+   }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_CLOSED"]){
+      [self handleStatusUpdate:GrowlNoteClosed];
    }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER"]){
       [self _fireAppleNotificationCenter];
    }
+}
+
+-(void)handleStatusUpdate:(GrowlNoteStatus)status {
+   if(self.statusUpdateBlock != NULL){
+      self.statusUpdateBlock(GrowlNoteTimedOut, self);
+   }else if(self.delegate != nil && [self.delegate respondsToSelector:@selector(note:statusUpdate:)]){
+      [self.delegate note:self statusUpdate:status];
+   }
+   
+   //[[GrowlApplicationBridge sharedBridge] finishedWithNote:self];
 }
 
 #pragma mark GrowlCommunicationAttemptDelegate
@@ -469,7 +489,6 @@
    }
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt {
-   //[[GrowlApplicationBridge sharedBridge] finishedWithNote:self];
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt {
    if(attempt.attemptType != GrowlCommunicationAttemptTypeNotify)
@@ -485,20 +504,17 @@
 }
 
 //Sent after success
+- (void) notificationClosed:(GrowlCommunicationAttempt *)attempt context:(id)context {
+   [self handleStatusUpdate:GrowlNoteClosed];
+}
 - (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context {
-   if(self.statusUpdateBlock){
-      self.statusUpdateBlock(GrowlNoteClicked, self);
-   }else if(self.delegate){
-      [self.delegate note:self statusUpdate:GrowlNoteClicked];
-   }
-   
+   [self handleStatusUpdate:GrowlNoteClicked];   
 }
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context {
-   if(self.statusUpdateBlock){
-      self.statusUpdateBlock(GrowlNoteTimedOut, self);
-   }else if(self.delegate){
-      [self.delegate note:self statusUpdate:GrowlNoteTimedOut];
-   }
+   [self handleStatusUpdate:GrowlNoteTimedOut];
+}
+- (void) notificationWasNotDisplayed:(GrowlCommunicationAttempt *)attempt {
+   [self handleStatusUpdate:GrowlNoteNotDisplayed];
 }
 
 @end

@@ -324,7 +324,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 
 	BOOL dispatchedToBark = NO;
    NSString *gntpOrigin = [growlDict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME];
-   if([gntpOrigin caseInsensitiveCompare:@"Growl.framework"] == NSOrderedSame){
+   if([gntpOrigin caseInsensitiveCompare:@"Growl.framework"] == NSOrderedSame &&
+      [[growlDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY] isLocalHost]){
       NSString *frameworkVersion = [growlDict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION];
       if(compareVersionStrings(@"3.0", frameworkVersion) != kCFCompareGreaterThan){
          NSString *noteUUID = [growlDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
@@ -1579,6 +1580,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 				object:nil];
 	
 	[nc addObserver:self
+			 selector:@selector(notificationClosed:)
+				  name:@"GROWL_NOTIFICATION_CLOSED"
+				object:nil];
+	[nc addObserver:self
 			 selector:@selector(notificationClicked:)
 				  name:GROWL_NOTIFICATION_CLICKED
 				object:nil];
@@ -1698,7 +1703,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
  *	-growlNotificationWasClicked:/-growlNotificationTimedOut: with it if it's a
  *	GHA notification.
  */
-- (void)growlNotificationDict:(NSDictionary *)growlNotificationDict didCloseViaNotificationClick:(BOOL)viaClick onLocalMachine:(BOOL)wasLocal
+- (void)growlNotificationDict:(NSDictionary *)growlNotificationDict
+ didCloseViaNotificationClick:(BOOL)viaClick
+               onLocalMachine:(BOOL)wasLocal
 {
 	static BOOL isClosingFromRemoteClick = NO;
 	/* Don't post a second close notification on the local machine if we close a notification from this method in
@@ -1721,7 +1728,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
          [[NSWorkspace sharedWorkspace] openURL:callbackURL];
    }else if(clickContext) {
       NSString *gntpOrigin = [growlNotificationDict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME];
-      if([gntpOrigin caseInsensitiveCompare:@"Growl.framework"] == NSOrderedSame){
+      if([gntpOrigin caseInsensitiveCompare:@"Growl.framework"] == NSOrderedSame &&
+         [[growlNotificationDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY] isLocalHost]){
          NSString *frameworkVersion = [growlNotificationDict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION];
          if(compareVersionStrings(@"3.0", frameworkVersion) != kCFCompareGreaterThan){
             NSString *noteName = viaClick ? @"GROWL3_NOTIFICATION_CLICK" : @"GROWL3_NOTIFICATION_TIMEOUT";
@@ -1747,6 +1755,25 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 @implementation GrowlApplicationController (PRIVATE)
 
 #pragma mark Click feedback from displays
+
+- (void) notificationClosed:(NSNotification*)notification {
+   GrowlNotification *growlNotification = [notification object];
+   NSDictionary *growlNotificationDict = [growlNotification dictionaryRepresentation];
+   
+   id clickContext = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+   if(clickContext) {
+      NSString *gntpOrigin = [growlNotificationDict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME];
+      if([gntpOrigin caseInsensitiveCompare:@"Growl.framework"] == NSOrderedSame &&
+         [[growlNotificationDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY] isLocalHost]){
+         NSString *frameworkVersion = [growlNotificationDict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION];
+         if(compareVersionStrings(@"3.0", frameworkVersion) != kCFCompareGreaterThan){
+            NSString *noteUUID = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
+            [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL3_NOTIFICATION_CLOSED"
+                                                                           object:noteUUID];
+         }
+      }
+   }
+}
 
 - (void) notificationClicked:(NSNotification *)notification {
 	GrowlNotification *growlNotification = [notification object];
