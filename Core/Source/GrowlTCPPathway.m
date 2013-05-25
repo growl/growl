@@ -134,6 +134,7 @@
       NSMutableArray *keys = [[dictionary allKeys] mutableCopy];
       [keys removeObject:GROWL_NOTIFICATION_ALREADY_SHOWN];
       dictionary = [dictionary dictionaryWithValuesForKeys:keys];
+      [keys release];
    }
    
 	return [super resultOfPostNotificationWithDictionary:dictionary];

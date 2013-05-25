@@ -235,6 +235,7 @@
       NSMutableArray *keys = [[dict allKeys] mutableCopy];
       [keys removeObject:GROWL_NOTIFICATION_ALREADY_SHOWN];
       dict = [dict dictionaryWithValuesForKeys:keys];
+      [keys release];
    }
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       NSArray *sendingDetails = nil;
