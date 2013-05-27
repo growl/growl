@@ -116,6 +116,11 @@
 	   
 	if ([[[self window] windowController] respondsToSelector:@selector(clickedCloseBox)])
 		[[[self window] windowController] performSelector:@selector(clickedCloseBox)];
+   
+   if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) != 0) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_CLOSE_ALL_NOTIFICATIONS
+                                                          object:nil];
+	}
 }
 
 - (void) setCloseBoxVisible:(BOOL)flag {
