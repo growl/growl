@@ -51,6 +51,7 @@ typedef void(^GrowlNoteStatusUpdateBlock)(GrowlNoteStatus status, GrowlNote *not
    GrowlCommunicationAttempt *_secondAttempt;
    
    NSUserNotification *_appleNotification;
+   NSInteger _status;
 }
 
 @property (nonatomic, assign) id<GrowlNoteDelegate> delegate;

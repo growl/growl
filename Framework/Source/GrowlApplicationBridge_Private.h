@@ -10,6 +10,8 @@
 
 @interface GrowlApplicationBridge ()
 
+@property (nonatomic, assign) BOOL hasGrowlThreeFrameworkSupport;
+
 /*!	@method	_applicationNameForGrowlSearchingRegistrationDictionary:
  *	@abstract Obtain the name of the current application.
  *	@param regDict	The dictionary to search, or <code>nil</code> not to.
@@ -29,6 +31,5 @@
 - (void) finishedWithNote:(GrowlNote*)note;
 - (BOOL) _growlIsReachableUpdateCache:(BOOL)update;
 - (void) _checkSandbox;
-- (void) _fireAppleNotificationCenter:(NSDictionary*)growlDict;
 
 @end

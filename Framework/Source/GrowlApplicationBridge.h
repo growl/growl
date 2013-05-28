@@ -43,6 +43,7 @@
    BOOL _useNotificationCenterAlways;
    BOOL _shouldUseBuiltInNotifications;
    BOOL _registerWhenGrowlIsReady;
+   BOOL _hasGrowlThreeFrameworkSupport;
    
    BOOL _sandboxed;
    BOOL _hasGNTP;

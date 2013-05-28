@@ -7,6 +7,7 @@
 //
 
 #import "GrowlApplicationBridge.h"
+#import "GrowlApplicationBridge_Private.h"
 #include "CFURLAdditions.h"
 #import "GrowlDefinesInternal.h"
 #import "GrowlPathUtilities.h"
@@ -52,6 +53,7 @@ static dispatch_queue_t notificationQueue_Queue;
 
 @synthesize isGrowlRunning = _isGrowlRunning;
 @synthesize useNotificationCenterAlways = _useNotificationCenterAlways;
+@synthesize hasGrowlThreeFrameworkSupport = _hasGrowlThreeFrameworkSupport;
 
 @synthesize sandboxed = _sandboxed;
 @synthesize hasGNTP = _hasGNTP;
@@ -132,6 +134,16 @@ static dispatch_queue_t notificationQueue_Queue;
                      usingBlock:^(NSNotification *note) {
                         self.shouldUseBuiltInNotifications = NO;
                      }];
+      
+      // Query if we're using Notification Center directly, via the Big Magic Switch.
+      //
+      // Sadly, this will generate an update to everyone else, but there's
+      // not a lot of way around that.
+      //
+      [NSDNC postNotificationName:GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_QUERY
+                           object:nil
+                         userInfo:nil
+               deliverImmediately:YES];
    
       if([GrowlXPCCommunicationAttempt canCreateConnection]){
          [[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationWillTerminateNotification
@@ -150,6 +162,17 @@ static dispatch_queue_t notificationQueue_Queue;
          [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
       }
       
+      self.hasGrowlThreeFrameworkSupport = NO;
+      [NSDNC postNotificationName:@"GROWL3_FRAMEWORK_SUPPORT_PING"
+                           object:nil
+                         userInfo:nil
+               deliverImmediately:YES];
+      [NSDNC addObserverForName:@"GROWL3_FRAMEWORK_SUPPORT"
+                         object:nil
+                          queue:[NSOperationQueue mainQueue]
+                     usingBlock:^(NSNotification *note) {
+                        self.hasGrowlThreeFrameworkSupport = YES;
+                     }];
       
       self.registrationDictionary = [self bestRegistrationDictionary];
       self.registered = NO;
@@ -173,8 +196,13 @@ static dispatch_queue_t notificationQueue_Queue;
          if([GrowlXPCCommunicationAttempt canCreateConnection])
             [GrowlXPCCommunicationAttempt shutdownXPC];
 			self.isGrowlRunning = NO;
+         self.hasGrowlThreeFrameworkSupport = NO;
 		}else if(newRunning && !self.isGrowlRunning){
 			self.isGrowlRunning = YES;
+         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL3_FRAMEWORK_SUPPORT_PING"
+                                                                        object:nil
+                                                                      userInfo:nil
+                                                            deliverImmediately:YES];
 		}
 	}
 }
@@ -294,16 +322,6 @@ static dispatch_queue_t notificationQueue_Queue;
 	[growlNotificationTimedOutName release];
    
 	[self reregisterGrowlNotifications];
-   
-   // Query if we're using Notification Center directly, via the Big Magic Switch.
-   //
-   // Sadly, this will generate an update to everyone else, but there's
-   // not a lot of way around that.
-   //
-   [NSDNC postNotificationName:GROWL_DISTRIBUTED_NOTIFICATION_NOTIFICATIONCENTER_QUERY
-                        object:nil
-                      userInfo:nil deliverImmediately:YES];
-   
 }
 + (void) setGrowlDelegate:(id<GrowlApplicationBridgeDelegate>)inDelegate {
    [[GrowlApplicationBridge sharedBridge] setDelegate:inDelegate];
@@ -412,9 +430,6 @@ static dispatch_queue_t notificationQueue_Queue;
 - (void) cancelNoteWithUUID:(NSString*)uuid {
    GrowlNote *note = [self noteForUUID:uuid];
    [note cancelNote];
-   dispatch_async(notificationQueue_Queue, ^{
-      [[self notifications] removeObjectForKey:uuid];
-   });
 }
 
 - (BOOL)isNotificationDefaultEnabled:(NSDictionary*)growlDict

@@ -25,6 +25,7 @@
 @property (nonatomic, retain) GrowlCommunicationAttempt *secondAttempt;
 
 @property (nonatomic, retain) NSUserNotification *appleNotification;
+@property (nonatomic, assign) NSInteger status;
 
 @end
 
@@ -50,6 +51,7 @@
 @synthesize secondAttempt = _secondAttempt;
 
 @synthesize appleNotification = _appleNotification;
+@synthesize status = _status;
 
 + (NSDictionary *) notificationDictionaryByFillingInDictionary:(NSDictionary *)notifDict {
 	NSMutableDictionary *mNotifDict = (notifDict != nil) ? [notifDict mutableCopy] : [[NSMutableDictionary alloc] init];
@@ -116,6 +118,7 @@
    NSMutableDictionary *noteDict = [[[GrowlNote notificationDictionaryByFillingInDictionary:dictionary] mutableCopy] autorelease];
    if((self = [super init])){
       self.noteUUID = [[NSProcessInfo processInfo] globallyUniqueString];
+      self.status = NSIntegerMax;
       
       self.noteName = useDict ? [noteDict valueForKey:GROWL_NOTIFICATION_NAME] : notifName;
       self.title = useDict ? [noteDict valueForKey:GROWL_NOTIFICATION_TITLE] : title;
@@ -272,6 +275,10 @@
    [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
    [_statusUpdateBlock release];
    _statusUpdateBlock = nil;
+   [_noteUUID release];
+   _noteUUID = nil;
+   [_otherKeysDict release];
+   _otherKeysDict = nil;
    [_noteName release];
    _noteName = nil;
    [_title release];
@@ -282,8 +289,16 @@
    _iconData = nil;
    [_clickContext release];
    _clickContext = nil;
+   [_clickCallbackURL release];
+   _clickCallbackURL = nil;
+   [_overwriteIdentifier release];
+   _overwriteIdentifier = nil;
    [_otherKeysDict release];
    _otherKeysDict = nil;
+   [_firstAttempt release];
+   _firstAttempt = nil;
+   [_secondAttempt release];
+   _secondAttempt = nil;
    [_appleNotification release];
    _appleNotification = nil;
    [super dealloc];
@@ -394,7 +409,10 @@
 #endif
    }
    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL3_NOTIFICATION_CANCEL_REQUESTED"
-                                                                  object:self.noteUUID];
+                                                                  object:self.noteUUID
+                                                                userInfo:nil
+                                                      deliverImmediately:YES];
+   [[GrowlApplicationBridge sharedBridge] finishedWithNote:self];
 }
 
 - (void) _fireMiniDispatch
@@ -464,18 +482,57 @@
    }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_NOT_DISPLAYED"]){
       [self handleStatusUpdate:GrowlNoteNotDisplayed];
    }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER"]){
+      NSLog(@"Growl told us to fire NSUNC");
       [self _fireAppleNotificationCenter];
    }
 }
 
 -(void)handleStatusUpdate:(GrowlNoteStatus)status {
+   self.status = status;
    if(self.statusUpdateBlock != NULL){
-      self.statusUpdateBlock(GrowlNoteTimedOut, self);
+      self.statusUpdateBlock(status, self);
    }else if(self.delegate != nil && [self.delegate respondsToSelector:@selector(note:statusUpdate:)]){
       [self.delegate note:self statusUpdate:status];
    }
    
-   //[[GrowlApplicationBridge sharedBridge] finishedWithNote:self];
+   [self checkLifecycle];
+}
+
+   
+-(void)checkLifecycle {
+   if([[GrowlApplicationBridge sharedBridge] hasGrowlThreeFrameworkSupport]){
+      /* We delay because Growl.framework 3 support
+       * might tell us after the attempt finishes to use NSUNC
+       */
+      [GrowlNote cancelPreviousPerformRequestsWithTarget:self
+                                                selector:@selector(_delayedCheckLifecycle)
+                                                  object:nil];
+      [self performSelector:@selector(_delayedCheckLifecycle)
+                 withObject:nil
+                 afterDelay:2.0
+                    inModes:@[NSRunLoopCommonModes]];
+   }else{
+      //No Growl.framework 3 support
+      [self _delayedCheckLifecycle];
+   }
+}
+-(void)_delayedCheckLifecycle {
+   BOOL finished = (self.status < NSIntegerMax);
+   if(!finished && ![[GrowlApplicationBridge sharedBridge] hasGrowlThreeFrameworkSupport]){
+#pragma mark FIX THIS: Add support for tracking mist in here
+      if(self.firstAttempt == nil &&
+         self.secondAttempt == nil &&
+         self.appleNotification == nil)
+      {
+         finished = YES;
+      }else{
+         NSLog(@"Not finished, NSUNC or mist is still up");
+      }
+   }
+   
+   if(finished){
+      [[GrowlApplicationBridge sharedBridge] finishedWithNote:self];
+   }
 }
 
 #pragma mark GrowlCommunicationAttemptDelegate
@@ -496,6 +553,7 @@
    }
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt {
+   [self checkLifecycle];
 }
 - (void) queueAndReregister:(GrowlCommunicationAttempt *)attempt {
    if(attempt.attemptType != GrowlCommunicationAttemptTypeNotify)
@@ -508,6 +566,7 @@
 - (void) stoppedAttempts:(GrowlCommunicationAttempt *)attempt {
    self.firstAttempt = nil;
    self.secondAttempt = nil;
+   [self checkLifecycle];
 }
 
 //Sent after success

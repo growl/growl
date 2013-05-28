@@ -213,7 +213,7 @@ static BOOL xpcInUse = NO;
          }
       }else{
          BOOL clicked = [[dict objectForKey:@"Clicked"] boolValue];
-         feedbackType = clicked ? 1 : 0;
+         feedbackType = clicked ? NOTE_CLICKED : NOTE_TIMEDOUT;
       }
       id context = [dict objectForKey:@"Context"];
       switch (feedbackType) {

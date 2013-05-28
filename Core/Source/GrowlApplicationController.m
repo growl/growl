@@ -1643,6 +1643,20 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	                                                             userInfo:nil
 	                                                   deliverImmediately:YES];
    
+   [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL3_FRAMEWORK_SUPPORT"
+                                                                  object:nil
+                                                                userInfo:nil
+                                                      deliverImmediately:YES];
+   [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"GROWL3_FRAMEWORK_SUPPORT_PING"
+                                                                object:nil
+                                                                 queue:[NSOperationQueue mainQueue]
+                                                            usingBlock:^(NSNotification *note) {
+                                                               [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL3_FRAMEWORK_SUPPORT"
+                                                                                                                              object:nil
+                                                                                                                            userInfo:nil
+                                                                                                                  deliverImmediately:YES];
+                                                            }];
+   
    // Now we check if we have notification center
    if (NSClassFromString(@"NSUserNotificationCenter")) {
       // We do!  Are we supposed to use it?
@@ -1716,10 +1730,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
       
       if(callbackURL)
          [[NSWorkspace sharedWorkspace] openURL:callbackURL];
-   }else{
-      NSString *noteName = viaClick ? @"GROWL3_NOTIFICATION_CLICK" : @"GROWL3_NOTIFICATION_TIMEOUT";
-      [self sendNotificationDict:growlNotificationDict feedbackOfType:noteName];
    }
+   NSString *noteName = viaClick ? @"GROWL3_NOTIFICATION_CLICK" : @"GROWL3_NOTIFICATION_TIMEOUT";
+   [self sendNotificationDict:growlNotificationDict feedbackOfType:noteName];
 	
 	if (!wasLocal) {
 		isClosingFromRemoteClick = YES;
@@ -1739,7 +1752,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
       if(compareVersionStrings(@"3.0", frameworkVersion) != kCFCompareGreaterThan){
          NSString *noteUUID = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
          [[NSDistributedNotificationCenter defaultCenter] postNotificationName:feedbacktype
-                                                                        object:noteUUID];
+                                                                        object:noteUUID
+                                                                      userInfo:nil
+                                                            deliverImmediately:YES];
          return YES;
       }
    }
