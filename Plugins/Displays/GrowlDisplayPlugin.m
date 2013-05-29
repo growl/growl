@@ -92,16 +92,21 @@ NSString *GrowlDisplayPluginInfoKeyWindowNibName = @"GrowlDisplayWindowNibName";
 			thisWindow = [[windowControllerClass alloc] initWithWindowNibName:windowNibName];
 		else
 			thisWindow = [[windowControllerClass alloc] initWithNotification:notification plugin:self];
-		[thisWindow setNotification:notification];
-				
-		[thisWindow startDisplay];
-		
-		if (identifier) {
-			if (!coalescableWindows) coalescableWindows = [[NSMutableDictionary alloc] init];
-			[coalescableWindows setObject:thisWindow
-										  forKey:identifier];
-		}
-		[thisWindow release];
+      
+      if(thisWindow != nil){
+         [thisWindow setNotification:notification];
+         
+         [thisWindow startDisplay];
+         
+         if (identifier) {
+            if (!coalescableWindows) coalescableWindows = [[NSMutableDictionary alloc] init];
+            [coalescableWindows setObject:thisWindow
+                                   forKey:identifier];
+         }
+         [thisWindow release];
+      }else{
+         NSLog(@"Error! Unable to make a display of class %@", NSStringFromClass(windowControllerClass));
+      }
 	}
 }
 
