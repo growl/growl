@@ -103,6 +103,7 @@ static dispatch_queue_t __imageCacheQueue;
 												   backing:NSBackingStoreBuffered
 													 defer:YES];
 	if (!(self = [super initWithWindow:panel andPlugin:aPlugin])) {
+      NSLog(@"ERROR: could not create webkit notification window with panel '%@'", panel);
 		[panel release];
 		return nil;
 	}
