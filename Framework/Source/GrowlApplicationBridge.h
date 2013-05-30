@@ -38,7 +38,7 @@
  *	 Currently it provides a way to detect if Growl is installed and launch the
  *	 GrowlHelperApp if it's not already running.
  */
-@interface GrowlApplicationBridge : NSObject <NSUserNotificationCenterDelegate, GrowlNoteDelegate> {
+@interface GrowlApplicationBridge : NSObject <GrowlNoteDelegate> {
    BOOL _isGrowlRunning;
    BOOL _useNotificationCenterAlways;
    BOOL _shouldUseBuiltInNotifications;
@@ -56,9 +56,7 @@
    
    id<GrowlApplicationBridgeDelegate> _delegate;
    
-   @private
-   GrowlMiniDispatch *_miniDispatch;
-   
+   @private   
    GrowlCommunicationAttempt *_registrationAttempt;
 }
 
@@ -77,7 +75,6 @@
 @property (nonatomic, copy) NSData *appIconData;
 
 @property (nonatomic, assign) id<GrowlApplicationBridgeDelegate> delegate;
-@property (nonatomic, readonly) GrowlMiniDispatch *miniDispatch;
 
 +(GrowlApplicationBridge*)sharedBridge;
 

@@ -13,7 +13,7 @@
 -(void)notify;
 -(void)cancelNote;
 
-- (void) _fireMiniDispatch;
-- (void) _fireAppleNotificationCenter;
+-(void)fallback;
+-(void)handleStatusUpdate:(GrowlNoteStatus)status;
 
 @end

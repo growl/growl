@@ -43,8 +43,6 @@ static dispatch_queue_t notificationQueue_Queue;
 @property (nonatomic, assign) BOOL hasNetworkClient;
 @property (nonatomic, assign) BOOL registered;
 
-@property (nonatomic, retain) GrowlMiniDispatch *miniDispatch;
-
 @property (nonatomic, retain) GrowlCommunicationAttempt *registrationAttempt;
 
 @end
@@ -67,7 +65,6 @@ static dispatch_queue_t notificationQueue_Queue;
 @synthesize appIconData = _appIconData;
 
 @synthesize delegate = _delegate;
-@synthesize miniDispatch = _miniDispatch;
 @synthesize registrationAttempt = _registrationAttempt;
 
 + (GrowlApplicationBridge*)sharedBridge {
@@ -154,14 +151,7 @@ static dispatch_queue_t notificationQueue_Queue;
                                                           [GrowlXPCCommunicationAttempt shutdownXPC];
                                                        }];
       }
-      
-      if(NSClassFromString(@"NSUserNotificationCenter") == nil) {
-         self.miniDispatch = [[[GrowlMiniDispatch alloc] init] autorelease];
-      }else {
-#pragma mark FIX THIS TO BE BETTER
-         [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
-      }
-      
+            
       self.hasGrowlThreeFrameworkSupport = NO;
       [NSDNC postNotificationName:@"GROWL3_FRAMEWORK_SUPPORT_PING"
                            object:nil
@@ -250,10 +240,7 @@ static dispatch_queue_t notificationQueue_Queue;
    if (delegate != _delegate) {
       _delegate = delegate;
    }
-   
-   //This needs to change
-   self.miniDispatch.delegate = delegate;
-   
+      
    NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
    
    if(self.registrationDictionary == nil){
@@ -905,62 +892,20 @@ static dispatch_queue_t notificationQueue_Queue;
    }else{
       //NSLog(@"Failed all attempts at %@", attempt.attemptType == GrowlCommunicationAttemptTypeNotify ? @"notifying" : @"registering");
       if(attempt.attemptType == GrowlCommunicationAttemptTypeRegister){
-			
-			/* If we have queued notes and we failed to register, 
-			 * send them to Apple's notification center or to 
-          * Mist.
-          *
-			 * Regardless, remove all dicts from the queue. 
-			 * If we cant register, we probably can't send the notes to Growl.
-			 */
-         
-         BOOL useNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
-         if (useNotificationCenter) {
-            // If we don't have the global 'always use' on, we check the user defaults.
-            if (!self.shouldUseBuiltInNotifications) {
-               if ([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE])
-                  useNotificationCenter = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE];
-            }
-         }
-
-         // If we always send to notification center, we don't need a fallback display as we've already done that.
-         BOOL needsFallback = YES;
-         if (useNotificationCenter && [[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS])
-            needsFallback = ![[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS];
-         
-			NSMutableArray *queue = [self queuedNotes];
+         NSMutableArray *queue = [self queuedNotes];
 			if([queue count]){
-            if (needsFallback) {
-               if(useNotificationCenter){
-                  NSLog(@"We failed at registering with items in our queue waiting to go to growl, sending them to OS X notification center instead");
-                  dispatch_async(notificationQueue_Queue, ^{
-                     [queue enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                        if([obj isKindOfClass:[GrowlNote class]]){
-                           dispatch_async(dispatch_get_main_queue(), ^{
-                              [obj _fireAppleNotificationCenter];
-                           });
-                        }
-                     }];
+            NSLog(@"We failed at registering with items in our queue waiting to go to growl, falling back to built in notifications");
+            dispatch_async(notificationQueue_Queue, ^{
+               [queue enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                     [obj fallback];
                   });
-               }
-               else if([self isMistEnabled]){
-                  NSLog(@"We failed at registering with items in our queue waiting to go to growl, sending them to Mist instead");
-                  dispatch_async(notificationQueue_Queue, ^{
-                     [queue enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                        if([obj isKindOfClass:[GrowlNote class]]){
-                           dispatch_async(dispatch_get_main_queue(), ^{
-                              [obj _fireMiniDispatch];
-                           });
-                        }
-                     }];
-                  });
-               }
-            }
-            
-				dispatch_async(notificationQueue_Queue, ^{
-					[queue removeAllObjects];
-				});
-			}
+               }];
+            });
+            dispatch_async(notificationQueue_Queue, ^{
+               [queue removeAllObjects];
+            });
+         }
       }
       self.registrationAttempt = nil;
    }
@@ -976,6 +921,8 @@ static dispatch_queue_t notificationQueue_Queue;
 -(void)note:(GrowlNote *)note statusUpdate:(GrowlNoteStatus)status {
    if(note.clickContext != nil && self.delegate != nil){
       switch (status) {
+         case GrowlNoteCanceled:
+         case GrowlNoteNotDisplayed:
          case GrowlNoteTimedOut:
          case GrowlNoteClosed:
             if([self.delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
@@ -989,86 +936,13 @@ static dispatch_queue_t notificationQueue_Queue;
          case GrowlNoteActionClicked:
             if([self.delegate respondsToSelector:@selector(growlNotificationActionButtonClicked:)])
                [self.delegate growlNotificationActionButtonClicked:[note clickContext]];
+            else if([self.delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
+               [self.delegate growlNotificationWasClicked:[note clickContext]];
             break;
-         case GrowlNoteNotDisplayed:
          default:
             break;
       }
    }
-}
-
-#pragma mark NSUserNotificationCenterDelegate
-
-- (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
-{
-   @autoreleasepool {      
-      id clickContext = [[notification userInfo] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-      
-      if(notification.activationType == NSUserNotificationActivationTypeActionButtonClicked) {
-         if(clickContext && [self.delegate respondsToSelector:@selector(growlNotificationActionButtonClicked:)])
-            [self.delegate growlNotificationActionButtonClicked:clickContext];
-         else if(clickContext && [self.delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
-            [self.delegate growlNotificationWasClicked:clickContext];
-      }
-      else if (notification.activationType == NSUserNotificationActivationTypeContentsClicked) {
-         if(clickContext && [self.delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
-            [self.delegate growlNotificationWasClicked:clickContext];
-      }
-      else {
-         if(clickContext && [self.delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
-            [self.delegate growlNotificationTimedOut:clickContext];
-      }
-      // Remove the notification, so it doesn't sit around forever.
-      [center removeDeliveredNotification:notification];
-   }
-}
-
-- (void)expireNotification:(NSDictionary *)dict
-{
-   NSUserNotification *notification = [dict objectForKey:@"notification"];
-   NSUserNotificationCenter *center = [dict objectForKey:@"center"];
-   
-   // Remove the notification
-   [center removeDeliveredNotification:notification];
-   
-   // Send the 'timed out' call to the hosting application
-   id clickContext = [[notification userInfo] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-   if(clickContext && [self.delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
-      [self.delegate growlNotificationTimedOut:clickContext];
-}
-
-- (void)userNotificationCenter:(NSUserNotificationCenter *)center didDeliverNotification:(NSUserNotification *)notification
-{
-   // If we're not sticky, let's wait about 60 seconds and then remove the notification.
-   if (![[[notification userInfo] objectForKey:GROWL_NOTIFICATION_STICKY] boolValue]) {
-      // (This should probably be made nicer down the road, but right now this works for a first testing cut.)
-      
-      // Make sure we're using the same center, though this should always be the default.
-      NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:notification,@"notification",center,@"center",nil];
-      
-      NSInteger lifetime = 120;
-      if ([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_DURATION]) {
-         lifetime = [[NSUserDefaults standardUserDefaults] integerForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_DURATION];
-      }
-      
-      // If the duration is set to 0, we never manually expire notifications
-      if (lifetime) {
-         [self performSelector:@selector(expireNotification:) withObject:dict afterDelay:lifetime];
-      }
-      
-      [dict release];
-   }
-}
-
-- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
-{
-   // This will be called if the notification is being omitted.  This happens in
-   // two cases: first, if the application is already focused, and second if
-   // the computer is in a DND mode.  For now, we're going to just return YES to
-   // mimic Growl behavior; the program can sort out when/if it wants to show
-   // notifications.  Down the road, we may want to make this logic fancier.
-   
-   return YES;
 }
 
 @end

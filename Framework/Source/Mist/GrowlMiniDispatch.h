@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "GrowlDefines.h"
 
+@class GrowlNote;
+
 @protocol GrowlMiniDispatchDelegate
 @optional
 - (void)growlNotificationWasClicked:(id)context;
@@ -15,18 +17,18 @@
 
 @class GrowlPositionController;
 
-@interface GrowlMiniDispatch : NSObject <NSAnimationDelegate> {
+@interface GrowlMiniDispatch : NSObject <NSAnimationDelegate, NSUserNotificationCenterDelegate> {
 	GrowlPositionController *positionController;
-	NSMutableSet *windows;
+   NSMutableDictionary *windowDictionary;
 	NSMutableArray *queuedWindows;
-	
-	id				delegate;
-	
 }
 
-@property (nonatomic,assign) id delegate;
 @property (nonatomic,retain) GrowlPositionController *positionController;
+@property (nonatomic, retain) NSMutableDictionary *windowDictionary;
 
-- (void)displayNotification:(NSDictionary *)notification;
++ (GrowlMiniDispatch*)sharedDispatch;
+- (BOOL)copyNotificationCenter;
+- (BOOL)displayNotification:(GrowlNote*)note force:(BOOL)force;
+- (void)cancelNotification:(GrowlNote*)note;
 
 @end

@@ -22,12 +22,12 @@
 	GrowlMistView				*mistView;
 	NSViewAnimation 			*fadeAnimation;
 	NSTimer						*lifetime;
+   NSString                *uuid;
 	BOOL						 closed;
 	BOOL						 sticky;
 	BOOL						 visible;
 	BOOL						 selected;
 	id							 delegate;
-	id							 userInfo;
 }
 
 @property (nonatomic,readwrite,retain) NSViewAnimation *fadeAnimation;
@@ -35,10 +35,15 @@
 @property (nonatomic,readonly) BOOL sticky;
 @property (nonatomic,readonly) BOOL visible;
 @property (nonatomic,readonly) BOOL selected;
-@property (nonatomic,readonly) id userInfo;
+@property (nonatomic,readonly) NSString *uuid;
 @property (nonatomic,assign) id delegate;
 
-- (id)initWithNotificationTitle:(NSString *)title text:(NSString *)text image:(NSImage *)image sticky:(BOOL)isSticky userInfo:(id)info delegate:(id)delegate;
+- (id)initWithNotificationTitle:(NSString *)title
+                           text:(NSString *)text
+                          image:(NSImage *)image
+                         sticky:(BOOL)isSticky
+                           uuid:(NSString*)uuid
+                       delegate:(id)delegate;
 
 - (void)fadeIn;
 - (void)fadeOut;

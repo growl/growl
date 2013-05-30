@@ -24,7 +24,6 @@
 @property (nonatomic, retain) GrowlCommunicationAttempt *firstAttempt;
 @property (nonatomic, retain) GrowlCommunicationAttempt *secondAttempt;
 
-@property (nonatomic, retain) NSUserNotification *appleNotification;
 @property (nonatomic, assign) NSInteger status;
 
 @end
@@ -50,7 +49,6 @@
 @synthesize firstAttempt = _firstAttempt;
 @synthesize secondAttempt = _secondAttempt;
 
-@synthesize appleNotification = _appleNotification;
 @synthesize status = _status;
 
 + (NSDictionary *) notificationDictionaryByFillingInDictionary:(NSDictionary *)notifDict {
@@ -119,6 +117,7 @@
    if((self = [super init])){
       self.noteUUID = [[NSProcessInfo processInfo] globallyUniqueString];
       self.status = NSIntegerMax;
+      _localDisplayed = NO;
       
       self.noteName = useDict ? [noteDict valueForKey:GROWL_NOTIFICATION_NAME] : notifName;
       self.title = useDict ? [noteDict valueForKey:GROWL_NOTIFICATION_TITLE] : title;
@@ -299,8 +298,6 @@
    _firstAttempt = nil;
    [_secondAttempt release];
    _secondAttempt = nil;
-   [_appleNotification release];
-   _appleNotification = nil;
    [super dealloc];
 }
 
@@ -327,24 +324,9 @@
       return;
    }
    
-   BOOL useNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
-   BOOL alwaysCopyNC = NO;
-   
-   // Do we have notification center disabled?  (Only valid if it hasn't been turned on directly in Growl.)
-   if (![[GrowlApplicationBridge sharedBridge] useNotificationCenterAlways]) {
-      if (useNotificationCenter && [[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE])
-         useNotificationCenter = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE];
-   }
-   
-   // If we have notification center set to always-on, we must send.
-   if (useNotificationCenter && ([[GrowlApplicationBridge sharedBridge] useNotificationCenterAlways]
-                                 || [[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS])) {
-      alwaysCopyNC = ([[GrowlApplicationBridge sharedBridge] useNotificationCenterAlways] ||
-                      ![[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS]);
-      if (alwaysCopyNC) {
-         [self _fireAppleNotificationCenter];
-      }
-   }
+#pragma mark FIX THIS
+   BOOL localRequired = NO;
+   BOOL copyLocal = [[GrowlMiniDispatch sharedDispatch] copyNotificationCenter];
    
    NSDictionary *noteDictionary = self.noteDictionary;
    //All the cases where growl is reachable *should* be covered now
@@ -387,89 +369,35 @@
          //Protections in registerWithDictionary save this
          [GrowlApplicationBridge registerWithDictionary:nil];
       } else {
-         // If we do the always-send-to-notification-center, we don't need a fallback.
-         if (!alwaysCopyNC) {
-            if (useNotificationCenter) {
-               [self _fireAppleNotificationCenter];
-            }
-            else if([GrowlApplicationBridge isMistEnabled]){
-               dispatch_async(dispatch_get_main_queue(), ^(void) {
-                  [self _fireMiniDispatch];
-               });
-            }
-         }
+         localRequired = YES;
+      }
+   }
+   
+   //If we haven't already been displayed locally, and we either need to copy or cant reach growl, fire here
+   //We could have already displayed locally if we were told to notify, copied, failed to notify due to registration
+   if(!_localDisplayed && (copyLocal || localRequired)){
+      _localDisplayed = [[GrowlMiniDispatch sharedDispatch] displayNotification:self force:NO];
+      
+      //If local was required, and we couldn't display, handle our status update as not displayed
+      if(!_localDisplayed && localRequired){
+         [self handleStatusUpdate:GrowlNoteNotDisplayed];
       }
    }
 }
 
 - (void) cancelNote {
-   if(self.appleNotification) {
-#if defined(MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_8
-      [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:self.appleNotification];
-#endif
-   }
+   [[GrowlMiniDispatch sharedDispatch] cancelNotification:self];
    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL3_NOTIFICATION_CANCEL_REQUESTED"
                                                                   object:self.noteUUID
                                                                 userInfo:nil
                                                       deliverImmediately:YES];
-   [[GrowlApplicationBridge sharedBridge] finishedWithNote:self];
+   [self handleStatusUpdate:GrowlNoteCanceled];
 }
 
-- (void) _fireMiniDispatch
-{
-   NSDictionary *noteDictionary = self.noteDictionary;
-   BOOL defaultOnly = YES;
-   if([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_DEFAULT_ONLY])
-      defaultOnly = [[[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_MIST_DEFAULT_ONLY] boolValue];
-   
-   if (![[GrowlApplicationBridge sharedBridge] isNotificationDefaultEnabled:noteDictionary] && defaultOnly)
-      return;
-   
-   [[[GrowlApplicationBridge sharedBridge] miniDispatch] displayNotification:noteDictionary];
-}
-
-- (void) _fireAppleNotificationCenter
-{
-#if defined(MAC_OS_X_VERSION_10_8) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_8
-   NSDictionary *dict = self.noteDictionary;
-   
-   BOOL defaultOnly = YES;
-   if([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_DEFAULT_ONLY])
-      defaultOnly = [[[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_DEFAULT_ONLY] boolValue];
-   
-   if (![[GrowlApplicationBridge sharedBridge] isNotificationDefaultEnabled:dict] && defaultOnly)
-      return;
-   
-   // If we're not on 10.8, there's no point in doing this.
-   if (!NSClassFromString(@"NSUserNotificationCenter"))
-      return;
-   
-   NSMutableDictionary *notificationDict = [[[NSMutableDictionary alloc] init] autorelease];
-   if ([dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT])
-      [notificationDict setObject:[dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
-   if ([dict objectForKey:GROWL_NOTIFICATION_STICKY])
-      [notificationDict setObject:[dict objectForKey:GROWL_NOTIFICATION_STICKY] forKey:GROWL_NOTIFICATION_STICKY];
-   
-   [notificationDict setObject:self.noteUUID forKey:@"APPLE_GROWL_NOTE_UUID"];
-   
-   NSUserNotification *appleNotification = [[NSUserNotification alloc] init];
-   appleNotification.title = [dict objectForKey:GROWL_NOTIFICATION_TITLE];
-   appleNotification.informativeText = [dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
-   appleNotification.userInfo = notificationDict;
-   appleNotification.hasActionButton = NO;
-   
-   if ([dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION]) {
-      appleNotification.hasActionButton = YES;
-      appleNotification.actionButtonTitle = [dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION];
-   }
-   
-   if ([dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL])
-      appleNotification.otherButtonTitle = [dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
-   
-   [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
-   self.appleNotification = appleNotification;
-   [appleNotification release];
-#endif
+- (void) fallback {
+   //Fallback doesn't force it, default enabled still stands
+   if(!_localDisplayed)
+      _localDisplayed = [[GrowlMiniDispatch sharedDispatch] displayNotification:self force:NO];
 }
 
 -(void)nsdncNoteUpdate:(NSNotification*)note {
@@ -482,8 +410,8 @@
    }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_NOT_DISPLAYED"]){
       [self handleStatusUpdate:GrowlNoteNotDisplayed];
    }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER"]){
-      NSLog(@"Growl told us to fire NSUNC");
-      [self _fireAppleNotificationCenter];
+      //We have been told to display this note using our fallback system, force it to happen regardless of default enabled
+      _localDisplayed = [[GrowlMiniDispatch sharedDispatch] displayNotification:self force:YES];
    }
 }
 
@@ -519,10 +447,9 @@
 -(void)_delayedCheckLifecycle {
    BOOL finished = (self.status < NSIntegerMax);
    if(!finished && ![[GrowlApplicationBridge sharedBridge] hasGrowlThreeFrameworkSupport]){
-#pragma mark FIX THIS: Add support for tracking mist in here
       if(self.firstAttempt == nil &&
          self.secondAttempt == nil &&
-         self.appleNotification == nil)
+         [[[GrowlMiniDispatch sharedDispatch] windowDictionary] objectForKey:self.noteUUID] == nil)
       {
          finished = YES;
       }else{

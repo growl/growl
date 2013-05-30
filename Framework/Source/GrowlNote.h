@@ -11,6 +11,7 @@
 @class GrowlCommunicationAttempt, GrowlNote;
 
 enum GrowlNoteStatus {
+   GrowlNoteCanceled = -3,
    GrowlNoteNotDisplayed = -2,
    GrowlNoteClosed = -1,
    GrowlNoteTimedOut = 0,
@@ -50,8 +51,8 @@ typedef void(^GrowlNoteStatusUpdateBlock)(GrowlNoteStatus status, GrowlNote *not
    GrowlCommunicationAttempt *_firstAttempt;
    GrowlCommunicationAttempt *_secondAttempt;
    
-   NSUserNotification *_appleNotification;
    NSInteger _status;
+   BOOL _localDisplayed;
 }
 
 @property (nonatomic, assign) id<GrowlNoteDelegate> delegate;

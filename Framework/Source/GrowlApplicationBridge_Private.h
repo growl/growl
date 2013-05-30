@@ -32,4 +32,6 @@
 - (BOOL) _growlIsReachableUpdateCache:(BOOL)update;
 - (void) _checkSandbox;
 
+- (GrowlNote*)noteForUUID:(NSString*)uuid;
+
 @end
