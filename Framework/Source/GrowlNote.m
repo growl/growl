@@ -476,7 +476,7 @@
    }
    
    if(fallback) {
-      //figure out which to use
+      [self fallback];
    }
 }
 - (void) finishedWithAttempt:(GrowlCommunicationAttempt *)attempt {
