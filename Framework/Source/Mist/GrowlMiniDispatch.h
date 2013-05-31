@@ -27,7 +27,7 @@
 @property (nonatomic, retain) NSMutableDictionary *windowDictionary;
 
 + (GrowlMiniDispatch*)sharedDispatch;
-- (BOOL)copyNotificationCenter;
++ (BOOL)copyNotificationCenter;
 - (BOOL)displayNotification:(GrowlNote*)note force:(BOOL)force;
 - (void)cancelNotification:(GrowlNote*)note;
 

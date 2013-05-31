@@ -207,9 +207,8 @@ static dispatch_queue_t notificationQueue_Queue;
 }
 
 - (void) queueNote:(GrowlNote*)note {
-	NSMutableArray *queue = [self queuedNotes];
 	dispatch_async(notificationQueue_Queue, ^{
-		[queue addObject:note];
+		[[self queuedNotes] addObject:note];
 	});
 }
 
@@ -802,8 +801,8 @@ static dispatch_queue_t notificationQueue_Queue;
 
 - (void) _emptyQueue
 {
-	NSMutableArray *queue = [self queuedNotes];
 	dispatch_async(notificationQueue_Queue, ^{
+      NSMutableArray *queue = [self queuedNotes];
 		if([queue count]){
 			[queue enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 				if([obj isKindOfClass:[GrowlNote class]])
@@ -892,20 +891,18 @@ static dispatch_queue_t notificationQueue_Queue;
    }else{
       //NSLog(@"Failed all attempts at %@", attempt.attemptType == GrowlCommunicationAttemptTypeNotify ? @"notifying" : @"registering");
       if(attempt.attemptType == GrowlCommunicationAttemptTypeRegister){
-         NSMutableArray *queue = [self queuedNotes];
-			if([queue count]){
-            NSLog(@"We failed at registering with items in our queue waiting to go to growl, falling back to built in notifications");
-            dispatch_async(notificationQueue_Queue, ^{
+         dispatch_async(notificationQueue_Queue, ^{
+            NSMutableArray *queue = [self queuedNotes];
+            if([queue count]){
+               NSLog(@"We failed at registering with items in our queue waiting to go to growl, falling back to built in notifications");
                [queue enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                   dispatch_async(dispatch_get_main_queue(), ^{
                      [obj fallback];
                   });
                }];
-            });
-            dispatch_async(notificationQueue_Queue, ^{
                [queue removeAllObjects];
-            });
-         }
+            }
+         });
       }
       self.registrationAttempt = nil;
    }

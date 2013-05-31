@@ -138,27 +138,9 @@
       else
          self.sticky = isSticky;
       
-      BOOL useNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
-      
-      // Do we have notification center disabled?
-      if (useNotificationCenter && ![[GrowlApplicationBridge sharedBridge] useNotificationCenterAlways]) {
-         if ([[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE]) {
-            useNotificationCenter = [[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE];
-         }
-      }
-      
-      // If we have notification center on, we must set this accordingly.
-      //
-      // Ideally, this would be set by the notification center delivery callback, but as we
-      // are not guaranteed instant delivery, by that point the GNTP packet may already
-      // have been built.  As such, we need to set it here instead.
-      //
-      if (useNotificationCenter && ([[GrowlApplicationBridge sharedBridge] useNotificationCenterAlways] ||
-                                    [[NSUserDefaults standardUserDefaults] valueForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS]))
-      {
-         if (![[NSUserDefaults standardUserDefaults] boolForKey:GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS]) {
-            [noteDict setObject:[NSNumber numberWithBool:YES] forKey:GROWL_NOTIFICATION_ALREADY_SHOWN];
-         }
+      BOOL useNotificationCenter = [GrowlMiniDispatch copyNotificationCenter];
+      if(useNotificationCenter){
+         [noteDict setObject:@YES forKey:GROWL_NOTIFICATION_ALREADY_SHOWN];
       }
       
       self.otherKeysDict = [GrowlNote notificationDictionaryByRemovingIvarKeys:noteDict];
@@ -324,9 +306,8 @@
       return;
    }
    
-#pragma mark FIX THIS
    BOOL localRequired = NO;
-   BOOL copyLocal = [[GrowlMiniDispatch sharedDispatch] copyNotificationCenter];
+   BOOL copyLocal = [GrowlMiniDispatch copyNotificationCenter];
    
    NSDictionary *noteDictionary = self.noteDictionary;
    //All the cases where growl is reachable *should* be covered now
@@ -417,13 +398,14 @@
 
 -(void)handleStatusUpdate:(GrowlNoteStatus)status {
    self.status = status;
-   if(self.statusUpdateBlock != NULL){
-      self.statusUpdateBlock(status, self);
-   }else if(self.delegate != nil && [self.delegate respondsToSelector:@selector(note:statusUpdate:)]){
-      [self.delegate note:self statusUpdate:status];
-   }
-   
-   [self checkLifecycle];
+   dispatch_async(dispatch_get_main_queue(), ^{
+      if(self.statusUpdateBlock != NULL){
+         self.statusUpdateBlock(status, self);
+      }else if(self.delegate != nil && [self.delegate respondsToSelector:@selector(note:statusUpdate:)]){
+         [self.delegate note:self statusUpdate:status];
+      }
+      [self checkLifecycle];
+   });
 }
 
    

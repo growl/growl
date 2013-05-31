@@ -123,7 +123,7 @@
 	}
 }
 
-- (BOOL)copyNotificationCenter {
++ (BOOL)copyNotificationCenter {
    BOOL useNotificationCenter = (NSClassFromString(@"NSUserNotificationCenter") != nil);
    BOOL alwaysCopyNC = NO;
    
@@ -164,35 +164,37 @@
          return NO;
    }
    
-   NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
-	NSString *text = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
-	BOOL sticky = [[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue];
-	NSImage *image = nil;
-	
-	NSData	*iconData = [noteDict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
-	if (!iconData)
-		iconData = [noteDict objectForKey:GROWL_NOTIFICATION_APP_ICON_DATA];
-	
-	if (!iconData) {
-		image = [NSApp applicationIconImage];
-	}
-	else if ([iconData isKindOfClass:[NSImage class]]) {
-		image = (NSImage *)iconData;
-	}
-	else {
-		image = [[[NSImage alloc] initWithData:iconData] autorelease];
-	}
+   dispatch_async(dispatch_get_main_queue(), ^{
+      NSString *title = [noteDict objectForKey:GROWL_NOTIFICATION_TITLE];
+      NSString *text = [noteDict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+      BOOL sticky = [[noteDict objectForKey:GROWL_NOTIFICATION_STICKY] boolValue];
+      NSImage *image = nil;
+      
+      NSData	*iconData = [noteDict objectForKey:GROWL_NOTIFICATION_ICON_DATA];
+      if (!iconData)
+         iconData = [noteDict objectForKey:GROWL_NOTIFICATION_APP_ICON_DATA];
+      
+      if (!iconData) {
+         image = [NSApp applicationIconImage];
+      }
+      else if ([iconData isKindOfClass:[NSImage class]]) {
+         image = (NSImage *)iconData;
+      }
+      else {
+         image = [[[NSImage alloc] initWithData:iconData] autorelease];
+      }
    
-   GrowlMistWindowController *mistWindow = [[GrowlMistWindowController alloc] initWithNotificationTitle:title
-																																	text:text
-																																  image:image
-																																 sticky:sticky
-                                                                                                   uuid:[note noteUUID]
-																															  delegate:self];
-	
-	if(![self insertWindow:mistWindow])
-		[self queueWindow:mistWindow];
-	[mistWindow release];
+      GrowlMistWindowController *mistWindow = [[GrowlMistWindowController alloc] initWithNotificationTitle:title
+                                                                                                      text:text
+                                                                                                     image:image
+                                                                                                    sticky:sticky
+                                                                                                      uuid:[note noteUUID]
+                                                                                                  delegate:self];
+      
+      if(![self insertWindow:mistWindow])
+         [self queueWindow:mistWindow];
+      [mistWindow release];
+   });
    return YES;
 }
 
@@ -211,42 +213,47 @@
       if (![[GrowlApplicationBridge sharedBridge] isNotificationDefaultEnabled:dict] && defaultOnly)
          return NO;
    }
+   
+   dispatch_async(dispatch_get_main_queue(), ^{
+      NSMutableDictionary *notificationDict = [[@{GROWL_NOTIFICATION_INTERNAL_ID: note.noteUUID} mutableCopy] autorelease];
+      if ([dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT])
+         [notificationDict setObject:[dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
       
-   NSMutableDictionary *notificationDict = [[@{GROWL_NOTIFICATION_INTERNAL_ID: note.noteUUID} mutableCopy] autorelease];
-   if ([dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT])
-      [notificationDict setObject:[dict objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT] forKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+      NSUserNotification *appleNotification = [[NSUserNotification alloc] init];
+      appleNotification.title = [dict objectForKey:GROWL_NOTIFICATION_TITLE];
+      appleNotification.informativeText = [dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
+      appleNotification.userInfo = notificationDict;
+      appleNotification.hasActionButton = NO;
+      
+      if ([dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION]) {
+         appleNotification.hasActionButton = YES;
+         appleNotification.actionButtonTitle = [dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION];
+      }
+      
+      if ([dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL])
+         appleNotification.otherButtonTitle = [dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
+      
+      [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
+      [windowDictionary setObject:appleNotification forKey:note.noteUUID];
+      
+      [appleNotification release];
+   });
    
-   NSUserNotification *appleNotification = [[NSUserNotification alloc] init];
-   appleNotification.title = [dict objectForKey:GROWL_NOTIFICATION_TITLE];
-   appleNotification.informativeText = [dict objectForKey:GROWL_NOTIFICATION_DESCRIPTION];
-   appleNotification.userInfo = notificationDict;
-   appleNotification.hasActionButton = NO;
-   
-   if ([dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION]) {
-      appleNotification.hasActionButton = YES;
-      appleNotification.actionButtonTitle = [dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION];
-   }
-   
-   if ([dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL])
-      appleNotification.otherButtonTitle = [dict objectForKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
-   
-   [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:appleNotification];
-   [windowDictionary setObject:appleNotification forKey:note.noteUUID];
-   
-   [appleNotification release];
    return YES;
 }
 
 - (void)cancelNotification:(GrowlNote*)note {
-   id toCancel = [windowDictionary objectForKey:note.noteUUID];
-   if([toCancel isKindOfClass:[NSUserNotification class]]){
-      NSUserNotification *notification = (NSUserNotification*)toCancel;
-      [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:notification];
-   }else if([toCancel isKindOfClass:[GrowlMistWindowController class]]){
-      if([toCancel respondsToSelector:@selector(mistViewDismissed:)])
-         [toCancel mistViewDismissed:YES];
-   }
-   [windowDictionary removeObjectForKey:note.noteUUID];
+   dispatch_async(dispatch_get_main_queue(), ^{
+      id toCancel = [windowDictionary objectForKey:note.noteUUID];
+      if([toCancel isKindOfClass:[NSUserNotification class]]){
+         NSUserNotification *notification = (NSUserNotification*)toCancel;
+         [[NSUserNotificationCenter defaultUserNotificationCenter] removeDeliveredNotification:notification];
+      }else if([toCancel isKindOfClass:[GrowlMistWindowController class]]){
+         if([toCancel respondsToSelector:@selector(mistViewDismissed:)])
+            [toCancel mistViewDismissed:YES];
+      }
+      [windowDictionary removeObjectForKey:note.noteUUID];
+   });
 }
 
 - (void)clearWindowFrame:(GrowlMistWindowController*)window {
