@@ -148,27 +148,27 @@
       NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
       [NSDNC addObserver:self
                 selector:@selector(nsdncNoteUpdate:)
-                    name:@"GROWL3_NOTIFICATION_CLICK"
+                    name:GROWL3_NOTIFICATION_CLICK
                   object:self.noteUUID
        suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
       [NSDNC addObserver:self
                 selector:@selector(nsdncNoteUpdate:)
-                    name:@"GROWL3_NOTIFICATION_TIMEOUT"
+                    name:GROWL3_NOTIFICATION_TIMEOUT
                   object:self.noteUUID
        suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
       [NSDNC addObserver:self
                 selector:@selector(nsdncNoteUpdate:)
-                    name:@"GROWL3_NOTIFICATION_CLOSED"
+                    name:GROWL3_NOTIFICATION_CLOSED
                   object:self.noteUUID
       suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
       [NSDNC addObserver:self
                 selector:@selector(nsdncNoteUpdate:)
-                    name:@"GROWL3_NOTIFICATION_NOT_DISPLAYED"
+                    name:GROWL3_NOTIFICATION_NOT_DISPLAYED
                   object:self.noteUUID
       suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
       [NSDNC addObserver:self
                 selector:@selector(nsdncNoteUpdate:)
-                    name:@"GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER"
+                    name:GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER
                   object:self.noteUUID
        suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
    }
@@ -368,7 +368,7 @@
 
 - (void) cancelNote {
    [[GrowlMiniDispatch sharedDispatch] cancelNotification:self];
-   [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL3_NOTIFICATION_CANCEL_REQUESTED"
+   [[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL3_NOTIFICATION_CANCEL_REQUESTED
                                                                   object:self.noteUUID
                                                                 userInfo:nil
                                                       deliverImmediately:YES];
@@ -382,15 +382,15 @@
 }
 
 -(void)nsdncNoteUpdate:(NSNotification*)note {
-   if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_CLICK"]){
+   if([[note name] isEqualToString:GROWL3_NOTIFICATION_CLICK]){
       [self handleStatusUpdate:GrowlNoteClicked];
-   }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_TIMEOUT"]){
+   }else if([[note name] isEqualToString:GROWL3_NOTIFICATION_TIMEOUT]){
       [self handleStatusUpdate:GrowlNoteTimedOut];
-   }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_CLOSED"]){
+   }else if([[note name] isEqualToString:GROWL3_NOTIFICATION_CLOSED]){
       [self handleStatusUpdate:GrowlNoteClosed];
-   }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_NOT_DISPLAYED"]){
+   }else if([[note name] isEqualToString:GROWL3_NOTIFICATION_NOT_DISPLAYED]){
       [self handleStatusUpdate:GrowlNoteNotDisplayed];
-   }else if([[note name] isEqualToString:@"GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER"]){
+   }else if([[note name] isEqualToString:GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER]){
       //We have been told to display this note using our fallback system, force it to happen regardless of default enabled
       _localDisplayed = [[GrowlMiniDispatch sharedDispatch] displayNotification:self force:YES];
    }

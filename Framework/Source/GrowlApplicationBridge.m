@@ -153,11 +153,11 @@ static dispatch_queue_t notificationQueue_Queue;
       }
             
       self.hasGrowlThreeFrameworkSupport = NO;
-      [NSDNC postNotificationName:@"GROWL3_FRAMEWORK_SUPPORT_PING"
+      [NSDNC postNotificationName:GROWL3_FRAMEWORK_SUPPORT_PING
                            object:nil
                          userInfo:nil
                deliverImmediately:YES];
-      [NSDNC addObserverForName:@"GROWL3_FRAMEWORK_SUPPORT"
+      [NSDNC addObserverForName:GROWL3_FRAMEWORK_SUPPORT
                          object:nil
                           queue:[NSOperationQueue mainQueue]
                      usingBlock:^(NSNotification *note) {
@@ -189,7 +189,7 @@ static dispatch_queue_t notificationQueue_Queue;
          self.hasGrowlThreeFrameworkSupport = NO;
 		}else if(newRunning && !self.isGrowlRunning){
 			self.isGrowlRunning = YES;
-         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL3_FRAMEWORK_SUPPORT_PING"
+         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL3_FRAMEWORK_SUPPORT_PING
                                                                         object:nil
                                                                       userInfo:nil
                                                             deliverImmediately:YES];

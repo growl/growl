@@ -323,7 +323,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
       return;
 
    //If the note came from a 3.0 framework, and it hasn't already been displayed, tell it to display
-	BOOL dispatchedToBark = [self sendNotificationDict:growlDict feedbackOfType:@"GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER"];
+	BOOL dispatchedToBark = [self sendNotificationDict:growlDict feedbackOfType:GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER];
    
 	//Here we have a choice to make, use Bark, or our own NC implementation. Bark is better due to icon thing
 	GrowlTicketDatabasePlugin *barkPluginConfig = [[GrowlTicketDatabase sharedInstance] pluginConfigForBundleID:@"us.pandamonia.Bark"];
@@ -604,7 +604,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                                    [ruleLogString appendFormat:@"\nDo not display visually"];
                                                 }
                                                 displayed = YES;
-                                                [self sendNotificationDict:copyDict feedbackOfType:@"GROWL3_NOTIFICATION_NOT_DISPLAYED"];
+                                                [self sendNotificationDict:copyDict feedbackOfType:GROWL3_NOTIFICATION_NOT_DISPLAYED];
                                                 break;
                                              case 'DLDf': //Default explicit or not for note, handled below
                                              default:
@@ -1643,15 +1643,15 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	                                                             userInfo:nil
 	                                                   deliverImmediately:YES];
    
-   [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL3_FRAMEWORK_SUPPORT"
+   [[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL3_FRAMEWORK_SUPPORT
                                                                   object:nil
                                                                 userInfo:nil
                                                       deliverImmediately:YES];
-   [[NSDistributedNotificationCenter defaultCenter] addObserverForName:@"GROWL3_FRAMEWORK_SUPPORT_PING"
+   [[NSDistributedNotificationCenter defaultCenter] addObserverForName:GROWL3_FRAMEWORK_SUPPORT_PING
                                                                 object:nil
                                                                  queue:[NSOperationQueue mainQueue]
                                                             usingBlock:^(NSNotification *note) {
-                                                               [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"GROWL3_FRAMEWORK_SUPPORT"
+                                                               [[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL3_FRAMEWORK_SUPPORT
                                                                                                                               object:nil
                                                                                                                             userInfo:nil
                                                                                                                   deliverImmediately:YES];
@@ -1731,7 +1731,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
       if(callbackURL)
          [[NSWorkspace sharedWorkspace] openURL:callbackURL];
    }
-   NSString *noteName = viaClick ? @"GROWL3_NOTIFICATION_CLICK" : @"GROWL3_NOTIFICATION_TIMEOUT";
+   NSString *noteName = viaClick ? GROWL3_NOTIFICATION_CLICK : GROWL3_NOTIFICATION_TIMEOUT;
    [self sendNotificationDict:growlNotificationDict feedbackOfType:noteName];
 	
 	if (!wasLocal) {
@@ -1771,7 +1771,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 
 - (void) notificationClosed:(NSNotification*)notification {
    GrowlNotification *growlNotification = [notification object];
-   [self sendNotificationDict:[growlNotification dictionaryRepresentation] feedbackOfType:@"GROWL3_NOTIFICATION_CLOSED"];
+   [self sendNotificationDict:[growlNotification dictionaryRepresentation] feedbackOfType:GROWL3_NOTIFICATION_CLOSED];
 }
 
 - (void) notificationClicked:(NSNotification *)notification {

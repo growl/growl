@@ -540,7 +540,7 @@ static NSMutableDictionary *existingInstances;
 															 object:[noteDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
                                                        selector:@selector(stopDisplay)
-                                                           name:@"GROWL3_NOTIFICATION_CANCEL_REQUESTED"
+                                                           name:GROWL3_NOTIFICATION_CANCEL_REQUESTED
                                                          object:[noteDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]
                                              suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
 }
