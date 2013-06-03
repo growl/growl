@@ -397,6 +397,12 @@
 }
 
 -(void)handleStatusUpdate:(GrowlNoteStatus)status {
+   [self handleStatusUpdate:status checkLifecycle:YES];
+}
+
+-(void)handleStatusUpdate:(GrowlNoteStatus)status checkLifecycle:(BOOL)check {
+   if(self.status < NSIntegerMax)
+      return;
    self.status = status;
    dispatch_async(dispatch_get_main_queue(), ^{
       if(self.statusUpdateBlock != NULL){
@@ -404,10 +410,10 @@
       }else if(self.delegate != nil && [self.delegate respondsToSelector:@selector(note:statusUpdate:)]){
          [self.delegate note:self statusUpdate:status];
       }
-      [self checkLifecycle];
+      if(check)
+         [self checkLifecycle];
    });
 }
-
    
 -(void)checkLifecycle {
    if([[GrowlApplicationBridge sharedBridge] hasGrowlThreeFrameworkSupport]){
@@ -433,6 +439,10 @@
          self.secondAttempt == nil &&
          [[[GrowlMiniDispatch sharedDispatch] windowDictionary] objectForKey:self.noteUUID] == nil)
       {
+         //We got here because we had our socket timeout against an old growl
+         //And NC or Mist was not in use, send timed out
+         if(self.status == NSIntegerMax)
+            [self handleStatusUpdate:GrowlNoteTimedOut checkLifecycle:NO];
          finished = YES;
       }else{
          NSLog(@"Not finished, NSUNC or mist is still up");
