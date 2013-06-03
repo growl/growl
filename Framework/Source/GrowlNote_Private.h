@@ -10,6 +10,8 @@
 
 @interface GrowlNote ()
 
++ (NSDictionary *) notificationDictionaryByFillingInDictionary:(NSDictionary *)notifDict;
+
 -(void)notify;
 -(void)cancelNote;
 

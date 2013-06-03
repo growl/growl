@@ -231,21 +231,20 @@
               identifier:(NSString *)identifier;
 
 /*!	@method	notifyWithDictionary:
- *	@abstract	Notifies using a userInfo dictionary suitable for passing to
- *	 <code>NSDistributedNotificationCenter</code>.
+ *	@abstract	Notifies using a userInfo dictionary suitable for passing to Growl
  *	@param	userInfo	The dictionary to notify with.
- *	@discussion	Before Growl 0.6, your application would have posted
- *	 notifications using <code>NSDistributedNotificationCenter</code> by
- *	 creating a userInfo dictionary with the notification data. This had the
- *	 advantage of allowing you to add other data to the dictionary for programs
- *	 besides Growl that might be listening.
- *
- *	 This method allows you to use such dictionaries without being restricted
- *	 to using <code>NSDistributedNotificationCenter</code>. The keys for this dictionary
- *	 can be found in GrowlDefines.h.
+ *	@discussion	The keys for this dictionary can be found in GrowlDefines.h
  */
 + (void) notifyWithDictionary:(NSDictionary *)userInfo;
 
+/*!
+ * @brief notify with a GrowlNote
+ * @method notifyWithNote:
+ * @param note The GrowlNote to notify with
+ * @discussion the new preffered method for sending a notification, all major new API will be added through GrowlNote
+ *
+ * @since 3.0
+ */
 - (void) notifyWithNote:(GrowlNote*)note;
 
 - (void) cancelNoteWithUUID:(NSString*)uuid;
