@@ -773,6 +773,7 @@
 				6A89594E1447D458009D09FC /* Copy Framework */,
 				6AAE996F14DAED9F004848EC /* Copy Launcher */,
 				6A8959541447DA5D009D09FC /* Fix GNTP XPC */,
+				93014CD0175D9A3600D5B13B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1090,6 +1091,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "genstrings -o GrowlTunes/en.lproj GrowlTunes/*.h GrowlTunes/*.m";
+		};
+		93014CD0175D9A3600D5B13B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "if [ $CONFIGURATION eq \"Release\"]; then\n    $SRCROOT/../../scripts/prune-localizations.rb $CODESIGNING_FOLDER_PATH --save en,ko\nfi";
 		};
 		93B957E916B0ECBE00C85136 /* pt-BR link to pt */ = {
 			isa = PBXShellScriptBuildPhase;
