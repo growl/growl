@@ -60,7 +60,8 @@ enum {
 - (void) dealloc {
 	self.callbackHeaderItems = nil;
 	
-	[socket synchronouslySetDelegate:nil];
+	[socket setDelegate:nil];
+   [socket disconnect];
 	[socket release];
 	socket = nil;
 	
@@ -237,11 +238,11 @@ enum {
 					}else{
 						[self succeeded];
 						
-						[self readRestOfPacket:socket];
 						closeConnection = ![self expectsCallback];
 						if(!closeConnection){
+                     [self readRestOfPacket:socket];
 							[self readOneLineFromSocket:socket tag:GrowlGNTPCommAttemptReadPhaseFirstResponseLine];
-					}
+                  }
 					}
 				} else if ([responseType caseInsensitiveCompare:GrowlGNTPErrorResponseType] == NSOrderedSame) {            
 					/* We need to know what we are getting for an error, which is in a seperate header */
