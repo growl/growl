@@ -13,6 +13,6 @@
 	NSString *_callbackType;
 }
 
-+(NSData*)feedbackData:(BOOL)clicked forGrowlDictionary:(NSDictionary*)dictionary;
++(NSData*)feedbackData:(NSString*)feeddback forGrowlDictionary:(NSDictionary*)dictionary;
 
 @end

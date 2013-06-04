@@ -432,5 +432,8 @@
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context {
 	//Send timeout
 }
+- (void) notificationClosed:(GrowlCommunicationAttempt *)attempt context:(id)context {
+   //send closed
+}
 
 @end

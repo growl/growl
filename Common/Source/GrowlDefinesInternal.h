@@ -185,6 +185,29 @@ typedef enum {
 	GrowlNotificationResultDisabled
 } GrowlNotificationResult;
 
+#ifndef GROWLHELPERAPP
+
+// Enable/disable Mist entirely
+#define GROWL_FRAMEWORK_MIST_ENABLE @"com.growl.growlframework.mist.enabled"
+
+// Enable Mist only for defaults
+#define GROWL_FRAMEWORK_MIST_DEFAULT_ONLY @"com.growl.growlframework.mist.defaultonly"
+
+// Enable/disable Apple Notification Center entirely
+#define GROWL_FRAMEWORK_NOTIFICATIONCENTER_ENABLE @"com.growl.growlframework.nsusernotification.enabled"
+
+// Enable Apple Notification Center only for defaults
+#define GROWL_FRAMEWORK_NOTIFICATIONCENTER_DEFAULT_ONLY @"com.growl.growlframework.nsusernotification.defaultonly"
+
+// Always CC Notification Center on all notices
+#define GROWL_FRAMEWORK_NOTIFICATIONCENTER_ALWAYS @"com.growl.growlframework.nsusernotification.always"
+
+// Set a lifetime, in seconds, for Apple notification center notices to live. 0 means
+// they only will go away if removed by the user.  Default is 120 seconds.
+#define GROWL_FRAMEWORK_NOTIFICATIONCENTER_DURATION @"com.growl.growlframework.nsusernotification.lifetime"
+
+#endif
+
 #if GROWLHELPERAPP
 extern NSString *const GrowlErrorDomain;
 

@@ -154,8 +154,8 @@ static NSButton *gCloseButton = nil;
 
 - (void) clickedCloseBox:(id)sender {
 	mouseOver = NO;
-	if ([[[self window] windowController] respondsToSelector:@selector(clickedClose)])
-		[[[self window] windowController] performSelector:@selector(clickedClose)];
+	if ([[[self window] windowController] respondsToSelector:@selector(clickedCloseBox)])
+		[[[self window] windowController] performSelector:@selector(clickedCloseBox)];
 
 	/* NSButton can mess up our display in its rect after mouseUp,
 	 * so do a re-display on the next run loop.

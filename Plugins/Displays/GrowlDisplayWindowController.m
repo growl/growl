@@ -118,6 +118,7 @@ static NSMutableDictionary *existingInstances;
 - (void) dealloc {
 	[self setDelegate:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+   [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
 	
 	[self stopAllTransitions];
 
@@ -200,6 +201,13 @@ static NSMutableDictionary *existingInstances;
 	}
 }
 
+- (void) clickedCloseBox {
+   didClick = YES;
+   [[NSNotificationCenter defaultCenter] postNotificationName:@"GROWL_NOTIFICATION_CLOSED"
+                                                       object:[self notification]];
+   
+   [self clickedClose];
+}
 - (void) clickedClose {
 	userRequestedClose = YES;
     displayStatus = GrowlDisplayOnScreenStatus;
@@ -290,7 +298,7 @@ static NSMutableDictionary *existingInstances;
 - (void) didTakeDownNotification {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	if (!didClick) {
-		[nc postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:[self notification] userInfo:nil];
+		[nc postNotificationName:GROWL_NOTIFICATION_TIMED_OUT object:[self notification]];
 	}
 	[nc postNotificationName:GrowlDisplayWindowControllerDidTakeWindowDownNotification object:self];
 }
@@ -500,8 +508,8 @@ static NSMutableDictionary *existingInstances;
 		[[NSNotificationCenter defaultCenter] removeObserver:self
 																		name:GROWL_CLOSE_NOTIFICATION
 																	 object:[[notification dictionaryRepresentation] objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
-		
-		[notification release];
+      [[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
+      [notification release];
 		notification = [theNotification retain];
 	}
 	
@@ -530,6 +538,11 @@ static NSMutableDictionary *existingInstances;
 														  selector:@selector(stopDisplay)
 																name:GROWL_CLOSE_NOTIFICATION
 															 object:[noteDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]];
+   [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                       selector:@selector(stopDisplay)
+                                                           name:GROWL3_NOTIFICATION_CANCEL_REQUESTED
+                                                         object:[noteDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID]
+                                             suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
 }
 
 - (void) updateToNotification:(GrowlNotification *)theNotification {

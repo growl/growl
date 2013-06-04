@@ -20,8 +20,12 @@
 #import <AppKit/AppKit.h>
 #import <Growl/GrowlDefines.h>
 
+#import "GrowlNote.h"
+
 //Forward declarations
 @protocol GrowlApplicationBridgeDelegate;
+
+@class GrowlMiniDispatch, GrowlNote, GrowlCommunicationAttempt;
 
 //------------------------------------------------------------------------------
 #pragma mark -
@@ -34,9 +38,45 @@
  *	 Currently it provides a way to detect if Growl is installed and launch the
  *	 GrowlHelperApp if it's not already running.
  */
-@interface GrowlApplicationBridge : NSObject {
-
+@interface GrowlApplicationBridge : NSObject <GrowlNoteDelegate> {
+   BOOL _isGrowlRunning;
+   BOOL _useNotificationCenterAlways;
+   BOOL _shouldUseBuiltInNotifications;
+   BOOL _registerWhenGrowlIsReady;
+   BOOL _hasGrowlThreeFrameworkSupport;
+   
+   BOOL _sandboxed;
+   BOOL _hasGNTP;
+   BOOL _hasNetworkClient;
+   BOOL _registered;
+   
+   NSDictionary *_registrationDictionary;
+   NSString *_appName;
+   NSData *_appIconData;
+   
+   id<GrowlApplicationBridgeDelegate> _delegate;
+   
+   @private   
+   GrowlCommunicationAttempt *_registrationAttempt;
 }
+
+@property (nonatomic, readonly) BOOL isGrowlRunning;
+@property (nonatomic, readonly) BOOL useNotificationCenterAlways;
+
+@property (nonatomic, readonly) BOOL sandboxed;
+@property (nonatomic, readonly) BOOL hasGNTP;
+@property (nonatomic, readonly) BOOL hasNetworkClient;
+@property (nonatomic, readonly) BOOL registered;
+@property (nonatomic, assign) BOOL registerWhenGrowlIsReady;
+
+@property (nonatomic, assign) BOOL shouldUseBuiltInNotifications;
+@property (nonatomic, copy) NSDictionary *registrationDictionary;
+@property (nonatomic, copy) NSString *appName;
+@property (nonatomic, copy) NSData *appIconData;
+
+@property (nonatomic, assign) id<GrowlApplicationBridgeDelegate> delegate;
+
++(GrowlApplicationBridge*)sharedBridge;
 
 /*!
  *	@method isGrowlInstalled
@@ -149,47 +189,11 @@
  *	@param clickContext	A context passed back to the Growl delegate if it implements -(void)growlNotificationWasClicked: and the notification is clicked. Not all display plugins support clicking. The clickContext must be plist-encodable (completely of <code>NSString</code>, <code>NSArray</code>, <code>NSNumber</code>, <code>NSDictionary</code>, and <code>NSData</code> types).
  */
 + (void) notifyWithTitle:(NSString *)title
-			 description:(NSString *)description
-		notificationName:(NSString *)notifName
-				iconData:(NSData *)iconData
-				priority:(signed int)priority
-				isSticky:(BOOL)isSticky
-			clickContext:(id)clickContext;
-
-/*!
- *	@method notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:
- *	@abstract Send a Growl notification.
- *	@discussion This is the preferred means for sending a Growl notification.
- *	 The notification name and at least one of the title and description are
- *	 required (all three are preferred).  All other parameters may be
- *	 <code>nil</code> (or 0 or NO as appropriate) to accept default values.
- *
- *	 If using the Growl-WithInstaller framework, if Growl is not installed the
- *	 user will be prompted to install Growl. If the user cancels, this method
- *	 will have no effect until the next application session, at which time when
- *	 it is called the user will be prompted again. The user is also given the
- *	 option to not be prompted again.  If the user does choose to install Growl,
- *	 the requested notification will be displayed once Growl is installed and
- *	 running.
- *
- *	@param title		The title of the notification displayed to the user.
- *	@param description	The full description of the notification displayed to the user.
- *	@param notifName	The internal name of the notification. Should be human-readable, as it will be displayed in the Growl preference pane.
- *	@param iconData		<code>NSData</code> object to show with the notification as its icon. If <code>nil</code>, the application's icon will be used instead.
- *	@param priority		The priority of the notification. The default value is 0; positive values are higher priority and negative values are lower priority. Not all Growl displays support priority.
- *	@param isSticky		If YES, the notification will remain on screen until clicked. Not all Growl displays support sticky notifications.
- * @param actionButtonTitle   A title for the notification's optional 'action' button.  Not all Growl displays support buttons.
- * @param cancelButtonTitle   A title for the notification's optional 'cancel' button.  Not all Growl displays support buttons.
- *	@param clickContext	A context passed back to the Growl delegate if it implements -(void)growlNotificationWasClicked: and the notification is clicked. Not all display plugins support clicking. The clickContext must be plist-encodable (completely of <code>NSString</code>, <code>NSArray</code>, <code>NSNumber</code>, <code>NSDictionary</code>, and <code>NSData</code> types).
- */
-+ (void) notifyWithTitle:(NSString *)title
              description:(NSString *)description
         notificationName:(NSString *)notifName
                 iconData:(NSData *)iconData
                 priority:(signed int)priority
                 isSticky:(BOOL)isSticky
-       actionButtonTitle:(NSString *)actionTitle
-       cancelButtonTitle:(NSString *)cancelTitle
             clickContext:(id)clickContext;
 
 /*!
@@ -218,68 +222,32 @@
  *	@param identifier	An identifier for this notification. Notifications with equal identifiers are coalesced.
  */
 + (void) notifyWithTitle:(NSString *)title
-			 description:(NSString *)description
-		notificationName:(NSString *)notifName
-				iconData:(NSData *)iconData
-				priority:(signed int)priority
-				isSticky:(BOOL)isSticky
-			clickContext:(id)clickContext
-			  identifier:(NSString *)identifier;
-
-/*!
- *	@method notifyWithTitle:description:notificationName:iconData:priority:isSticky:clickContext:
- *	@abstract Send a Growl notification.
- *	@discussion This is the preferred means for sending a Growl notification.
- *	 The notification name and at least one of the title and description are
- *	 required (all three are preferred).  All other parameters may be
- *	 <code>nil</code> (or 0 or NO as appropriate) to accept default values.
- *
- *	 If using the Growl-WithInstaller framework, if Growl is not installed the
- *	 user will be prompted to install Growl. If the user cancels, this method
- *	 will have no effect until the next application session, at which time when
- *	 it is called the user will be prompted again. The user is also given the
- *	 option to not be prompted again.  If the user does choose to install Growl,
- *	 the requested notification will be displayed once Growl is installed and
- *	 running.
- *
- *	@param title		The title of the notification displayed to the user.
- *	@param description	The full description of the notification displayed to the user.
- *	@param notifName	The internal name of the notification. Should be human-readable, as it will be displayed in the Growl preference pane.
- *	@param iconData		<code>NSData</code> object to show with the notification as its icon. If <code>nil</code>, the application's icon will be used instead.
- *	@param priority		The priority of the notification. The default value is 0; positive values are higher priority and negative values are lower priority. Not all Growl displays support priority.
- *	@param isSticky		If YES, the notification will remain on screen until clicked. Not all Growl displays support sticky notifications.
- * @param actionButtonTitle   A title for the notification's optional 'action' button.  Not all Growl displays support buttons.
- * @param cancelButtonTitle   A title for the notification's optional 'cancel' button.  Not all Growl displays support buttons.
- *	@param clickContext	A context passed back to the Growl delegate if it implements -(void)growlNotificationWasClicked: and the notification is clicked. Not all display plugins support clicking. The clickContext must be plist-encodable (completely of <code>NSString</code>, <code>NSArray</code>, <code>NSNumber</code>, <code>NSDictionary</code>, and <code>NSData</code> types).
- *	@param identifier	An identifier for this notification. Notifications with equal identifiers are coalesced.
- */
-+ (void) notifyWithTitle:(NSString *)title
              description:(NSString *)description
         notificationName:(NSString *)notifName
                 iconData:(NSData *)iconData
                 priority:(signed int)priority
                 isSticky:(BOOL)isSticky
-       actionButtonTitle:(NSString *)actionTitle
-       cancelButtonTitle:(NSString *)cancelTitle
             clickContext:(id)clickContext
               identifier:(NSString *)identifier;
 
-
 /*!	@method	notifyWithDictionary:
- *	@abstract	Notifies using a userInfo dictionary suitable for passing to
- *	 <code>NSDistributedNotificationCenter</code>.
+ *	@abstract	Notifies using a userInfo dictionary suitable for passing to Growl
  *	@param	userInfo	The dictionary to notify with.
- *	@discussion	Before Growl 0.6, your application would have posted
- *	 notifications using <code>NSDistributedNotificationCenter</code> by
- *	 creating a userInfo dictionary with the notification data. This had the
- *	 advantage of allowing you to add other data to the dictionary for programs
- *	 besides Growl that might be listening.
- *
- *	 This method allows you to use such dictionaries without being restricted
- *	 to using <code>NSDistributedNotificationCenter</code>. The keys for this dictionary
- *	 can be found in GrowlDefines.h.
+ *	@discussion	The keys for this dictionary can be found in GrowlDefines.h
  */
 + (void) notifyWithDictionary:(NSDictionary *)userInfo;
+
+/*!
+ * @brief notify with a GrowlNote
+ * @method notifyWithNote:
+ * @param note The GrowlNote to notify with
+ * @discussion the new preffered method for sending a notification, all major new API will be added through GrowlNote
+ *
+ * @since 3.0
+ */
+- (void) notifyWithNote:(GrowlNote*)note;
+
+- (void) cancelNoteWithUUID:(NSString*)uuid;
 
 #pragma mark -
 
@@ -315,6 +283,8 @@
  *	 This method is now implemented using <code>-registerWithDictionary:</code>.
  */
 + (void) reregisterGrowlNotifications;
+
+- (BOOL)isNotificationDefaultEnabled:(NSDictionary*)growlDict;
 
 #pragma mark -
 
@@ -591,7 +561,7 @@
  *	@result The <code>NSData</code> to treat as the application icon.
  *	@deprecated In version 1.1, in favor of {{{-applicationIconForGrowl}}}.
  */
-- (NSData *) applicationIconDataForGrowl;
+- (NSData *) applicationIconDataForGrowl __attribute__((deprecated)); 
 
 /*!
  *	@method growlIsReady

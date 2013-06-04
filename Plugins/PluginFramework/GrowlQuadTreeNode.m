@@ -288,7 +288,12 @@ BOOL create_children(QuadTreeNode *node){
 }
 
 BOOL c_consolidate(QuadTreeNode *node) {
-	if(node == NULL || node->topLeft == NULL){
+	if(node == NULL ||
+      node->topLeft == NULL ||
+      node->topRight == NULL ||
+      node->bottomLeft == NULL ||
+      node->bottomRight == NULL)
+   {
 		return YES;
 	}
 	if(c_consolidate(node->topLeft) && 
@@ -343,7 +348,11 @@ void occupy_frame(QuadTreeNode *node, CGRect aRect) {
 				node->state = GrowlQuadTreeOccupiedState;
 		}
 		//If we have children, update them
-		if(node->topLeft != NULL){
+      if(node->topLeft != NULL &&
+         node->topRight != NULL &&
+         node->bottomLeft != NULL &&
+         node->bottomRight != NULL)
+      {
 			//No need to call down in to a child unless the rects intersect
 			if(CGRectIntersectsRect(aRect, node->topLeft->frame))
 				occupy_frame(node->topLeft, aRect);

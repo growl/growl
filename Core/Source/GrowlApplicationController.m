@@ -322,10 +322,14 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
    if ([[growlDict objectForKey:GROWL_NOTIFICATION_ALREADY_SHOWN] boolValue])
       return;
 
+   //If the note came from a 3.0 framework, and it hasn't already been displayed, tell it to display
+	BOOL dispatchedToBark = [self sendNotificationDict:growlDict feedbackOfType:GROWL3_NOTIFICATION_SHOW_NOTIFICATION_CENTER];
+   
 	//Here we have a choice to make, use Bark, or our own NC implementation. Bark is better due to icon thing
-	BOOL dispatchedToBark = NO;
 	GrowlTicketDatabasePlugin *barkPluginConfig = [[GrowlTicketDatabase sharedInstance] pluginConfigForBundleID:@"us.pandamonia.Bark"];
-	if(barkPluginConfig && [barkPluginConfig pluginInstanceForConfiguration]){
+	if(!dispatchedToBark &&
+      barkPluginConfig &&
+      [barkPluginConfig pluginInstanceForConfiguration]){
 		[self dispatchNotification:growlDict toActions:[NSSet setWithObject:barkPluginConfig]];
 		dispatchedToBark = YES;
 	}
@@ -600,6 +604,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                                    [ruleLogString appendFormat:@"\nDo not display visually"];
                                                 }
                                                 displayed = YES;
+                                                [self sendNotificationDict:copyDict feedbackOfType:GROWL3_NOTIFICATION_NOT_DISPLAYED];
                                                 break;
                                              case 'DLDf': //Default explicit or not for note, handled below
                                              default:
@@ -1566,6 +1571,10 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 				object:nil];
 	
 	[nc addObserver:self
+			 selector:@selector(notificationClosed:)
+				  name:@"GROWL_NOTIFICATION_CLOSED"
+				object:nil];
+	[nc addObserver:self
 			 selector:@selector(notificationClicked:)
 				  name:GROWL_NOTIFICATION_CLICKED
 				object:nil];
@@ -1634,6 +1643,20 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	                                                             userInfo:nil
 	                                                   deliverImmediately:YES];
    
+   [[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL3_FRAMEWORK_SUPPORT
+                                                                  object:nil
+                                                                userInfo:nil
+                                                      deliverImmediately:YES];
+   [[NSDistributedNotificationCenter defaultCenter] addObserverForName:GROWL3_FRAMEWORK_SUPPORT_PING
+                                                                object:nil
+                                                                 queue:[NSOperationQueue mainQueue]
+                                                            usingBlock:^(NSNotification *note) {
+                                                               [[NSDistributedNotificationCenter defaultCenter] postNotificationName:GROWL3_FRAMEWORK_SUPPORT
+                                                                                                                              object:nil
+                                                                                                                            userInfo:nil
+                                                                                                                  deliverImmediately:YES];
+                                                            }];
+   
    // Now we check if we have notification center
    if (NSClassFromString(@"NSUserNotificationCenter")) {
       // We do!  Are we supposed to use it?
@@ -1685,7 +1708,9 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
  *	-growlNotificationWasClicked:/-growlNotificationTimedOut: with it if it's a
  *	GHA notification.
  */
-- (void)growlNotificationDict:(NSDictionary *)growlNotificationDict didCloseViaNotificationClick:(BOOL)viaClick onLocalMachine:(BOOL)wasLocal
+- (void)growlNotificationDict:(NSDictionary *)growlNotificationDict
+ didCloseViaNotificationClick:(BOOL)viaClick
+               onLocalMachine:(BOOL)wasLocal
 {
 	static BOOL isClosingFromRemoteClick = NO;
 	/* Don't post a second close notification on the local machine if we close a notification from this method in
@@ -1706,6 +1731,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
       if(callbackURL)
          [[NSWorkspace sharedWorkspace] openURL:callbackURL];
    }
+   NSString *noteName = viaClick ? GROWL3_NOTIFICATION_CLICK : GROWL3_NOTIFICATION_TIMEOUT;
+   [self sendNotificationDict:growlNotificationDict feedbackOfType:noteName];
 	
 	if (!wasLocal) {
 		isClosingFromRemoteClick = YES;
@@ -1715,6 +1742,25 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 	}
 }
 
+-(BOOL)sendNotificationDict:(NSDictionary*)growlNotificationDict
+                     feedbackOfType:(NSString*)feedbacktype
+{
+   NSString *gntpOrigin = [growlNotificationDict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_NAME];
+   if([gntpOrigin caseInsensitiveCompare:@"Growl.framework"] == NSOrderedSame &&
+      [[growlNotificationDict objectForKey:GROWL_NOTIFICATION_GNTP_SENT_BY] isLocalHost]){
+      NSString *frameworkVersion = [growlNotificationDict objectForKey:GROWL_GNTP_ORIGIN_SOFTWARE_VERSION];
+      if(compareVersionStrings(@"3.0", frameworkVersion) != kCFCompareGreaterThan){
+         NSString *noteUUID = [growlNotificationDict objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
+         [[NSDistributedNotificationCenter defaultCenter] postNotificationName:feedbacktype
+                                                                        object:noteUUID
+                                                                      userInfo:nil
+                                                            deliverImmediately:YES];
+         return YES;
+      }
+   }
+   return NO;
+}
+
 @end
 
 #pragma mark -
@@ -1722,6 +1768,11 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
 @implementation GrowlApplicationController (PRIVATE)
 
 #pragma mark Click feedback from displays
+
+- (void) notificationClosed:(NSNotification*)notification {
+   GrowlNotification *growlNotification = [notification object];
+   [self sendNotificationDict:[growlNotification dictionaryRepresentation] feedbackOfType:GROWL3_NOTIFICATION_CLOSED];
+}
 
 - (void) notificationClicked:(NSNotification *)notification {
 	GrowlNotification *growlNotification = [notification object];

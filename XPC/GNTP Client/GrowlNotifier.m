@@ -62,13 +62,15 @@
 	}
 }
 
-- (void) sendXPCFeedback:(GrowlCommunicationAttempt *)attempt context:(id)context clicked:(BOOL)clicked
+- (void) sendXPCFeedback:(GrowlCommunicationAttempt *)attempt context:(id)context feedback:(NSString*)feedback
 {
 	NSMutableDictionary *response = [NSMutableDictionary dictionary];
 	[response setValue:@"feedback" forKey:@"GrowlActionType"];
 	
 	[response setValue:context forKey:@"Context"];
+   BOOL clicked = [feedback isEqualToString:@"Clicked"] ? YES : NO;
 	[response setValue:[NSNumber numberWithBool:clicked] forKey:@"Clicked"];
+   [response setValue:feedback forKey:@"Feedback"];
 	[self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
 }
 
@@ -128,14 +130,25 @@
 	[self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
 }
 - (void) notificationClicked:(GrowlCommunicationAttempt *)attempt context:(id)context{
-	[self sendXPCFeedback:attempt context:context clicked:YES];
+	[self sendXPCFeedback:attempt context:context feedback:@"Clicked"];
 }
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context{
-	[self sendXPCFeedback:attempt context:context clicked:NO];
+	[self sendXPCFeedback:attempt context:context feedback:@"Timedout"];
+}
+- (void) notificationClosed:(GrowlCommunicationAttempt *)attempt context:(id)context {
+   [self sendXPCFeedback:attempt context:context feedback:@"Closed"];
 }
 
 - (void)stoppedAttempts:(GrowlCommunicationAttempt *)attempt{
 	NSDictionary *response = [NSDictionary dictionaryWithObject:@"stoppedAttempts" forKey:@"GrowlActionType"];
+	
+	[self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
+}
+
+- (void) notificationWasNotDisplayed:(GrowlCommunicationAttempt *)attempt {
+   //we will have to ask our host app for the reg dict again via XPC
+	NSMutableDictionary *response = [NSMutableDictionary dictionary];
+	[response setValue:@"wasNotDisplayed" forKey:@"GrowlActionType"];
 	
 	[self sendXPCMessage:response connection:[(GrowlGNTPCommunicationAttempt*)attempt connection]];
 }

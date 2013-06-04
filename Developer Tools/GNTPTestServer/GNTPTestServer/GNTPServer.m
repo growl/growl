@@ -190,7 +190,7 @@
 	[sock writeData:errorData withTimeout:5.0 tag:-2];
 }
 
--(void)sendFeedback:(BOOL)clicked forDictionary:(NSDictionary*)dictionary {
+-(void)sendFeedback:(NSString*)feedback forDictionary:(NSDictionary*)dictionary {
 	NSString *guid = [dictionary valueForKey:@"GNTPGUID"];
 	//If there isn't a GUID, this wasn't a GNTPServer originated note
 	//And we shouldn't worry about sending feedback
@@ -200,7 +200,7 @@
 		//If we dont have a socket, can't send feedback, so don't worry about it
 		//The note might have been a different server instance
 		if(socket){
-			NSData *feedbackData = [GNTPNotifyPacket feedbackData:clicked forGrowlDictionary:dictionary];
+			NSData *feedbackData = [GNTPNotifyPacket feedbackData:feedback forGrowlDictionary:dictionary];
 			BOOL keepAlive = [dictionary objectForKey:@"GNTP-Keep-Alive"] ? [[dictionary objectForKey:@"GNTP-Keep-Alive"] boolValue] : NO;
 			if(feedbackData){
 				long writeTag = 0;
@@ -218,14 +218,19 @@
 		}
 	}
 }
+-(void)notificationClosed:(NSDictionary *)dictionary {
+   dispatch_async(_parsingQueue, ^{
+      [self sendFeedback:GrowlGNTPCallbackClose forDictionary:dictionary];
+   });
+}
 -(void)notificationClicked:(NSDictionary*)dictionary {
 	dispatch_async(_parsingQueue, ^{
-		[self sendFeedback:YES forDictionary:dictionary];
+		[self sendFeedback:GrowlGNTPCallbackClick forDictionary:dictionary];
 	});
 }
 -(void)notificationTimedOut:(NSDictionary*)dictionary {
 	dispatch_async(_parsingQueue, ^{
-		[self sendFeedback:NO forDictionary:dictionary];
+		[self sendFeedback:GrowlGNTPCallbackTimeout forDictionary:dictionary];
 	});
 }
 

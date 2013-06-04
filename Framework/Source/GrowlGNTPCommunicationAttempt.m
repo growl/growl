@@ -349,7 +349,7 @@ enum {
 	if(code){
 		GrowlGNTPErrorCode errCode = (GrowlGNTPErrorCode)[code integerValue];
 		if(errCode == GrowlGNTPUserDisabledErrorCode)
-			[self stopAttempts];
+			[self wasNotDisplayed];
 		if((errCode == GrowlGNTPUnknownApplicationErrorCode || 
 			 errCode == GrowlGNTPUnknownNotificationErrorCode) &&
 			[self isKindOfClass:NSClassFromString(@"GrowlGNTPNotificationAttempt")]){
@@ -406,17 +406,19 @@ enum {
       clickContext = context;
 	
    switch (resultValue) {
+      case 0:
+         //it timed out
+         if ([delegate respondsToSelector:@selector(notificationTimedOut:context:)])
+            [delegate notificationTimedOut:self context:clickContext];
       case 1:
          //it was clicked
          if ([delegate respondsToSelector:@selector(notificationClicked:context:)])
             [delegate notificationClicked:self context:clickContext];
          break;
       case 2:
-         //it closed, same as timed out
-      default:
-         if ([delegate respondsToSelector:@selector(notificationTimedOut:context:)])
-            [delegate notificationTimedOut:self context:clickContext];
-         //it timed out
+         //it was closed
+         if ([delegate respondsToSelector:@selector(notificationClosed:context:)])
+            [delegate notificationClosed:self context:clickContext];
          break;
    }
 }

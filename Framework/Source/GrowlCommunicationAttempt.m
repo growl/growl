@@ -32,7 +32,8 @@
 	if ((self = [super init])) {
 		dictionary = [dict retain];
 		attemptType = [[self class] attemptType];
-        nextAttempt = nil;
+      nextAttempt = nil;
+      _finished = NO;
 	}
 	return self;
 }
@@ -59,6 +60,11 @@
 	NSAssert1(NO, @"Subclass dropped the ball: %@ does not implement -begin!", self);
 }
 
+- (void) wasNotDisplayed{
+   if(self.delegate && [self.delegate respondsToSelector:@selector(notificationWasNotDisplayed:)])
+      [self.delegate notificationWasNotDisplayed:self];
+   [self stopAttempts];
+}
 - (void) queueAndReregister{
     //Called when we get that we aren't registered
     [self.delegate queueAndReregister:self];
@@ -86,7 +92,10 @@
 	[self.delegate attemptDidFail:self];
 }
 - (void) finished {
-    [self.delegate finishedWithAttempt:self];
+   if(_finished)
+      return;
+   _finished = YES;
+   [self.delegate finishedWithAttempt:self];
 }
 
 @end

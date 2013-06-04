@@ -474,7 +474,7 @@
 		growlVersion = [[thisBundle infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
 		if(!growlVersion){
 #ifdef GROWL_VERSION_STRING
-			growlVersion = [[NSString stringWithCString:GROWL_VERSION_STRING encoding:NSUTF8StringEncoding] retain];
+			growlVersion = [NSString stringWithCString:GROWL_VERSION_STRING encoding:NSUTF8StringEncoding];
 #else
 			growlVersion = @"Unknown Version";
 #endif

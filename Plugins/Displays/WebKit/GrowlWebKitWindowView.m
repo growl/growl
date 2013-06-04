@@ -113,13 +113,13 @@
 
 - (void) clickedCloseBox:(id)sender {
 	mouseOver = NO;
-	
-	if ([[[self window] windowController] respondsToSelector:@selector(clickedClose)])
-		[[[self window] windowController] performSelector:@selector(clickedClose)];
-
-	if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) != 0) {
+	   
+	if ([[[self window] windowController] respondsToSelector:@selector(clickedCloseBox)])
+		[[[self window] windowController] performSelector:@selector(clickedCloseBox)];
+   
+   if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) != 0) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:GROWL_CLOSE_ALL_NOTIFICATIONS
-															object:nil];
+                                                          object:nil];
 	}
 }
 
