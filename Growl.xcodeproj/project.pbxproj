@@ -124,6 +124,10 @@
 		8363F463098A1B5C000AAC48 /* AboveTheNight.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 8363F456098A1B5C000AAC48 /* AboveTheNight.growlStyle */; };
 		83EFC981148095BA004D13CF /* Darkroom.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 83EFC97F1480958B004D13CF /* Darkroom.growlStyle */; };
 		83EFC982148095BA004D13CF /* Whiteboard.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 83EFC9801480958B004D13CF /* Whiteboard.growlStyle */; };
+		93014CE4175D9DD100D5B13B /* GrowlApplicationBridge_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 93014CE0175D9DD100D5B13B /* GrowlApplicationBridge_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		93014CE5175D9DD100D5B13B /* GrowlNote_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 93014CE1175D9DD100D5B13B /* GrowlNote_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		93014CE6175D9DD100D5B13B /* GrowlNote.h in Headers */ = {isa = PBXBuildFile; fileRef = 93014CE2175D9DD100D5B13B /* GrowlNote.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93014CE7175D9DD100D5B13B /* GrowlNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 93014CE3175D9DD100D5B13B /* GrowlNote.m */; };
 		932177BC13E4AB9F00157729 /* Growl.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 932177BB13E4AB9F00157729 /* Growl.sdef */; };
 		9326592A140DD21C0037AA2C /* Starwl.growlStyle in Copy Growl Styles */ = {isa = PBXBuildFile; fileRef = 93265928140DD2180037AA2C /* Starwl.growlStyle */; };
 		93265968141295720037AA2C /* GrowlControlShowRollupScriptCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 93265967141295720037AA2C /* GrowlControlShowRollupScriptCommand.m */; };
@@ -1172,6 +1176,10 @@
 		83E9FCB215E5E58100C11131 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = Plugins/Actions/SMS/da.lproj/Localizable.strings; sourceTree = "<group>"; };
 		83EFC97F1480958B004D13CF /* Darkroom.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Darkroom.growlStyle; path = Core/Resources/Darkroom.growlStyle; sourceTree = "<group>"; };
 		83EFC9801480958B004D13CF /* Whiteboard.growlStyle */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Whiteboard.growlStyle; path = Core/Resources/Whiteboard.growlStyle; sourceTree = "<group>"; };
+		93014CE0175D9DD100D5B13B /* GrowlApplicationBridge_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlApplicationBridge_Private.h; path = Framework/Source/GrowlApplicationBridge_Private.h; sourceTree = "<group>"; };
+		93014CE1175D9DD100D5B13B /* GrowlNote_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNote_Private.h; path = Framework/Source/GrowlNote_Private.h; sourceTree = "<group>"; };
+		93014CE2175D9DD100D5B13B /* GrowlNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlNote.h; path = Framework/Source/GrowlNote.h; sourceTree = "<group>"; };
+		93014CE3175D9DD100D5B13B /* GrowlNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlNote.m; path = Framework/Source/GrowlNote.m; sourceTree = "<group>"; };
 		93217437163A476900D5790F /* Debug-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Debug-Framework.xcconfig"; path = "xcconfig/Debug-Framework.xcconfig"; sourceTree = "<group>"; };
 		93217438163A476900D5790F /* Localization-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Localization-Framework.xcconfig"; path = "xcconfig/Localization-Framework.xcconfig"; sourceTree = "<group>"; };
 		93217439163A476900D5790F /* Release-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Release-Framework.xcconfig"; path = "xcconfig/Release-Framework.xcconfig"; sourceTree = "<group>"; };
@@ -2514,8 +2522,12 @@
 				FF5FC3BF13CE8B7A005E2DE3 /* Mist */,
 				343354C10792F96300C84B15 /* GrowlFramework_Prefix.pch */,
 				34F60EC2078E1D5600CECA86 /* Growl.h */,
+				93014CE0175D9DD100D5B13B /* GrowlApplicationBridge_Private.h */,
 				34F60EB8078E1D3E00CECA86 /* GrowlApplicationBridge.h */,
 				34F60EB6078E1D3E00CECA86 /* GrowlApplicationBridge.m */,
+				93014CE1175D9DD100D5B13B /* GrowlNote_Private.h */,
+				93014CE2175D9DD100D5B13B /* GrowlNote.h */,
+				93014CE3175D9DD100D5B13B /* GrowlNote.m */,
 				95DBC07907C284F300DE4ACA /* Growl.framework-Info.plist */,
 				95812DB808118FB9004FF8F5 /* GrowlDelegate.h */,
 				95812DB908118FB9004FF8F5 /* GrowlDelegate.m */,
@@ -3487,6 +3499,9 @@
 				BC8FD3F315B1A76A0007CC12 /* GrowlGNTPSubscriptionAttempt.h in Headers */,
 				BC8FD3FD15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.h in Headers */,
 				BC924FE11677699D00347C16 /* GrowlCodeSignUtilities.h in Headers */,
+				93014CE4175D9DD100D5B13B /* GrowlApplicationBridge_Private.h in Headers */,
+				93014CE5175D9DD100D5B13B /* GrowlNote_Private.h in Headers */,
+				93014CE6175D9DD100D5B13B /* GrowlNote.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4536,6 +4551,7 @@
 				BC8FD3C615B127620007CC12 /* NSStringAdditions.m in Sources */,
 				BC8FD3FF15B1AA0D0007CC12 /* GrowlXPCSubscriptionAttempt.m in Sources */,
 				BC924FE2167769A900347C16 /* GrowlCodeSignUtilities.m in Sources */,
+				93014CE7175D9DD100D5B13B /* GrowlNote.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
