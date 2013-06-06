@@ -43,7 +43,7 @@ $xcodebuild    = env_default(:XCODEBUILD, "#{$toolchain}/usr/bin/xcodebuild") { 
 $package_maker = env_default(:PACKAGE_MAKER, "#{$toolchain}/usr/bin/packagemaker") do
   pmapp = `mdfind -onlyin /Applications "kMDItemDisplayName=='PackageMaker*' && kMDItemKind=='Application'" 2>/dev/null | head -n1`.strip
   if pmapp and not pmapp.to_s.empty?
-    "#{pmapp}/PackageMaker.app/Contents/MacOS/PackageMaker"
+    "#{pmapp}/Contents/MacOS/PackageMaker"
   else
     `xcrun -find packagemaker`
   end
@@ -173,7 +173,7 @@ namespace "package" do
     curdir = FileUtils.pwd()
     FileUtils.cd("#{$build_root}/growlnotify/#{$configuration}")
     # package up growlnotify
-    system "packagemaker --no-relocate --doc #{$src_root}/Release/growlnotify/growlnotify.pmdoc --out #{$build_root}/growlnotify/#{$configuration}/GrowlNotify.pkg --version #{$growl_version} --id info.growl.growlnotify.growlnotify.pkg -v"
+    system "#{$package_maker} --no-relocate --doc #{$src_root}/Release/growlnotify/growlnotify.pmdoc --out #{$build_root}/growlnotify/#{$configuration}/GrowlNotify.pkg --version #{$growl_version} --id info.growl.growlnotify.growlnotify.pkg -v"
     system "codesign --preserve-metadata -f -s \"Developer ID Application: The Growl Project, LLC\" -v #{$build_root}/growlnotify/#{$configuration}/GrowlNotify.pkg"
     system "zip -r GrowlNotify-#{$growl_version}.zip GrowlNotify.pkg"
     system "cp -Rp GrowlNotify-#{$growl_version}.zip #{$product_root}"
