@@ -323,6 +323,18 @@
     if (_running) [[ITunesApplication sharedInstance] previousTrack];
 }
 
+- (SBElementArray*)sources
+{
+	return [[ITunesApplication sharedInstance] sources];
+}
+
+- (void)revealTrack:(ITunesTrack*)track fromPlaylist:(ITunesPlaylist*)playlist
+{
+	ITunesBrowserWindow *mainWindow = [[[ITunesApplication sharedInstance] browserWindows] objectAtIndex:0U];
+	[mainWindow setView:playlist];
+	[track reveal];
+}
+
 - (IBAction)runiTunes:(id)sender
 {
     [[ITunesApplication sharedInstance] run];

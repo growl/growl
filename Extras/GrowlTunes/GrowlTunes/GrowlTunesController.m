@@ -135,13 +135,13 @@
 		NSData* iconData = [formatted valueForKey:@"icon"];
 		NSString *type = [self.conductor.currentTrack typeDescription];
 		
-		[self notifyWithTitle:title description:description name:type icon:iconData];
+		[self notifyWithTitle:title description:description name:type icon:iconData identifier:self.conductor.currentTrack.persistentID];
 	}else if([keyPath isEqualToString:@"isPaused"]){
 		if([self.conductor isPaused])
-			[self notifyWithTitle:NotifierPausedReadable description:@"" name:NotifierPaused icon:nil];
+			[self notifyWithTitle:NotifierPausedReadable description:@"" name:NotifierPaused icon:nil identifier:self.conductor.currentTrack.persistentID];
 	}else if ([keyPath isEqualToString:@"isStopped"]){
 		if([self.conductor isStopped]){
-			[self notifyWithTitle:NotifierStoppedReadable description:@"" name:NotifierStopped icon:nil];
+			[self notifyWithTitle:NotifierStoppedReadable description:@"" name:NotifierStopped icon:nil identifier:self.conductor.currentTrack.persistentID];
 		}
 	}
 	else if ([keyPath isEqualToString:@"currentTrack.rating"])
@@ -242,10 +242,38 @@
     SUPER_DEALLOC;
 }
 
+- (void) growlNotificationWasClicked:(id)clickContext
+{
+	ITunesSource *source = [[[[self.conductor sources] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %i", ITunesESrcLibrary]] objectAtIndex:0];
+	NSArray *playlists = [[source playlists] get];
+    
+	__block NSMutableArray *tracks = [NSMutableArray array];
+	__block ITunesPlaylist *trackPlaylist = nil;
+	[playlists enumerateObjectsUsingBlock:^(ITunesPlaylist *playlist, NSUInteger idx, BOOL *stop) {
+		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"persistentID == %@", clickContext];
+		SBElementArray *possibleTracks = [playlist tracks];
+		[possibleTracks filterUsingPredicate:predicate];
+
+		if([possibleTracks count] && ![playlist.name isEqualToString:@"Library"])
+		{
+			[tracks addObjectsFromArray:[possibleTracks get]];
+			trackPlaylist = playlist;
+			*stop = YES;
+		}
+	}];
+
+	if([tracks count] > 0)
+	{
+		[self.conductor activate:self];
+		[self.conductor revealTrack:[tracks objectAtIndex:0U] fromPlaylist:trackPlaylist];
+	}
+}
+
 - (void)notifyWithTitle:(NSString*)title
             description:(NSString*)description
                    name:(NSString*)name
                    icon:(NSData*)icon
+			 identifier:(NSString*)identifier
 {
 	BOOL notifyWhenFrontmost = [[NSUserDefaults standardUserDefaults] boolForKey:NOTIFY_ITUNES_FRONTMOST];
 	
@@ -272,7 +300,7 @@
 											 iconData:icon
 											 priority:0
 											 isSticky:FALSE
-										clickContext:nil
+										clickContext:identifier
 										  identifier:name];
 }
 

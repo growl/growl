@@ -41,6 +41,8 @@
 - (IBAction)playPause:(id)sender;
 - (IBAction)nextTrack:(id)sender;
 - (IBAction)previousTrack:(id)sender;
+- (void)revealTrack:(ITunesTrack*)track fromPlaylist:(ITunesPlaylist*)playlist;
+- (SBElementArray*)sources;
 
 - (IBAction)runiTunes:(id)sender;
 - (IBAction)quit:(id)sender;
