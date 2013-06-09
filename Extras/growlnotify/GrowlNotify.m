@@ -113,4 +113,8 @@
    stopLoop = YES;
 }
 
+- (void) notificationClosed:(GrowlCommunicationAttempt *)attempt context:(id)context {
+   [self notificationTimedOut:attempt context:context];
+}
+
 @end
