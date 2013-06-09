@@ -107,8 +107,8 @@
 		blockSelf.currentSound = nil;
 		if([blockSelf.queuedSounds count] > 0){
 			NSSound *newSound = [blockSelf.queuedSounds objectAtIndex:0U];
-			[blockSelf.queuedSounds removeObjectAtIndex:0U];
 			blockSelf.currentSound = newSound;
+			[blockSelf.queuedSounds removeObjectAtIndex:0U];
 			[newSound play];
 		}
 	});
