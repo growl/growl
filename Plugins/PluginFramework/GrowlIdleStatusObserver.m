@@ -77,7 +77,7 @@ static NSTimeInterval currentIdleTime(void) {
 		self.useSleep = YES;
 		
 		__block GrowlIdleStatusObserver *blockSelf = self;
-		NSDistributedNotificationCenter *nsdnc = [NSNotificationCenter defaultCenter];
+		NSDistributedNotificationCenter *nsdnc = [NSDistributedNotificationCenter defaultCenter];
 		[nsdnc addObserverForName:@"com.apple.screensaver.didstart"
 								 object:nil
 								  queue:[NSOperationQueue mainQueue]
