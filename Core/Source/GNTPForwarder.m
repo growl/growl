@@ -58,7 +58,7 @@
       __block NSMutableArray *theServices = [NSMutableArray array];
       __block GNTPForwarder *blockFowarder = self;
       [dests enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-         if([obj isKindOfClass:[NSDictionary dictionary]])
+         if(![obj isKindOfClass:[NSDictionary class]])
             return;
          
          GrowlBrowserEntry *entry = [[GrowlBrowserEntry alloc] initWithDictionary:obj];
