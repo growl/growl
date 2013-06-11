@@ -625,6 +625,10 @@
 }
 
 -(void)dealloc {
+   self.action = nil;
+   self.guid = nil;
+   self.connectedHost = nil;
+   self.connectedAddress = nil;
 	self.growlDict = nil;
 	self.gntpDictionary = nil;
 	self.dataBlockIdentifiers = nil;
