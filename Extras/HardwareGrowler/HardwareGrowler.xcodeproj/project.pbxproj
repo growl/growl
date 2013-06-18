@@ -64,7 +64,6 @@
 		BC006CAF15AB161800643FA8 /* TimeMachine-Off.tif in Resources */ = {isa = PBXBuildFile; fileRef = BC006CAC15AB161600643FA8 /* TimeMachine-Off.tif */; };
 		BC006CB015AB161800643FA8 /* TimeMachine-On.tif in Resources */ = {isa = PBXBuildFile; fileRef = BC006CAD15AB161700643FA8 /* TimeMachine-On.tif */; };
 		BC4FC623155C04B700EE65EC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC4FC622155C04B700EE65EC /* MainMenu.xib */; };
-		BC4FC628155C05C700EE65EC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC4FC626155C05C700EE65EC /* Localizable.strings */; };
 		BC523C231555686000548427 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BC523C291555686000548427 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC523C271555686000548427 /* InfoPlist.strings */; };
 		BC523C31155568A000548427 /* HWGrowlUSBMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC523C30155568A000548427 /* HWGrowlUSBMonitor.m */; };
@@ -363,6 +362,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8303BD331770A93200A18593 /* lv_LV */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = lv_LV; path = lv_LV.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8303BD341770A94600A18593 /* zh_TW */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/Localizable.strings; sourceTree = "<group>"; };
 		832B24C815E492AE004FD493 /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		832B24C915E492BF004FD493 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		832B24CA15E492CF004FD493 /* es */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -372,7 +373,6 @@
 		832B24CF15E49308004FD493 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
 		832B24D115E4931E004FD493 /* sk */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		832B24D215E49326004FD493 /* es-MX */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		832B24D315E49332004FD493 /* lv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		832B24D415E4934A004FD493 /* el */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
 		832B24D515E49353004FD493 /* th */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		832B24D615E4935C004FD493 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1481,6 +1481,8 @@
 				"pt-PT",
 				pt,
 				ca,
+				lv_LV,
+				zh_TW,
 			);
 			mainGroup = BCB805DC155153330088C69A;
 			productRefGroup = BCB805E8155153330088C69A /* Products */;
@@ -1678,7 +1680,6 @@
 				BCB8061E155154CA0088C69A /* menubarIcon_Normal.png in Resources */,
 				BCB8061F155154CA0088C69A /* menubarIcon_Selected.png in Resources */,
 				BC4FC623155C04B700EE65EC /* MainMenu.xib in Resources */,
-				BC4FC628155C05C700EE65EC /* Localizable.strings in Resources */,
 				BC602F4115880E6E005E174F /* HandsFreeDeviceSDPRecord.plist in Resources */,
 				BC006C3215AB004900643FA8 /* HWGPrefsBluetooth.tif in Resources */,
 				BC006C3315AB004900643FA8 /* HWGPrefsCapster.tif in Resources */,
@@ -2011,7 +2012,6 @@
 				832B24CF15E49308004FD493 /* da */,
 				832B24D115E4931E004FD493 /* sk */,
 				832B24D215E49326004FD493 /* es-MX */,
-				832B24D315E49332004FD493 /* lv */,
 				832B24D415E4934A004FD493 /* el */,
 				832B24D515E49353004FD493 /* th */,
 				832B24D615E4935C004FD493 /* ru */,
@@ -2025,6 +2025,8 @@
 				832B24DE15E493B3004FD493 /* ko */,
 				832B24DF15E493BC004FD493 /* pt-PT */,
 				BC8362B915F268070012FBA3 /* ca */,
+				8303BD331770A93200A18593 /* lv_LV */,
+				8303BD341770A94600A18593 /* zh_TW */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

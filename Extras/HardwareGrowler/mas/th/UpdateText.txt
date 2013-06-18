@@ -1,10 +1,10 @@
 HardwareGrowler 2.0.1
-- Resolved an issue where notifications would not be fired for network changes.
-- Power notifications now have better descriptions.
+- แก้ไขปัญหาเมื่อข้อความแจ้งเตือนไม่แสดงเมื่อเครือข่ายเปลี่ยนแปลง
+- ข้อความแจ้งเตือนเกี่ยวกับไฟฟ้ามีคำอธิบายที่ดีขึ้น
 
 HardwareGrowler 2
 
-HardwareGrowler ถูกเขียนขึ้นใหม่ทั้งหมด
+- HardwareGrowler ถูกเขียนขึ้นใหม่ทั้งหมด
 - คุณสามารถเปิด/ปิดฟีเจอร์ต่างๆ ได้
 - เพิ่มความสามารถในการเพิกเฉยต่อไดร์ฟด้วยชื่อ
 - การติดตามเครือข่ายถูกปรับปรุงเยอะมาก

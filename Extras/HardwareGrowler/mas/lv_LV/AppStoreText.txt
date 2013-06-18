@@ -1,0 +1,7 @@
+HardwareGrowler ir vislabākais rīks, lai uzzinātu par aparatūras izmaiņām. Ja vēlies zināt, kas notiek ar tavu Mac, tad tev ir vajadzīgs HardwareGrowler. 
+
+Atvienojoties barošanas vadam, HardwareGrowler nepalaidīs to garām un paziņos tev. Pievieno ārējo iekārtu, piemēram, klaviatūru, zibatmiņu vai pat USB austiņas un saņem ziņojumu par aparatūras statusa izmaiņām.
+
+Tāpat HardwareGrowler ziņos par tīkla statusa izmaiņām. Izmainoties bezvadu pieslēgumam vai IP adresei, tev par to tiks paziņots. 
+
+HardwareGrowler ir tas, kas tev nepieciešams, lai ja vēlies kontrolēt aparatūras stāvokli. HardwareGrowler var izmantot Growl ziņojumus vai ziņot patstāvīgi. Vienkāršs lietošanā, viegli konfigurējams, HardwareGrowler ir domāts tiem, kas vēlas būt informēti.

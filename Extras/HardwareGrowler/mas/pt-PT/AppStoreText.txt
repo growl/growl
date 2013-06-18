@@ -1,4 +1,4 @@
-O HardwareGrowler é a melhor forma de descobrir quando ocorrem alterações no estado do hardware no seu Mac. Se precisa de saber o que está a acontecer no seu Mac, então precisa do HardwareGrowler. 
+O HardwareGrowler é a melhor forma de descobrir quando ocorrem alterações no estado do hardware do seu Mac. Se precisa de saber o que está a acontecer no seu Mac, então precisa do HardwareGrowler. 
 
 Quando o seu cabo de alimentação se desliga, o HardwareGrowler irá entrar em acção e informá-lo. Ligue um novo periférico como um teclado, pen drive ou mesmo um headset USB e seja notificado acerca dessas alterações de hardware.
 
