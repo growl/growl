@@ -94,7 +94,9 @@
    
    CGFloat baseWidth = imageRect.size.width + (MIST_TEXT_PADDING * 2);
    
-   NSRect textRect = [notificationText boundingRectWithSize:NSMakeSize((CGFloat)(MIST_WIDTH - baseWidth), (CGFloat)(1e7)) options:(NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin) attributes:notificationTextAttrs];
+    NSRect textRect = CGRectZero;
+    if(notificationText != nil)
+        textRect = [notificationText boundingRectWithSize:NSMakeSize((CGFloat)(MIST_WIDTH - baseWidth), (CGFloat)(1e7)) options:(NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin) attributes:notificationTextAttrs];
    
    NSRect myFrame = self.frame;
    myFrame.size.width = MIST_WIDTH;
