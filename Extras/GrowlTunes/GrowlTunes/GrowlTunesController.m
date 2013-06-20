@@ -30,7 +30,8 @@
 - (void)notifyWithTitle:(NSString*)title
             description:(NSString*)description
                    name:(NSString*)name
-                   icon:(NSData*)icon;
+                   icon:(NSData*)icon
+				 identifier:(NSString*)identifier;
 
 #if defined(BETA)
 - (NSCalendarDate *)dateWithString:(NSString *)str;
@@ -221,6 +222,13 @@
 	[self.conductor addObserver:self forKeyPath:@"isStopped" options:NSKeyValueObservingOptionInitial context:nil];
 	
 	[self setupHotKeys];
+}
+
+- (BOOL) applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag {
+	if(!flag){
+		[self configureFormatting:nil];
+	}
+	return YES;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
