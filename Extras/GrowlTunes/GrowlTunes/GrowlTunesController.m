@@ -235,6 +235,26 @@
 	[self.formatController saveTokens];
 }
 
+- (NSMenu*)applicationDockMenu:(NSApplication *)sender {
+	NSMenu *statusMenu = [self.statusItemMenu copy];
+	NSMutableSet *toRemove = [NSMutableSet set];
+	[[statusMenu itemArray] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		if([obj isHidden]){
+			[toRemove addObject:obj];
+		}
+		NSString *title = [obj title];
+		if([title isEqualToString:MenuRating] ||
+			[title isEqualToString:MenuVolume]){
+			[toRemove addObject:obj];
+		}
+	}];
+	/* Bindings aren't honored, so we remove all hidden and unusuable items */
+	[toRemove enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+		[statusMenu removeItem:obj];
+	}];
+	return statusMenu;
+}
+
 -(void)dealloc
 {
     [self.conductor removeObserver:self forKeyPath:@"currentTrack.rating"];
