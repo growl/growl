@@ -537,7 +537,7 @@ static id _propertyGetterFunc(TrackMetadata* self, SEL _cmd) {
 			}
 		}];
 		
-		NSString* resolvedString = [resolved componentsJoinedByString:@" "];
+		NSString* resolvedString = [resolved componentsJoinedByString:@""];
 		[dict setValue:resolvedString forKey:attribute];
 		
 		if (![attribute isEqualToString:@"titleArray"]) {
