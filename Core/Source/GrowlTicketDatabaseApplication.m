@@ -210,10 +210,20 @@
 				
 				added++;
 			}else{
-				BOOL defaultEnabled = [GrowlTicketDatabaseApplication isNoteDefault:note.name
-																						  inNoteArray:allNotificationNames 
-																						forInDefaults:inDefaults];
-				note.defaultEnabled = [NSNumber numberWithBool:defaultEnabled];
+            BOOL defaultEnabled = [GrowlTicketDatabaseApplication isNoteDefault:note.name
+                                                                    inNoteArray:allNotificationNames
+                                                                  forInDefaults:inDefaults];
+            note.defaultEnabled = [NSNumber numberWithBool:defaultEnabled];
+            
+            NSString *name = obj;
+            if([humanReadableNames objectForKey:name])
+               note.humanReadableName = [humanReadableNames objectForKey:name];
+            else
+               note.humanReadableName = note.name;
+            
+            NSData *iconData = [notificationIcons valueForKey:name];
+            if(iconData)
+               note.iconData = iconData;
 			}
 			[newNotesArray addObject:note];
 		}];
