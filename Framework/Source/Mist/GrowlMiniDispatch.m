@@ -318,6 +318,7 @@
    }
    // Remove the notification, so it doesn't sit around forever.
    [center removeDeliveredNotification:notification];
+   [note release];
 }
 
 - (void)expireNotification:(NSDictionary *)dict
