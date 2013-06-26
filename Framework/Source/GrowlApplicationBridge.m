@@ -559,6 +559,7 @@ static dispatch_queue_t notificationQueue_Queue;
          self.registrationAttempt.nextAttempt = secondAttempt;
       else
          self.registrationAttempt = secondAttempt;
+      [secondAttempt release];
    }
 
 	[self.registrationAttempt begin];
