@@ -247,7 +247,7 @@ static BOOL xpcInUse = NO;
 			//NSString *description = [dict objectForKey:@"Error-Description"];
 			//NSLog(@"Failed with code %ld, \"%@\"", reason, description);
 			if([responseAction isEqualToString:@"notification"] && reason == GrowlGNTPUserDisabledErrorCode){
-				[self stopAttempts];
+				[self wasNotDisplayed];
 			}else{
 				[self failed];
 			}
