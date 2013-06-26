@@ -333,9 +333,10 @@
          secondAttempt = [[GrowlApplicationBridgeNotificationAttempt alloc] initWithDictionary:noteDictionary];
          secondAttempt.delegate = (id <GrowlCommunicationAttemptDelegate>)self;
          
-         if(_firstAttempt)
-            self.secondAttempt.nextAttempt = secondAttempt;
-         else
+         if(_firstAttempt){
+            self.firstAttempt.nextAttempt = secondAttempt;
+            self.secondAttempt = secondAttempt;
+         }else
             self.firstAttempt = secondAttempt;
          [secondAttempt release];
       }
