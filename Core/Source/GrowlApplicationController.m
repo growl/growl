@@ -622,7 +622,8 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                        }else if([displayDesc descriptorType] == typeUnicodeText){
                                           NSString *displayName =[[result descriptorForKeyword:'GrDs'] stringValue];
                                           //NSLog(@"Display using: %@", displayName);
-                                          if([displayName caseInsensitiveCompare:@"notification-center"] == NSOrderedSame){
+                                          if([displayName caseInsensitiveCompare:@"notification-center"] == NSOrderedSame &&
+                                             NSClassFromString(@"NSUserNotificationCenter") != nil){
                                              //Explicit NC call
                                              if(logRuleResult){
                                                 [ruleLogString appendFormat:@"\nDisplay using notification-center"];
