@@ -513,7 +513,11 @@ static dispatch_queue_t notificationQueue_Queue;
 }
 - (BOOL) registerWithDictionary:(NSDictionary *)regDict {
    if(self.registrationAttempt != nil){
-      NSLog(@"Attempting to register while an attempt is already running");
+      static dispatch_once_t onceToken;
+      dispatch_once(&onceToken, ^{
+         NSLog(@"Attempting to register while an attempt is already running");         
+      });
+      return YES;
    }
    
    //Will register when growl is running and ready
