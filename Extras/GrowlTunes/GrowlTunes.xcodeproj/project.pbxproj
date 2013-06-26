@@ -89,6 +89,7 @@
 		BC5FF526165BDE7900D97FDE /* SliderWell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BC5FF51E165BDE7900D97FDE /* SliderWell@2x.png */; };
 		BC671F1B165928AC00F826FE /* GrowlTunesPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC671F1A165928AC00F826FE /* GrowlTunesPreferencesWindowController.m */; };
 		BC924FE916776AA200347C16 /* StartAtLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AAE994914DADA39004848EC /* StartAtLoginController.m */; };
+		BCDE157A177A4725009AD29D /* GrowlTokenField.m in Sources */ = {isa = PBXBuildFile; fileRef = BCDE1579177A4725009AD29D /* GrowlTokenField.m */; };
 		BCF70C2B1681F9900098B98E /* GrowlProcessTransformation.m in Sources */ = {isa = PBXBuildFile; fileRef = BCF70C2A1681F9900098B98E /* GrowlProcessTransformation.m */; };
 /* End PBXBuildFile section */
 
@@ -428,6 +429,8 @@
 		BC671F19165928AC00F826FE /* GrowlTunesPreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlTunesPreferencesWindowController.h; sourceTree = "<group>"; };
 		BC671F1A165928AC00F826FE /* GrowlTunesPreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlTunesPreferencesWindowController.m; sourceTree = "<group>"; usesTabs = 1; };
 		BCAFA05C165BCE25007E5E5A /* GrowlProcessTransformation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlProcessTransformation.h; path = ../../../Common/Source/GrowlProcessTransformation.h; sourceTree = "<group>"; };
+		BCDE1578177A4725009AD29D /* GrowlTokenField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlTokenField.h; sourceTree = "<group>"; };
+		BCDE1579177A4725009AD29D /* GrowlTokenField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlTokenField.m; sourceTree = "<group>"; };
 		BCF70C2A1681F9900098B98E /* GrowlProcessTransformation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlProcessTransformation.m; path = ../../../Common/Source/GrowlProcessTransformation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -713,6 +716,8 @@
 				BC671F1A165928AC00F826FE /* GrowlTunesPreferencesWindowController.m */,
 				BCAFA05C165BCE25007E5E5A /* GrowlProcessTransformation.h */,
 				BCF70C2A1681F9900098B98E /* GrowlProcessTransformation.m */,
+				BCDE1578177A4725009AD29D /* GrowlTokenField.h */,
+				BCDE1579177A4725009AD29D /* GrowlTokenField.m */,
 			);
 			name = PreferencesWindow;
 			sourceTree = "<group>";
@@ -1149,6 +1154,7 @@
 				93C9F57716D7212B0070F9EF /* SGHotKeyCenter.m in Sources */,
 				93C9F57816D7212B0070F9EF /* SGKeyCodeTranslator.m in Sources */,
 				93C9F57916D7212B0070F9EF /* SGKeyCombo.m in Sources */,
+				BCDE157A177A4725009AD29D /* GrowlTokenField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
