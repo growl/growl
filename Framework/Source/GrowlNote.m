@@ -143,6 +143,13 @@
          [noteDict setObject:@YES forKey:GROWL_NOTIFICATION_ALREADY_SHOWN];
       }
       
+      if(actionTitle != nil){
+         [noteDict setObject:actionTitle forKey:GROWL_NOTIFICATION_BUTTONTITLE_ACTION];
+      }
+      if(cancelTitle != nil){
+         [noteDict setObject:cancelTitle forKey:GROWL_NOTIFICATION_BUTTONTITLE_CANCEL];
+      }
+      
       self.otherKeysDict = [GrowlNote notificationDictionaryByRemovingIvarKeys:noteDict];
       
       NSDistributedNotificationCenter *NSDNC = [NSDistributedNotificationCenter defaultCenter];
