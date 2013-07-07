@@ -14,7 +14,7 @@
  * @enum GrowlNoteStatus
  * Values for the final status of a notification
  * Not all values will be sent with all versions of Growl.
- * Older versions will only do TimedOut and Closed
+ * Older versions will only do TimedOut and Clicked
  */
 
 enum GrowlNoteStatus {
