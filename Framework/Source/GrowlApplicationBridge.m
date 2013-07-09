@@ -920,26 +920,29 @@ static dispatch_queue_t notificationQueue_Queue;
 - (void) notificationTimedOut:(GrowlCommunicationAttempt *)attempt context:(id)context{}
 - (void) notificationClosed:(GrowlCommunicationAttempt *)attempt context:(id)context {}
 
--(void)note:(GrowlNote *)note statusUpdate:(GrowlNoteStatus)status {
-   if(note.clickContext != nil && self.delegate != nil){
+- (void) note:(GrowlNote*)note statusUpdate:(GrowlNoteStatus)status {
+   [self context:note.clickContext statusUpdate:status];
+}
+- (void) context:(id)clickContext statusUpdate:(GrowlNoteStatus)status {
+   if(clickContext != nil && self.delegate != nil){
       switch (status) {
          case GrowlNoteCanceled:
          case GrowlNoteNotDisplayed:
          case GrowlNoteTimedOut:
          case GrowlNoteClosed:
             if([self.delegate respondsToSelector:@selector(growlNotificationTimedOut:)])
-               [self.delegate growlNotificationTimedOut:[note clickContext]];
+               [self.delegate growlNotificationTimedOut:clickContext];
             break;
          case GrowlNoteClicked:
          case GrowlNoteOtherClicked:
             if([self.delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
-               [self.delegate growlNotificationWasClicked:[note clickContext]];
+               [self.delegate growlNotificationWasClicked:clickContext];
             break;
          case GrowlNoteActionClicked:
             if([self.delegate respondsToSelector:@selector(growlNotificationActionButtonClicked:)])
-               [self.delegate growlNotificationActionButtonClicked:[note clickContext]];
+               [self.delegate growlNotificationActionButtonClicked:clickContext];
             else if([self.delegate respondsToSelector:@selector(growlNotificationWasClicked:)])
-               [self.delegate growlNotificationWasClicked:[note clickContext]];
+               [self.delegate growlNotificationWasClicked:clickContext];
             break;
          default:
             break;

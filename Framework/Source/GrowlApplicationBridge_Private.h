@@ -34,4 +34,6 @@
 
 - (GrowlNote*)noteForUUID:(NSString*)uuid;
 
+- (void) context:(id)clickContext statusUpdate:(GrowlNoteStatus)status;
+
 @end

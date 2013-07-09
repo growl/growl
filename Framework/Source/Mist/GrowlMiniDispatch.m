@@ -305,17 +305,25 @@
 
 - (void)userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
 {
+   GrowlNoteStatus status;
+   if(notification.activationType == NSUserNotificationActivationTypeActionButtonClicked) {
+      status = GrowlNoteActionClicked;
+   }else if (notification.activationType == NSUserNotificationActivationTypeContentsClicked) {
+      status = GrowlNoteClicked;
+   }else {
+      status = GrowlNoteTimedOut;
+   }
+   
    NSString *uuid = [[notification userInfo] objectForKey:GROWL_NOTIFICATION_INTERNAL_ID];
    GrowlNote *note = [[[GrowlApplicationBridge sharedBridge] noteForUUID:uuid] retain];
    [windowDictionary removeObjectForKey:uuid];
-   
-   if(notification.activationType == NSUserNotificationActivationTypeActionButtonClicked) {
-      [note handleStatusUpdate:GrowlNoteActionClicked];
-   }else if (notification.activationType == NSUserNotificationActivationTypeContentsClicked) {
-      [note handleStatusUpdate:GrowlNoteClicked];
-   }else {
-      [note handleStatusUpdate:GrowlNoteTimedOut];
+   if(note){
+      [note handleStatusUpdate:status];
+   }else{
+      id context = [[notification userInfo] objectForKey:GROWL_NOTIFICATION_CLICK_CONTEXT];
+      [[GrowlApplicationBridge sharedBridge] context:context statusUpdate:status];
    }
+   
    // Remove the notification, so it doesn't sit around forever.
    [center removeDeliveredNotification:notification];
    [note release];
