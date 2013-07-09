@@ -164,6 +164,7 @@ static dispatch_queue_t notificationQueue_Queue;
                         self.hasGrowlThreeFrameworkSupport = YES;
                      }];
       
+      [GrowlMiniDispatch sharedDispatch];
       self.registrationDictionary = [self bestRegistrationDictionary];
       self.registered = NO;
       if(self.registrationDictionary != nil){
