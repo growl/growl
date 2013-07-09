@@ -73,7 +73,6 @@
 		BC5BF7F215752CEF0088443E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF7F015752CEF0088443E /* InfoPlist.strings */; };
 		BC5BF7FA15752D4D0088443E /* HWGrowlKeyboardMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5BF7F915752D4D0088443E /* HWGrowlKeyboardMonitor.m */; };
 		BC5BF8271576599F0088443E /* KeyboardMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5BF816157658810088443E /* KeyboardMonitorPrefs.xib */; };
-		BC602F4115880E6E005E174F /* HandsFreeDeviceSDPRecord.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC602F4015880E6E005E174F /* HandsFreeDeviceSDPRecord.plist */; };
 		BC7300AB1554594900CCCA74 /* VolumeMonitorPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7300AA1554594900CCCA74 /* VolumeMonitorPrefs.xib */; };
 		BC75524F156528AA00CB0542 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB805EB155153330088C69A /* Cocoa.framework */; };
 		BC755255156528AA00CB0542 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC755253156528AA00CB0542 /* InfoPlist.strings */; };
@@ -120,6 +119,8 @@
 		BCB8076A1551A7510088C69A /* HWGrowlNetworkMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB807691551A7510088C69A /* HWGrowlNetworkMonitor.m */; };
 		BCB8076F1551A82B0088C69A /* HWGrowlPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB8076E1551A82A0088C69A /* HWGrowlPluginController.m */; };
 		BCD4756A156BCDD000F81910 /* ACImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD47569156BCDD000F81910 /* ACImageAndTextCell.m */; };
+		BCE06FFB178CCAA700D7839A /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB80673155158DA0088C69A /* Growl.framework */; };
+		BCE06FFC178CCBF500D7839A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC4FC626155C05C700EE65EC /* Localizable.strings */; };
 		BCE3BC1C15C9619000B0BFFB /* TMSliderControl.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE3BC1B15C9619000B0BFFB /* TMSliderControl.m */; };
 		BCE3BC2115C961A500B0BFFB /* OverlayMask.png in Resources */ = {isa = PBXBuildFile; fileRef = BCE3BC1D15C961A500B0BFFB /* OverlayMask.png */; };
 		BCE3BC2215C961A500B0BFFB /* SliderHandle.png in Resources */ = {isa = PBXBuildFile; fileRef = BCE3BC1E15C961A500B0BFFB /* SliderHandle.png */; };
@@ -642,6 +643,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCE06FFB178CCAA700D7839A /* Growl.framework in Frameworks */,
 				BCB807481551A6EA0088C69A /* Cocoa.framework in Frameworks */,
 				BCECA3681552D22100F49280 /* SystemConfiguration.framework in Frameworks */,
 			);
@@ -1674,13 +1676,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCE06FFC178CCBF500D7839A /* Localizable.strings in Resources */,
 				BCB805F6155153330088C69A /* InfoPlist.strings in Resources */,
 				BCB805FC155153330088C69A /* Credits.rtf in Resources */,
 				BCB8061D155154CA0088C69A /* HWGrowler.icns in Resources */,
 				BCB8061E155154CA0088C69A /* menubarIcon_Normal.png in Resources */,
 				BCB8061F155154CA0088C69A /* menubarIcon_Selected.png in Resources */,
 				BC4FC623155C04B700EE65EC /* MainMenu.xib in Resources */,
-				BC602F4115880E6E005E174F /* HandsFreeDeviceSDPRecord.plist in Resources */,
 				BC006C3215AB004900643FA8 /* HWGPrefsBluetooth.tif in Resources */,
 				BC006C3315AB004900643FA8 /* HWGPrefsCapster.tif in Resources */,
 				BC006C3415AB004900643FA8 /* HWGPrefsDefault.tif in Resources */,
