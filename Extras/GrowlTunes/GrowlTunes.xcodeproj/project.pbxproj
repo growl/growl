@@ -340,6 +340,8 @@
 		6AD776F714817C2800A1592B /* iTunes+iTunesAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iTunes+iTunesAdditions.h"; sourceTree = "<group>"; };
 		6AD776F814817C2800A1592B /* iTunes+iTunesAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTunes+iTunesAdditions.m"; sourceTree = "<group>"; };
 		6AE9605A148DE33D009C8DE2 /* FormattedItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FormattedItem.xib; sourceTree = "<group>"; };
+		83C312C6178BEA68009D0C30 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		83C312D6178BEA85009D0C30 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		933622D916B5903C006A5A82 /* Prefs-General.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Prefs-General.png"; sourceTree = "<group>"; };
 		933622DA16B5903C006A5A82 /* Prefs-General@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Prefs-General@2x.png"; sourceTree = "<group>"; };
 		933622DB16B5903C006A5A82 /* Prefs-Notifications.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Prefs-Notifications.png"; sourceTree = "<group>"; };
@@ -370,8 +372,6 @@
 		93A0B07116F0B74F00DD64F6 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		93A0B07216F0B75100DD64F6 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		93A0B07316F0B75300DD64F6 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
-		93A0B07416F0B75500DD64F6 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		93A0B07516F0B75700DD64F6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		93A0B07616F0B75900DD64F6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		93A0B07716F0B75A00DD64F6 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
 		93B9580016B44A1500C85136 /* GrowlLocalizedStringsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlLocalizedStringsController.h; path = ../../Common/Source/GrowlLocalizedStringsController.h; sourceTree = "<group>"; };
@@ -408,7 +408,6 @@
 		93C9F57416D721290070F9EF /* SGKeyCombo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGKeyCombo.h; path = ../../external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCombo.h; sourceTree = "<group>"; };
 		93C9F57516D7212B0070F9EF /* SGKeyCombo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGKeyCombo.m; path = ../../external_dependencies/SGHotKeysLib/SGHotKeysLib/SGKeyCombo.m; sourceTree = "<group>"; };
 		93D17D8F169FB083003AE638 /* GrowlToolChainSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlToolChainSupport.h; path = ../../../GrowlToolChainSupport.h; sourceTree = "<group>"; };
-		93F4810B171C60D300929971 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BC11E34116567DBD00B96422 /* GrowlOnSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitch.h; path = ../../../Core/Source/GrowlOnSwitch.h; sourceTree = "<group>"; };
 		BC11E34216567DBD00B96422 /* GrowlOnSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GrowlOnSwitch.m; path = ../../../Core/Source/GrowlOnSwitch.m; sourceTree = "<group>"; };
 		BC11E34316567DBD00B96422 /* GrowlOnSwitchLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GrowlOnSwitchLabel.h; path = ../../../Core/Source/GrowlOnSwitchLabel.h; sourceTree = "<group>"; };
@@ -857,7 +856,6 @@
 				el,
 				fur,
 				hu,
-				zh_TW,
 				nb_NO,
 				ru_RU,
 			);
@@ -1230,11 +1228,10 @@
 				93A0B07116F0B74F00DD64F6 /* sk */,
 				93A0B07216F0B75100DD64F6 /* sv */,
 				93A0B07316F0B75300DD64F6 /* th */,
-				93A0B07416F0B75500DD64F6 /* zh-Hant */,
-				93A0B07516F0B75700DD64F6 /* zh-Hans */,
 				93A0B07616F0B75900DD64F6 /* ru */,
 				93A0B07716F0B75A00DD64F6 /* nb */,
-				93F4810B171C60D300929971 /* zh_TW */,
+				83C312C6178BEA68009D0C30 /* zh-Hans */,
+				83C312D6178BEA85009D0C30 /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
