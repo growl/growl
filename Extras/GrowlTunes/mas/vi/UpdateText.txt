@@ -1,0 +1,5 @@
+GrowlTunes 2.1.1
+- Cải thiện tài nguyên bộ nhớ bằng cách cập nhật Growl framework.
+
+GrowlTunes 2.1
+- thêm hỗ trợ đối với phần thông báo của OS X phiên bản 10.8.
