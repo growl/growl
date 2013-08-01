@@ -100,16 +100,16 @@ static NSTimeInterval currentIdleTime(void) {
 								 object:nil
 								  queue:[NSOperationQueue mainQueue]
 							usingBlock:^(NSNotification *note) {
-								blockSelf.screenLocked = YES;
+								blockSelf.screenLocked = NO;
 							}];
 		NSNotificationCenter *workspaceNC = [[NSWorkspace sharedWorkspace] notificationCenter];
 		[workspaceNC addObserverForName:NSWorkspaceWillSleepNotification
 										 object:nil
 										  queue:[NSOperationQueue mainQueue]
 									usingBlock:^(NSNotification *note) {
-										blockSelf.asleep = NO;
+										blockSelf.asleep = YES;
 									}];
-		[workspaceNC addObserverForName:NSWorkspaceWillSleepNotification
+		[workspaceNC addObserverForName:NSWorkspaceDidWakeNotification
 										 object:nil
 										  queue:[NSOperationQueue mainQueue]
 									usingBlock:^(NSNotification *note) {
