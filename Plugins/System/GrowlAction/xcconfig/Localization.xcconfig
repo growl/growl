@@ -1,0 +1,2 @@
+#include "Common.xcconfig"
+#include "../../../../xcconfig/Localization.xcconfig"

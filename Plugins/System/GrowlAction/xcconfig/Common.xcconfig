@@ -1,0 +1,11 @@
+//
+//  Common.xcconfig
+//  Growl
+//
+//  Created by Rudy Richter on 4/27/11.
+//  Copyright 2011 The Growl Project. All rights reserved.
+//
+
+#include "../../../../xcconfig/Common.xcconfig"
+
+GCC_ENABLE_OBJC_GC = supported

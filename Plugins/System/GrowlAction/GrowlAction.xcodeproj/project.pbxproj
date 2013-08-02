@@ -150,7 +150,6 @@
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		11F141DC15366D490040FB21 /* Growl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Growl.xcodeproj; path = ../../../Growl.xcodeproj; sourceTree = "<group>"; };
 		314B18D40F98248700ACAFD6 /* main.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; path = main.scpt; sourceTree = "<group>"; };
-		315C88981068F98C00880530 /* Localization.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = ../../../xcconfig/Localization.xcconfig; sourceTree = SOURCE_ROOT; };
 		65942E140711D4310089E4F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65942E150711D4310089E4F1 /* Show Growl Notification.action */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Show Growl Notification.action"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65AABA78056AB2A5006CE269 /* Automator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Automator.framework; path = /System/Library/Frameworks/Automator.framework; sourceTree = "<absolute>"; };
@@ -168,9 +167,6 @@
 		83B8671A171BBCCF003E0C62 /* th */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		83B8671B171BBCE3003E0C62 /* zh-Hant */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		83B8671C171BBCEE003E0C62 /* zh-Hans */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
-		93A042E91382169500C46F0A /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = ../../../xcconfig/Common.xcconfig; sourceTree = SOURCE_ROOT; };
-		93A042EA1382169500C46F0A /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = ../../../xcconfig/Debug.xcconfig; sourceTree = SOURCE_ROOT; };
-		93A042EB1382169500C46F0A /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = ../../../xcconfig/Release.xcconfig; sourceTree = SOURCE_ROOT; };
 		93D7D79B144139CD00BFCFB6 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93D7D79C144139CD00BFCFB6 /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93D7D79D144139CD00BFCFB6 /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -184,6 +180,10 @@
 		93D7D7A5144139CD00BFCFB6 /* nb */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93D7D7A6144139CD00BFCFB6 /* ja */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93D7D7A7144139CD00BFCFB6 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		93EF580817AB4579006A8B55 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = xcconfig/Common.xcconfig; sourceTree = "<group>"; };
+		93EF580917AB4579006A8B55 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = xcconfig/Debug.xcconfig; sourceTree = "<group>"; };
+		93EF580A17AB4579006A8B55 /* Localization.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Localization.xcconfig; path = xcconfig/Localization.xcconfig; sourceTree = "<group>"; };
+		93EF580B17AB4579006A8B55 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = xcconfig/Release.xcconfig; sourceTree = "<group>"; };
 		BC977E9F16381B63007881D5 /* main.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = main.xib; sourceTree = "<group>"; };
 		BC977EA316381C9D007881D5 /* GrowlActionStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrowlActionStrings.h; sourceTree = "<group>"; };
 		BC977EA416381C9D007881D5 /* GrowlActionStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrowlActionStrings.m; sourceTree = "<group>"; };
@@ -283,10 +283,10 @@
 		93A042E61382167B00C46F0A /* xcconfigs */ = {
 			isa = PBXGroup;
 			children = (
-				93A042E91382169500C46F0A /* Common.xcconfig */,
-				93A042EA1382169500C46F0A /* Debug.xcconfig */,
-				93A042EB1382169500C46F0A /* Release.xcconfig */,
-				315C88981068F98C00880530 /* Localization.xcconfig */,
+				93EF580817AB4579006A8B55 /* Common.xcconfig */,
+				93EF580917AB4579006A8B55 /* Debug.xcconfig */,
+				93EF580A17AB4579006A8B55 /* Localization.xcconfig */,
+				93EF580B17AB4579006A8B55 /* Release.xcconfig */,
 			);
 			name = xcconfigs;
 			sourceTree = "<group>";
@@ -600,7 +600,6 @@
 /* Begin XCBuildConfiguration section */
 		315C88961068F98300880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 315C88981068F98C00880530 /* Localization.xcconfig */;
 			buildSettings = {
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional -CC -I \"../../build/$(CONFIGURATION)/include\" -I  \"$(TARGET_BUILD_DIR)/include\"";
 				INFOPLIST_PREFIX_HEADER = "../../Info.plist-Prefix.pch";
@@ -613,7 +612,7 @@
 		};
 		315C88971068F98300880530 /* Localization */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 315C88981068F98C00880530 /* Localization.xcconfig */;
+			baseConfigurationReference = 93EF580A17AB4579006A8B55 /* Localization.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -635,13 +634,12 @@
 					"-Wno-unknown-pragmas",
 				);
 				WRAPPER_EXTENSION = action;
-				ZERO_LINK = NO;
 			};
 			name = Localization;
 		};
 		95EE279B0855AA6E0045DB39 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93A042EA1382169500C46F0A /* Debug.xcconfig */;
+			baseConfigurationReference = 93EF580917AB4579006A8B55 /* Debug.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -666,15 +664,13 @@
 					"-Wno-unknown-pragmas",
 				);
 				WRAPPER_EXTENSION = action;
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
 		95EE279C0855AA6E0045DB39 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 93A042EB1382169500C46F0A /* Release.xcconfig */;
+			baseConfigurationReference = 93EF580B17AB4579006A8B55 /* Release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				HEADER_SEARCH_PATHS = "";
@@ -695,7 +691,6 @@
 					"-Wno-unknown-pragmas",
 				);
 				WRAPPER_EXTENSION = action;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
