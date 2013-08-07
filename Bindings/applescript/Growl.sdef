@@ -128,9 +128,12 @@
 	</suite>
    <suite name="GrowlScriptAction" description="The event handler for script actions, this functionality is only available on 10.8+" code="GrSA">
       <event name="perform action" description="Perform an action based on the notification passed" code="GrAcScPe">
-         <parameter name="with" code="NtPa" type="GrowlNotification" description="The notification to perform the action with"/>
+         <parameter name="with" code="NtPa" type="GrowlNotification" description="The notification to perform the action with">
+            <cocoa key=""/>
+         </parameter>
       </event>
       <class name="GrowlNotification" description="A growl notification" code="GrNt">
+         <cocoa class=""/>
          <property name="host" description="The computer from which the note came, localhost for the local machine" code="NtHs" type="text"/>
          <property name="app name" description="The application name" code="ApNm" type="text"/>
          <property name="note type" description="The underlying note type" code="NtTp" type="text"/>
@@ -150,10 +153,13 @@
    </suite>
    <suite name="Growl Rules" description="Method to provide rules for Growl, telling it what to do with a given notification, this functionality is only available on 10.8+" code="GrRl">
       <event name="evaluate notification" description="Evaluate a notification, and return the actions to take" code="GrRuNtEv">
-         <parameter name="with" code="NtPa" type="GrowlNotification" description="The notification to evaluate"/>
+         <parameter name="with" code="NtPa" type="GrowlNotification" description="The notification to evaluate">
+            <cocoa key=""/>
+         </parameter>
          <result type="RuleResult" description="The actions to take upon completion"/>
       </event>
       <class name="RuleResult" description="Return value from evaluating a notification" code="GrRs">
+         <cocoa class=""/>
          <property name="enabled" code="GrEN" description="Whether to fire the note at all" type="boolean" optional="yes"/>
          <property name="display" description="Display to use, send 'notification-center' for explicitly sending to Notification Center" code="GrDs" optional="yes">
             <type type="text"/>
