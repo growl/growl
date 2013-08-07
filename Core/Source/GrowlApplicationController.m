@@ -628,7 +628,7 @@ static struct Version version = { 0U, 0U, 0U, releaseType_vcs, 0U, };
                                              if(logRuleResult){
                                                 [ruleLogString appendFormat:@"\nDisplay using notification-center"];
                                              }
-                                             [blockSelf _fireAppleNotificationCenter:dict];
+                                             [blockSelf _fireAppleNotificationCenter:copyDict];
                                              displayed = YES;
                                           }else{
                                              //Find this display if we can, otherwise fall back
