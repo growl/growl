@@ -1,5 +1,5 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf470
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 LucidaGrande;}
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf340
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 LucidaGrande;}
 {\colortbl;\red255\green255\blue255;}
 {\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{hyphen\}}{\leveltext\leveltemplateid2\'01\uc0\u8259 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listname ;}\listid1}
 {\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid102\'02\'01.;}{\levelnumbers\'01;}\fi-360\li1440\lin1440 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{square\}}{\leveltext\leveltemplateid103\'01\uc0\u9642 ;}{\levelnumbers;}\fi-360\li2160\lin2160 }{\listname ;}\listid2}
@@ -11,6 +11,43 @@
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f0\fs24 \cf0 Hello Developer,\
+\
+
+\b Regarding the 3.0 SDK
+\b0 \
+\
+\pard\pardeftab720
+
+\fs26 \cf0 Hello all! I am here today to talk about Growl.framework 3.0!\
+\
+We have been hard at work the last couple weeks doing a total remodel of how Growl.framework works inside, and will expand going forward. But wait! I know I know 3.0 sounds scary, its a big number update, and we changed a *lot* of things behind the scenes, but Growl 3.0 continues to support the same platforms and configurations Growl.framework 2.0 and 1.4 and 1.3 did. It talks to the same versions of Growl, and most importantly, it is API backwards compatible with all those versions, in addition to 1.2.x as well. For some new features, you will need to update your usage, but we have tried to make this as easy as possible for you, and flexible going forward for other features.\
+\
+So, first, lets talk about what we changed, and then we can talk a bit about what's been added. GrowlApplicationBridge is now a true singleton instead of a bunch of scary statics and responds to +sharedBridge to get to it. GrowlApplicationBridge has a number of new KVO friendly properties for things like isGrowlRunning. All the older class methods remain and talk to the sharedBridge, and a number have had instance method clones added.\
+\
+So far so good? Now for the added. GrowlNote is a new class, where all individual note API will be added. It generates a UUID that you can hang on to and use for canceling notes, and if they are still up, we will pull them down from any display they might have used, whether its notification center, mist or smoke. Notification Center action/cancel button titles are here as well. We now support per notification delegation or block based callbacks on the final status of a note, and we support a lot more statuses:\
+Canceled (sent when you cancel a note)\
+Not displayed (sent when due to user settings either in UI or the rules system cause a note to be not displayed)\
+Closed\
+Timed Out\
+Clicked\
+Action Clicked\
+Other Clicked\
+Note as usual that not all end conditions can be reached in all configurations. Only NotificationCenter at this time supports Action/Other Clicked, and Growl older than 2.1 won't support anything other than Click/Timed Out.\
+\
+This new class opens us up to adding more API much easier then before, and nicely separates responsibility. GrowlApplicationBridge has a new method: -(void)notifyWithNote:(GrowlNote*)note to go along with this, which will take ownership of the note until we have a final status on it.\
+\
+For those of you using the XPC, you will need to update it as well, as many new features require support in it as well.\
+\
+If you would like to help us in testing out this new framework, and provide further feedback, feel free to contact us and we will get you added to the beta list!. We look forward to working with you!
+\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+\
+\
+\
+
+\b General Notes
+\b0 \
 \
 First, some contact details. If you need help, let us know. Here is the discussion group for Developers:\
 \
