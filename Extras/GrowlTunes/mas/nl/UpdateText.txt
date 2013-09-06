@@ -1,3 +1,10 @@
+GrowlTunes 3.0
+- Voegt sneltoetsen toe voor bedienen van uw muziek.
+- U kunt nu GrowlTunes in de achtergrond gebruiken.
+- U kunt bepalen welke velden in uw meldingen worden weergegeven.
+- Merk op - Artwork vereist Growl op 10.8. Berichtencentrum staat geen eigen symbolen toe.
+
+
 GrowlTunes 2.1.1
 - Verbetert geheugenverbruik door het Growl-framework bij te werken.
 

@@ -1,3 +1,10 @@
+GrowlTunes 3.0
+- Adiciona atalhos de teclado para controlar suas músicas.
+- Você agora pode executar GrowlTunes em plano de fundo.
+- Você pode formatar quais campos são mostrados nas notificações.
+- Nota - Ícones Artwork necessitam de Growl em 10.8. A Central de Notificações não permite ícones personalizados.
+
+
 GrowlTunes 2.1.1
 - Melhora o uso da memória RAM com a atualização do framework do Growl.
 
