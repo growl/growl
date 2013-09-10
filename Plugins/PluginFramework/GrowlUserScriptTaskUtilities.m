@@ -17,23 +17,27 @@
    return NSClassFromString(@"NSUserScriptTask") != nil;
 }
 
+static NSURL *baseScriptDirURL = nil;
 +(NSURL*)baseScriptDirectoryURL {
+
 	if(![self hasScriptTaskClass])
 		return nil;
 	
-   NSError *urlError = nil;
-   NSURL *baseURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory
-                                                           inDomain:NSUserDomainMask
-                                                  appropriateForURL:nil
-                                                             create:YES
-                                                              error:&urlError];
-   if(urlError){
-      static dispatch_once_t onceToken;
-      dispatch_once(&onceToken, ^{
-         NSLog(@"Error retrieving Application Scripts directoy, %@", urlError);
-      });
-   }
-   return urlError ? nil : baseURL;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSError *urlError = nil;
+        baseScriptDirURL = [[[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory
+                                                                   inDomain:NSUserDomainMask
+                                                          appropriateForURL:nil
+                                                                     create:YES
+                                                                      error:&urlError] retain];
+        if(urlError)
+        {
+            NSLog(@"Error retrieving Application Scripts directoy, %@", urlError);
+        }
+    });
+    
+   return baseScriptDirURL;
 }
 
 +(NSArray*)contentsOfScriptDirectory {
