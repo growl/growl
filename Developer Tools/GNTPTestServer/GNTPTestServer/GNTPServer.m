@@ -317,7 +317,7 @@
 		}
 	}else if(tag == 1){
 		NSData *trimmedData = [NSData dataWithBytes:[data bytes] length:[data length] - 2];
-		NSString *identifierLine = [[[NSString alloc] initWithCString:[trimmedData bytes] encoding:NSUTF8StringEncoding] autorelease];
+		NSString *identifierLine = [[[NSString alloc] initWithBytes:[trimmedData bytes] length:[trimmedData length] encoding:NSUTF8StringEncoding] autorelease];
 		//NSLog(@"ID line: %@", identifierLine);
 		NSArray *items = [identifierLine componentsSeparatedByString:@" "];
 		NSString *action = nil;
